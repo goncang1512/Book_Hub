@@ -1,0 +1,104 @@
+.inputBox input:focus ~ label,
+.inputBox input:not(:placeholder-shown) ~ label {
+  font-size: 0.8em;
+  transform: translateX(14px) translateY(-24px);
+  padding: 0 5px;
+}
+
+.inputBox input:focus ~ label {
+  color: #3b82f6;
+}
+
+.searchBox input:focus ~ div,
+.searchBox input:not(:placeholder-shown) ~ div {
+  transform: translateX(260px);
+}
+
+.searchBox input:focus ~ div label,
+.searchBox input:not(:placeholder-shown) ~ div label {
+  display: none;
+  transform: translateX(260px);
+}
+
+.searchBox input:focus ~ div button {
+  color: #3b82f6;
+}
+
+.searchBox input:focus,
+.searchBox input:not(:placeholder-shown) {
+  padding-right: 28px;
+}
+
+.containerButton::after {
+  content: "";
+  height: 3px;
+  background-color: #00b88c;
+  border-radius: 100px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transition: 0.5s ease;
+}
+
+.labelUpload:hover {
+  display: flex;
+}
+
+.imgUpload:hover + .labelUpload {
+  display: flex;
+}
+
+/* INPUT CREATE CONTENT */
+.inputADD input:focus ~ label,
+.inputADD input:not(:placeholder-shown) ~ label {
+  font-size: 0.8em;
+  transform: translateX(1px) translateY(-24px);
+  color: black;
+}
+
+.inputADD input:focus ~ label {
+  color: #3b82f6;
+}
+
+.barExp:hover .persenExp {
+  display: block;
+}
+
+.noSelect {
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+.noSelect {
+  pointer-events: none;
+}
+
+.customScroll::-webkit-scrollbar {
+  width: 3px; /* Lebar scrollbar */
+  height: 5px;
+  animation-duration: 500ms;
+}
+
+.customScroll::-webkit-scrollbar:hover {
+  width: 10px;
+}
+
+.customScroll::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Thumb color on hover */
+}
+
+/* .customScroll::-webkit-scrollbar-track {
+  background-color: #edf2f7;
+} */
+
+.customScroll::-webkit-scrollbar-thumb {
+  background-color: #a0a0a0; /* Warna thumb */
+  border-radius: 2px; /* Sudut border thumb */
+  transition: width 0.3s;
+}
+
+.textEditor {
+  height: 10000px;
+}
