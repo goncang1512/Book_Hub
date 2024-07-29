@@ -73,7 +73,7 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   await connectMongoDB();
   try {
     const results = await bookServices.getAll();

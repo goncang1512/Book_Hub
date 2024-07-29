@@ -9,7 +9,7 @@ export default function OpenWindow() {
         <GiBookmarklet size={50} />
         <div className="flex flex-col justify-center items-center">
           <p className="text-sm">from</p>
-          <h1 className="font-bold">Moga Studio</h1>
+          <h1 className="font-bold">Mogo Studio</h1>
         </div>
       </div>
     </main>

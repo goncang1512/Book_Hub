@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 import { bookAutServices } from "@/lib/services/bookauthor";
 import { logger } from "@/lib/utils/logger";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   try {
     const result = await bookAutServices.submitted();
 

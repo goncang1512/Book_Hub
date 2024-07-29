@@ -5,75 +5,7 @@ import { useSWRConfig } from "swr";
 import { useSession, signOut } from "next-auth/react";
 
 import instance from "../utils/fetch";
-
-interface RegisterType {
-  username: string;
-  email: string;
-  password: string;
-  confpassword: string;
-  codeOtp: string;
-  id_register: string;
-}
-
-export interface UpdateType {
-  username: string;
-  number: string;
-  email: string;
-  alamat: string;
-  kecamatan: string;
-  kabupaten: string;
-  provinsi: string;
-}
-
-type UpdateFoto = {
-  oldId: string;
-  size: number;
-  type: string;
-  img: string;
-};
-
-interface UserContextType {
-  loadingRegister: boolean;
-  messageRegister: string;
-  dataRegister: RegisterType;
-  setDataRegister: React.Dispatch<React.SetStateAction<RegisterType>>;
-  registerUser: (body: RegisterType) => void;
-  updateUsername: (id: string, body: UpdateType) => void;
-  updateData: UpdateType;
-  setUpdateData: React.Dispatch<React.SetStateAction<UpdateType>>;
-  updateFoto: UpdateFoto | null;
-  setUpdateFoto: React.Dispatch<React.SetStateAction<UpdateFoto | null>>;
-  loadingUpdateFoto: boolean;
-  setLoadingUpdateFoto: React.Dispatch<React.SetStateAction<boolean>>;
-  newFotoProfil: (id: string, body: any) => void;
-  deleteFoto: (id: string, idFoto: string) => void;
-  loadingDelete: boolean;
-  setLoadingDelete: React.Dispatch<React.SetStateAction<boolean>>;
-  loadingUpdateData: boolean;
-  messageNewFoto: string;
-  deleteAccount: (id: string) => void;
-  setMessageRegister: any;
-  msgUpdateData: string;
-  nextPassword: boolean;
-  loadingPassword: boolean;
-  msgPassword: string;
-  password: {
-    oldPassword: string;
-    newPassword: string;
-    confNewPassword: string;
-  };
-  setPassword: React.Dispatch<
-    React.SetStateAction<{
-      oldPassword: string;
-      newPassword: string;
-      confNewPassword: string;
-    }>
-  >;
-  kirimPassword: (email: string, oldPassword: string) => void;
-  updatePassword: (id: string, newPassword: string, confNewPassword: string) => void;
-  patchBadge: (id_user: string, badge: string[]) => void;
-  ldlPatchBadge: boolean;
-}
+import { RegisterType, UpdateFoto, UpdateType, UserContextType } from "../utils/DataTypes.type";
 
 export const UserContext = createContext<UserContextType>({} as UserContextType);
 

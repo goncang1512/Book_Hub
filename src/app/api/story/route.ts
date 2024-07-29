@@ -131,7 +131,7 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-export const GET = (req: NextRequest) => {
+export const GET = () => {
   const player = new Player(1, 20);
 
   player.gainExperience(1);

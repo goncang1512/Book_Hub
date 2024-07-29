@@ -3,6 +3,7 @@ import * as React from "react";
 import { IoIosClose } from "react-icons/io";
 import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import DOMPurify from "dompurify";
 
 import TextContainer from "@/components/layouts/textcontainer";
 import { Button } from "@/components/elements/button";
@@ -25,8 +26,10 @@ export default function TextEditor() {
   const [wordCount, setWordCount] = useState(0);
 
   useEffect(() => {
-    setContent(extractText(bacaBuku?.story));
-    setWordCount(countWord(extractText(bacaBuku?.story)));
+    if (bacaBuku?.story) {
+      setContent(DOMPurify.sanitize(bacaBuku?.story));
+      setWordCount(countWord(extractText(bacaBuku?.story)));
+    }
   }, [bacaBuku]);
 
   if (bacaBukuLoading) {

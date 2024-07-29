@@ -38,6 +38,7 @@ export interface InputProps
   classDiv?: string;
   required?: boolean;
   pattern?: string;
+  // eslint-disable-next-line no-unused-vars
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   readonly?: boolean;
 }

@@ -1,4 +1,4 @@
-import React, { SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { createContext } from "react";
 import { useSWRConfig } from "swr";
 import { useSession } from "next-auth/react";
@@ -6,26 +6,7 @@ import { useSession } from "next-auth/react";
 import instance from "../utils/fetch";
 
 import { dataUserType } from "@/components/fragments/baristable";
-
-type EditStatus = {
-  status: string;
-  message: string;
-  senderId: string;
-  recipientId: string;
-};
-
-interface DasboardProps {
-  updateRole: (user_id: string, email: string, role: string) => void;
-  searchUser: (keyword: string) => void;
-  keyword: string;
-  setKeyWord: React.Dispatch<SetStateAction<string>>;
-  dataUser: dataUserType | null;
-  msgSearchUser: {
-    status: boolean;
-    message: string;
-  };
-  updateCanvas: (id: string, editStatus: EditStatus) => void;
-}
+import { DasboardProps, EditStatus } from "../utils/DataTypes.type";
 
 export const DasboardContext = createContext<DasboardProps>({} as DasboardProps);
 

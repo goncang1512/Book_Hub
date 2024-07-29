@@ -4,30 +4,7 @@ import { useSWRConfig } from "swr";
 import { useSession } from "next-auth/react";
 
 import instance from "../utils/fetch";
-
-interface StoryInterface {
-  dataContent: string;
-  setDataContent: React.Dispatch<React.SetStateAction<string>>;
-  loadingUploadStory: boolean;
-  uploadStory: (body: any, id: string, bookId: string) => void;
-  deletedStory: (id: string, bookId: string) => void;
-  loadingDeleteStory: boolean;
-  newCeption: string;
-  setNewCeption: React.Dispatch<React.SetStateAction<string>>;
-  updateStory: (ception: string, id: string) => Promise<boolean>;
-  loadingUpdateStory: boolean;
-  msgUpdateCerita: string;
-  msgRank: { experience: number; level: number; point: number };
-  msgUploadCerita: string;
-  msgLvlUp: LvlUpType;
-  setMsgLvlUp: React.Dispatch<React.SetStateAction<LvlUpType>>;
-}
-
-type LvlUpType = {
-  level: number;
-  experience: number;
-  lvlUp: { status: boolean; message: string };
-};
+import { StoryInterface } from "../utils/DataTypes.type";
 
 export const StoryContext = createContext<StoryInterface>({} as StoryInterface);
 
