@@ -62,7 +62,7 @@ export default function Home() {
                 </SwiperSlide>
               ))
             : recomendedBook &&
-              recomendedBook.map((book: any, index: number) => (
+              recomendedBook.map((book: any) => (
                 <SwiperSlide key={book._id}>
                   <CardBook dataContent={book} statusBook={statusBook} ukuran="w-full" />
                 </SwiperSlide>

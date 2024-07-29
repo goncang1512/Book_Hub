@@ -2,13 +2,11 @@
 import { useSearchParams } from "next/navigation";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
-import React, { useContext, useEffect } from "react";
+import React from "react";
 
 import { useStory } from "@/lib/utils/useSwr";
 import { CardContent } from "@/components/layouts/cardstory";
 import { InputStory } from "@/components/layouts/inputstory";
-import { CanvasContext } from "@/lib/context/canvascontext";
-import { PesanLvlUp } from "@/components/fragments/levelup";
 
 export default function Balasan() {
   const router = useRouter();
@@ -17,15 +15,7 @@ export default function Balasan() {
   if (!id) {
     return <div>Loading</div>;
   }
-  const { msgLvlUp } = useContext(CanvasContext);
   const { storyDetail, storyBook, storyDetailLdl } = useStory.detailStory(id && id);
-
-  useEffect(() => {
-    if (msgLvlUp.lvlUp.status) {
-      const modal: any = document.getElementById("modal_lvlup");
-      modal?.showModal();
-    }
-  }, [msgLvlUp.lvlUp]);
 
   return (
     <main className="flex">
@@ -66,7 +56,6 @@ export default function Balasan() {
           </div>
         </div>
       )}
-      <PesanLvlUp msgRank={msgLvlUp} />
       <div />
     </main>
   );

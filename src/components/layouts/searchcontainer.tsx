@@ -13,7 +13,6 @@ const DELAY = 1000;
 
 export default function SearchContainer({
   seeSearch,
-  setSeeSearch,
   containerSearchRef,
 }: {
   seeSearch: boolean;
