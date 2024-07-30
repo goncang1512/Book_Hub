@@ -81,6 +81,10 @@ const authOptions: NextAuthOptions = {
         token.number = session.number;
       }
 
+      if (trigger === "update" && session.status === "newEmail") {
+        token.email = session.email;
+      }
+
       if (account?.provider === "credentials") {
         token._id = user._id;
         token.email = user.email;

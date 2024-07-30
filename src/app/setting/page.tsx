@@ -64,11 +64,11 @@ export default function Setting() {
         </div>
         <div className="flex flex-col border-b-4 md:px-8 pb-2 px-2 pt-2">
           <h2 className="text-sm text-gray-400">Login</h2>
-          <div className="flex flex-col leading-1">
+          <div className="flex justify-start flex-col leading-1">
             {status === "authenticated" ? (
               <>
                 <button
-                  className="text-red-500 cursor-pointer"
+                  className="text-red-500 text-start"
                   onClick={async () => {
                     await signOut({ callbackUrl: "/login" });
                   }}
@@ -76,7 +76,7 @@ export default function Setting() {
                   Log out
                 </button>
                 <button
-                  className="text-red-500 cursor-pointer"
+                  className="text-red-500 text-start"
                   onClick={() => {
                     const confirm = window.confirm("Apakah Anda yakin ingin menghapus akun?");
                     if (confirm) {

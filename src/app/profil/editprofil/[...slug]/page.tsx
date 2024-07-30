@@ -7,6 +7,7 @@ import { Button } from "@/components/elements/button";
 import { Input } from "@/components/elements/input";
 import { UserContext } from "@/lib/context/usercontext";
 import styles from "@/lib/style.module.css";
+import { AuthContext } from "@/lib/context/authcontext";
 
 export default function EndPoint({ params }: { params: { slug: string[] } }) {
   return (
@@ -46,71 +47,143 @@ const UpdatePassword = () => {
     updatePassword,
   } = useContext(UserContext);
 
+  const {
+    trueCode,
+    sendNewEmail,
+    updateEmail,
+    msgUpdateData,
+    loadingEmail,
+    newEmail,
+    setNewEmail,
+    codeOtp,
+    setCodeOtp,
+  } = useContext(AuthContext);
+
   return (
-    <div className="w-max">
-      <h1 className="font-semibold pb-2">Ganti Password</h1>
-      <p className="text-red-500 italic pb-4">{msgPassword}</p>
-      {nextPassword ? (
-        <form
-          className="flex flex-col items-center gap-5 w-full"
-          onSubmit={(e) => {
-            e.preventDefault();
-            updatePassword(session?.user?._id, password.newPassword, password.confNewPassword);
-          }}
-        >
-          <Input
-            classDiv="md:w-96 w-full"
-            container="labelFloat"
-            name="newpassword"
-            type="password"
-            value={password.newPassword}
-            varLabel="labelFloat"
-            variant="labelFloat"
-            onChange={(e) => setPassword({ ...password, newPassword: e.target.value })}
+    <div className="w-max flex flex-col gap-4">
+      <div>
+        <h1 className="font-semibold pb-2">Ganti Password</h1>
+        <p className="text-red-500 italic pb-4">{msgPassword}</p>
+        {nextPassword ? (
+          <form
+            className="flex flex-col items-center gap-5 w-full"
+            onSubmit={(e) => {
+              e.preventDefault();
+              updatePassword(session?.user?._id, password.newPassword, password.confNewPassword);
+            }}
           >
-            Password Baru
-          </Input>
-          <Input
-            classDiv="md:w-96 w-full"
-            container="labelFloat"
-            name="confnewpassword"
-            type="password"
-            value={password.confNewPassword}
-            varLabel="labelFloat"
-            variant="labelFloat"
-            onChange={(e) => setPassword({ ...password, confNewPassword: e.target.value })}
+            <Input
+              classDiv="md:w-96 w-full"
+              container="labelFloat"
+              name="newpassword"
+              type="password"
+              value={password.newPassword}
+              varLabel="labelFloat"
+              variant="labelFloat"
+              onChange={(e) => setPassword({ ...password, newPassword: e.target.value })}
+            >
+              Password Baru
+            </Input>
+            <Input
+              classDiv="md:w-96 w-full"
+              container="labelFloat"
+              name="confnewpassword"
+              type="password"
+              value={password.confNewPassword}
+              varLabel="labelFloat"
+              variant="labelFloat"
+              onChange={(e) => setPassword({ ...password, confNewPassword: e.target.value })}
+            >
+              Konfirmasi Password Baru
+            </Input>
+            <Button type="submit" variant="primary">
+              {loadingPassword ? "Loading" : "Update"}
+            </Button>
+          </form>
+        ) : (
+          <form
+            className="flex items-center gap-3 w-full"
+            onSubmit={(e) => {
+              e.preventDefault();
+              kirimPassword(session?.user?.email, password.oldPassword);
+            }}
           >
-            Konfirmasi Password Baru
-          </Input>
-          <Button type="submit" variant="primary">
-            {loadingPassword ? "Loading" : "Update"}
-          </Button>
-        </form>
-      ) : (
-        <form
-          className="flex items-center gap-3 w-full"
-          onSubmit={(e) => {
-            e.preventDefault();
-            kirimPassword(session?.user?.email, password.oldPassword);
-          }}
-        >
-          <Input
-            classDiv="md:w-96 w-full"
-            container="labelFloat"
-            name="oldpassword"
-            type="password"
-            value={password.oldPassword}
-            varLabel="labelFloat"
-            variant="labelFloat"
-            onChange={(e) => setPassword({ ...password, oldPassword: e.target.value })}
+            <Input
+              classDiv="md:w-96 w-full"
+              container="labelFloat"
+              name="oldpassword"
+              type="password"
+              value={password.oldPassword}
+              varLabel="labelFloat"
+              variant="labelFloat"
+              onChange={(e) => setPassword({ ...password, oldPassword: e.target.value })}
+            >
+              Password Lama
+            </Input>
+            <Button type="submit" variant="primary">
+              {loadingPassword ? "Loading" : "Kirim"}
+            </Button>
+          </form>
+        )}
+      </div>
+
+      {/* Ganti Password */}
+      <div>
+        <h1 className="font-semibold">Ganti Email</h1>
+        {trueCode ? (
+          <form
+            className="flex flex-col gap-3"
+            onSubmit={(e) => {
+              e.preventDefault();
+              updateEmail(codeOtp, session?.user?._id);
+            }}
           >
-            Password Lama
-          </Input>
-          <Button type="submit" variant="primary">
-            {loadingPassword ? "Loading" : "Kirim"}
-          </Button>
-        </form>
-      )}
+            <h1>Kode OTP</h1>
+            <p className="italic text-red-500">{msgUpdateData}</p>
+            <div className="flex gap-3 items-center">
+              <Input
+                classDiv="md:w-96 w-full"
+                container="labelFloat"
+                name="kodeotp"
+                type="text"
+                value={codeOtp}
+                varLabel="labelFloat"
+                variant="labelFloat"
+                onChange={(e) => setCodeOtp(e.target.value)}
+              >
+                Kode OTP
+              </Input>
+              <Button type="submit">{loadingEmail ? "Loading..." : "Kode OTP"}</Button>
+            </div>
+          </form>
+        ) : (
+          <form
+            className="flex flex-col gap-3"
+            onSubmit={(e) => {
+              e.preventDefault();
+              sendNewEmail(session?.user?.email, newEmail, session?.user?._id);
+            }}
+          >
+            <h1>Input New Email</h1>
+            <p className="italic text-red-500">{msgUpdateData}</p>
+            <div className="flex gap-3 items-center">
+              <Input
+                classDiv="md:w-96 w-full"
+                container="labelFloat"
+                name="email"
+                type="text"
+                value={newEmail}
+                varLabel="labelFloat"
+                variant="labelFloat"
+                onChange={(e) => setNewEmail(e.target.value)}
+              >
+                New Email
+              </Input>
+              <Button type="submit">{loadingEmail ? "Loading..." : "New Email"}</Button>
+            </div>
+          </form>
+        )}
+      </div>
     </div>
   );
 };

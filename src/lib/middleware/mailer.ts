@@ -10,6 +10,7 @@ export const sendEmail = async ({
   try {
     var transport = nodemailer.createTransport({
       service: "gmail",
+      secure: true,
       auth: {
         user: process.env.EMAIL_USER || "",
         pass: process.env.PASS_MAILER || "",

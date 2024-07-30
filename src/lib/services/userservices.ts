@@ -111,6 +111,12 @@ export const userSevices = {
   updatePassword: async (id: string, password: string) => {
     return await UserModels.findOneAndUpdate({ _id: id }, { $set: { password } }, { new: true });
   },
+  updateEmail: async (email: string, user_id: string) => {
+    return await UserModels.findOneAndUpdate({ _id: user_id }, { $set: { email } }, { new: true });
+  },
+  existingEmail: async (email: string, user_id: string) => {
+    return await UserModels.findOne({ email, _id: { $ne: user_id } });
+  },
 };
 
 export const veryfiedServices = {
@@ -132,5 +138,11 @@ export const veryfiedServices = {
   },
   checkEmail: async (email: string) => {
     return await VeryfiedModel.findOne({ email });
+  },
+  checkEmailExit: async (codeOtp: number) => {
+    return await VeryfiedModel.findOne({ codeOtp });
+  },
+  deleteVerified: async (email: string) => {
+    return await VeryfiedModel.deleteOne({ email: email });
   },
 };
