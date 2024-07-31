@@ -24,18 +24,27 @@ export default function AboutProfil({ judul, userData }: { judul: string; userDa
     }
   }, [userData?.rank?.level, userData?.rank?.experience]);
 
-  const rankImg = userData?.rank?.rankTertinggi?.img;
-  let rankNameTertinggi = `${
-    rankImg === "/rank-satu.png" ? "Read Master" : ""
-  } ${rankImg === "/rank-dua.png" ? "Read GM" : ""} ${
-    rankImg === "/rank-tiga.png" ? "Read Legend" : ""
-  } ${rankImg === "/rank-empat.png" ? "Bookworm" : ""} `;
+  let nameRank =
+    userData?.rank?.rankTertinggi?.img === "/rank-satu.png"
+      ? "Beginner Bookworm"
+      : userData?.rank?.rankTertinggi?.img === "/rank-dua.png"
+        ? "Intermediate Reader"
+        : userData?.rank?.rankTertinggi?.img === "/rank-tiga.png"
+          ? "Advanced Reader"
+          : userData?.rank?.rankTertinggi?.img === "/rank-empat.png"
+            ? "Elite Book "
+            : "";
 
-  let rankNameNow = `${
-    userData?.rank?.rankNow === "/rank-satu.png" ? "Read Master" : ""
-  } ${userData?.rank?.rankNow === "/rank-dua.png" ? "Read GM" : ""} ${
-    userData?.rank?.rankNow === "/rank-tiga.png" ? "Read Legend" : ""
-  } ${userData?.rank?.rankNow === "/rank-empat.png" ? "Bookworm" : ""} `;
+  let newMyRank =
+    userData?.rank?.rankNow === "/rank-satu.png"
+      ? "Beginner Bookworm"
+      : userData?.rank?.rankNow === "/rank-dua.png"
+        ? "Intermediate Reader"
+        : userData?.rank?.rankNow === "/rank-tiga.png"
+          ? "Advanced Reader"
+          : userData?.rank?.rankNow === "/rank-empat.png"
+            ? "Elite Book "
+            : "";
 
   return (
     <div className="flex flex-col gap-5 scroll-smooth">
@@ -55,14 +64,14 @@ export default function AboutProfil({ judul, userData }: { judul: string; userDa
                 <p className="font-medium text-xs">Musim</p>
                 <Img className="size-24" src={`${userData?.rank?.rankNow}`} />
                 <p className="font-medium text-xs">
-                  {rankNameNow} {userData?.rank?.level}
+                  {newMyRank} {userData?.rank?.level}
                 </p>
               </Link>
               <Link className="flex flex-col justify-center items-center" href={"/leaderboard"}>
                 <p className="font-medium text-xs">Riwayat</p>
                 <Img className="size-24" src={`${userData?.rank?.rankTertinggi?.img}`} />
                 <p className="font-medium text-xs">
-                  {rankNameTertinggi} {userData?.rank?.rankTertinggi?.no}
+                  {nameRank} {userData?.rank?.rankTertinggi?.no}
                 </p>
               </Link>
             </div>

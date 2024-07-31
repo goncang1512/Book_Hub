@@ -132,7 +132,7 @@ export function CardBook({
 
               {session?.user?._id === user_id && (
                 <DropDown>
-                  <div className="flex flex-col z-[100]">
+                  <div className="flex flex-col">
                     <button
                       className="active:text-gray-400 text-start"
                       onClick={() => deletedBook(_id, session?.user?._id)}

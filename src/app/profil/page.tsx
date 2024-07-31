@@ -23,12 +23,12 @@ export default function Profil() {
           : `${seeProfilComponent.seeProduct && "h-screen"}`
       }`}
     >
-      <div className="relative h-full md:p-10 p-4 flex flex-col md:gap-10 gap-4 md:mr-[30%] mr-0">
+      <div className="relative h-full md:p-10 p-4 flex flex-col md:gap-10 gap-4 md:mr-[30%] mr-0 z-10">
         <HeaderProfil userData={session?.user} />
         {seeProfilComponent.seeAbout && <AboutProfil judul="About" userData={session?.user} />}
         {seeProfilComponent.seeFriends && <AboutProfil judul="Friends" userData={session?.user} />}
         {seeProfilComponent.seeProduct && (
-          <div className="flex flex-wrap gap-4 w-full justify-start z-[10]">
+          <div className="flex flex-wrap gap-4 w-full justify-start">
             {myBooksLoading ? (
               <div className="flex w-full items-center justify-center">
                 <span className="loading loading-dots loading-lg" />
@@ -47,12 +47,12 @@ export default function Profil() {
           </div>
         )}
 
-        <div className="absolute md:bottom-0 -bottom-[25px] -left-[30px] -z-10">
+        <div className="absolute md:bottom-0 -bottom-[25px] -left-[30px] -z-[1]">
           <ElementProfilDua />
         </div>
       </div>
 
-      <div className="absolute -top-[25px] right-0 -z-10">
+      <div className="absolute -top-[25px] right-0">
         <ElementProfil />
       </div>
     </main>

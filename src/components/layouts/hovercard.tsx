@@ -33,7 +33,7 @@ export default function DropDown({ children }: { children: React.ReactNode }) {
           ref={containerRef}
           className={`${
             showCardContent ? "opacity-100" : "opacity-0 pointer-events-none"
-          } hover:opacity-100 absolute top-4 right-5 flex-col bg-white border rounded-lg p-3 w-36 duration-100`}
+          } hover:opacity-100 absolute top-4 right-5 flex-col bg-white border rounded-lg p-3 w-36 duration-100 z-10`}
           onMouseEnter={() => setShowCardContent(true)}
           onMouseLeave={() => setShowCardContent(false)}
         >
@@ -45,7 +45,7 @@ export default function DropDown({ children }: { children: React.ReactNode }) {
           onMouseEnter={() => setShowCardContent(true)}
           onMouseLeave={() => setShowCardContent(false)}
         >
-          <HiDotsHorizontal className="relative z-40" size={25} />
+          <HiDotsHorizontal className="relative" size={25} />
         </HoverCardTrigger>
       </HoverCard>
     </div>
@@ -81,7 +81,7 @@ export const DropDownKlik = ({ children }: { children: React.ReactNode }) => {
           ref={containerRef}
           className={`${
             showCardContent ? "flex" : "hidden"
-          } absolute top-5 right-5 flex-col bg-white border rounded-lg p-3 w-36 z-50`}
+          } absolute top-5 right-5 flex-col bg-white border rounded-lg p-3 w-36`}
         >
           {children}
         </div>

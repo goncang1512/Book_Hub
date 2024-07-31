@@ -22,7 +22,7 @@ export default function Setting() {
             <Link className="hidden" href={`/profil/editprofil`}>
               Edit Profil
             </Link>
-            <Link href={`/profil/editprofil/password`}>Ganti Password</Link>
+            <Link href={`/profil/editprofil/password`}>Ganti Password / Email</Link>
             <Link className="hidden" href={`/profil/editprofil/email`}>
               Ganti Email
             </Link>

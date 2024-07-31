@@ -59,6 +59,10 @@ const UpdatePassword = () => {
     setCodeOtp,
   } = useContext(AuthContext);
 
+  useEffect(() => {
+    setNewEmail(session?.user?.email);
+  }, [session?.user?.email]);
+
   return (
     <div className="w-max flex flex-col gap-4">
       <div>
@@ -158,13 +162,15 @@ const UpdatePassword = () => {
           </form>
         ) : (
           <form
-            className="flex flex-col gap-3"
+            className="flex flex-col gap-2 pt-2"
             onSubmit={(e) => {
               e.preventDefault();
               sendNewEmail(session?.user?.email, newEmail, session?.user?._id);
             }}
           >
-            <h1>Input New Email</h1>
+            <p className="text-sm italic">
+              Masukkan email yang baru, akan di kirim kode OTP ke email baru kamu.
+            </p>
             <p className="italic text-red-500">{msgUpdateData}</p>
             <div className="flex gap-3 items-center">
               <Input
@@ -179,7 +185,9 @@ const UpdatePassword = () => {
               >
                 New Email
               </Input>
-              <Button type="submit">{loadingEmail ? "Loading..." : "New Email"}</Button>
+              <Button disabled={newEmail === session?.user?.email} type="submit">
+                {loadingEmail ? "Loading..." : "New Email"}{" "}
+              </Button>
             </div>
           </form>
         )}
