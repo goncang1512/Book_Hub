@@ -9,6 +9,7 @@ import { canvasSrv } from "@/lib/services/canvasservices";
 import { msgServices } from "@/lib/services/message";
 import { userSevices } from "@/lib/services/userservices";
 import { logger } from "@/lib/utils/logger";
+import { naikPeringkat } from "@/lib/middleware/updateLvl";
 
 export const PATCH = async (req: NextRequest, { params }: { params: { slug: string[] } }) => {
   try {
@@ -76,46 +77,9 @@ export const PATCH = async (req: NextRequest, { params }: { params: { slug: stri
         player.gainExperience(poin);
         const level = await userSevices.updateLvl(recipientId, player);
 
-        let img;
-        let rankTinggi = {
-          img: level?.rank?.rankTertinggi.img,
-          no: level?.rank?.rankTertinggi.no,
-        };
-        if (level?.rank?.level <= 4) {
-          img = "/rank-satu.png";
-          if (level?.rank?.rankTertinggi?.no <= level?.rank?.level) {
-            rankTinggi = {
-              img: "/rank-satu.png",
-              no: level?.rank?.level,
-            };
-          }
-        } else if (level.rank.level >= 5 && level.rank.level <= 8) {
-          img = "/rank-dua.png";
-          if (level?.rank?.rankTertinggi?.no <= level?.rank?.level)
-            rankTinggi = {
-              img: "/rank-dua.png",
-              no: level?.rank?.level,
-            };
-        } else if (level.rank.level >= 9 && level.rank.level <= 12) {
-          img = "/rank-tiga.png";
-          if (level?.rank?.rankTertinggi?.no <= level?.rank?.level) {
-            rankTinggi = {
-              img: "/rank-tiga.png",
-              no: level?.rank?.level,
-            };
-          }
-        } else if (level?.rank?.level > 12) {
-          img = "/rank-empat.png";
-          if (level?.rank?.rankTertinggi?.no <= level?.rank?.level) {
-            rankTinggi = {
-              img: "/rank-empat.png",
-              no: level?.rank?.level,
-            };
-          }
-        }
-
-        await userSevices.updateRank(recipientId, img && img);
-        await userSevices.updateRankTertinggi(recipientId, rankTinggi);
+        const updateLvl = new naikPeringkat(level.rank);
+        const { img: imgRank, rankTinggi: riwayatRank } = updateLvl.checkLevel();
+        await updateLvl.updateData(user._id, imgRank, riwayatRank);
       }
     }
 

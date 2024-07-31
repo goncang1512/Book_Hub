@@ -5,6 +5,7 @@ import connectMongoDB from "@/lib/config/connectMongoDb";
 import { Player } from "@/lib/middleware/lvlPlayer";
 import { storyServices } from "@/lib/services/storyservices";
 import { userSevices } from "@/lib/services/userservices";
+import { naikPeringkat } from "@/lib/middleware/updateLvl";
 
 export const POST = async (req: NextRequest) => {
   await connectMongoDB();
@@ -57,46 +58,11 @@ export const POST = async (req: NextRequest) => {
       player.gainExperience(poin);
       await userSevices.updateLvl(user_id, player);
 
-      let img;
-      let rankTinggi = {
-        img: user?.rank?.rankTertinggi.img,
-        no: user?.rank?.rankTertinggi.no,
-      };
-      if (user?.rank?.level <= 4) {
-        img = "/rank-satu.png";
-        if (user?.rank?.rankTertinggi?.no <= user?.rank?.level) {
-          rankTinggi = {
-            img: "/rank-satu.png",
-            no: user?.rank?.level,
-          };
-        }
-      } else if (user.rank.level >= 5 && user.rank.level <= 8) {
-        img = "/rank-dua.png";
-        if (user?.rank?.rankTertinggi?.no <= user?.rank?.level)
-          rankTinggi = {
-            img: "/rank-dua.png",
-            no: user?.rank?.level,
-          };
-      } else if (user.rank.level >= 9 && user.rank.level <= 12) {
-        img = "/rank-tiga.png";
-        if (user?.rank?.rankTertinggi?.no <= user?.rank?.level) {
-          rankTinggi = {
-            img: "/rank-tiga.png",
-            no: user?.rank?.level,
-          };
-        }
-      } else if (user?.rank?.level > 12) {
-        img = "/rank-empat.png";
-        if (user?.rank?.rankTertinggi?.no <= user?.rank?.level) {
-          rankTinggi = {
-            img: "/rank-empat.png",
-            no: user?.rank?.level,
-          };
-        }
-      }
-
-      myRank = await userSevices.updateRank(user_id, img && img);
-      highRank = await userSevices.updateRankTertinggi(user_id, rankTinggi);
+      const updateLvl = new naikPeringkat(user.rank);
+      const { img: imgRank, rankTinggi: riwayatRank } = updateLvl.checkLevel();
+      const rank = await updateLvl.updateData(user_id, imgRank, riwayatRank);
+      myRank = rank.myRank;
+      highRank = rank.highRank;
     } else {
       console.log("User atau rank tidak terdefinisi");
     }

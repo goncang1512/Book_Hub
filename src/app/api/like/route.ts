@@ -4,6 +4,7 @@ import { Player } from "@/lib/middleware/lvlPlayer";
 import { likeServices } from "@/lib/services/likeservices";
 import { userSevices } from "@/lib/services/userservices";
 import { logger } from "@/lib/utils/logger";
+import { naikPeringkat } from "@/lib/middleware/updateLvl";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -38,6 +39,9 @@ export const POST = async (req: NextRequest) => {
       const player = new Player(user.rank.level, user.rank.experience);
       player.gainExperience(3);
       await userSevices.updateLvl(user_story, player);
+      const update = new naikPeringkat(user.rank);
+      const { img, rankTinggi } = update.checkLevel();
+      await update.updateData(user._id, img, rankTinggi);
     }
 
     const result = await likeServices.like(data);

@@ -34,7 +34,6 @@ const Img: React.FC<DivProps> = ({ className, variant, src, size, ...props }) =>
           backgroundImage: `url(${src})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          backgroundSize: "contain",
         }}
       />
     </div>
