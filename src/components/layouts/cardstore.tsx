@@ -269,13 +269,11 @@ export const AddList = ({ book, size }: { book: any; size: number }) => {
   const [isLiked, setIsLiked] = useState(false);
 
   const handleAddList = async () => {
-    setIsLiked(true);
-    await addList(session?.user?._id, book._id);
+    await addList(session?.user?._id, book._id, setIsLiked);
   };
 
   const handleDeleteList = async () => {
-    setIsLiked(false);
-    await deleteList(session?.user?._id, book._id);
+    await deleteList(session?.user?._id, book._id, setIsLiked);
   };
 
   return (

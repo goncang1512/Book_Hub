@@ -21,6 +21,16 @@ export const useUsers = {
       userDetailLoading: isLoading,
     };
   },
+  profilUser: (user_id: string) => {
+    const { data, isLoading } = useSWR(`/api/user/content/${user_id}`, fetcher);
+
+    return {
+      booksUser: data?.books,
+      storysUser: data?.storys,
+      statusBook: data?.statusBook,
+      profilLoading: isLoading,
+    };
+  },
 };
 
 export const useBooks = {
@@ -34,16 +44,6 @@ export const useBooks = {
       booksLoading: isLoading,
       bookError: error,
       jenisHot: data?.jenisHot,
-    };
-  },
-  myBook: (id: string) => {
-    const { data, error, isLoading } = useSWR(`/api/book/${id}`, fetcher);
-
-    return {
-      statusBook: data?.statusBook,
-      myBooks: data?.result,
-      myBooksLoading: isLoading,
-      myBooksError: error,
     };
   },
   detailBook: (id: string) => {

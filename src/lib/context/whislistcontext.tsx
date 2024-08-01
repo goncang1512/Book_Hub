@@ -1,4 +1,4 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import { createContext, useState } from "react";
 import { useSWRConfig } from "swr";
 
@@ -10,27 +10,40 @@ export default function WhislistContextProvider({ children }: { children: React.
   const { mutate } = useSWRConfig();
   const [loadingHalaman, setLoadingHalaman] = useState(false);
 
-  const addList = async (user_id: string, book_id: string) => {
+  const addList = async (
+    user_id: string,
+    book_id: string,
+    setIsLiked: React.Dispatch<SetStateAction<boolean>>,
+  ) => {
     try {
+      setIsLiked(true);
       await instance.post("/api/whislist", { user_id, book_id });
       mutate("/api/book");
       mutate(`/api/whislist/${user_id}`);
       mutate(`/api/book/author/${user_id}`);
       mutate(`/api/book/${user_id}`);
+      mutate(`/api/user/content/${user_id}`);
     } catch (error) {
       console.log(error);
+      setIsLiked(false);
     }
   };
 
-  const deleteList = async (user_id: string, book_id: string) => {
+  const deleteList = async (
+    user_id: string,
+    book_id: string,
+    setIsLiked: React.Dispatch<SetStateAction<boolean>>,
+  ) => {
     try {
+      setIsLiked(false);
       await instance.delete(`/api/whislist/${book_id}/${user_id}`);
       mutate("/api/book");
       mutate(`/api/whislist/${user_id}`);
       mutate(`/api/book/author/${user_id}`);
-      mutate(`/api/book/${user_id}`);
+      mutate(`/api/user/content/${user_id}`);
     } catch (error) {
       console.log(error);
+      setIsLiked(true);
     }
   };
 

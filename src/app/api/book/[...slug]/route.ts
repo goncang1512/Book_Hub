@@ -5,7 +5,7 @@ import connectMongoDB from "@/lib/config/connectMongoDb";
 import { checkExistingFoto as deleteCover, updateCover } from "@/lib/middleware/uploadImg";
 import { checkFotoProfil as checkCover } from "@/lib/middleware/checkUser";
 import { bookAutServices } from "@/lib/services/bookauthor";
-import { getLikeContent, getListBook } from "@/lib/middleware/likechek";
+import { getLikeContent } from "@/lib/middleware/likechek";
 import { bookServices } from "@/lib/services/bookservices";
 import { storyServices } from "@/lib/services/storyservices";
 import { whislistSrv } from "@/lib/services/whilistservices";
@@ -15,64 +15,34 @@ export const GET = async (req: NextRequest, { params }: { params: { slug: string
   try {
     const { slug } = params;
 
-    let results;
-    let message: string;
     let statusBook: any[] = [];
-    let storyWithLike: any;
+    const results = await bookServices.byIdBook(slug[1]);
+    const storys: any = await storyServices.getIdBook(params.slug[1]);
+    const storyWithLike = await getLikeContent(storys);
 
-    if (slug[0] === "detailbook") {
-      message = "Success get detail book by id";
-      results = await bookServices.byIdBook(slug[1]);
-      const storys: any = await storyServices.getIdBook(params.slug[1]);
-      storyWithLike = await getLikeContent(storys);
-
-      if (results) {
-        if (results.jenis === "Cerpen") {
-          const canvas = await bookAutServices.getCerpen(results._id);
-          if (canvas.length > 0) {
-            canvas.forEach((item) => {
-              statusBook.push({
-                _id: item._id,
-                book_id: item.book_id,
-                status: item.status,
-              });
+    if (results) {
+      if (results.jenis === "Cerpen") {
+        const canvas = await bookAutServices.getCerpen(results._id);
+        if (canvas.length > 0) {
+          canvas.forEach((item) => {
+            statusBook.push({
+              _id: item._id,
+              book_id: item.book_id,
+              status: item.status,
             });
-          } else {
-            statusBook.push({ _id: null, book_id: results._id, status: null });
-          }
-        }
-      }
-    } else {
-      message = "Success get book by user id";
-      const books = await bookServices.byId(params.slug[0]);
-      results = await getListBook(books);
-
-      if (results && results.length > 0) {
-        for (let result of results) {
-          if (result.jenis === "Cerpen") {
-            const canvas = await bookAutServices.getCerpen(result._id);
-            if (canvas.length > 0) {
-              canvas.forEach((item) => {
-                statusBook.push({
-                  _id: item._id,
-                  book_id: item.book_id,
-                  status: item.status,
-                });
-              });
-            } else {
-              statusBook.push({ _id: null, book_id: result._id, status: null });
-            }
-          }
+          });
+        } else {
+          statusBook.push({ _id: null, book_id: results._id, status: null });
         }
       }
     }
 
-    logger.info(message);
+    logger.info("Success get detail book by id");
     return NextResponse.json(
       {
         status: true,
         statusCode: 200,
-        message: message,
+        message: "Success get detail book by id",
         result: results,
         statusBook,
         story: storyWithLike,

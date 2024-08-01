@@ -302,12 +302,12 @@ const LikeComponent = ({
     story_id: "",
   });
   const { addLike, disLike } = useContext(LikeContext);
-  const [liked, setLiked] = useState(false);
   const { data: session }: any = useSession();
+  const [liked, setLiked] = useState(false);
 
   return (
     <>
-      {contentLike?.some((like: any) => like.user_id === session?.user?._id) || liked ? (
+      {liked || contentLike?.some((like: any) => like.user_id === session?.user?._id) ? (
         <button
           className="active:scale-125"
           onClick={() => {
@@ -316,8 +316,7 @@ const LikeComponent = ({
               user_id: "hhgjhjhgj",
               story_id: "ljhjkhjhkjhkjh",
             });
-            disLike(session?.user?._id, _id, book_id);
-            setLiked(false);
+            disLike(session?.user?._id, _id, book_id, setLiked);
           }}
         >
           <BiSolidLike className="text-blue-500" size={25} />
@@ -331,8 +330,7 @@ const LikeComponent = ({
               user_id: session?.user?._id,
               story_id: _id,
             });
-            addLike(session?.user?._id, _id, user_story, book_id);
-            setLiked(true);
+            addLike(session?.user?._id, _id, user_story, book_id, setLiked);
           }}
         >
           <BiLike size={25} />

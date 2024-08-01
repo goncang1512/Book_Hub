@@ -11,10 +11,21 @@ import { CardContent, StoryType } from "./cardstory";
 
 import styles from "@/lib/style.module.css";
 import { styleLvl } from "@/lib/utils";
-import { useStory } from "@/lib/utils/useSwr";
 import { UserType } from "@/lib/utils/DataTypes.type";
 
-export default function AboutProfil({ judul, userData }: { judul: string; userData: UserType }) {
+interface StoryUser extends StoryType {
+  length: number;
+}
+
+export default function AboutProfil({
+  judul,
+  userData,
+  storysUser,
+}: {
+  judul: string;
+  userData: UserType;
+  storysUser: StoryUser[];
+}) {
   const [width, setWidth] = useState("");
   const { data: session }: any = useSession();
   useEffect(() => {
@@ -122,7 +133,7 @@ export default function AboutProfil({ judul, userData }: { judul: string; userDa
         </div>
       </div>
       <div id="story_container">
-        <StoryContainer userData={userData} />
+        <StoryContainer storysUser={storysUser} />
       </div>
     </div>
   );
@@ -156,16 +167,14 @@ export const BarExp = ({ width }: { width: string }) => {
   );
 };
 
-export const StoryContainer = ({ userData }: { userData: UserType }) => {
-  const { storyUser } = useStory.getStoryUser(userData?._id);
-
+export const StoryContainer = ({ storysUser }: { storysUser: StoryUser[] }) => {
   return (
-    <div className={`${storyUser?.length === 0 && "hidden"} border bg-white rounded-lg shadow-lg`}>
+    <div className={`${storysUser?.length === 0 && "hidden"} border bg-white rounded-lg shadow-lg`}>
       <div className="w-full h-14 bg-white p-3 rounded-t-lg border-b flex items-center gap-5">
         <h1 className="font-semibold">Story</h1>
       </div>
-      {storyUser &&
-        storyUser.map((story: StoryType) => {
+      {storysUser &&
+        storysUser.map((story: StoryType) => {
           return <CardContent key={story._id} seeBook={true} story={story} />;
         })}
     </div>
