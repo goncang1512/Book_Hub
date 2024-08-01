@@ -76,8 +76,18 @@ export default function Read() {
                         <HoverCard>
                           <HoverCard.Content>
                             <div>
-                              <button onClick={() => deletedMessage(pesan._id)}>Hapus</button>
-                              <button onClick={() => readMessage(pesan._id)}>Sudah di baca</button>
+                              <button
+                                className="active:text-gray-400"
+                                onClick={() => deletedMessage(pesan._id)}
+                              >
+                                Hapus
+                              </button>
+                              <button
+                                className="active:text-gray-400"
+                                onClick={() => readMessage(pesan._id)}
+                              >
+                                Sudah di baca
+                              </button>
                             </div>
                           </HoverCard.Content>
                           <HoverCard.Trigger>

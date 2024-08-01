@@ -20,34 +20,8 @@ export const PATCH = async (req: NextRequest, { params }: { params: { slug: stri
     let pesanNotif = `
     <p id="isPasted"><strong>Halo ${book?.writer},</strong></p>
     <p><br></p>
-    <p>Selamat! Cerita yang kamu submit telah berhasil dirilis oleh admin dan sekarang bisa dibaca oleh pengguna lainnya di platform kami. Terima kasih atas kontribusimu dan semoga ceritamu bisa menginspirasi banyak pembaca.</p>
-    <p><br></p>
     ${message}
-    <p><br></p>
-    <p>Jangan lupa untuk membagikan cerita ini dengan teman-temanmu dan terus berkontribusi dengan menulis lebih banyak bab!</p>
-    <p><br></p>
-    <p>Salam,&nbsp;</p>
-    <p>Tim BookHub</p>
     `;
-
-    if (result.status === "Draft") {
-      pesanNotif = `
-      <p id="isPasted"><strong>Halo ${book?.writer},</strong></p>
-      <p><br></p>
-      <p>Terima kasih telah mengirimkan ceritamu ke platform kami. Kami menghargai usaha dan kreativitas yang telah kamu curahkan.</p>
-      <p><br></p>
-      <p>Namun, setelah melalui proses peninjauan, kami menyesal harus memberitahumu bahwa cerita yang kamu submit belum bisa dirilis untuk dibaca oleh pengguna lain di platform kami. Ceritamu masih berada di status draft dan bisa kamu revisi kapan saja.</p>
-      <p><br></p>
-      <p>${message}</p>
-      <p><br></p>
-      <p>Silakan periksa kembali cerita yang kamu tulis dan lakukan perbaikan yang diperlukan. Kami percaya bahwa dengan sedikit penyesuaian, ceritamu bisa segera diterima dan menginspirasi banyak pembaca.</p>
-      <p><br></p>
-      <p>Jika ada pertanyaan atau butuh bantuan, jangan ragu untuk menghubungi kami.</p>
-      <p><br></p>
-      <p>Salam,&nbsp;</p>
-      <p>Tim BookHub</p>
-      `;
-    }
 
     const pesan = await msgServices.post({
       senderId,

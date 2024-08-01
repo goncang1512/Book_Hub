@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { msgServices } from "@/lib/services/message";
 import { logger } from "@/lib/utils/logger";
+import connectMongoDB from "@/lib/config/connectMongoDb";
 
 export const GET = async (req: NextRequest, { params }: { params: { slug: string[] } }) => {
+  await connectMongoDB();
   try {
     let result;
 
@@ -26,7 +28,7 @@ export const GET = async (req: NextRequest, { params }: { params: { slug: string
       { status: 200 },
     );
   } catch (error) {
-    logger.error("Failed get messages : ");
+    logger.error("Failed get messages : " + error);
     return NextResponse.json(
       { status: false, statusCode: 500, message: "Failed get messages", error },
       { status: 50 },

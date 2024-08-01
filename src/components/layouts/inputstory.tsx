@@ -26,14 +26,19 @@ export const InputStory = ({ idStoryBook }: { idStoryBook: string }) => {
           <tbody>
             <tr>
               <td className="w-16 flex items-start pt-[1.2rem] h-max">
-                <Img
-                  className="size-16 border rounded-full"
-                  src={
-                    session?.user?.imgProfil.imgUrl
-                      ? session?.user?.imgProfil.imgUrl
-                      : "https://res.cloudinary.com/dykunvz4p/image/upload/c_fill,h_130,w_130/profil/ptkdih6zbetqjfddpqhf.jpg"
-                  }
-                />
+                <div className="relative w-max flex flex-col justify-center items-center rounded-full">
+                  <Img
+                    className="size-16 rounded-full border-2 border-gray-500"
+                    src={
+                      session?.user?.imgProfil.imgUrl
+                        ? session?.user?.imgProfil.imgUrl
+                        : "https://res.cloudinary.com/dykunvz4p/image/upload/c_fill,h_130,w_130/profil/ptkdih6zbetqjfddpqhf.jpg"
+                    }
+                  />
+                  <p className="absolute bg-gray-500 text-white size-3 text-[8.5px] rounded-full p-2 text-center flex items-center justify-center text-xs border border-gray-500 bottom-0 translate-y-1/2">
+                    {session?.user?.rank?.level}
+                  </p>
+                </div>
               </td>
               <td className="pr-5 pl-2 pt-[1.90rem]">
                 {status === "unauthenticated" ? (

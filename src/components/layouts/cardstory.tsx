@@ -30,6 +30,9 @@ export type StoryType = {
     username: string;
     email: string;
     badge: string[];
+    rank: {
+      level: number;
+    };
     imgProfil: {
       public_id: string;
       imgUrl: string;
@@ -109,11 +112,18 @@ export const CardContent = ({
   const paragraphs = story?.ception && story?.ception.split("\n");
   return (
     <div className={`flex items-start justify-start border-b p-5 gap-3 pr-3`} id="main-container">
-      <Img
-        className="size-14 rounded-full border cursor-pointer"
-        src={`${story?.user?.imgProfil?.imgUrl}`}
+      <button
+        className="relative w-max flex flex-col justify-center items-center rounded-full cursor-pointer"
         onClick={() => handleRouter(story?.user_id)}
-      />
+      >
+        <Img
+          className="size-14 rounded-full border-2 border-gray-500"
+          src={`${story?.user?.imgProfil?.imgUrl}`}
+        />
+        <p className="absolute bg-gray-500 text-white size-3 text-[8.5px] rounded-full p-2 text-center flex items-center justify-center text-xs border border-gray-500 bottom-0 translate-y-1/2">
+          {story?.user?.rank?.level}
+        </p>
+      </button>
 
       <div className="flex flex-col items-start gap-3 w-full">
         <div className="w-full flex items-center justify-between">

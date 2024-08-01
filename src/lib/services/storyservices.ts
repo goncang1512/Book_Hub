@@ -6,7 +6,7 @@ export const storyServices = {
   },
   getIdBook: async (id: string) => {
     return await StoryModels.find({ book_id: id })
-      .populate("user", "_id username email imgProfil role badge")
+      .populate("user", "_id username email imgProfil role badge rank")
       .sort({ updatedAt: -1 });
   },
   delete: async (id: string) => {
@@ -25,7 +25,7 @@ export const storyServices = {
   },
   getStoryUser: async (id: string) => {
     return await StoryModels.find({ user_id: id })
-      .populate("user", "_id username email imgProfil badge")
+      .populate("user", "_id username email imgProfil badge rank")
       .populate("book")
       .sort({ updatedAt: -1 });
   },
@@ -35,6 +35,6 @@ export const storyServices = {
   detailStory: async (id: string) => {
     return await StoryModels.findOne({ _id: id })
       .populate("book")
-      .populate("user", "_id username email imgProfil badge");
+      .populate("user", "_id username email imgProfil badge rank");
   },
 };

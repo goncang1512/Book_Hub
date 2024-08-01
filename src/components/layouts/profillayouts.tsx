@@ -35,7 +35,11 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
       />
       <div className="h-16 white border shadow-lg w-full rounded-b-lg" />
       <div className="absolute left-0 pl-5 md:bottom-[0.7rem] bottom-[1rem] flex items-center gap-5 w-full">
-        <Img size="avatar" src={`${userData?.imgProfil?.imgUrl}`} variant="avatar" />
+        <Img
+          className="md:size-28 size-20 rounded-full border"
+          src={`${userData?.imgProfil?.imgUrl}`}
+        />
+
         <div className="flex flex-col gap-11 w-full relative">
           <div className="flex w-full items-center justify-between absolute pr-5 md:bottom-1 bottom-3">
             <div className="bg-white px-2 rounded-lg py-1 flex items-center gap-2">

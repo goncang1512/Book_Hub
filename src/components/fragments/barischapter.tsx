@@ -11,6 +11,33 @@ import { FloaraEdtor } from "./floaraeditor";
 
 import { formatDate } from "@/lib/utils/parseTime";
 import { DasboardContext } from "@/lib/context/dasboardcontext";
+import DOMPurify from "dompurify";
+
+const pesanNotif = {
+  pesanRilis: `
+  <p>Selamat! Cerita yang kamu submit telah berhasil dirilis oleh admin dan sekarang bisa dibaca oleh pengguna lainnya di platform kami. Terima kasih atas kontribusimu dan semoga ceritamu bisa menginspirasi banyak pembaca.</p>
+  <p><br></p>
+  <p><br></p>
+  <p>Jangan lupa untuk membagikan cerita ini dengan teman-temanmu dan terus berkontribusi dengan menulis lebih banyak bab!</p>
+  <p><br></p>
+  <p>Salam,&nbsp;</p>
+  <p>Tim BookHub</p>
+  `,
+  pesanDraft: `
+  <p>Terima kasih telah mengirimkan ceritamu ke platform kami. Kami menghargai usaha dan kreativitas yang telah kamu curahkan.</p>
+  <p><br></p>
+  <p>Namun, setelah melalui proses peninjauan, kami menyesal harus memberitahumu bahwa cerita yang kamu submit belum bisa dirilis untuk dibaca oleh pengguna lain di platform kami. Ceritamu masih berada di status draft dan bisa kamu revisi kapan saja.</p>
+  <p><br></p>
+  <p>Tes di Sini</p>
+  <p><br></p>
+  <p>Silakan periksa kembali cerita yang kamu tulis dan lakukan perbaikan yang diperlukan. Kami percaya bahwa dengan sedikit penyesuaian, ceritamu bisa segera diterima dan menginspirasi banyak pembaca.</p>
+  <p><br></p>
+  <p>Jika ada pertanyaan atau butuh bantuan, jangan ragu untuk menghubungi kami.</p>
+  <p><br></p>
+  <p>Salam,&nbsp;</p>
+  <p>Tim BookHub</p>
+  `,
+};
 
 interface Book {
   ISBN: string;
@@ -122,6 +149,7 @@ const ModalInbox = ({
   useEffect(() => {
     if (dataChapter) {
       setEditStatus({
+        ...editStatus,
         status: dataChapter.status || "Status",
         message: "",
         senderId: session?.user?._id,
@@ -129,6 +157,14 @@ const ModalInbox = ({
       });
     }
   }, [dataChapter]);
+
+  useEffect(() => {
+    if (editStatus.status === "Rilis") {
+      setMsgInbox(DOMPurify.sanitize(pesanNotif.pesanRilis));
+    } else if (editStatus.status === "Draft") {
+      setMsgInbox(DOMPurify.sanitize(pesanNotif.pesanDraft));
+    }
+  }, [editStatus.status]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

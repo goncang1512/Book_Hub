@@ -14,8 +14,8 @@ export default function Content({ params }: { params: { slug: string[] } }) {
   const { detailBook, storyBook, detailBookLoading, statusDetail }: any = useBooks.detailBook(
     params.slug[0],
   );
-  const { msgLvlUp } = useContext(StoryContext);
 
+  const { msgLvlUp } = useContext(StoryContext);
   useEffect(() => {
     if (msgLvlUp.lvlUp.status) {
       const modal: any = document.getElementById("modal_lvlup");

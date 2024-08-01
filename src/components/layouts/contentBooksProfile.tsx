@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 
 import ReadMoreLess from "../elements/readmoreless";
 import Img from "../fragments/image";
+import { GlobalState } from "@/lib/context/globalstate";
 
 type BookType = {
   _id: string;
   title: string;
+  user_id: string;
   writer: string;
   sinopsis: string;
   terbit: string;
@@ -30,7 +32,8 @@ export function ProfilBooksDekstop({
   dataBook: BookType;
   statusBook: StatusType[];
 }) {
-  const { _id, title, writer, sinopsis, terbit, genre, imgBooks, ISBN, jenis } = dataBook;
+  const { handleRouter } = useContext(GlobalState);
+  const { _id, title, writer, user_id, sinopsis, terbit, genre, imgBooks, ISBN, jenis } = dataBook;
 
   return (
     <div className="bg-white w-[32.1%] h-screen fixed top-0 right-0 md:flex hidden flex-col p-5 border-l">
@@ -58,7 +61,15 @@ export function ProfilBooksDekstop({
           <table className="w-full">
             <tbody>
               <BarisTable name="Judul">{title}</BarisTable>
-              <BarisTable name="Penulis">{writer}</BarisTable>
+              <BarisTable name="Penulis">
+                {jenis !== "Review" ? (
+                  <button className="text-blue-500" onClick={() => handleRouter(user_id)}>
+                    {writer}
+                  </button>
+                ) : (
+                  writer
+                )}
+              </BarisTable>
               <BarisTable name="Terbit">{terbit}</BarisTable>
               {ISBN !== 0 && <BarisTable name="ISBN">{ISBN}</BarisTable>}
               <BarisTable name="Genre">
@@ -86,7 +97,8 @@ export const BooksProfileMobile = ({
   dataBook: BookType;
   statusBook: StatusType[];
 }) => {
-  const { _id, title, writer, sinopsis, terbit, imgBooks, genre, jenis } = dataBook;
+  const { handleRouter } = useContext(GlobalState);
+  const { _id, title, writer, user_id, sinopsis, terbit, imgBooks, genre, jenis } = dataBook;
 
   return (
     <div className="md:hidden flex w-full bg-[#27AB8B] border-none gap-2 px-5 py-2 ">
@@ -117,7 +129,15 @@ export const BooksProfileMobile = ({
           <tr>
             <td className="text-start align-top">Penulis</td>
             <td className="px-1 align-top">:</td>
-            <td>{writer}</td>
+            <td>
+              {jenis !== "Review" ? (
+                <button className="text-blue-900" onClick={() => handleRouter(user_id)}>
+                  {writer}
+                </button>
+              ) : (
+                writer
+              )}
+            </td>
           </tr>
           <tr>
             <td className="text-start align-top">Terbit</td>

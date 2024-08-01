@@ -98,7 +98,7 @@ export default function AboutProfil({
                     {userData?.alamat ? (
                       userData?.alamat
                     ) : (
-                      <Link className="text-blue-500" href={"/profil/editprofil"}>
+                      <Link className="text-blue-500" href={"/profil/editprofil/biografi"}>
                         Tambahkan alamat di sini
                       </Link>
                     )}
@@ -114,7 +114,7 @@ export default function AboutProfil({
                     {userData?.number ? (
                       userData?.number
                     ) : (
-                      <Link className="text-blue-500" href={"/profil/editprofil"}>
+                      <Link className="text-blue-500" href={"/profil/editprofil/biografi"}>
                         Tambahkan nomor HP di sini
                       </Link>
                     )}
