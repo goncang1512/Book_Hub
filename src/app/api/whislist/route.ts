@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { whislistSrv } from "@/lib/services/whilistservices";
 import { logger } from "@/lib/utils/logger";
+import { userSevices } from "@/lib/services/userservices";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -17,6 +18,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const result = await whislistSrv.addList(user_id, book_id);
+    const user = await userSevices.getUser(user_id);
 
     logger.info("Success add list");
     return NextResponse.json(
@@ -25,6 +27,7 @@ export const POST = async (req: NextRequest) => {
         statusCode: 201,
         message: "Success add list",
         result,
+        user,
       },
       { status: 201 },
     );

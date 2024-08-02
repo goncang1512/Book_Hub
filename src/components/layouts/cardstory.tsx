@@ -114,7 +114,7 @@ export const CardContent = ({
     <div className={`flex items-start justify-start border-b p-5 gap-3 pr-3`} id="main-container">
       <button
         className="relative w-max flex flex-col justify-center items-center rounded-full cursor-pointer"
-        onClick={() => handleRouter(story?.user_id)}
+        onClick={() => handleRouter(story?.user?.username)}
       >
         <Img
           className="size-14 rounded-full border-2 border-gray-500"
@@ -130,7 +130,7 @@ export const CardContent = ({
           <div className="flex flex-col">
             <button
               className="cursor-pointer flex items-center gap-2"
-              onClick={() => handleRouter(story?.user_id)}
+              onClick={() => handleRouter(story?.user?.username)}
             >
               <p className="md:text-base text-sm font-semibold">{story?.user.username}</p>
               <div className="flex items-center">
@@ -313,11 +313,13 @@ const LikeComponent = ({
   });
   const { addLike, disLike } = useContext(LikeContext);
   const { data: session }: any = useSession();
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(
+    contentLike?.some((like: any) => like.user_id === session?.user?._id),
+  );
 
   return (
     <>
-      {liked || contentLike?.some((like: any) => like.user_id === session?.user?._id) ? (
+      {liked ? (
         <button
           className="active:scale-125"
           onClick={() => {
@@ -326,7 +328,7 @@ const LikeComponent = ({
               user_id: "hhgjhjhgj",
               story_id: "ljhjkhjhkjhkjh",
             });
-            disLike(session?.user?._id, _id, book_id, setLiked);
+            disLike(session?.user?._id, _id, book_id, setLiked, user_story);
           }}
         >
           <BiSolidLike className="text-blue-500" size={25} />

@@ -29,6 +29,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
         mutate(`/api/book/detailbook/${book_id}`);
         mutate(`/api/story/detailstory/${book_id}`);
         mutate(`/api/user/content/${session?.user?._id}`);
+        mutate(`/api/user?user_id=${res.data.user.username}`);
       }
     } catch (error) {
       setLiked(false);
@@ -41,13 +42,17 @@ export default function LikeContextProvider({ children }: { children: React.Reac
     story_id: string,
     book_id: string,
     setLiked: React.Dispatch<SetStateAction<boolean>>,
+    user_story: string,
   ) => {
     try {
       setLiked(false);
-      await instance.delete(`/api/like/${user_id}/${story_id}`);
-      mutate(`/api/book/detailbook/${book_id}`);
-      mutate(`/api/story/detailstory/${book_id}`);
-      mutate(`/api/user/content/${session?.user?._id}`);
+      const res = await instance.delete(`/api/like/${user_id}/${story_id}/${user_story}`);
+      if (res.data.status) {
+        mutate(`/api/book/detailbook/${book_id}`);
+        mutate(`/api/story/detailstory/${book_id}`);
+        mutate(`/api/user/content/${session?.user?._id}`);
+        mutate(`/api/user?user_id=${res.data.user.username}`);
+      }
     } catch (error) {
       console.log(error);
       setLiked(true);

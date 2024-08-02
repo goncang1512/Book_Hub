@@ -17,12 +17,13 @@ export default function WhislistContextProvider({ children }: { children: React.
   ) => {
     try {
       setIsLiked(true);
-      await instance.post("/api/whislist", { user_id, book_id });
+      const res = await instance.post("/api/whislist", { user_id, book_id });
       mutate("/api/book");
       mutate(`/api/whislist/${user_id}`);
       mutate(`/api/book/author/${user_id}`);
       mutate(`/api/book/${user_id}`);
       mutate(`/api/user/content/${user_id}`);
+      mutate(`/api/user?user_id=${res.data.user.username}`);
     } catch (error) {
       console.log(error);
       setIsLiked(false);
@@ -36,11 +37,12 @@ export default function WhislistContextProvider({ children }: { children: React.
   ) => {
     try {
       setIsLiked(false);
-      await instance.delete(`/api/whislist/${book_id}/${user_id}`);
+      const res = await instance.delete(`/api/whislist/${book_id}/${user_id}`);
       mutate("/api/book");
       mutate(`/api/whislist/${user_id}`);
       mutate(`/api/book/author/${user_id}`);
       mutate(`/api/user/content/${user_id}`);
+      mutate(`/api/user?user_id=${res.data.user.username}`);
     } catch (error) {
       console.log(error);
       setIsLiked(true);

@@ -266,7 +266,9 @@ export function CardBook({
 export const AddList = ({ book, size }: { book: any; size: number }) => {
   const { data: session }: any = useSession();
   const { addList, deleteList } = useContext(WhislistContext);
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(
+    book?.listBook?.some((w: any) => w.user_id === session?.user?._id),
+  );
 
   const handleAddList = async () => {
     await addList(session?.user?._id, book._id, setIsLiked);
@@ -278,7 +280,7 @@ export const AddList = ({ book, size }: { book: any; size: number }) => {
 
   return (
     <>
-      {isLiked || book?.listBook?.some((w: any) => w.user_id === session?.user?._id) ? (
+      {isLiked ? (
         <button className="text-red-500 active:scale-110" onClick={handleDeleteList}>
           <FaHeart size={size} />
         </button>

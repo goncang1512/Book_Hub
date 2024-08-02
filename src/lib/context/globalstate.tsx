@@ -31,11 +31,11 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
   });
   const [seeDetail, setSeeDetail] = useState("");
 
-  const handleRouter = (id: string) => {
-    if (session?.user?._id === id) {
+  const handleRouter = (username: string) => {
+    if (session?.user?.username === username) {
       router.push("/profil");
     } else {
-      router.push(`/user/${id}`);
+      router.push(`/user/@${username}`);
     }
   };
 

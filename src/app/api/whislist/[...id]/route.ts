@@ -5,6 +5,7 @@ import { bookAutServices } from "@/lib/services/bookauthor";
 import { logger } from "@/lib/utils/logger";
 import { whislistSrv } from "@/lib/services/whilistservices";
 import { getWhislist } from "@/lib/middleware/likechek";
+import { userSevices } from "@/lib/services/userservices";
 
 export const GET = async (req: NextRequest, { params }: { params: { id: string[] } }) => {
   await connectMongoDB();
@@ -63,6 +64,7 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string[]
 export const DELETE = async (req: NextRequest, { params }: { params: { id: string[] } }) => {
   try {
     const result = await whislistSrv.removeList(params.id[1], params.id[0]);
+    const user = await userSevices.getUser(params.id[1]);
 
     logger.info("Success deleted list book");
     return NextResponse.json(
@@ -71,6 +73,7 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
         statusCode: 200,
         message: "Success deleted list book",
         result,
+        user,
       },
       { status: 200 },
     );

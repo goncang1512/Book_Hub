@@ -8,6 +8,19 @@ import { userSevices } from "@/lib/services/userservices";
 export const PATCH = async (req: NextRequest, { params }: { params: { id: string } }) => {
   try {
     const { username, alamat, number, email } = await req.json();
+
+    const hasSpace = /\s/.test(username);
+    if (hasSpace) {
+      return NextResponse.json(
+        {
+          status: false,
+          statusCode: 422,
+          message: "Username tidak boleh mengandung spasi.",
+        },
+        { status: 422 },
+      );
+    }
+
     const data = { username, alamat, number, email };
 
     const existingUser = await checkExistingUserUpdate(email, username, params.id);

@@ -53,6 +53,7 @@ export const POST = async (req: NextRequest) => {
         statusCode: 201,
         message: "Success like content",
         result,
+        user,
       },
       { status: 201 },
     );

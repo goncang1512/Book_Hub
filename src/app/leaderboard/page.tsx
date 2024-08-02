@@ -68,13 +68,13 @@ export default function Leaderboard() {
                             <Img
                               className="md:flex hidden cursor-pointer md:size-12 size-8 rounded-full border"
                               src={`${user.imgProfil.imgUrl}`}
-                              onClick={() => handleRouter(user?._id)}
+                              onClick={() => handleRouter(user?.username)}
                             />
                           </div>
                           <div>
                             <button
                               className="flex items-center gap-2"
-                              onClick={() => handleRouter(user?._id)}
+                              onClick={() => handleRouter(user?.username)}
                             >
                               <p className="font-bold md:text-base text-sm max-md:truncate max-md:w-[50px] cursor-pointer">
                                 {user?.username}

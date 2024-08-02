@@ -81,6 +81,7 @@ export const Input: React.FC<InputProps> = ({
           </label>
           <button
             className="absolute right-2 top-3 cursor-pointer"
+            type="button"
             onClick={() => setSeePassword(!seePassword)}
           >
             {seePassword ? <FiEye size={20} /> : <FiEyeOff size={20} />}

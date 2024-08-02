@@ -8,6 +8,10 @@ import { logger } from "@/lib/utils/logger";
 import UserModels from "@/lib/models/users";
 import { msgServices } from "@/lib/services/message";
 import { userSevices, veryfiedServices } from "@/lib/services/userservices";
+import { bookServices } from "@/lib/services/bookservices";
+import { getLikeContent, getListBook } from "@/lib/middleware/likechek";
+import { bookAutServices } from "@/lib/services/bookauthor";
+import { storyServices } from "@/lib/services/storyservices";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -72,15 +76,50 @@ export const GET = async (req: NextRequest) => {
   try {
     const url = new URL(req.url);
     const searchParams = url.searchParams;
-    const user_id: string | null = searchParams.get("user_id");
+    const username: string | null = searchParams.get("user_id");
 
     const result = await UserModels.findOne(
-      { _id: user_id && user_id },
+      { username },
       "_id username email imgProfil rank role createdAt badge",
     );
+
+    let statusBook: any[] = [];
+    const books = await bookServices.byId(result._id);
+    const listBook = await getListBook(books);
+
+    if (listBook && listBook.length > 0) {
+      for (let result of listBook) {
+        if (result.jenis === "Cerpen") {
+          const canvas = await bookAutServices.getCerpen(result._id);
+          if (canvas.length > 0) {
+            canvas.forEach((item) => {
+              statusBook.push({
+                _id: item._id,
+                book_id: item.book_id,
+                status: item.status,
+              });
+            });
+          } else {
+            statusBook.push({ _id: null, book_id: result._id, status: null });
+          }
+        }
+      }
+    }
+
+    const cerita = await storyServices.getStoryUser(result._id);
+    const storys = await getLikeContent(cerita);
+
     logger.info("Success get user");
     return NextResponse.json(
-      { status: true, statusCode: 200, message: "Success get user", result },
+      {
+        status: true,
+        statusCode: 200,
+        message: "Success get user",
+        result,
+        books: listBook,
+        storys,
+        statusBook,
+      },
       { status: 200 },
     );
   } catch (error) {

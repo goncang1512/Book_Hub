@@ -13,7 +13,6 @@ export const GET = async (req: NextRequest, { params }: { params: { user_id: str
     const { user_id } = params;
 
     let statusBook: any[] = [];
-    const message = "Success get book by user id";
     const books = await bookServices.byId(user_id[0]);
     const results = await getListBook(books);
 
@@ -39,12 +38,12 @@ export const GET = async (req: NextRequest, { params }: { params: { user_id: str
     const cerita = await storyServices.getStoryUser(user_id[0]);
     const storys = await getLikeContent(cerita);
 
-    logger.info(message);
+    logger.info("Success get book by user id");
     return NextResponse.json(
       {
         status: true,
         statusCode: 200,
-        message: message,
+        message: "Success get book by user id",
         books: results,
         storys: storys,
         statusBook,

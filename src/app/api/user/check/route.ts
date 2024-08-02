@@ -13,6 +13,19 @@ export const POST = async (req: NextRequest) => {
   await connectMongoDB();
   try {
     const { username, email, password, confpassword } = await req.json();
+
+    const hasSpace = /\s/.test(username);
+    if (hasSpace) {
+      return NextResponse.json(
+        {
+          status: false,
+          statusCode: 422,
+          message: "Username tidak boleh mengandung spasi.",
+        },
+        { status: 422 },
+      );
+    }
+
     const key = crypto.randomBytes(32);
 
     const existingUser = await checkExistingUser(email, username);

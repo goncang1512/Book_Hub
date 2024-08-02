@@ -8,19 +8,25 @@ import AboutProfil from "@/components/layouts/aboutprofil";
 import { GlobalState } from "@/lib/context/globalstate";
 import { CardBook } from "@/components/layouts/cardstore";
 import { useUsers } from "@/lib/utils/useSwr";
-import { UserType } from "@/lib/utils/DataTypes.type";
-
-export type UserDetail = {
-  userDetail: UserType;
-  userDetailLoading: boolean;
-};
 
 export default function Profil({ params }: { params: { id: string } }) {
   const { seeProfilComponent } = useContext(GlobalState);
-  const { userDetail, userDetailLoading }: UserDetail = useUsers.detailUser(params.id);
-  const { booksUser, storysUser, profilLoading, statusBook } = useUsers.profilUser(params.id);
 
-  if (userDetailLoading || profilLoading) {
+  let username: string = "";
+  if (params.id) {
+    const decodedId = decodeURIComponent(params.id);
+    const splitParams = decodedId.split("@");
+    if (splitParams.length > 1) {
+      username = splitParams[1];
+    } else {
+      username = splitParams[0];
+    }
+  }
+
+  const { userDetail, userDetailLoading, booksUser, storyUser, statusBook } =
+    useUsers.detailUser(username);
+
+  if (userDetailLoading) {
     <div className="flex w-full items-center justify-center">
       <span className="loading loading-dots loading-lg" />
     </div>;
@@ -43,10 +49,10 @@ export default function Profil({ params }: { params: { id: string } }) {
           <>
             <HeaderProfil userData={userDetail} />
             {seeProfilComponent.seeAbout && (
-              <AboutProfil judul="About" storysUser={storysUser} userData={userDetail} />
+              <AboutProfil judul="About" storysUser={storyUser} userData={userDetail} />
             )}
             {seeProfilComponent.seeFriends && (
-              <AboutProfil judul="Friends" storysUser={storysUser} userData={userDetail} />
+              <AboutProfil judul="Friends" storysUser={storyUser} userData={userDetail} />
             )}
             {seeProfilComponent.seeProduct && (
               <div className="flex flex-wrap gap-4 w-full justify-start">

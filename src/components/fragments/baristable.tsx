@@ -73,13 +73,16 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
       <th>{index + 1}</th>
       <td>
         <div className="flex items-center gap-3">
-          <button className="avatar cursor-pointer" onClick={() => handleRouter(dataUser?._id)}>
+          <button
+            className="avatar cursor-pointer"
+            onClick={() => handleRouter(dataUser?.username)}
+          >
             <Img className="size-12 border rounded-full" src={`${dataUser?.imgProfil?.imgUrl}`} />
           </button>
           <div>
             <button
               className="flex items-center gap-2 cursor-pointer"
-              onClick={() => handleRouter(dataUser?._id)}
+              onClick={() => handleRouter(dataUser?.username)}
             >
               <p className="font-bold">{dataUser?.username}</p>
               <div className="flex items-center">

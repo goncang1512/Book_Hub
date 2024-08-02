@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { likeServices } from "@/lib/services/likeservices";
 import { logger } from "@/lib/utils/logger";
+import { userSevices } from "@/lib/services/userservices";
 
 export const GET = async (req: NextRequest, { params }: { params: { id: string[] } }) => {
   try {
@@ -39,6 +40,7 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string[]
 export const DELETE = async (req: NextRequest, { params }: { params: { id: string[] } }) => {
   try {
     const result = await likeServices.dislike(params.id[0], params.id[1]);
+    const user = await userSevices.getUser(params.id[2]);
 
     logger.info("Success deleted like user");
     return NextResponse.json(
@@ -47,6 +49,7 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
         statusCode: 200,
         message: "Success deleted like user",
         result,
+        user,
       },
       { status: 200 },
     );
