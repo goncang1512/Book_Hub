@@ -82,27 +82,39 @@ export default function Mission({
         } bg-white md:w-[40%] w-[80%] h-screen relative duration-700`}
       >
         <div className="p-5 flex flex-col gap-3">
-          {misiUser.map((misi: any, index: number) => {
-            return (
-              <div key={index} className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="size-14 bg-black/5 rounded-full flex items-center justify-center">
-                    {`${misi.proses}/${misi.max}`}
-                  </div>
-                  <div className="flex items-start flex-col justify-center leading-[8px]">
-                    <h2 className="font-semibold">{misi.judul}</h2>
-                    <p className="text-sm">{misi.detail}</p>
-                  </div>
-                </div>
-                <Link
-                  className="bg-black border border-yellow-600 text-yellow-400 w-8 h-5 flex items-center justify-center"
-                  href={misi.link}
-                >
-                  <MdKeyboardArrowRight size={20} />
-                </Link>
-              </div>
-            );
-          })}
+          <div className="overflow-x-auto">
+            <table className="table table-base">
+              <tbody>
+                {misiUser.map((misi: any) => {
+                  return (
+                    <tr key={misi._id} className="border-none">
+                      <td className="flex md:items-center items-start">
+                        <div className="h-full">
+                          <div className="size-14 bg-black/5 rounded-full flex items-center justify-center">
+                            {`${misi.proses}/${misi.max}`}
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="flex items-start flex-col justify-center leading-[8px]">
+                          <h2 className="font-semibold leading-5">{misi.judul}</h2>
+                          <p className="md:text-sm text-xs leading-[10px]">{misi.detail}</p>
+                        </div>
+                      </td>
+                      <td>
+                        <Link
+                          className="bg-black border border-yellow-600 text-yellow-400 w-8 h-5 flex items-center justify-center"
+                          href={misi.link}
+                        >
+                          <MdKeyboardArrowRight size={20} />
+                        </Link>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
         <ButtonMission
           buttonMission={buttonMission}
