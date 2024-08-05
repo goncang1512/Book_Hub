@@ -67,7 +67,7 @@ export const ButtonMission = ({
   const [position, setPosition] = useState({ top: 23.5 });
   const [dragging, setDragging] = useState(false);
 
-  const handleDragStart = (e: any) => {
+  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
     setDragging(true);
     e.preventDefault();
   };
@@ -76,11 +76,19 @@ export const ButtonMission = ({
     setDragging(false);
   };
 
-  const handleDragMove = (e: any) => {
+  const handleDragMove = (e: MouseEvent | TouchEvent) => {
     if (dragging) {
       const screenHeight = window.innerHeight;
       const buttonHeight = 30;
-      const newTop = e.clientY - buttonHeight / 2;
+      let clientY;
+
+      if (e instanceof TouchEvent) {
+        clientY = e.touches[0].clientY;
+      } else {
+        clientY = e.clientY;
+      }
+
+      const newTop = clientY - buttonHeight / 2;
       const boundedTop = Math.min(Math.max(newTop, 0), screenHeight - buttonHeight);
       setPosition({
         top: boundedTop,
