@@ -72,7 +72,7 @@ export const ButtonMission = ({
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
     setDragging(true);
-    e.preventDefault(); // Prevent default behavior for both mouse and touch events
+    e.preventDefault();
   };
 
   const handleDragEnd = () => {
@@ -81,7 +81,7 @@ export const ButtonMission = ({
 
   const handleDragMove = (e: MouseEvent | TouchEvent) => {
     if (dragging) {
-      e.preventDefault(); // Prevent default behavior for both mouse and touch events
+      e.preventDefault();
       const screenHeight = window.innerHeight;
       const buttonHeight = 30;
       let clientY;
@@ -100,17 +100,24 @@ export const ButtonMission = ({
     }
   };
 
+  // Separate handler function for preventing default touch actions
+  const handleTouchStart = (e: TouchEvent) => {
+    e.preventDefault();
+  };
+
   useEffect(() => {
     if (dragging) {
       document.addEventListener("mousemove", handleDragMove);
       document.addEventListener("mouseup", handleDragEnd);
       document.addEventListener("touchmove", handleDragMove);
       document.addEventListener("touchend", handleDragEnd);
+      document.addEventListener("touchstart", handleTouchStart, { passive: false });
     } else {
       document.removeEventListener("mousemove", handleDragMove);
       document.removeEventListener("mouseup", handleDragEnd);
       document.removeEventListener("touchmove", handleDragMove);
       document.removeEventListener("touchend", handleDragEnd);
+      document.removeEventListener("touchstart", handleTouchStart);
     }
 
     return () => {
@@ -118,6 +125,7 @@ export const ButtonMission = ({
       document.removeEventListener("mouseup", handleDragEnd);
       document.removeEventListener("touchmove", handleDragMove);
       document.removeEventListener("touchend", handleDragEnd);
+      document.removeEventListener("touchstart", handleTouchStart);
     };
   }, [dragging]);
 
