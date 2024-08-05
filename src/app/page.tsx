@@ -25,7 +25,7 @@ export default function Home() {
     if (!booksLoading) {
       const startIndex = (currentPage - 1) * booksPerPage;
       const endIndex = startIndex + booksPerPage;
-      setCurrentBooks(books.slice(startIndex, endIndex));
+      setCurrentBooks(books?.slice(startIndex, endIndex));
     }
   }, [currentPage, booksLoading, books]);
 
