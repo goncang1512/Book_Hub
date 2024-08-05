@@ -1,5 +1,42 @@
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { LuMenu } from "react-icons/lu";
+import { MdKeyboardArrowRight } from "react-icons/md";
+
+const misiUser = [
+  {
+    _id: "sdfas9dfja0sdf9as0d9fu0sd9fm",
+    judul: "Baca Novel",
+    detail: "Baca novel selama 5 menit.",
+    link: "/read/sdfas9dfja0sdf9as0d9fu0sdsd9",
+    proses: 1,
+    max: 5,
+  },
+  {
+    _id: "sdfas9dfjad9ef9as0d9fu0sdse9",
+    judul: "Baca Cerpen",
+    detail: "Baca cerpen selama 3 menit.",
+    link: "/read/sdfas9dfja0sdf9as0d9fu0sde32",
+    proses: 2,
+    max: 3,
+  },
+  {
+    _id: "sdfas9a9d9d9ef9as0d9fu0sdf9s",
+    judul: "Berikan Ulasan",
+    detail: "Berikan ulasan sebanyak 5 di buku mana saja.",
+    link: "/read/sdfas9dfja0sdf9as0d9fu0sd3ed",
+    proses: 3,
+    max: 5,
+  },
+  {
+    _id: "sdfas9a9d9dd9u9as0d9fu0sdfjd",
+    judul: "Berikan Respon",
+    detail: "Berikan respon kepada ulasan user sebanyak 5 kali.",
+    link: "/read/sdfas9dfja0sdf9as0d9fu0sdsde",
+    proses: 3,
+    max: 5,
+  },
+];
 
 interface MissionProps {
   seeMission: boolean;
@@ -44,7 +81,29 @@ export default function Mission({
           seeMission ? "md:translate-x-[18rem] translate-x-0" : "-translate-x-[100%] bg-transparent"
         } bg-white md:w-[40%] w-[80%] h-screen relative duration-700`}
       >
-        <div>Mission</div>
+        <div className="p-5 flex flex-col gap-3">
+          {misiUser.map((misi: any, index: number) => {
+            return (
+              <div key={index} className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="size-14 bg-black/5 rounded-full flex items-center justify-center">
+                    {`${misi.proses}/${misi.max}`}
+                  </div>
+                  <div className="flex items-start flex-col justify-center leading-[8px]">
+                    <h2 className="font-semibold">{misi.judul}</h2>
+                    <p className="text-sm">{misi.detail}</p>
+                  </div>
+                </div>
+                <Link
+                  className="bg-black border border-yellow-600 text-yellow-400 w-8 h-5 flex items-center justify-center"
+                  href={misi.link}
+                >
+                  <MdKeyboardArrowRight size={20} />
+                </Link>
+              </div>
+            );
+          })}
+        </div>
         <ButtonMission
           buttonMission={buttonMission}
           className={`${seeMission ? "opacity-100 visibility-visible" : "opacity-0 visibility-hidden"}  bg-white border-r border-y rounded-r-md top-[23.5px] -right-[30px] fixed duration-150`}
@@ -100,7 +159,6 @@ export const ButtonMission = ({
     }
   };
 
-  // Separate handler function for preventing default touch actions
   const handleTouchStart = (e: TouchEvent) => {
     e.preventDefault();
   };
