@@ -6,6 +6,7 @@ export const CardBookSkaleton = ({ ukuran }: { ukuran?: string }) => {
       className={`flex ${
         ukuran ? ukuran : "md:w-[49.3%] w-full"
       } p-3 gap-4 border bg-white shadow-lg rounded-lg`}
+      data-testid="skeleton"
     >
       <div className="skeleton w-[92px] rounded-lg h-[144px] relative" />
       <div className="flex flex-col gap-1 justify-between w-full">

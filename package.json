@@ -9,7 +9,10 @@
     "lint": "next lint",
     "prepare": "husky",
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "test": "jest",
+    "test:cover": "npm run test -- --coverage",
+    "test:watch": "jest --watchAll"
   },
   "husky": {
     "hooks": {
@@ -72,6 +75,7 @@
     "postcss": "^8",
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

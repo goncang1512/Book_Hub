@@ -30,6 +30,7 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
     seeStory: false,
   });
   const [seeDetail, setSeeDetail] = useState("");
+  const [seeMission, setSeeMission] = useState(false);
 
   const handleRouter = (username: string) => {
     if (session?.user?.username === username) {
@@ -74,6 +75,8 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
         setDetailUser,
         readMessage,
         deletedMessage,
+        seeMission,
+        setSeeMission,
       }}
     >
       {children}

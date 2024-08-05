@@ -23,6 +23,7 @@ import BookContextProvider from "@/lib/context/bookcontext";
 import StoryContextProvider from "@/lib/context/storycontext";
 import LikeContextProvider from "@/lib/context/likecontext";
 import WhislistContextProvider from "@/lib/context/whislistcontext";
+import Mission from "@/components/layouts/mission";
 
 export default function RootLayout({
   children,
@@ -31,16 +32,18 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const [seeSearch, setSeeSearch] = useState<boolean>(false);
+  const [seeMission, setSeeMission] = useState<boolean>(false);
 
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
   const searchButton = useRef<HTMLButtonElement | null>(null);
   const containerSearch = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        searchButton &&
-        !searchButton?.current?.contains(event.target as Node) &&
-        containerSearch &&
-        !containerSearch?.current?.contains(event.target as Node)
+        searchButton.current &&
+        !searchButton.current.contains(event.target as Node) &&
+        containerSearch.current &&
+        !containerSearch.current.contains(event.target as Node)
       ) {
         setSeeSearch(false);
       }
@@ -81,15 +84,26 @@ export default function RootLayout({
                               <nav className="flex relative">
                                 <SideBar
                                   searchButtonRef={searchButton}
+                                  seeMission={seeMission}
+                                  seeSearch={seeSearch}
+                                  setSeeMission={setSeeMission}
+                                  setSeeSearch={setSeeSearch}
+                                  sidebarRef={sidebarRef}
+                                />
+                                <MobileBar
                                   seeSearch={seeSearch}
                                   setSeeSearch={setSeeSearch}
+                                  sidebarRef={sidebarRef}
                                 />
-                                <MobileBar seeSearch={seeSearch} setSeeSearch={setSeeSearch} />
-
                                 <SearchContainer
                                   containerSearchRef={containerSearch}
                                   seeSearch={seeSearch}
                                   setSeeSearch={setSeeSearch}
+                                />
+                                <Mission
+                                  seeMission={seeMission}
+                                  setSeeMission={setSeeMission}
+                                  sidebarRef={sidebarRef}
                                 />
                               </nav>
                             )}

@@ -9,35 +9,31 @@ import { GlobalState } from "@/lib/context/globalstate";
 import { CardBook } from "@/components/layouts/cardstore";
 import { useUsers } from "@/lib/utils/useSwr";
 
-export default function Profil({ params }: { params: { id: string } }) {
+interface UserProfilProps {
+  params: {
+    id: string;
+  };
+}
+
+const UserProfil: React.FC<UserProfilProps> = ({ params }) => {
   const { seeProfilComponent } = useContext(GlobalState);
 
   let username: string = "";
-  if (params.id) {
-    const decodedId = decodeURIComponent(params.id);
+  if (params?.id) {
+    const decodedId = decodeURIComponent(params?.id);
     const splitParams = decodedId.split("@");
-    if (splitParams.length > 1) {
-      username = splitParams[1];
-    } else {
-      username = splitParams[0];
-    }
+    username = splitParams[1];
   }
 
   const { userDetail, userDetailLoading, booksUser, storyUser, statusBook } =
     useUsers.detailUser(username);
 
-  if (userDetailLoading) {
-    <div className="flex w-full items-center justify-center">
-      <span className="loading loading-dots loading-lg" />
-    </div>;
-  }
-
   return (
     <main
       className={`${
         booksUser?.length > 1
-          ? `${seeProfilComponent.seeProduct && "h-full"}`
-          : `${seeProfilComponent.seeProduct && "h-screen"}`
+          ? `${seeProfilComponent?.seeProduct && "h-full"}`
+          : `${seeProfilComponent?.seeProduct && "h-screen"}`
       }`}
     >
       <div className="relative h-full md:p-10 p-4 flex flex-col md:gap-10 gap-4 md:mr-[30%] mr-0 z-10">
@@ -48,13 +44,13 @@ export default function Profil({ params }: { params: { id: string } }) {
         ) : (
           <>
             <HeaderProfil userData={userDetail} />
-            {seeProfilComponent.seeAbout && (
+            {seeProfilComponent?.seeAbout && (
               <AboutProfil judul="About" storysUser={storyUser} userData={userDetail} />
             )}
-            {seeProfilComponent.seeFriends && (
+            {seeProfilComponent?.seeFriends && (
               <AboutProfil judul="Friends" storysUser={storyUser} userData={userDetail} />
             )}
-            {seeProfilComponent.seeProduct && (
+            {seeProfilComponent?.seeProduct && (
               <div className="flex flex-wrap gap-4 w-full justify-start">
                 {booksUser &&
                   booksUser.map((book: any) => (
@@ -80,4 +76,6 @@ export default function Profil({ params }: { params: { id: string } }) {
       </div>
     </main>
   );
-}
+};
+
+export default UserProfil;
