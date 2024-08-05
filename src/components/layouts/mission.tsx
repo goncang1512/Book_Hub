@@ -4,37 +4,16 @@ import { LuMenu } from "react-icons/lu";
 interface MissionProps {
   seeMission: boolean;
   setSeeMission: React.Dispatch<React.SetStateAction<boolean>>;
-  sidebarRef: RefObject<HTMLDivElement>;
+  missionRef: React.LegacyRef<HTMLDivElement> | null;
+  buttonMission: React.LegacyRef<HTMLButtonElement> | null;
 }
 
-export default function Mission({ seeMission, setSeeMission, sidebarRef }: MissionProps) {
-  const missionRef = useRef<HTMLDivElement | null>(null);
-  const buttonMission = useRef<HTMLButtonElement | null>(null);
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        missionRef.current &&
-        !missionRef.current.contains(e.target as Node) &&
-        buttonMission.current &&
-        !buttonMission.current.contains(e.target as Node) &&
-        sidebarRef.current &&
-        !sidebarRef.current.contains(e.target as Node)
-      ) {
-        setSeeMission(false);
-      }
-    };
-
-    if (seeMission) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [seeMission]);
-
+export default function Mission({
+  seeMission,
+  setSeeMission,
+  buttonMission,
+  missionRef,
+}: MissionProps) {
   return (
     <div
       className={`${

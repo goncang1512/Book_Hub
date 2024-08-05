@@ -18,6 +18,7 @@ import DropDown from "./hovercard";
 
 import { WhislistContext } from "@/lib/context/whislistcontext";
 import { BookContext } from "@/lib/context/bookcontext";
+import useClickOutside from "@/lib/utils/clickoutside";
 
 type StatusBook = {
   book_id: string;
@@ -52,23 +53,7 @@ export function CardBook({
 
   const ref = React.useRef<HTMLDivElement>(null);
   const buttonRef = React.useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    const handleClikOutSide = (event: MouseEvent) => {
-      if (
-        ref.current &&
-        !ref?.current.contains(event.target as Node) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(event.target as Node)
-      ) {
-        setSeeDetail(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClikOutSide);
-    return () => {
-      document.removeEventListener("mousedown", handleClikOutSide);
-    };
-  }, [ref, buttonRef]);
+  useClickOutside([ref, buttonRef], () => setSeeDetail(false));
 
   const [halaman, setHalaman] = useState({
     halaman: "",

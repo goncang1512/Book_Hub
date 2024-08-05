@@ -24,6 +24,7 @@ import StoryContextProvider from "@/lib/context/storycontext";
 import LikeContextProvider from "@/lib/context/likecontext";
 import WhislistContextProvider from "@/lib/context/whislistcontext";
 import Mission from "@/components/layouts/mission";
+import useClickOutside from "@/lib/utils/clickoutside";
 
 export default function RootLayout({
   children,
@@ -34,31 +35,17 @@ export default function RootLayout({
   const [seeSearch, setSeeSearch] = useState<boolean>(false);
   const [seeMission, setSeeMission] = useState<boolean>(false);
 
-  const sidebarRef = useRef<HTMLDivElement | null>(null);
   const searchButton = useRef<HTMLButtonElement | null>(null);
   const containerSearch = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        searchButton.current &&
-        !searchButton.current.contains(event.target as Node) &&
-        containerSearch.current &&
-        !containerSearch.current.contains(event.target as Node)
-      ) {
-        setSeeSearch(false);
-      }
-    };
 
-    if (seeSearch) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
+  useClickOutside([searchButton, containerSearch], () => setSeeSearch(false));
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [seeSearch]);
+  const sidebarRef = useRef<HTMLDivElement | null>(null);
+  const missionRef = useRef<HTMLDivElement | null>(null);
+  const buttonMission = useRef<HTMLButtonElement | null>(null);
+  const mobileRef = useRef<HTMLDivElement>(null);
+
+  useClickOutside([sidebarRef, missionRef, buttonMission, mobileRef], () => setSeeMission(false));
 
   const disableSideBar = ["/login", "/register"];
   const disableMl60 = ["/login", "/register"];
@@ -91,9 +78,9 @@ export default function RootLayout({
                                   sidebarRef={sidebarRef}
                                 />
                                 <MobileBar
+                                  mobileRef={mobileRef}
                                   seeSearch={seeSearch}
                                   setSeeSearch={setSeeSearch}
-                                  sidebarRef={sidebarRef}
                                 />
                                 <SearchContainer
                                   containerSearchRef={containerSearch}
@@ -101,9 +88,10 @@ export default function RootLayout({
                                   setSeeSearch={setSeeSearch}
                                 />
                                 <Mission
+                                  buttonMission={buttonMission}
+                                  missionRef={missionRef}
                                   seeMission={seeMission}
                                   setSeeMission={setSeeMission}
-                                  sidebarRef={sidebarRef}
                                 />
                               </nav>
                             )}

@@ -11,15 +11,15 @@ import { useMessage } from "@/lib/swr/message";
 interface SideBarType {
   seeSearch: boolean;
   setSeeSearch: React.Dispatch<React.SetStateAction<boolean>>;
-  sidebarRef: React.LegacyRef<HTMLDivElement> | null;
+  mobileRef: React.LegacyRef<HTMLDivElement> | null;
 }
 
-export default function MobileBar({ seeSearch, setSeeSearch, sidebarRef }: SideBarType) {
+export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBarType) {
   const { data: session }: any = useSession();
   const { msgNotifData } = useMessage.msgNotif(session?.user?._id);
   return (
     <div
-      ref={sidebarRef}
+      ref={mobileRef}
       className="z-50 w-full h-12 bg-white border-t fixed bottom-0 left-0 md:hidden flex justify-center"
     >
       <div className="w-full flex items-center justify-around">
