@@ -95,7 +95,7 @@ export default function Mission({
                           </div>
                         </div>
                       </td>
-                      <td className="px-0">
+                      <td className="pr-0 pl-2">
                         <div className="flex items-start flex-col justify-center leading-[8px]">
                           <h2 className="font-semibold leading-5">{misi.judul}</h2>
                           <p className="md:text-sm text-xs leading-[10px]">{misi.detail}</p>
