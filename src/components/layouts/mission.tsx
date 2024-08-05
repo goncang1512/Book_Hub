@@ -67,16 +67,16 @@ export const ButtonMission = ({
   const [position, setPosition] = useState({ top: 23.5 });
   const [dragging, setDragging] = useState(false);
 
-  const handleMouseDown = (e: any) => {
+  const handleDragStart = (e: any) => {
     setDragging(true);
     e.preventDefault();
   };
 
-  const handleMouseUp = () => {
+  const handleDragEnd = () => {
     setDragging(false);
   };
 
-  const handleMouseMove = (e: any) => {
+  const handleDragMove = (e: any) => {
     if (dragging) {
       const screenHeight = window.innerHeight;
       const buttonHeight = 30;
@@ -90,26 +90,33 @@ export const ButtonMission = ({
 
   useEffect(() => {
     if (dragging) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("mousemove", handleDragMove);
+      document.addEventListener("mouseup", handleDragEnd);
+      document.addEventListener("touchmove", handleDragMove);
+      document.addEventListener("touchend", handleDragEnd);
     } else {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("mousemove", handleDragMove);
+      document.removeEventListener("mouseup", handleDragEnd);
+      document.removeEventListener("touchmove", handleDragMove);
+      document.removeEventListener("touchend", handleDragEnd);
     }
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("mousemove", handleDragMove);
+      document.removeEventListener("mouseup", handleDragEnd);
+      document.removeEventListener("touchmove", handleDragMove);
+      document.removeEventListener("touchend", handleDragEnd);
     };
   }, [dragging]);
 
   return (
     <button
       ref={buttonMission}
-      className={`${seeMission ? "opacity-100 visibility-visible" : "opacity-0 visibility-hidden"} bg-white border-r border-y rounded-r-md top-[23.5px] md:-right-[30px] fixed duration-150 ${dragging ? "cursor-grabbing" : "cursor-grab"}`}
+      className={`${seeMission ? "opacity-100 visibility-visible" : "opacity-0 visibility-hidden"} bg-white border-r border-y rounded-r-md top-[23.5px] -right-[30px] fixed duration-150 ${dragging ? "cursor-grabbing" : "cursor-grab"}`}
       style={{ top: `${position.top}px` }}
       onClick={() => setSeeMission(!seeMission)}
-      onMouseDown={handleMouseDown}
+      onMouseDown={handleDragStart}
+      onTouchStart={handleDragStart}
     >
       <LuMenu size={30} />
     </button>
