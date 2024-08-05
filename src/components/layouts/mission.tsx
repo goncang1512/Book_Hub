@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LuMenu } from "react-icons/lu";
 
 interface MissionProps {
@@ -69,7 +69,7 @@ export const ButtonMission = ({
 
   const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
     setDragging(true);
-    e.preventDefault();
+    e.preventDefault(); // Prevent default behavior for both mouse and touch events
   };
 
   const handleDragEnd = () => {
@@ -78,6 +78,7 @@ export const ButtonMission = ({
 
   const handleDragMove = (e: MouseEvent | TouchEvent) => {
     if (dragging) {
+      e.preventDefault(); // Prevent default behavior for both mouse and touch events
       const screenHeight = window.innerHeight;
       const buttonHeight = 30;
       let clientY;
