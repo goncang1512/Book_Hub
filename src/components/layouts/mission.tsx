@@ -88,14 +88,14 @@ export default function Mission({
                 {misiUser.map((misi: any) => {
                   return (
                     <tr key={misi._id} className="border-none">
-                      <td className="flex md:items-center items-start">
+                      <td className="flex md:items-center items-star px-0">
                         <div className="h-full">
                           <div className="size-14 bg-black/5 rounded-full flex items-center justify-center">
                             {`${misi.proses}/${misi.max}`}
                           </div>
                         </div>
                       </td>
-                      <td>
+                      <td className="px-0">
                         <div className="flex items-start flex-col justify-center leading-[8px]">
                           <h2 className="font-semibold leading-5">{misi.judul}</h2>
                           <p className="md:text-sm text-xs leading-[10px]">{misi.detail}</p>
