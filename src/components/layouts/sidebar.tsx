@@ -10,7 +10,7 @@ import { TbLogout } from "react-icons/tb";
 import { usePathname } from "next/navigation";
 import { FaArrowRightLong, FaRegAddressBook } from "react-icons/fa6";
 import { signIn, useSession, signOut } from "next-auth/react";
-import { LegacyRef, useState } from "react";
+import { LegacyRef, useEffect, useState } from "react";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { FaRegBookmark } from "react-icons/fa";
 import { GiBookmarklet } from "react-icons/gi";
@@ -277,13 +277,66 @@ export default function SideBar({
       </div>
       {/*translate-x-[10rem]  */}
       {session?.user && !seeSearch && (
-        <button
-          className={`${seeMission ? "opacity-0 visibility-hidden" : "opacity-100 visibility-visible"} bg-white border-r border-y rounded-r-md top-[23.5px] md:left-72 left-0 fixed duration-150`}
-          onClick={() => setSeeMission(!seeMission)}
-        >
-          <LuMenu size={30} />
-        </button>
+        <ButtonMission seeMission={seeMission} setSeeMission={setSeeMission} />
       )}
     </div>
   );
 }
+
+const ButtonMission = ({
+  seeMission,
+  setSeeMission,
+}: {
+  seeMission: boolean;
+  setSeeMission: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const [position, setPosition] = useState({ top: 23.5 });
+  const [dragging, setDragging] = useState(false);
+
+  const handleMouseDown = (e: any) => {
+    setDragging(true);
+    e.preventDefault();
+  };
+
+  const handleMouseUp = () => {
+    setDragging(false);
+  };
+
+  const handleMouseMove = (e: any) => {
+    if (dragging) {
+      const screenHeight = window.innerHeight;
+      const buttonHeight = 30;
+      const newTop = e.clientY - buttonHeight / 2;
+      const boundedTop = Math.min(Math.max(newTop, 0), screenHeight - buttonHeight);
+      setPosition({
+        top: boundedTop,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (dragging) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    } else {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [dragging]);
+
+  return (
+    <button
+      className={`${seeMission ? "opacity-0 visibility-hidden" : "opacity-100 visibility-visible"} bg-white border-r border-y rounded-r-md top-[23.5px] md:left-72 left-0 fixed duration-150 ${dragging ? "cursor-grabbing" : "cursor-grab"}`}
+      style={{ top: `${position.top}px` }}
+      onClick={() => setSeeMission(!seeMission)}
+      onMouseDown={handleMouseDown}
+    >
+      <LuMenu size={30} />
+    </button>
+  );
+};
