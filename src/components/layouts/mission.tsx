@@ -106,34 +106,38 @@ export const ButtonMission = ({
   };
 
   useEffect(() => {
-    if (dragging) {
+    const addListeners = () => {
       document.addEventListener("mousemove", handleDragMove);
       document.addEventListener("mouseup", handleDragEnd);
-      document.addEventListener("touchmove", handleDragMove);
+      document.addEventListener("touchmove", handleDragMove, { passive: false });
       document.addEventListener("touchend", handleDragEnd);
       document.addEventListener("touchstart", handleTouchStart, { passive: false });
-    } else {
-      document.removeEventListener("mousemove", handleDragMove);
-      document.removeEventListener("mouseup", handleDragEnd);
-      document.removeEventListener("touchmove", handleDragMove);
-      document.removeEventListener("touchend", handleDragEnd);
-      document.removeEventListener("touchstart", handleTouchStart);
-    }
+    };
 
-    return () => {
+    const removeListeners = () => {
       document.removeEventListener("mousemove", handleDragMove);
       document.removeEventListener("mouseup", handleDragEnd);
       document.removeEventListener("touchmove", handleDragMove);
       document.removeEventListener("touchend", handleDragEnd);
       document.removeEventListener("touchstart", handleTouchStart);
     };
+
+    if (dragging) {
+      addListeners();
+    } else {
+      removeListeners();
+    }
+
+    return () => {
+      removeListeners();
+    };
   }, [dragging]);
 
   return (
     <button
       ref={buttonMission}
-      className={` ${dragging ? "cursor-grabbing" : "cursor-grab"} ${className}`}
-      style={{ top: `${position.top}px` }}
+      className={`${dragging ? "cursor-grabbing" : "cursor-grab"} ${className}`}
+      style={{ top: `${position.top}px`, touchAction: "none" }}
       onClick={() => setSeeMission(!seeMission)}
       onMouseDown={handleDragStart}
       onTouchStart={handleDragStart}
