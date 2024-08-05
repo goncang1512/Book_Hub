@@ -18,6 +18,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { SiBookmyshow } from "react-icons/si";
 
 import { useMessage } from "@/lib/swr/message";
+import { ButtonMission } from "./mission";
 
 interface SideBarType {
   seeSearch: boolean;
@@ -277,66 +278,15 @@ export default function SideBar({
       </div>
       {/*translate-x-[10rem]  */}
       {session?.user && !seeSearch && (
-        <ButtonMission seeMission={seeMission} setSeeMission={setSeeMission} />
+        <>
+          {/* <ButtonMissions seeMission={seeMission} setSeeMission={setSeeMission} /> */}
+          <ButtonMission
+            className={`${seeMission ? "opacity-0 visibility-hidden" : "opacity-100 visibility-visible"} bg-white border-r border-y rounded-r-md top-[23.5px] md:left-72 left-0 fixed duration-150`}
+            seeMission={seeMission}
+            setSeeMission={setSeeMission}
+          />
+        </>
       )}
     </div>
   );
 }
-
-const ButtonMission = ({
-  seeMission,
-  setSeeMission,
-}: {
-  seeMission: boolean;
-  setSeeMission: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  const [position, setPosition] = useState({ top: 23.5 });
-  const [dragging, setDragging] = useState(false);
-
-  const handleMouseDown = (e: any) => {
-    setDragging(true);
-    e.preventDefault();
-  };
-
-  const handleMouseUp = () => {
-    setDragging(false);
-  };
-
-  const handleMouseMove = (e: any) => {
-    if (dragging) {
-      const screenHeight = window.innerHeight;
-      const buttonHeight = 30;
-      const newTop = e.clientY - buttonHeight / 2;
-      const boundedTop = Math.min(Math.max(newTop, 0), screenHeight - buttonHeight);
-      setPosition({
-        top: boundedTop,
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (dragging) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-    } else {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    }
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [dragging]);
-
-  return (
-    <button
-      className={`${seeMission ? "opacity-0 visibility-hidden" : "opacity-100 visibility-visible"} bg-white border-r border-y rounded-r-md top-[23.5px] md:left-72 left-0 fixed duration-150 ${dragging ? "cursor-grabbing" : "cursor-grab"}`}
-      style={{ top: `${position.top}px` }}
-      onClick={() => setSeeMission(!seeMission)}
-      onMouseDown={handleMouseDown}
-    >
-      <LuMenu size={30} />
-    </button>
-  );
-};

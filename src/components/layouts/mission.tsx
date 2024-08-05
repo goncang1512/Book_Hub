@@ -47,6 +47,7 @@ export default function Mission({
         <div>Mission</div>
         <ButtonMission
           buttonMission={buttonMission}
+          className={`${seeMission ? "opacity-100 visibility-visible" : "opacity-0 visibility-hidden"}  bg-white border-r border-y rounded-r-md top-[23.5px] -right-[30px] fixed duration-150`}
           seeMission={seeMission}
           setSeeMission={setSeeMission}
         />
@@ -59,10 +60,12 @@ export const ButtonMission = ({
   seeMission,
   setSeeMission,
   buttonMission,
+  className,
 }: {
   seeMission: boolean;
   setSeeMission: React.Dispatch<React.SetStateAction<boolean>>;
-  buttonMission: React.LegacyRef<HTMLButtonElement> | null;
+  buttonMission?: React.LegacyRef<HTMLButtonElement> | null;
+  className: string;
 }) => {
   const [position, setPosition] = useState({ top: 23.5 });
   const [dragging, setDragging] = useState(false);
@@ -121,7 +124,7 @@ export const ButtonMission = ({
   return (
     <button
       ref={buttonMission}
-      className={`${seeMission ? "opacity-100 visibility-visible" : "opacity-0 visibility-hidden"} bg-white border-r border-y rounded-r-md top-[23.5px] -right-[30px] fixed duration-150 ${dragging ? "cursor-grabbing" : "cursor-grab"}`}
+      className={` ${dragging ? "cursor-grabbing" : "cursor-grab"} ${className}`}
       style={{ top: `${position.top}px` }}
       onClick={() => setSeeMission(!seeMission)}
       onMouseDown={handleDragStart}
