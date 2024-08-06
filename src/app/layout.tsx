@@ -6,7 +6,6 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
-import { useEffect } from "react";
 import { SessionProvider } from "next-auth/react";
 
 import Global from "./global";
@@ -25,6 +24,7 @@ import LikeContextProvider from "@/lib/context/likecontext";
 import WhislistContextProvider from "@/lib/context/whislistcontext";
 import Mission from "@/components/layouts/mission";
 import useClickOutside from "@/lib/utils/clickoutside";
+import MisiContextProvider from "@/lib/context/misicontext";
 
 export default function RootLayout({
   children,
@@ -66,43 +66,45 @@ export default function RootLayout({
                     <WhislistContextProvider>
                       <StoryContextProvider>
                         <LikeContextProvider>
-                          <Global>
-                            {!startsWithRequireAuth && (
-                              <nav className="flex relative">
-                                <SideBar
-                                  searchButtonRef={searchButton}
-                                  seeMission={seeMission}
-                                  seeSearch={seeSearch}
-                                  setSeeMission={setSeeMission}
-                                  setSeeSearch={setSeeSearch}
-                                  sidebarRef={sidebarRef}
-                                />
-                                <MobileBar
-                                  mobileRef={mobileRef}
-                                  seeSearch={seeSearch}
-                                  setSeeSearch={setSeeSearch}
-                                />
-                                <SearchContainer
-                                  containerSearchRef={containerSearch}
-                                  seeSearch={seeSearch}
-                                  setSeeSearch={setSeeSearch}
-                                />
-                                <Mission
-                                  buttonMission={buttonMission}
-                                  missionRef={missionRef}
-                                  seeMission={seeMission}
-                                  setSeeMission={setSeeMission}
-                                />
-                              </nav>
-                            )}
-                            <main
-                              className={`w-full max-[768px]:pb-14  ${
-                                !disableMl60.includes(pathname) && "md:ml-72 ml-0"
-                              }`}
-                            >
-                              {children}
-                            </main>
-                          </Global>
+                          <MisiContextProvider>
+                            <Global>
+                              {!startsWithRequireAuth && (
+                                <nav className="flex relative">
+                                  <SideBar
+                                    searchButtonRef={searchButton}
+                                    seeMission={seeMission}
+                                    seeSearch={seeSearch}
+                                    setSeeMission={setSeeMission}
+                                    setSeeSearch={setSeeSearch}
+                                    sidebarRef={sidebarRef}
+                                  />
+                                  <MobileBar
+                                    mobileRef={mobileRef}
+                                    seeSearch={seeSearch}
+                                    setSeeSearch={setSeeSearch}
+                                  />
+                                  <SearchContainer
+                                    containerSearchRef={containerSearch}
+                                    seeSearch={seeSearch}
+                                    setSeeSearch={setSeeSearch}
+                                  />
+                                  <Mission
+                                    buttonMission={buttonMission}
+                                    missionRef={missionRef}
+                                    seeMission={seeMission}
+                                    setSeeMission={setSeeMission}
+                                  />
+                                </nav>
+                              )}
+                              <main
+                                className={`w-full max-[768px]:pb-14  ${
+                                  !disableMl60.includes(pathname) && "md:ml-72 ml-0"
+                                }`}
+                              >
+                                {children}
+                              </main>
+                            </Global>
+                          </MisiContextProvider>
                         </LikeContextProvider>
                       </StoryContextProvider>
                     </WhislistContextProvider>

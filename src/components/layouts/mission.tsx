@@ -1,7 +1,41 @@
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { LuMenu } from "react-icons/lu";
 import { MdKeyboardArrowRight } from "react-icons/md";
+
+const missionProces = [
+  {
+    user_id: "6655e1fbddbe2360c5242c89",
+    user: "6655e1fbddbe2360c5242c89",
+    mission_id: "sdfas9dfja0sdf9as0d9fu0sd9fm",
+    mission: "sdfas9dfja0sdf9as0d9fu0sd9fm",
+    process: 3,
+    type: "Harian",
+    status: false,
+  },
+  {
+    user_id: "665c5fc1ab400dd644e823d7",
+    user: "665c5fc1ab400dd644e823d7",
+    mission_id: "sdfas9dfja0sdf9as0d9fu0sd9fm",
+    mission: "sdfas9dfja0sdf9as0d9fu0sd9fm",
+    process: 5,
+    type: "Harian",
+    status: false,
+  },
+];
+
+const missionNovel = [
+  {
+    user_id: "6655e1fbddbe2360c5242c89",
+    user: "6655e1fbddbe2360c5242c89",
+    mission_id: "sdfas9dfja0sdf9as0d9fu0sd9fm",
+    mission: "sdfas9dfja0sdf9as0d9fu0sd9fm",
+    process: 4,
+    type: "Harian",
+    status: false,
+  },
+];
 
 const misiUser = [
   {
@@ -9,15 +43,17 @@ const misiUser = [
     judul: "Baca Novel",
     detail: "Baca novel selama 5 menit.",
     link: "/read/sdfas9dfja0sdf9as0d9fu0sdsd9",
-    proses: 1,
+    type: "Harian",
     max: 5,
+    users: missionNovel,
   },
   {
     _id: "sdfas9dfjad9ef9as0d9fu0sdse9",
     judul: "Baca Cerpen",
     detail: "Baca cerpen selama 3 menit.",
     link: "/read/sdfas9dfja0sdf9as0d9fu0sde32",
-    proses: 2,
+    users: missionProces,
+    type: "Harian",
     max: 3,
   },
   {
@@ -25,7 +61,8 @@ const misiUser = [
     judul: "Berikan Ulasan",
     detail: "Berikan ulasan sebanyak 5 di buku mana saja.",
     link: "/read/sdfas9dfja0sdf9as0d9fu0sd3ed",
-    proses: 3,
+    users: missionProces,
+    type: "Harian",
     max: 5,
   },
   {
@@ -33,7 +70,8 @@ const misiUser = [
     judul: "Berikan Respon",
     detail: "Berikan respon kepada ulasan user sebanyak 5 kali.",
     link: "/read/sdfas9dfja0sdf9as0d9fu0sdsde",
-    proses: 3,
+    users: missionProces,
+    type: "Harian",
     max: 5,
   },
 ];
@@ -52,6 +90,7 @@ export default function Mission({
   missionRef,
 }: MissionProps) {
   const [displayClass, setDisplayClass] = useState("hidden");
+  const { data: session }: any = useSession();
 
   useEffect(() => {
     if (seeMission) {
@@ -86,12 +125,26 @@ export default function Mission({
             <table className="table table-base">
               <tbody>
                 {misiUser.map((misi: any) => {
+                  const hasil =
+                    misi.users &&
+                    misi.users.find((misi: any) => misi.user_id === session?.user?._id);
+                  const percentage = (hasil?.process / misi.max) * 100;
                   return (
                     <tr key={misi._id} className="border-none">
                       <td className="flex md:items-center items-star px-0">
-                        <div className="h-full">
-                          <div className="size-14 bg-black/5 rounded-full flex items-center justify-center">
-                            {`${misi.proses}/${misi.max}`}
+                        <div className="h-full flex items-center justify-center">
+                          <div
+                            className={`size-14 bg-yellow-600 rounded-full flex items-center justify-center`}
+                            style={{
+                              background: `conic-gradient(
+                                #facc15  ${percentage * 3.6}deg, 
+                                #fff ${percentage * 3.6}deg
+                              )`,
+                            }}
+                          >
+                            <div className="bg-white size-[51px] rounded-full flex items-center justify-center">
+                              <p className="bg-black/10 size-[51px] flex items-center justify-center rounded-full text-black p-[1px]">{`${hasil?.process}/${misi.max}`}</p>
+                            </div>
                           </div>
                         </div>
                       </td>

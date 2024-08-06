@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa6";
 import parse from "html-react-parser";
 import { useSession } from "next-auth/react";
@@ -10,6 +10,12 @@ import styles from "@/lib/style.module.css";
 import ProtectBook from "@/components/fragments/protectbook";
 import { useChapter } from "@/lib/utils/useSwr";
 import instance from "@/lib/utils/fetch";
+import { MisiContext } from "@/lib/context/misicontext";
+import { useMission } from "@/lib/swr/missionswr";
+
+const getSome = (misiUser: any, mission_id: string, status: boolean) => {
+  return misiUser?.some((misi: any) => misi.mission_id === mission_id && misi.status === status);
+};
 
 export default function ReadBook() {
   const router = useRouter();
@@ -20,6 +26,8 @@ export default function ReadBook() {
   const status: any = searchParams.get("status");
 
   const { bacaBuku, bacaBukuLoading } = useChapter.readBook(id && id, chapter && chapter);
+  const { addMisiUser } = useContext(MisiContext);
+  const { misiUser } = useMission.getMission(session?.user?._id);
 
   useEffect(() => {
     const addReaders = async (user_id: string, chapter_id: string) => {
@@ -34,6 +42,58 @@ export default function ReadBook() {
       addReaders(session?.user?._id, chapter);
     }
   }, [chapter, session?.user?._id, bacaBukuLoading, status]);
+
+  const [seconds, setSeconds] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [novelMissionCompleted, setNovelMissionCompleted] = useState<boolean>(false);
+  const [cerpenMissionCompleted, setCerpenMissionCompleted] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (misiUser?.length > 0) {
+      setNovelMissionCompleted(getSome(misiUser, "66b233b3672bbe53e753aa97", true));
+      setCerpenMissionCompleted(getSome(misiUser, "66b233e4672bbe53e753aac3", true));
+    }
+  }, [misiUser]);
+
+  useEffect(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    setSeconds(0);
+
+    intervalRef.current = setInterval(() => {
+      setSeconds((prev) => prev + 1);
+    }, 1000);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [id, chapter]);
+
+  useEffect(() => {
+    if (seconds >= 60) {
+      setSeconds(0);
+      if (!novelMissionCompleted && bacaBuku?.jenis === "Novel") {
+        addMisiUser(session?.user?._id, "66b233b3672bbe53e753aa97", "Harian");
+        if (getSome(misiUser, "66b233b3672bbe53e753aa97", false)) {
+          setNovelMissionCompleted(true);
+        }
+      } else if (!cerpenMissionCompleted && bacaBuku?.jenis === "Cerpen") {
+        addMisiUser(session?.user?._id, "66b233e4672bbe53e753aac3", "Harian");
+        if (getSome(misiUser, "66b233e4672bbe53e753aac3", false)) {
+          setCerpenMissionCompleted(true);
+        }
+      } else if (novelMissionCompleted && cerpenMissionCompleted) {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+        }
+      }
+    }
+  }, [seconds, novelMissionCompleted, cerpenMissionCompleted, bacaBuku, misiUser]);
+
+  console.log(seconds);
 
   return (
     <ProtectBook>

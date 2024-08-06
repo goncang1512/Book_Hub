@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { logger } from "@/lib/utils/logger";
 import { bookAutServices } from "@/lib/services/bookauthor";
 import connectMongoDB from "@/lib/config/connectMongoDb";
+import { bookServices } from "@/lib/services/bookservices";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -72,6 +73,7 @@ export const GET = async (req: NextRequest) => {
 
     const canvas = await bookAutServices.getChapter(book_id, "Rilis");
     const result = await bookAutServices.readBook(chapterStr);
+    const book = await bookServices.byIdBook(book_id);
 
     const chapterIndex = canvas.findIndex((chap) => String(chap._id) === chapterStr);
     const nextChapter =
@@ -86,7 +88,7 @@ export const GET = async (req: NextRequest) => {
         status: true,
         statusCode: 201,
         message: "Success get canvas",
-        result: { ...dataObject, nextChapter, prevChapter },
+        result: { ...dataObject, nextChapter, prevChapter, jenis: book.jenis },
       },
       { status: 201 },
     );
