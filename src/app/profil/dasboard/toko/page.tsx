@@ -102,7 +102,6 @@ const ModalNewSeason = ({
       setTimeout(() => {
         setMsgSeason(false);
       }, 3000);
-      console.log(error);
     }
   };
 

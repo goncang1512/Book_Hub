@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 import { useSWRConfig } from "swr";
 
 import instance from "../utils/fetch";
+import { logger } from "../utils/logger";
 
 export const WhislistContext = createContext<any>(null);
 
@@ -25,7 +26,7 @@ export default function WhislistContextProvider({ children }: { children: React.
       mutate(`/api/user/content/${user_id}`);
       mutate(`/api/user?user_id=${res.data.user.username}`);
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
       setIsLiked(false);
     }
   };
@@ -44,7 +45,7 @@ export default function WhislistContextProvider({ children }: { children: React.
       mutate(`/api/user/content/${user_id}`);
       mutate(`/api/user?user_id=${res.data.user.username}`);
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
       setIsLiked(true);
     }
   };
@@ -60,7 +61,7 @@ export default function WhislistContextProvider({ children }: { children: React.
       setLoadingHalaman(false);
     } catch (error) {
       setLoadingHalaman(false);
-      console.log(error);
+      logger.error(`${error}`);
     }
   };
   return (

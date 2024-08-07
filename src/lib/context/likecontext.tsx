@@ -3,6 +3,7 @@ import React, { createContext, SetStateAction } from "react";
 import { useSWRConfig } from "swr";
 
 import instance from "../utils/fetch";
+import { logger } from "../utils/logger";
 
 export const LikeContext = createContext<any>(null);
 
@@ -33,7 +34,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
       }
     } catch (error) {
       setLiked(false);
-      console.log(error);
+      logger.error(`${error}`);
     }
   };
 
@@ -54,7 +55,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
         mutate(`/api/user?user_id=${res.data.user.username}`);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
       setLiked(true);
     }
   };

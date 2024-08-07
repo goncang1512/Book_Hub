@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState, createContext } from "react";
 import { useRouter } from "next/navigation";
 import { useSWRConfig } from "swr";
+import { logger } from "../utils/logger";
 
 import instance from "../utils/fetch";
 import { BookProvider, UploadBookType, UploadMyBookType } from "../utils/DataTypes.type";
@@ -76,7 +77,7 @@ export default function BookContextProvider({ children }: { children: React.Reac
           setMsgUploadBook("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
       setLoadingBook(false);
     }
@@ -90,7 +91,7 @@ export default function BookContextProvider({ children }: { children: React.Reac
         mutate(`/api/book/${user_id}`);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
     }
   };
 
@@ -118,7 +119,7 @@ export default function BookContextProvider({ children }: { children: React.Reac
         router.back();
       }
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
       setLoadingUpdateBook(false);
     }
   };
@@ -171,7 +172,7 @@ export default function BookContextProvider({ children }: { children: React.Reac
           setMsgUploadBook("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
       setLoadingBook(false);
     }

@@ -49,4 +49,30 @@ export const misiServices = {
   getMission: async (mission_id: string) => {
     return await MissionModels.findOne({ _id: mission_id });
   },
+  getMissionUser: async (user_id: string) => {
+    const mission = await MissionModels.find({ type: "Harian" });
+    let misiUser: any[] = [];
+    let misiPlayer: any[] = [];
+
+    for (const misi of mission) {
+      const userMissions = await MisiUserModels.find({ user_id, mission_id: misi._id });
+
+      if (userMissions.length > 0) {
+        misiUser.push(userMissions);
+      } else {
+        misiUser.push([]);
+      }
+    }
+
+    mission.map((misi, index: number) => {
+      const visi = misi.toObject ? misi.toObject() : misi;
+      const missionDetail = {
+        ...visi,
+        misiUser: misiUser[index],
+      };
+      misiPlayer.push(missionDetail);
+    });
+
+    return misiPlayer;
+  },
 };

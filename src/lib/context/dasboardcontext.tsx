@@ -7,6 +7,7 @@ import instance from "../utils/fetch";
 
 import { dataUserType } from "@/components/fragments/baristable";
 import { DasboardProps, EditStatus } from "../utils/DataTypes.type";
+import { logger } from "../utils/logger";
 
 export const DasboardContext = createContext<DasboardProps>({} as DasboardProps);
 
@@ -42,7 +43,7 @@ export default function DasboardContextProvider({ children }: { children: React.
         mutate(`/api/message/notif/${session?.user?._id}`);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
     }
   };
 
@@ -66,7 +67,7 @@ export default function DasboardContextProvider({ children }: { children: React.
           });
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
     }
   };
@@ -84,7 +85,7 @@ export default function DasboardContextProvider({ children }: { children: React.
         mutate(`/api/message/notif/${session?.user?._id}`);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
     }
   };
 

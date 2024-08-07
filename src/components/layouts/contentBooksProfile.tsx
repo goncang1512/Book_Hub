@@ -33,7 +33,7 @@ export function ProfilBooksDekstop({
   statusBook: StatusType[];
 }) {
   const { handleRouter } = useContext(GlobalState);
-  const { _id, title, writer, user_id, sinopsis, terbit, genre, imgBooks, ISBN, jenis } = dataBook;
+  const { _id, title, writer, sinopsis, terbit, genre, imgBooks, ISBN, jenis } = dataBook;
 
   return (
     <div className="bg-white w-[32.1%] h-screen fixed top-0 right-0 md:flex hidden flex-col p-5 border-l">
@@ -98,7 +98,7 @@ export const BooksProfileMobile = ({
   statusBook: StatusType[];
 }) => {
   const { handleRouter } = useContext(GlobalState);
-  const { _id, title, writer, user_id, sinopsis, terbit, imgBooks, genre, jenis } = dataBook;
+  const { _id, title, writer, sinopsis, terbit, imgBooks, genre, jenis } = dataBook;
 
   return (
     <div className="md:hidden flex w-full bg-[#27AB8B] border-none gap-2 px-5 py-2 ">

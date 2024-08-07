@@ -3,6 +3,7 @@ import { createContext, useContext, useState } from "react";
 
 import instance from "../utils/fetch";
 import { UserRegister } from "../utils/DataTypes.type";
+import { logger } from "../utils/logger";
 
 import { UserContext } from "./usercontext";
 
@@ -41,7 +42,7 @@ export default function OtpContextProvider({ children }: { children: React.React
           setMessageRegister("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
     }
   };
@@ -71,7 +72,7 @@ export default function OtpContextProvider({ children }: { children: React.React
           setMessageRegister("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
     }
   };
@@ -80,7 +81,7 @@ export default function OtpContextProvider({ children }: { children: React.React
     try {
       await instance.delete(`/api/user/check/${id}`);
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
     }
   };
 

@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import * as React from "react";
 import { createContext, useState } from "react";
 import instance from "../utils/fetch";
+import { logger } from "../utils/logger";
 
 export const AuthContext = createContext<any>(null);
 
@@ -39,7 +40,7 @@ export default function AuthCntextProvider({ children }: { children: React.React
         }, 3000);
       }
     } catch (error) {
-      console.log("dari error", error);
+      logger.error(`${error}`);
       setLoadingLogin(false);
     }
   };
@@ -68,7 +69,7 @@ export default function AuthCntextProvider({ children }: { children: React.React
           setMsgUpdateData("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
     }
   };
@@ -77,7 +78,6 @@ export default function AuthCntextProvider({ children }: { children: React.React
     try {
       setLoadingEmail(true);
       const res = await instance.patch(`/api/user/email/${user_id}`, { codeOtp });
-      console.log(res);
       await update({
         status: "newEmail",
         email: res.data.result.email,
@@ -94,7 +94,7 @@ export default function AuthCntextProvider({ children }: { children: React.React
           setMsgUpdateData("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
     }
   };

@@ -64,7 +64,7 @@ export const POST = async (req: NextRequest) => {
       myRank = rank.myRank;
       highRank = rank.highRank;
     } else {
-      console.log("User atau rank tidak terdefinisi");
+      logger.info("User atau rank tidak terdefinisi");
     }
 
     const result = await storyServices.upload(data);
@@ -88,7 +88,6 @@ export const POST = async (req: NextRequest) => {
       { status: 201 },
     );
   } catch (error) {
-    console.log(error);
     logger.error("Failed upload story" + error);
     return NextResponse.json(
       { status: false, statusCode: 500, message: "Failed upload story", error },
@@ -101,9 +100,6 @@ export const GET = () => {
   const player = new Player(1, 20);
 
   player.gainExperience(1);
-  console.log(`Level: ${player.level}, Experience: ${player.experience}`);
-
-  console.log(player);
 
   return NextResponse.json(
     {

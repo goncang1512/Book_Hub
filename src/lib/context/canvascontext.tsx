@@ -6,6 +6,7 @@ import { useSWRConfig } from "swr";
 
 import { CanvasProvider } from "../utils/DataTypes.type";
 import instance from "../utils/fetch";
+import { logger } from "../utils/logger";
 
 export const CanvasContext = createContext<CanvasProvider>({} as CanvasProvider);
 
@@ -62,7 +63,7 @@ export default function CanvasContextProvider({ children }: { children: React.Re
           setMsgChapter("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
       setLoadingCanvas(false);
     }
@@ -105,7 +106,7 @@ export default function CanvasContextProvider({ children }: { children: React.Re
           setMsgChapter("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
       setLoadingCanvas(false);
     }
@@ -119,7 +120,7 @@ export default function CanvasContextProvider({ children }: { children: React.Re
       setLdlDeleteCanvas(false);
       mutate(`/api/read/detail/${book_id}`);
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
       setLdlDeleteCanvas(false);
     }
   };

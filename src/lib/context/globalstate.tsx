@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useSWRConfig } from "swr";
 
 import instance from "@/lib/utils/fetch";
+import { logger } from "../utils/logger";
 
 export const GlobalState = createContext<any>({} as any);
 
@@ -46,7 +47,7 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
       mutate(`/api/message/${session?.user?._id}`);
       mutate(`/api/message/notif/${session?.user?._id}`);
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
     }
   };
 
@@ -55,7 +56,7 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
       await instance.delete(`/api/message/${msg_id}`);
       mutate(`/api/message/${session?.user?._id}`);
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
     }
   };
 

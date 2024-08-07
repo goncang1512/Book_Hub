@@ -10,4 +10,12 @@ export const useMission = {
       misiLoading: isLoading,
     };
   },
+  getMyMission: (user_id: string) => {
+    const { data, isLoading } = useSWR(`/api/mission/create/${user_id}`, fetcher);
+
+    return {
+      myMission: data?.result,
+      myMisiLoading: isLoading,
+    };
+  },
 };

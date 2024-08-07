@@ -6,6 +6,7 @@ import { useSession, signOut } from "next-auth/react";
 
 import instance from "../utils/fetch";
 import { RegisterType, UpdateFoto, UpdateType, UserContextType } from "../utils/DataTypes.type";
+import { logger } from "../utils/logger";
 
 export const UserContext = createContext<UserContextType>({} as UserContextType);
 
@@ -65,7 +66,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
           setMessageRegister("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
     }
   };
@@ -93,7 +94,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
           setMsgUpdateData("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
     }
   };
@@ -117,7 +118,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
           setMessageNewFoto("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
       setLoadingUpdateFoto(false);
     }
@@ -136,7 +137,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
         setLoadingDelete(false);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
       setLoadingDelete(false);
     }
   };
@@ -151,7 +152,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
         },
       });
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
     }
   };
 
@@ -180,7 +181,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
           setMsgPassword("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
     }
   };
@@ -211,7 +212,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
           setMsgPassword("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
     }
   };
@@ -237,7 +238,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
       }
     } catch (error) {
       setLdlPatchBadge(false);
-      console.log(error);
+      logger.error(`${error}`);
     }
   };
 

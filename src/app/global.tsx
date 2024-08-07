@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
 import { useUsers } from "@/lib/utils/useSwr";
+import { logger } from "@/lib/utils/logger";
 
 export default function Global({ children }: { children: React.ReactNode }) {
   const { data: session, update: updateData, status }: any = useSession();
@@ -19,7 +20,7 @@ export default function Global({ children }: { children: React.ReactNode }) {
           role: userDetail?.role,
         });
       } catch (error) {
-        console.log(error);
+        logger.error(`${error}`);
       }
     };
 

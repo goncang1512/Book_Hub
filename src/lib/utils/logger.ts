@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const now = new Date();
 const date = now.getDate().toString().padStart(2, "0");
 const month = (now.getMonth() + 1).toString().padStart(2, "0");

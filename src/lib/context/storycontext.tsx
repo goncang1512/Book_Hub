@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 
 import instance from "../utils/fetch";
 import { StoryInterface } from "../utils/DataTypes.type";
+import { logger } from "../utils/logger";
 
 export const StoryContext = createContext<StoryInterface>({} as StoryInterface);
 
@@ -104,7 +105,7 @@ export default function StoryContextProvider({ children }: { children: React.Rea
           setMsgUploadCerita("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
       setLoadingUploadStory(false);
     }
@@ -123,7 +124,7 @@ export default function StoryContextProvider({ children }: { children: React.Rea
         setLoadingDeleteStory(false);
       }
     } catch (error) {
-      console.log(error);
+      logger.error(`${error}`);
       setLoadingDeleteStory(false);
     }
   };
@@ -149,7 +150,7 @@ export default function StoryContextProvider({ children }: { children: React.Rea
           setMsgStory("");
         }, 3000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
       return false;
     }

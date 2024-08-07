@@ -8,6 +8,7 @@ import { AddList } from "./cardstore";
 import styles from "@/lib/style.module.css";
 import instance from "@/lib/utils/fetch";
 import useDebounce from "@/lib/utils/useDebaunce";
+import { logger } from "@/lib/utils/logger";
 
 const DELAY = 1000;
 
@@ -44,7 +45,7 @@ export default function SearchContainer({
           });
         }, 5000);
       } else {
-        console.log(error);
+        logger.error(`${error}`);
       }
     }
   };

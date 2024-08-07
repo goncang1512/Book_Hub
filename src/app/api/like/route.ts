@@ -25,7 +25,6 @@ export const POST = async (req: NextRequest) => {
 
     const like = await likeServices.checkLike(user_id, story_id);
     if (like) {
-      console.log(like);
       logger.error("Failed like content " + like);
       return NextResponse.json(
         { status: false, statusCode: 422, message: "Content sudah di like" },
