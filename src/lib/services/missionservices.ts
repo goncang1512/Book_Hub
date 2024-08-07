@@ -75,4 +75,7 @@ export const misiServices = {
 
     return misiPlayer;
   },
+  udpateHarian: async () => {
+    return await MisiUserModels.deleteMany({ type: "Harian" });
+  },
 };
