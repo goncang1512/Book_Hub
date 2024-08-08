@@ -6,6 +6,7 @@ import { Player } from "@/lib/middleware/lvlPlayer";
 import { storyServices } from "@/lib/services/storyservices";
 import { userSevices } from "@/lib/services/userservices";
 import { naikPeringkat } from "@/lib/middleware/updateLvl";
+import { applayMission } from "@/lib/services/missionservices";
 
 export const POST = async (req: NextRequest) => {
   await connectMongoDB();
@@ -68,6 +69,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const result = await storyServices.upload(data);
+    await applayMission(user_id, "66b23430672bbe53e753aaf1", 40);
 
     const rank = {
       ...player,

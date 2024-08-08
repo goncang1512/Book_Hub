@@ -31,6 +31,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
         mutate(`/api/story/detailstory/${book_id}`);
         mutate(`/api/user/content/${session?.user?._id}`);
         mutate(`/api/user/${res.data.user._id}`);
+        mutate(`/api/mission/create/${user_id}`);
       }
     } catch (error) {
       setLiked(false);

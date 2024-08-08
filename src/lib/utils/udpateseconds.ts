@@ -22,6 +22,7 @@ export const useUpdateSeconds = (
   setNovelMissionCompleted: Dispatch<SetStateAction<boolean>>,
   setCerpenMissionCompleted: Dispatch<SetStateAction<boolean>>,
   statusSession: string,
+  status: string,
 ) => {
   const [seconds, setSeconds] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -37,7 +38,7 @@ export const useUpdateSeconds = (
   }, [bacaBuku?.jenis]);
 
   useEffect(() => {
-    if (statusSession === "unauthenticated") return;
+    if (statusSession === "unauthenticated" || status === "check") return;
 
     const key = bacaBuku?.jenis === "Novel" ? "novelSeconds" : "cerpenSeconds";
     const savedSeconds = sessionStorage.getItem(key);
@@ -59,10 +60,17 @@ export const useUpdateSeconds = (
         clearInterval(intervalRef.current);
       }
     };
-  }, [statusSession, novelMissionCompleted, cerpenMissionCompleted, updateSeconds, bacaBuku]);
+  }, [
+    statusSession,
+    status,
+    novelMissionCompleted,
+    cerpenMissionCompleted,
+    updateSeconds,
+    bacaBuku,
+  ]);
 
   useEffect(() => {
-    if (statusSession === "unauthenticated") return;
+    if (statusSession === "unauthenticated" || status === "check") return;
 
     if (seconds >= 60) {
       setSeconds(0);
@@ -92,6 +100,7 @@ export const useUpdateSeconds = (
     }
   }, [
     statusSession,
+    status,
     seconds,
     novelMissionCompleted,
     cerpenMissionCompleted,
@@ -104,7 +113,7 @@ export const useUpdateSeconds = (
   ]);
 
   useEffect(() => {
-    if (statusSession === "unauthenticated") return;
+    if (statusSession === "unauthenticated" || status === "check") return;
 
     const handleVisibilityChange = () => {
       if (document.visibilityState === "hidden" && intervalRef.current) {
@@ -126,17 +135,24 @@ export const useUpdateSeconds = (
         clearInterval(intervalRef.current);
       }
     };
-  }, [statusSession, novelMissionCompleted, cerpenMissionCompleted, updateSeconds, bacaBuku]);
+  }, [
+    statusSession,
+    status,
+    novelMissionCompleted,
+    cerpenMissionCompleted,
+    updateSeconds,
+    bacaBuku,
+  ]);
 
   useEffect(() => {
-    if (statusSession === "unauthenticated") return;
+    if (statusSession === "unauthenticated" || status === "check") return;
 
     if (novelMissionCompleted || cerpenMissionCompleted) {
       setSeconds(0);
       const key = bacaBuku?.jenis === "Novel" ? "novelSeconds" : "cerpenSeconds";
       sessionStorage.setItem(key, "0");
     }
-  }, [statusSession, novelMissionCompleted, cerpenMissionCompleted]);
+  }, [statusSession, status, novelMissionCompleted, cerpenMissionCompleted]);
 
   return { seconds, setSeconds };
 };

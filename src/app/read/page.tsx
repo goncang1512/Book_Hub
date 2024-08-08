@@ -51,6 +51,7 @@ export default function ReadBook() {
     setNovelMissionCompleted,
     setCerpenMissionCompleted,
     statusSession,
+    status,
   );
 
   useEffect(() => {

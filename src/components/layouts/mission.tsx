@@ -4,6 +4,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { LuMenu } from "react-icons/lu";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { FaCheck } from "react-icons/fa6";
+import { MisiCard } from "./skeleton";
 
 interface MissionProps {
   seeMission: boolean;
@@ -20,7 +22,7 @@ export default function Mission({
 }: MissionProps) {
   const [displayClass, setDisplayClass] = useState("hidden");
   const { data: session }: any = useSession();
-  const { myMission } = useMission.getMyMission(session?.user?._id);
+  const { myMission, myMisiLoading } = useMission.getMyMission(session?.user?._id);
 
   useEffect(() => {
     if (seeMission) {
@@ -54,47 +56,55 @@ export default function Mission({
           <div className="overflow-x-auto">
             <table className="table table-base">
               <tbody>
-                {myMission?.map((misi: any) => {
-                  const hasil =
-                    misi.misiUser &&
-                    misi.misiUser.find((misi: any) => misi.user_id === session?.user?._id);
-                  const percentage = ((hasil?.process ? hasil.process : 0) / misi.max) * 100;
-                  return (
-                    <tr key={misi._id} className="border-none">
-                      <td className="flex md:items-center items-star px-0">
-                        <div className="h-full flex items-center justify-center">
-                          <div
-                            className={`size-14 bg-yellow-600 rounded-full flex items-center justify-center`}
-                            style={{
-                              background: `conic-gradient(
-                                #facc15  ${percentage * 3.6}deg, 
-                                #fff ${percentage * 3.6}deg
-                              )`,
-                            }}
-                          >
-                            <div className="bg-white size-[51px] rounded-full flex items-center justify-center">
-                              <p className="bg-black/10 size-[51px] flex items-center justify-center rounded-full text-black p-[1px]">{`${hasil?.process ? hasil?.process : 0}/${misi.max}`}</p>
+                {myMisiLoading
+                  ? Array.from({ length: 4 }).map((_, index) => <MisiCard key={index} />)
+                  : myMission?.map((misi: any) => {
+                      const hasil =
+                        misi.misiUser &&
+                        misi.misiUser.find((misi: any) => misi.user_id === session?.user?._id);
+                      const percentage = ((hasil?.process ? hasil.process : 0) / misi.max) * 100;
+                      return (
+                        <tr key={misi._id} className="border-none">
+                          <td className="flex md:items-center items-star px-0">
+                            <div className="h-full flex items-center justify-center">
+                              <div
+                                className={`size-14 bg-yellow-600 rounded-full flex items-center justify-center`}
+                                style={{
+                                  background: `conic-gradient(
+                                  #facc15  ${percentage * 3.6}deg, 
+                                  #fff ${percentage * 3.6}deg
+                                )`,
+                                }}
+                              >
+                                <div className="bg-white size-[51px] rounded-full flex items-center justify-center">
+                                  <p className="bg-black/10 size-[51px] flex items-center justify-center rounded-full text-black p-[1px]">{`${hasil?.process ? hasil?.process : 0}/${misi.max}`}</p>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="pr-0 pl-2">
-                        <div className="flex items-start flex-col justify-center leading-[8px]">
-                          <h2 className="font-semibold leading-5">{misi.judul}</h2>
-                          <p className="md:text-sm text-xs leading-[10px]">{misi.detail}</p>
-                        </div>
-                      </td>
-                      <td>
-                        <Link
-                          className="bg-black border border-yellow-600 text-yellow-400 w-8 h-5 flex items-center justify-center"
-                          href={misi.link}
-                        >
-                          <MdKeyboardArrowRight size={20} />
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                })}
+                          </td>
+                          <td className="pr-0 pl-2">
+                            <div className="flex items-start flex-col justify-center leading-[8px]">
+                              <h2 className="font-semibold leading-5">{misi.judul}</h2>
+                              <p className="md:text-sm text-xs leading-[10px]">{misi.detail}</p>
+                            </div>
+                          </td>
+                          <td>
+                            {hasil?.status ? (
+                              <button disabled className="text-yellow-500">
+                                <FaCheck size={20} />
+                              </button>
+                            ) : (
+                              <Link
+                                className="bg-black border border-yellow-600 text-yellow-400 w-8 h-5 flex items-center justify-center"
+                                href={misi.link}
+                              >
+                                <MdKeyboardArrowRight size={20} />
+                              </Link>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
               </tbody>
             </table>
           </div>
