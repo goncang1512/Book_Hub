@@ -12,7 +12,9 @@ export default function MisiContextProvider({ children }: { children: React.Reac
     try {
       const res = await instance.post(`/api/mission`, { user_id, mission_id, type });
       if (res.data.status) {
+        mutate(`/api/mission/${user_id}`);
         mutate(`/api/mission/create/${user_id}`);
+        mutate(`/api/user/${user_id}`);
       }
     } catch (error) {
       logger.error(`${error}`);

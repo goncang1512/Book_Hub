@@ -30,7 +30,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
         mutate(`/api/book/detailbook/${book_id}`);
         mutate(`/api/story/detailstory/${book_id}`);
         mutate(`/api/user/content/${session?.user?._id}`);
-        mutate(`/api/user?user_id=${res.data.user.username}`);
+        mutate(`/api/user/${res.data.user._id}`);
       }
     } catch (error) {
       setLiked(false);
@@ -52,7 +52,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
         mutate(`/api/book/detailbook/${book_id}`);
         mutate(`/api/story/detailstory/${book_id}`);
         mutate(`/api/user/content/${session?.user?._id}`);
-        mutate(`/api/user?user_id=${res.data.user.username}`);
+        mutate(`/api/user/${res.data.user._id}`);
       }
     } catch (error) {
       logger.error(`${error}`);

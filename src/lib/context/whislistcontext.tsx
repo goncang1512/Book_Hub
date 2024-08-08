@@ -24,7 +24,7 @@ export default function WhislistContextProvider({ children }: { children: React.
       mutate(`/api/book/author/${user_id}`);
       mutate(`/api/book/${user_id}`);
       mutate(`/api/user/content/${user_id}`);
-      mutate(`/api/user?user_id=${res.data.user.username}`);
+      mutate(`/api/user/${res.data.user._id}`);
     } catch (error) {
       logger.error(`${error}`);
       setIsLiked(false);
@@ -43,7 +43,7 @@ export default function WhislistContextProvider({ children }: { children: React.
       mutate(`/api/whislist/${user_id}`);
       mutate(`/api/book/author/${user_id}`);
       mutate(`/api/user/content/${user_id}`);
-      mutate(`/api/user?user_id=${res.data.user.username}`);
+      mutate(`/api/user/${res.data.user._id}`);
     } catch (error) {
       logger.error(`${error}`);
       setIsLiked(true);

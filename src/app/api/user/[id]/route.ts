@@ -149,6 +149,8 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
     let result;
     if (params.id === "leaderboard") {
       result = await userSevices.leaderbaord();
+    } else {
+      result = await userSevices.getUser(params.id);
     }
 
     logger.info("Success get leaderboard");

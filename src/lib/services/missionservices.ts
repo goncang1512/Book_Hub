@@ -20,11 +20,13 @@ export const misiServices = {
     process: number,
     status: boolean,
   ) => {
-    return await MisiUserModels.updateOne(
+    const misi = await MisiUserModels.findOneAndUpdate(
       { user_id, mission_id, type },
       { $set: { process: (process += 1), status } },
       { new: true },
     );
+
+    return misi;
   },
   getMisiUser: async (user_id: string, mission_id: string) => {
     return await MisiUserModels.findOne({ user_id, mission_id });

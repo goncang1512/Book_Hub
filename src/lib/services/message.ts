@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import MessageModels from "../models/message";
 
 export const msgServices = {
@@ -36,6 +37,11 @@ export const msgServices = {
     return await MessageModels.findOneAndDelete({ _id: msg_id });
   },
   getMsgNotif: async (user_id: string) => {
-    return await MessageModels.find({ "user_id.1": user_id, status: true });
+    if (!user_id || typeof user_id !== "string" || !mongoose.Types.ObjectId.isValid(user_id)) {
+      throw new Error("Invalid user_id format");
+    }
+
+    const objectId = new mongoose.Types.ObjectId(user_id);
+    return await MessageModels.find({ "user_id.1": objectId, status: true });
   },
 };

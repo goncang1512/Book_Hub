@@ -1,4 +1,7 @@
+import { Player } from "@/lib/middleware/lvlPlayer";
+import { naikPeringkat } from "@/lib/middleware/updateLvl";
 import { misiServices } from "@/lib/services/missionservices";
+import { userSevices } from "@/lib/services/userservices";
 import { logger } from "@/lib/utils/logger";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -19,6 +22,20 @@ export const POST = async (req: NextRequest) => {
         userMisi.process,
         statusMisi,
       );
+
+      if (result.status) {
+        const user: any = await userSevices.getUser(result.user_id);
+
+        if (user) {
+          const player = new Player(user.rank.level, user.rank.experience);
+          player.gainExperience(35);
+          const level = await userSevices.updateLvl(user._id, player);
+
+          const updateLvl = new naikPeringkat(level.rank);
+          const { img: imgRank, rankTinggi: riwayatRank } = updateLvl.checkLevel();
+          await updateLvl.updateData(user._id, imgRank, riwayatRank);
+        }
+      }
     } else {
       result = await misiServices.addMisiUser(user_id, mission_id, type);
     }

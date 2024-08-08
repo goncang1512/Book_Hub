@@ -2,13 +2,13 @@ import * as React from "react";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
-import { useUsers } from "@/lib/utils/useSwr";
+import { useNewUsers } from "@/lib/swr/userswr";
 import { logger } from "@/lib/utils/logger";
 
 export default function Global({ children }: { children: React.ReactNode }) {
   const { data: session, update: updateData, status }: any = useSession();
 
-  const { userDetail } = useUsers.detailUser(session?.user?.username);
+  const { userDetail }: any = useNewUsers.getDetailUser(session?.user?._id);
 
   useEffect(() => {
     const updateProfil = async () => {
@@ -27,7 +27,7 @@ export default function Global({ children }: { children: React.ReactNode }) {
     if (userDetail && status === "authenticated") {
       updateProfil();
     }
-  }, [userDetail?.badge, userDetail?.rank, userDetail?.role]);
+  }, [userDetail]);
 
   return <>{children}</>;
 }
