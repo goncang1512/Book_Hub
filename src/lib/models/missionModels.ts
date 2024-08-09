@@ -17,6 +17,9 @@ const MissionSchema = new Schema(
     max: {
       type: Number,
     },
+    point: {
+      type: Number,
+    },
   },
   {
     timestamps: true,
@@ -47,6 +50,9 @@ const MisiUserSchema = new Schema(
     },
     process: {
       type: Number,
+    },
+    claim: {
+      type: Boolean,
     },
     status: {
       type: Boolean,

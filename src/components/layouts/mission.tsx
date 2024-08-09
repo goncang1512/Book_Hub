@@ -1,11 +1,12 @@
 import { useMission } from "@/lib/swr/missionswr";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LuMenu } from "react-icons/lu";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
 import { MisiCard } from "./skeleton";
+import { MisiContext } from "@/lib/context/misicontext";
 
 interface MissionProps {
   seeMission: boolean;
@@ -23,6 +24,7 @@ export default function Mission({
   const [displayClass, setDisplayClass] = useState("hidden");
   const { data: session }: any = useSession();
   const { myMission, myMisiLoading } = useMission.getMyMission(session?.user?._id);
+  const { claimMisi, msgPoint } = useContext(MisiContext);
 
   useEffect(() => {
     if (seeMission) {
@@ -90,9 +92,28 @@ export default function Mission({
                           </td>
                           <td>
                             {hasil?.status ? (
-                              <button disabled className="text-yellow-500">
-                                <FaCheck size={20} />
-                              </button>
+                              hasil?.claim ? (
+                                <button disabled className="text-yellow-500">
+                                  <FaCheck size={20} />
+                                </button>
+                              ) : (
+                                <div className="relative bg-red-500 w-max">
+                                  <button
+                                    className="bg-yellow-400 border border-yellow-400 text-black w-8 h-5 flex items-center justify-center"
+                                    onClick={() => claimMisi(hasil?._id, misi.point)}
+                                  >
+                                    <FaCheck size={15} />
+                                  </button>
+                                  <span
+                                    className={`${
+                                      msgPoint.status &&
+                                      "-translate-y-5 opacity-0 transition-opacity duration-1000"
+                                    } absolute -top-1 right-[7px] text-sm text-red-500 italic`}
+                                  >
+                                    {msgPoint.status && `+${msgPoint.msg}`}
+                                  </span>
+                                </div>
+                              )
                             ) : (
                               <Link
                                 className="bg-black border border-yellow-600 text-yellow-400 w-8 h-5 flex items-center justify-center"

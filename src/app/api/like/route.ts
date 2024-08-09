@@ -45,7 +45,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const result = await likeServices.like(data);
-    await applayMission(user_id, "66b23407672bbe53e753aada", 30);
+    await applayMission(user_id, "66b23407672bbe53e753aada");
 
     logger.info("Success like content");
     return NextResponse.json(

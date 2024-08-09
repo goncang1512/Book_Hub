@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 import { MisiContextType } from "../utils/provider.type";
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
@@ -20,5 +20,37 @@ export default function MisiContextProvider({ children }: { children: React.Reac
       logger.error(`${error}`);
     }
   };
-  return <MisiContext.Provider value={{ addMisiUser }}>{children}</MisiContext.Provider>;
+
+  const [msgPoint, setMsgPoint] = useState({
+    msg: 0,
+    status: false,
+  });
+  const claimMisi = async (misiUserId: string, point: number) => {
+    try {
+      const res = await instance.patch(`/api/mission/${misiUserId}`, { point });
+      if (res.data.status) {
+        mutate(`/api/user/${res.data.result.user_id}`);
+        mutate(`/api/mission/create/${res.data.result.user_id}`);
+        setMsgPoint({
+          ...msgPoint,
+          msg: res.data.player.point,
+          status: res.data.status,
+        });
+        setTimeout(() => {
+          setMsgPoint({
+            ...msgPoint,
+            msg: 0,
+            status: false,
+          });
+        }, 1000);
+      }
+    } catch (error) {
+      logger.error(`${error}`);
+    }
+  };
+  return (
+    <MisiContext.Provider value={{ addMisiUser, claimMisi, msgPoint }}>
+      {children}
+    </MisiContext.Provider>
+  );
 }

@@ -181,7 +181,7 @@ export function CardBook({
               maxLength={210}
               mobile={150}
               text={sinopsis}
-              textFont="md:text-sm text-xs text-gray-500"
+              textFont="md:text-sm text-xs text-gray-600"
             />
           </div>
           <div>

@@ -1,7 +1,4 @@
-import { Player } from "../middleware/lvlPlayer";
-import { naikPeringkat } from "../middleware/updateLvl";
 import { MisiUserModels, MissionModels } from "../models/missionModels";
-import { userSevices } from "./userservices";
 
 export const misiServices = {
   addMisiUser: async (user_id: string, mission_id: string, type: string) => {
@@ -83,9 +80,15 @@ export const misiServices = {
   udpateHarian: async () => {
     return await MisiUserModels.deleteMany({ type: "Harian" });
   },
+  getMyMisi: async (misiUser_id: string) => {
+    return await MisiUserModels.findOne({ _id: misiUser_id });
+  },
+  updateMyMisi: async (misiUser_id: string) => {
+    return await MisiUserModels.findOneAndUpdate({ _id: misiUser_id }, { $set: { claim: true } });
+  },
 };
 
-export const applayMission = async (user_id: string, mission_id: string, point: number) => {
+export const applayMission = async (user_id: string, mission_id: string) => {
   const mission = await misiServices.getMission(mission_id);
   const misiUser = await misiServices.getMisiUser(user_id, mission._id);
 
@@ -94,27 +97,7 @@ export const applayMission = async (user_id: string, mission_id: string, point: 
     if (misiUser.status) return;
     let statusMisi =
       mission?.max === misiUser?.process + 1 || misiUser.process > mission?.max ? true : false;
-    const misi = await misiServices.updateMisiUser(
-      user_id,
-      mission_id,
-      type,
-      misiUser.process,
-      statusMisi,
-    );
-
-    if (misi.status) {
-      const user: any = await userSevices.getUser(misi.user_id);
-
-      if (user) {
-        const player = new Player(user.rank.level, user.rank.experience);
-        player.gainExperience(point);
-        const level = await userSevices.updateLvl(user._id, player);
-
-        const updateLvl = new naikPeringkat(level.rank);
-        const { img: imgRank, rankTinggi: riwayatRank } = updateLvl.checkLevel();
-        await updateLvl.updateData(user._id, imgRank, riwayatRank);
-      }
-    }
+    await misiServices.updateMisiUser(user_id, mission_id, type, misiUser.process, statusMisi);
   } else {
     await misiServices.addMisiUser(user_id, mission_id, type);
   }
