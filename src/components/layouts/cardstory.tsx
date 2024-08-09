@@ -132,7 +132,7 @@ export const CardContent = ({
               className="cursor-pointer flex items-center gap-2"
               onClick={() => handleRouter(story?.user?.username)}
             >
-              <p className="md:text-base text-sm font-semibold">{story?.user.username}</p>
+              <p className="md:text-base text-sm font-semibold">{story?.user?.username}</p>
               <div className="flex items-center">
                 {story?.user?.badge?.map((logo: string, index: number) => (
                   <Img key={index} className="size-4" src={`${logo}`} />
@@ -244,7 +244,7 @@ export const CardContent = ({
                 mobile={150}
                 other={false}
                 text={story?.book?.sinopsis}
-                textFont="md:text-base text-sm"
+                textFont="md:text-sm text-xs"
               />
             </div>
             <hr className="h-[2px] bg-gray-500 rounded-full mb-1" />
@@ -272,8 +272,8 @@ export const CardContent = ({
         <div className="flex items-center gap-3" id="like-component">
           <LikeComponent
             _id={story?._id}
-            book_id={story.book_id}
-            contentLike={story.like_str && story.like_str}
+            book_id={story?.book_id}
+            contentLike={story?.like_str && story.like_str}
             user_story={story?.user_id && story?.user_id}
           />
 
@@ -313,9 +313,12 @@ const LikeComponent = ({
   });
   const { addLike, disLike } = useContext(LikeContext);
   const { data: session }: any = useSession();
-  const [liked, setLiked] = useState(
-    contentLike?.some((like: any) => like.user_id === session?.user?._id),
-  );
+  const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    const data = contentLike?.some((like: any) => like.user_id === session?.user?._id);
+    setLiked(data);
+  }, [contentLike]);
 
   return (
     <>

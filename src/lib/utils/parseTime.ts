@@ -57,7 +57,7 @@ export const TimeDow = (): {
   const tahun = process.env.NEXT_PUBLIC_THN_SEASON;
   const tanggal = process.env.NEXT_PUBLIC_TGL_SEASON;
   const bulan = process.env.NEXT_PUBLIC_BLN_SEASON;
-  const startDate: Date = new Date(Number(tahun), Number(bulan), Number(tanggal));
+  const startDate: Date = new Date(Number(tahun), Number(bulan) - 1, Number(tanggal));
   const targetDate: Date = new Date(startDate);
   targetDate.setMonth(targetDate.getMonth() + 3);
 

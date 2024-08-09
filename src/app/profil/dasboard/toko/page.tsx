@@ -9,14 +9,13 @@ import { Input } from "@/components/elements/input";
 import { TimeDow } from "@/lib/utils/parseTime";
 
 export default function Toko() {
+  const [bisaSeason, setBisaSeason] = useState(false);
   const [timeLeft, setTimeLeft] = useState<{
     days?: number;
     hours?: number;
     minutes?: number;
     seconds?: number;
   }>(TimeDow());
-
-  const [bisaSeason, setBisaSeason] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -42,7 +41,7 @@ export default function Toko() {
           </p>
         </div>
       ) : (
-        <p>Watkunya season</p>
+        <p>Waktunya season</p>
       )}
 
       {bisaSeason && (

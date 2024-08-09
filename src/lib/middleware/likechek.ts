@@ -18,6 +18,15 @@ type StorysType = {
   updatedAt: Date;
 };
 
+export const getLikeStorySingle = async (story: any) => {
+  const like = await likeSrv.getLikeContent(story._id);
+  const kisah = story.toObject ? story.toObject() : story;
+  return {
+    ...kisah,
+    like_str: like,
+  };
+};
+
 export const getLikeContent = async (storys: StorysType[]) => {
   let likeStory: any[] = [];
 
