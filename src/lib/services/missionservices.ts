@@ -10,6 +10,7 @@ export const misiServices = {
       process: 1,
       type,
       status: false,
+      claim: false,
     };
     return await MisiUserModels.create(data);
   },
