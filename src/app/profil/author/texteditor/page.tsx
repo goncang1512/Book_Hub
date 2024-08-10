@@ -5,12 +5,38 @@ import { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import DOMPurify from "dompurify";
 
-import TextContainer from "@/components/layouts/textcontainer";
 import { Button } from "@/components/elements/button";
 import { Input } from "@/components/elements/input";
 import { useChapter } from "@/lib/utils/useSwr";
 import { CanvasContext } from "@/lib/context/canvascontext";
-import { extractText } from "@/lib/utils/extractText";
+import { extractText, useResponsiveValue } from "@/lib/utils/extractText";
+import JoditText from "@/components/fragments/JoditEditor";
+
+const joditButtons = [
+  "bold",
+  "italic",
+  "underline",
+  "strikethrough",
+  "ul",
+  "ol",
+  "outdent",
+  "indent",
+  "align",
+  "font",
+  "fontsize",
+  "brush",
+  "paragraph",
+  "undo",
+  "redo",
+  "hr",
+  "eraser",
+  "fullsize",
+  "cut",
+  "copy",
+  "paste",
+  "superscript",
+  "subscript",
+];
 
 const countWord = (text: string) => {
   const teks = text.trim().split(/\s+/);
@@ -25,12 +51,18 @@ export default function TextEditor() {
   const [content, setContent] = useState("");
   const [wordCount, setWordCount] = useState(0);
 
+  const height = useResponsiveValue({
+    widthBreakpoint: 768,
+    mobileValue: "84vh",
+    desktopValue: "92vh",
+  });
+
   useEffect(() => {
     if (bacaBuku?.story) {
       setContent(DOMPurify.sanitize(bacaBuku?.story));
       setWordCount(countWord(extractText(bacaBuku?.story)));
     }
-  }, [bacaBuku]);
+  }, [bacaBuku?.story]);
 
   if (bacaBukuLoading) {
     return (
@@ -43,7 +75,13 @@ export default function TextEditor() {
   return (
     <div className="">
       <div>
-        <TextContainer content={content} setContent={setContent} setWordCount={setWordCount} />
+        <JoditText
+          content={content}
+          edit={true}
+          height={height}
+          joditButtons={joditButtons}
+          setContent={setContent}
+        />
         <div className="p-2 flex justify-end">
           <button
             className="border p-2 bg-green-400 rounded-lg"

@@ -1,22 +1,71 @@
 "use client";
 import * as React from "react";
 import { IoIosClose } from "react-icons/io";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 
-import TextContainer from "@/components/layouts/textcontainer";
+import JoditText from "@/components/fragments/JoditEditor";
 import { Button } from "@/components/elements/button";
 import { Input } from "@/components/elements/input";
 import { CanvasContext } from "@/lib/context/canvascontext";
+import { extractText, useResponsiveValue } from "@/lib/utils/extractText";
+
+const joditButtons = [
+  "bold",
+  "italic",
+  "underline",
+  "strikethrough",
+  "ul",
+  "ol",
+  "outdent",
+  "indent",
+  "align",
+  "font",
+  "fontsize",
+  "brush",
+  "paragraph",
+  "undo",
+  "redo",
+  "hr",
+  "eraser",
+  "fullsize",
+  "cut",
+  "copy",
+  "paste",
+  "superscript",
+  "subscript",
+];
+
+const countWord = (text: string) => {
+  const teks = text.trim().split(/\s+/);
+  return teks.length;
+};
 
 export default function TextEditor({ params }: { params: { id: string } }) {
   const [content, setContent] = useState("");
   const [wordCount, setWordCount] = useState(0);
 
+  useEffect(() => {
+    if (content) {
+      setWordCount(countWord(extractText(content)));
+    }
+  }, [content]);
+
+  const height = useResponsiveValue({
+    widthBreakpoint: 768,
+    mobileValue: "84vh",
+    desktopValue: "92vh",
+  });
+
   return (
     <div className="">
       <div>
-        <TextContainer content={content} setContent={setContent} setWordCount={setWordCount} />
+        <JoditText
+          content={content}
+          height={height}
+          joditButtons={joditButtons}
+          setContent={setContent}
+        />
         <div className="p-2 flex justify-end">
           <button
             className="border p-2 bg-green-400 rounded-lg"

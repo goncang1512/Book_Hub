@@ -3,7 +3,8 @@
 import * as React from "react";
 
 import CardProduct from "@/components/layouts/cardproduct";
-import Img from "@/components/fragments/image";
+import TextEditor from "@/components/fragments/JoditEditor";
+import { useResponsiveValue } from "@/lib/utils/extractText";
 
 const product = {
   title: "Teruslah Bodoh Jangan Pintar",
@@ -17,7 +18,35 @@ const product = {
   size: "size-[8rem]",
 };
 
+const joditButtons = [
+  "bold",
+  "italic",
+  "underline",
+  "strikethrough",
+  "ul",
+  "ol",
+  "outdent",
+  "indent",
+  "align",
+  "font",
+  "fontsize",
+  "brush",
+  "paragraph",
+  "undo",
+  "redo",
+  "hr",
+  "eraser",
+  "fullsize",
+  "link",
+  "cut",
+  "copy",
+  "paste",
+  "superscript",
+  "subscript",
+];
+
 export default function Orders() {
+  const [content, setContent] = React.useState("");
   return (
     <div className="p-3 flex flex-col gap-2 w-full justify-start">
       <div className="flex flex-wrap gap-2 w-full justify-start">
@@ -31,17 +60,16 @@ export default function Orders() {
           />
         ))}
       </div>
-      <div className="flex items-center justify-center h-screen w-full">
-        <div className="relative w-max flex flex-col justify-center items-center rounded-full">
-          <Img
-            className="size-16 rounded-full border-2 border-gray-500"
-            src="https://res.cloudinary.com/dykunvz4p/image/upload/v1720535893/profil/qsapnyufmxqqnci1e9vw.jpg"
-          />
-          <p className="absolute bg-gray-500 text-white size-3 text-[8.5px] rounded-full p-2 text-center flex items-center justify-center text-xs border border-gray-500 bottom-0 translate-y-1/2">
-            99
-          </p>
-        </div>
-      </div>
+      <TextEditor
+        content={content}
+        height={useResponsiveValue({
+          widthBreakpoint: 768,
+          mobileValue: "100vh",
+          desktopValue: "92vh",
+        })}
+        joditButtons={joditButtons}
+        setContent={setContent}
+      />
     </div>
   );
 }

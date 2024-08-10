@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext, SetStateAction } from "react";
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useState, useEffect, useContext, SetStateAction, useRef } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -6,8 +8,8 @@ import { RiCloseLine } from "react-icons/ri";
 
 import { Button } from "../elements/button";
 
+import JoditText from "./JoditEditor";
 import Img from "./image";
-import { FloaraEdtor } from "./floaraeditor";
 
 import { formatDate } from "@/lib/utils/parseTime";
 import { DasboardContext } from "@/lib/context/dasboardcontext";
@@ -70,15 +72,6 @@ export interface Canvas {
 export const BarisChapter = ({ dataChapter, index }: { dataChapter: Canvas; index: number }) => {
   const [newDataChapter, setNewDataChapter] = useState<Canvas | null>(null);
 
-  useEffect(() => {
-    const modal = document.getElementById("modal_inbox") as HTMLDialogElement;
-    if (newDataChapter) {
-      modal?.showModal();
-    } else {
-      modal?.close();
-    }
-  }, [newDataChapter]);
-
   return (
     <tr>
       <th>{index + 1}</th>
@@ -125,6 +118,34 @@ type EditStatus = {
   recipientId: string;
 };
 
+const joditButtons = [
+  "bold",
+  "italic",
+  "underline",
+  "strikethrough",
+  "ul",
+  "ol",
+  "outdent",
+  "indent",
+  "align",
+  "link",
+  "image",
+  "font",
+  "fontsize",
+  "brush",
+  "paragraph",
+  "undo",
+  "redo",
+  "hr",
+  "eraser",
+  "fullsize",
+  "cut",
+  "copy",
+  "paste",
+  "superscript",
+  "subscript",
+];
+
 const ModalInbox = ({
   dataChapter,
   setNewDataChapter,
@@ -163,6 +184,8 @@ const ModalInbox = ({
       setMsgInbox(DOMPurify.sanitize(pesanNotif.pesanRilis));
     } else if (editStatus.status === "Draft") {
       setMsgInbox(DOMPurify.sanitize(pesanNotif.pesanDraft));
+    } else if (editStatus.status === "Submitted") {
+      setMsgInbox("");
     }
   }, [editStatus.status]);
 
@@ -172,11 +195,14 @@ const ModalInbox = ({
     setError(null);
 
     try {
-      await updateCanvas(dataChapter._id, {
-        ...editStatus,
-        message: msgInbox,
-      });
-      setNewDataChapter(null);
+      await updateCanvas(
+        dataChapter._id,
+        {
+          ...editStatus,
+          message: msgInbox,
+        },
+        setNewDataChapter,
+      );
     } catch (err) {
       setError("Failed to update canvas. Please try again.");
     } finally {
@@ -184,41 +210,50 @@ const ModalInbox = ({
     }
   };
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
   return (
-    <dialog className="modal" id="modal_inbox">
-      <div className="px-[100px] w-screen h-full">
-        <div className="w-full bg-white p-5 rounded-lg overflow-hidden">
-          <button
-            className="absolute top-2 right-6 rounded-full hover:bg-white text-white hover:text-black"
-            onClick={() => setNewDataChapter(null)}
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 md:px-[100px] px-5"
+      onClick={() => setNewDataChapter(null)}
+    >
+      <div
+        ref={containerRef}
+        className="relative bg-white p-5 rounded-lg shadow-lg w-full"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="absolute top-2 right-6 rounded-full hover:bg-white text-black hover:text-red-500"
+          onClick={() => setNewDataChapter(null)}
+        >
+          <RiCloseLine size={25} />
+        </button>
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+          <p className="text-base font-semibold">{dataChapter.judul}</p>
+          <select
+            className="flex select select-bordered w-full"
+            value={editStatus.status}
+            onChange={(e) => setEditStatus({ ...editStatus, status: e.target.value })}
           >
-            <RiCloseLine size={25} />
-          </button>
-          <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
-            <p className="text-base font-semibold">{dataChapter.judul}</p>
-            <select
-              className={`flex select select-bordered w-full`}
-              value={editStatus.status}
-              onChange={(e) => setEditStatus({ ...editStatus, status: e.target.value })}
-            >
-              <option disabled className="bg-blue-400 text-white" value="Role">
-                {dataChapter.status}
-              </option>
-              <option value="Submitted">Submitted</option>
-              <option value="Rilis">Rilis</option>
-              <option value="Draft">Draft</option>
-            </select>
-            <FloaraEdtor floara={msgInbox} setFloara={setMsgInbox} />
-            <Button disabled={loading} type="submit">
-              {loading ? "Updating..." : "Update Status"}
-            </Button>
-            {error && <p className="text-red-500">{error}</p>}
-          </form>
-        </div>
+            <option disabled className="bg-blue-400 text-white" value="Role">
+              {dataChapter.status}
+            </option>
+            <option value="Submitted">Submitted</option>
+            <option value="Rilis">Rilis</option>
+            <option value="Draft">Draft</option>
+          </select>
+          <JoditText
+            content={msgInbox}
+            height={"50vh"}
+            joditButtons={joditButtons}
+            setContent={setMsgInbox}
+          />
+          <Button disabled={loading} type="submit">
+            {loading ? "Updating..." : "Update Status"}
+          </Button>
+          {error && <p className="text-red-500">{error}</p>}
+        </form>
       </div>
-      <form className="modal-backdrop" method="dialog">
-        <button onClick={() => setNewDataChapter(null)}>close</button>
-      </form>
-    </dialog>
+    </div>
   );
 };

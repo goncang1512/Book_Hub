@@ -238,5 +238,5 @@ export interface DasboardProps {
     status: boolean;
     message: string;
   };
-  updateCanvas: (id: string, editStatus: EditStatus) => void;
+  updateCanvas: (id: string, editStatus: EditStatus, setNewDataChapter: any) => void;
 }

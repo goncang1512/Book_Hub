@@ -72,17 +72,16 @@ export default function DasboardContextProvider({ children }: { children: React.
     }
   };
 
-  const updateCanvas = async (id: string, editStatus: EditStatus) => {
+  const updateCanvas = async (id: string, editStatus: EditStatus, setNewDataChapter: any) => {
     try {
       const res = await instance.patch(`/api/dasboard/submitted/${id}`, editStatus);
 
       if (res.data.status) {
-        const modal = document.getElementById("modal_inbox") as HTMLDialogElement;
-        modal.close();
         mutate(`/api/dasboard/submitted`);
         mutate(`/api/message/${session?.user?._id}`);
         mutate(`/api/user?user_id=${res.data.result.user_id}`);
         mutate(`/api/message/notif/${session?.user?._id}`);
+        setNewDataChapter(null);
       }
     } catch (error) {
       logger.error(`${error}`);

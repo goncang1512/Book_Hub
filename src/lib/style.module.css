@@ -99,6 +99,11 @@
   transition: width 0.3s;
 }
 
-.textEditor {
+/* .textEditor {
   height: 10000px;
+} */
+
+.textEditor {
+  min-width: 100vh;
+  margin: 0 auto;
 }

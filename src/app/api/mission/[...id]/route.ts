@@ -1,3 +1,4 @@
+import connectMongoDB from "@/lib/config/connectMongoDb";
 import { Player } from "@/lib/middleware/lvlPlayer";
 import { naikPeringkat } from "@/lib/middleware/updateLvl";
 import { misiServices } from "@/lib/services/missionservices";
@@ -7,6 +8,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest, { params }: { params: { id: string[] } }) => {
   try {
+    await connectMongoDB();
     const result = await misiServices.getMisiUserId(params.id[0]);
 
     logger.info("Success get mission user");
