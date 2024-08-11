@@ -10,15 +10,15 @@ import { TbLogout } from "react-icons/tb";
 import { usePathname } from "next/navigation";
 import { FaArrowRightLong, FaRegAddressBook } from "react-icons/fa6";
 import { signIn, useSession, signOut } from "next-auth/react";
-import { LegacyRef, useState } from "react";
+import { LegacyRef, useContext, useState } from "react";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { FaRegBookmark } from "react-icons/fa";
 import { GiBookmarklet } from "react-icons/gi";
 import { IoIosArrowDown } from "react-icons/io";
 import { SiBookmyshow } from "react-icons/si";
 
-import { useMessage } from "@/lib/swr/message";
 import { ButtonMission } from "./mission";
+import { GlobalState } from "@/lib/context/globalstate";
 
 interface SideBarType {
   seeSearch: boolean;
@@ -39,7 +39,7 @@ export default function SideBar({
 }: SideBarType) {
   const pathname = usePathname();
   const { data: session, status }: { data: any; status: string } = useSession();
-  const { msgNotifData } = useMessage.msgNotif(session?.user?._id);
+  const { notifUser } = useContext(GlobalState);
   const [seeDasboard, setSeeDasboard] = useState(false);
 
   return (
@@ -96,7 +96,7 @@ export default function SideBar({
             >
               <span
                 className={`size-2 bg-red-500 absolute rounded-full top-[5%] right-[48.5%] ${
-                  msgNotifData?.length > 0 ? "flex" : "hidden"
+                  notifUser?.length > 0 ? "flex" : "hidden"
                 } `}
               />
               <IoNotificationsOutline size={19} />

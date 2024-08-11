@@ -7,6 +7,7 @@ import { useSWRConfig } from "swr";
 
 import instance from "@/lib/utils/fetch";
 import { logger } from "../utils/logger";
+import { useNewUsers } from "../swr/userswr";
 
 export const GlobalState = createContext<any>({} as any);
 
@@ -33,6 +34,8 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
   const [seeDetail, setSeeDetail] = useState("");
   const [seeMission, setSeeMission] = useState(false);
 
+  const { missionUser, notifUser, ldgMisiNotif } = useNewUsers.getMisiNotif(session?.user?._id);
+
   const handleRouter = (username: string) => {
     if (session?.user?.username === username) {
       router.push("/profil");
@@ -46,6 +49,7 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
       await instance.put(`/api/message/${msg_id}`);
       mutate(`/api/message/${session?.user?._id}`);
       mutate(`/api/message/notif/${session?.user?._id}`);
+      mutate(`/api/mission/${session?.user?._id}`);
     } catch (error) {
       logger.error(`${error}`);
     }
@@ -54,6 +58,7 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
   const deletedMessage = async (msg_id: string) => {
     try {
       await instance.delete(`/api/message/${msg_id}`);
+      mutate(`/api/mission/${session?.user?._id}`);
       mutate(`/api/message/${session?.user?._id}`);
     } catch (error) {
       logger.error(`${error}`);
@@ -78,6 +83,9 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
         deletedMessage,
         seeMission,
         setSeeMission,
+        missionUser,
+        notifUser,
+        ldgMisiNotif,
       }}
     >
       {children}

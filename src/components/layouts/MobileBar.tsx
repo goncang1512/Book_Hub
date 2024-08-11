@@ -4,9 +4,9 @@ import { HomeIcon, Whislist } from "@public/svg/assets";
 import Link from "next/link";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { LuUser } from "react-icons/lu";
-import { useSession } from "next-auth/react";
 
-import { useMessage } from "@/lib/swr/message";
+import { useContext } from "react";
+import { GlobalState } from "@/lib/context/globalstate";
 
 interface SideBarType {
   seeSearch: boolean;
@@ -15,8 +15,7 @@ interface SideBarType {
 }
 
 export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBarType) {
-  const { data: session }: any = useSession();
-  const { msgNotifData } = useMessage.msgNotif(session?.user?._id);
+  const { notifUser } = useContext(GlobalState);
   return (
     <div
       ref={mobileRef}
@@ -41,7 +40,7 @@ export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBa
         <Link className="relative" href={"/profil/notifikasi"}>
           <span
             className={`size-2 bg-red-500 absolute rounded-full top-[5%] right-[19%] ${
-              msgNotifData?.length > 0 ? "flex" : "hidden"
+              notifUser?.length > 0 ? "flex" : "hidden"
             } `}
           />
           <IoNotificationsOutline size={25} />

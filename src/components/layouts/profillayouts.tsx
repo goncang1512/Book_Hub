@@ -40,7 +40,7 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
           src={`${userData?.imgProfil?.imgUrl}`}
         />
 
-        <div className="flex flex-col gap-11 w-full relative">
+        <div className="flex flex-col gap-11 w-full relative bg-white">
           <div className="flex w-full items-center justify-between absolute pr-5 md:bottom-1 bottom-3">
             <div className="bg-white px-2 rounded-lg py-1 flex items-center gap-2">
               <h1 className="font-bold text-black md:text-base text-sm">{userData?.username}</h1>
@@ -59,7 +59,7 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
             </button>
           </div>
 
-          <div className="flex items-center justify-between pr-5 absolute md:top-[1.29rem] top-[0.7rem] w-full">
+          <div className="flex items-center justify-between pr-5 absolute md:top-[1.29rem] top-[0.7rem] w-full bg-white">
             <div
               className={`${styles.containerButton}  flex items-center gap-2 font-semibold text-gray-800 ease-in-out duration-200 relative ${buttonStyle}`}
             >

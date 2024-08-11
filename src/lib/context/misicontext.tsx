@@ -15,6 +15,7 @@ export default function MisiContextProvider({ children }: { children: React.Reac
         mutate(`/api/mission/${user_id}`);
         mutate(`/api/mission/create/${user_id}`);
         mutate(`/api/user/${user_id}`);
+        mutate(`/api/mission/${user_id}`);
       }
     } catch (error) {
       logger.error(`${error}`);
@@ -25,12 +26,13 @@ export default function MisiContextProvider({ children }: { children: React.Reac
     msg: 0,
     status: false,
   });
+
   const claimMisi = async (misiUserId: string, point: number) => {
     try {
       const res = await instance.patch(`/api/mission/${misiUserId}`, { point });
       if (res.data.status) {
         mutate(`/api/user/${res.data.result.user_id}`);
-        mutate(`/api/mission/create/${res.data.result.user_id}`);
+        mutate(`/api/mission/${res.data.result.user_id}`);
         setMsgPoint({
           ...msgPoint,
           msg: res.data.player.point,

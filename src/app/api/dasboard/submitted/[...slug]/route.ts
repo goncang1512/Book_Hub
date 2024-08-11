@@ -35,7 +35,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { slug: stri
         await canvasSrv.statUpdate(params.slug[0]);
       }
       await bookServ.updateNewChapter(result.book_id, currentDate);
-      await newChapterBook(result.book_id, recipientId, result);
+      await newChapterBook(result.book_id, recipientId, result, book);
 
       let player;
       const user = await userSevices.getUser(recipientId);

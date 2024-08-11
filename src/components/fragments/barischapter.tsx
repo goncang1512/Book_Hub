@@ -179,15 +179,19 @@ const ModalInbox = ({
     }
   }, [dataChapter]);
 
+  const [editJodit, setEditJodit] = useState(false);
   useEffect(() => {
     if (editStatus.status === "Rilis") {
+      setEditJodit(true);
       setMsgInbox(DOMPurify.sanitize(pesanNotif.pesanRilis));
     } else if (editStatus.status === "Draft") {
+      setEditJodit(true);
       setMsgInbox(DOMPurify.sanitize(pesanNotif.pesanDraft));
     } else if (editStatus.status === "Submitted") {
+      setEditJodit(false);
       setMsgInbox("");
     }
-  }, [editStatus.status]);
+  }, [editStatus.status, editJodit]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -244,6 +248,7 @@ const ModalInbox = ({
           </select>
           <JoditText
             content={msgInbox}
+            edit={editJodit}
             height={"50vh"}
             joditButtons={joditButtons}
             setContent={setMsgInbox}

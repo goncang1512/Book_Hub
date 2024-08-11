@@ -130,7 +130,7 @@ const ModalAddChapter = ({
       ...chapterUpData,
       judul: bacaBuku?.judul,
       chapter: bacaBuku?.chapter,
-      status: bacaBuku?.status,
+      status: "Submitted",
     });
   }, [bacaBuku?.judul, bacaBuku?.chapter, bacaBuku?.status]);
 

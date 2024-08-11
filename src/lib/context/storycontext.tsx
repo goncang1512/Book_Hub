@@ -55,7 +55,7 @@ export default function StoryContextProvider({ children }: { children: React.Rea
         mutate(`/api/story/mystory/${id}`);
         mutate(`/api/story/detailstory/${bookId}`);
         mutate(`/api/book/detailbook/${bookId}`);
-        mutate(`/api/mission/create/${data.user_id}`);
+        mutate(`/api/mission/${session?.user?._id}`);
         setDataContent("");
         update({
           status: "updateRank",

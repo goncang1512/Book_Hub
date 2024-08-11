@@ -274,6 +274,7 @@ export const CardContent = ({
             _id={story?._id}
             book_id={story?.book_id}
             contentLike={story?.like_str && story.like_str}
+            user={story.user && story.user}
             user_story={story?.user_id && story?.user_id}
           />
 
@@ -298,11 +299,13 @@ const LikeComponent = ({
   user_story,
   contentLike,
   book_id,
+  user,
 }: {
   _id: string;
   user_story: string;
   contentLike: any;
   book_id: string;
+  user: any;
 }) => {
   const [likeContent, setLikeContent] = useState<{
     user_id: string;
@@ -331,7 +334,7 @@ const LikeComponent = ({
               user_id: "hhgjhjhgj",
               story_id: "ljhjkhjhkjhkjh",
             });
-            disLike(session?.user?._id, _id, book_id, setLiked, user_story);
+            disLike(session?.user?._id, _id, book_id, setLiked, user_story, user?.username);
           }}
         >
           <BiSolidLike className="text-blue-500" size={25} />
@@ -345,7 +348,7 @@ const LikeComponent = ({
               user_id: session?.user?._id,
               story_id: _id,
             });
-            addLike(session?.user?._id, _id, user_story, book_id, setLiked);
+            addLike(session?.user?._id, _id, user_story, book_id, setLiked, user?.username);
           }}
         >
           <BiLike size={25} />

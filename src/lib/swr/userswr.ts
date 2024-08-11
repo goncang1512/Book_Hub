@@ -10,4 +10,13 @@ export const useNewUsers = {
       isLoading,
     };
   },
+  getMisiNotif: (user_id: string) => {
+    const { data, isLoading } = useSWR(`/api/mission/${user_id}`, fetcher);
+
+    return {
+      missionUser: data?.mission,
+      notifUser: data?.messageNotif,
+      ldgMisiNotif: isLoading,
+    };
+  },
 };

@@ -19,12 +19,4 @@ export const useMessage = {
       msgLoading: isLoading,
     };
   },
-  msgNotif: (user_id: string) => {
-    const { data, isLoading } = useSWR(`/api/message/notif/${user_id}`, fetcher);
-
-    return {
-      msgNotifData: data?.result,
-      msgLoading: isLoading,
-    };
-  },
 };

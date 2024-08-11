@@ -11,8 +11,6 @@ export const GET = async (req: NextRequest, { params }: { params: { slug: string
 
     if (params.slug[0] === "detail") {
       result = await msgServices.getMsgDetail(params.slug[1]);
-    } else if (params.slug[0] === "notif") {
-      result = await msgServices.getMsgNotif(params.slug[1]);
     } else {
       result = await msgServices.getMsgRecepient(params.slug[0]);
     }

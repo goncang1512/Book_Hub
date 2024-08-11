@@ -1,6 +1,7 @@
 import connectMongoDB from "@/lib/config/connectMongoDb";
 import { Player } from "@/lib/middleware/lvlPlayer";
 import { naikPeringkat } from "@/lib/middleware/updateLvl";
+import { msgServices } from "@/lib/services/message";
 import { misiServices } from "@/lib/services/missionservices";
 import { userSevices } from "@/lib/services/userservices";
 import { logger } from "@/lib/utils/logger";
@@ -10,10 +11,19 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string[]
   try {
     await connectMongoDB();
     const result = await misiServices.getMisiUserId(params.id[0]);
+    const messageNotif = await msgServices.getMsgNotif(params.id[0]);
+    const mission = await misiServices.getMissionUser(params.id[0]);
 
     logger.info("Success get mission user");
     return NextResponse.json(
-      { status: true, statusCode: 200, message: "Success get mission user", result },
+      {
+        status: true,
+        statusCode: 200,
+        message: "Success get mission user",
+        result,
+        mission,
+        messageNotif,
+      },
       { status: 200 },
     );
   } catch (error) {

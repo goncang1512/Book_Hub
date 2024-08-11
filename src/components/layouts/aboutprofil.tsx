@@ -9,8 +9,6 @@ import Img from "../fragments/image";
 
 import { CardContent, StoryType } from "./cardstory";
 
-import styles from "@/lib/style.module.css";
-import { styleLvl } from "@/lib/utils";
 import { UserType } from "@/lib/utils/DataTypes.type";
 
 interface StoryUser extends StoryType {
@@ -31,7 +29,7 @@ export default function AboutProfil({
   useEffect(() => {
     if (userData && userData.rank) {
       const calculatedWidth = (userData.rank.experience / (userData.rank.level * 100)) * 100;
-      setWidth(calculatedWidth.toFixed(0));
+      setWidth(calculatedWidth.toFixed(1));
     }
   }, [userData?.rank?.level, userData?.rank?.experience]);
 
@@ -60,11 +58,16 @@ export default function AboutProfil({
   return (
     <div className="flex flex-col gap-5 scroll-smooth">
       <div className="w-full bg-white rounded-lg">
-        <div className="w-full h-14 bg-white p-3 rounded-t-lg border flex items-center gap-5">
-          <h1 className="font-semibold">{judul}</h1>
-          <div className="flex items-center gap-2">
-            <p>Level {userData?.rank?.level}</p>
-            <BarExp width={width} />
+        <div className="w-full h-14 bg-white p-3 rounded-t-lg border flex items-center justify-between">
+          <div className="flex items-center gap-5">
+            <h1 className="font-semibold">{judul}</h1>
+            <div className="flex items-center gap-2">
+              <p>Level {userData?.rank?.level}</p>
+              <BarExp width={width} />
+            </div>
+          </div>
+          <div>
+            <button className="bg-stone-200 px-2 py-1 rounded-md text-black">follow</button>
           </div>
         </div>
         <div className="p-3 border-x border-b rounded-b-lg flex flex-wrap gap-4">
@@ -140,28 +143,42 @@ export default function AboutProfil({
 }
 
 export const BarExp = ({ width }: { width: string }) => {
+  const [showProgressPer, setShowProgressPer] = useState(false);
+  function formatWidth(width: any) {
+    const numericWidth = parseFloat(width);
+
+    return numericWidth % 1 === 0
+      ? numericWidth.toFixed(0)
+      : numericWidth.toString().replace(".", ",");
+  }
+
   return (
-    <div className={`bg-slate-400 w-20 h-[5px] relative rounded-lg ${styles.barExp} `}>
+    <div className={`w-20 h-[5px] flex items-center justify-center relative`}>
+      <progress
+        className={`progress progress-info bg-gray-300  w-20 h-[5px]`}
+        max="100"
+        value={width}
+        onMouseEnter={() => setShowProgressPer(true)}
+        onMouseLeave={() => setShowProgressPer(false)}
+      />
+
       <div
-        className={`absolute left-0 top-0 bg-blue-500 h-full rounded-lg ${
-          styleLvl[parseInt(width)]
-        }`}
+        className={`bg-info size-[7px] rounded-full absolute`}
+        style={{ left: `calc(${width}% - 0.2rem)` }}
+        onMouseEnter={() => setShowProgressPer(true)}
+        onMouseLeave={() => setShowProgressPer(false)}
       >
-        <div
-          className={`${
-            width === "0" && "opacity-0"
-          } after:size-2 after:bg-blue-500 after:absolute after:right-0 after:-top-[1px] after:rounded-full after:content-[''] relative bg-green-500`}
-        >
-          <div className={`${styles.persenExp} hidden absolute right-[14.5px]`}>
-            <div className="absolute flex items-center justify-center bg-blue-500 -top-5 rounded-sm px-[2px] text-[9px] text-white">
-              {parseInt(width)}%
-              <div className="h-2 w-2 absolute bg-blue-500 -bottom-[5px] left-[28%]">
-                <span className="absolute h-[5px] w-1 bg-white bottom-0 left-0 rounded-tr-full border-none" />
-                <span className="absolute h-[5px] w-1 bg-white bottom-0 right-0 rounded-tl-full border-none" />
-              </div>
+        {showProgressPer && (
+          <div
+            className={`absolute bg-blue-500 -top-[20px] left-1/2 transform -translate-x-1/2 rounded-sm`}
+          >
+            <p className="text-[9px] px-1 text-white">{formatWidth(width)}%</p>
+            <div className="h-2 w-[10.3px] absolute bg-blue-500 -bottom-[5px] left-1/2 transform -translate-x-1/2">
+              <span className="absolute h-[6px] w-2 bg-white -bottom-[0.9px] -left-[2.7px] rounded-tr-full  z-10" />
+              <span className="absolute h-[6px] w-2 bg-white -bottom-[0.9px] -right-[2.7px] rounded-tl-full  z-10" />
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

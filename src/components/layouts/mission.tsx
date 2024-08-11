@@ -1,4 +1,3 @@
-import { useMission } from "@/lib/swr/missionswr";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
 import { MisiCard } from "./skeleton";
 import { MisiContext } from "@/lib/context/misicontext";
+import { GlobalState } from "@/lib/context/globalstate";
 
 interface MissionProps {
   seeMission: boolean;
@@ -23,8 +23,8 @@ export default function Mission({
 }: MissionProps) {
   const [displayClass, setDisplayClass] = useState("hidden");
   const { data: session }: any = useSession();
-  const { myMission, myMisiLoading } = useMission.getMyMission(session?.user?._id);
   const { claimMisi, msgPoint } = useContext(MisiContext);
+  const { missionUser, ldgMisiNotif } = useContext(GlobalState);
 
   useEffect(() => {
     if (seeMission) {
@@ -58,9 +58,9 @@ export default function Mission({
           <div className="overflow-x-auto">
             <table className="table table-base">
               <tbody>
-                {myMisiLoading
+                {ldgMisiNotif
                   ? Array.from({ length: 4 }).map((_, index) => <MisiCard key={index} />)
-                  : myMission?.map((misi: any) => {
+                  : missionUser?.map((misi: any) => {
                       const hasil =
                         misi.misiUser &&
                         misi.misiUser.find((misi: any) => misi.user_id === session?.user?._id);

@@ -40,7 +40,7 @@ export default function DasboardContextProvider({ children }: { children: React.
         mutate("/api/user/leaderboard");
         mutate(`/api/message/${session?.user?._id}`);
         mutate(`/api/user?user_id=${res.data.result._id}`);
-        mutate(`/api/message/notif/${session?.user?._id}`);
+        mutate(`/api/mission/${session?.user?._id}`);
       }
     } catch (error) {
       logger.error(`${error}`);
@@ -80,7 +80,7 @@ export default function DasboardContextProvider({ children }: { children: React.
         mutate(`/api/dasboard/submitted`);
         mutate(`/api/message/${session?.user?._id}`);
         mutate(`/api/user?user_id=${res.data.result.user_id}`);
-        mutate(`/api/message/notif/${session?.user?._id}`);
+        mutate(`/api/mission/${session?.user?._id}`);
         setNewDataChapter(null);
       }
     } catch (error) {
