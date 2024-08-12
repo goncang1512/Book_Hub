@@ -80,7 +80,14 @@ export default function FriendsProfil({
                   src={`${dataUser.imgProfil?.imgUrl}`}
                 />
                 <div className="flex justify-center items-start flex-col leading-[15px]">
-                  <p className="font-semibold">{dataUser.username}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-semibold">{dataUser.username}</p>
+                    <div className="flex items-center">
+                      {dataUser?.badge?.map((logo: string, index: number) => (
+                        <Img key={index} className="size-4" src={`${logo}`} />
+                      ))}
+                    </div>
+                  </div>
                   <p className="text-sm text-gray-400">{dataUser.role}</p>
                 </div>
               </button>

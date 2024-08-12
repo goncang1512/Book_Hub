@@ -306,7 +306,7 @@ function UpdateData() {
 
   return (
     <form
-      className="flex flex-col gap-5 items-center w-full"
+      className="flex flex-col gap-5 items-center w-full max-md:px-3"
       onSubmit={(e) => {
         e.preventDefault();
         updateUsername(session?.user?._id, updateData);

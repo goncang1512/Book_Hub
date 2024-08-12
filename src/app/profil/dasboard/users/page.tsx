@@ -46,7 +46,7 @@ export default function UserDasboard() {
       </div>
       <div className="w-full py-2 flex items-center justify-center">
         <form
-          className="w-[40%]"
+          className="md:w-[40%] w-[70%]"
           onSubmit={(e) => {
             e.preventDefault();
             searchUser(keyword);
