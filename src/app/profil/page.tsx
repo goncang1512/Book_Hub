@@ -9,11 +9,12 @@ import AboutProfil from "@/components/layouts/aboutprofil";
 import { GlobalState } from "@/lib/context/globalstate";
 import { CardBook } from "@/components/layouts/cardstore";
 import { useUsers } from "@/lib/utils/useSwr";
+import FriendsProfil from "@/components/layouts/friendsprofil";
 
 export default function Profil() {
   const { data: session, status }: any = useSession();
   const { seeProfilComponent } = useContext(GlobalState);
-  const { booksUser, storysUser, profilLoading, statusBook } = useUsers.profilUser(
+  const { userDetail, booksUser, storysUser, profilLoading, statusBook } = useUsers.profilUser(
     session?.user?._id,
   );
 
@@ -37,7 +38,7 @@ export default function Profil() {
           <AboutProfil judul="About" storysUser={storysUser} userData={session?.user} />
         )}
         {seeProfilComponent.seeFriends && (
-          <AboutProfil judul="Friends" storysUser={storysUser} userData={session?.user} />
+          <FriendsProfil followerUser={userDetail?.follower} myFollower={userDetail?.myFollower} />
         )}
         {seeProfilComponent.seeProduct && (
           <div className="flex flex-wrap gap-4 w-full justify-start">

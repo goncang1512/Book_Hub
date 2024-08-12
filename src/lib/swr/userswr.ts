@@ -19,4 +19,12 @@ export const useNewUsers = {
       ldgMisiNotif: isLoading,
     };
   },
+  getMyFollower: (user_id: string) => {
+    const { data, isLoading } = useSWR(`/api/follow/${user_id}`, fetcher);
+
+    return {
+      dataFollow: data?.result,
+      followLoading: isLoading,
+    };
+  },
 };

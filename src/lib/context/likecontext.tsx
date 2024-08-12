@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import React, { createContext, SetStateAction } from "react";
+import React, { createContext, Dispatch, SetStateAction } from "react";
 import { useSWRConfig } from "swr";
 
 import instance from "../utils/fetch";
@@ -64,5 +64,52 @@ export default function LikeContextProvider({ children }: { children: React.Reac
       setLiked(true);
     }
   };
-  return <LikeContext.Provider value={{ addLike, disLike }}>{children}</LikeContext.Provider>;
+
+  const followUser = async (
+    user_id: string,
+    follower_id: string,
+    username: string,
+    setFollowed: Dispatch<SetStateAction<boolean>>,
+  ) => {
+    try {
+      setFollowed(true);
+      const res = await instance.post(`/api/follow`, { user_id, follower_id });
+
+      if (res.data.status) {
+        mutate(`/api/user?user_id=${username}`);
+        mutate(`/api/user/content/${follower_id}`);
+        mutate(`/api/follow/${session?.user?._id}`);
+      }
+    } catch (error) {
+      setFollowed(false);
+      logger.error(`${error}`);
+    }
+  };
+
+  const unfollowUser = async (
+    user_id: string,
+    follower_id: string,
+    username: string,
+    setFollowed: Dispatch<SetStateAction<boolean>>,
+  ) => {
+    try {
+      setFollowed(false);
+      const res = await instance.delete(`/api/follow/${user_id}/${follower_id}`);
+      if (res.data.status) {
+        mutate(`/api/user?user_id=${username}`);
+        mutate(`/api/user/content/${follower_id}`);
+        mutate(`/api/user/content/${follower_id}`);
+        mutate(`/api/follow/${session?.user?._id}`);
+      }
+    } catch (error) {
+      logger.error(`${error}`);
+      setFollowed(true);
+    }
+  };
+
+  return (
+    <LikeContext.Provider value={{ addLike, disLike, followUser, unfollowUser }}>
+      {children}
+    </LikeContext.Provider>
+  );
 }

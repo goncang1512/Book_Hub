@@ -10,6 +10,8 @@ import Img from "../fragments/image";
 import { CardContent, StoryType } from "./cardstory";
 
 import { UserType } from "@/lib/utils/DataTypes.type";
+import ButtonFollow from "../fragments/buttonfollow";
+import { usePathname } from "next/navigation";
 
 interface StoryUser extends StoryType {
   length: number;
@@ -25,6 +27,7 @@ export default function AboutProfil({
   storysUser: StoryUser[];
 }) {
   const [width, setWidth] = useState("");
+  const pathname = usePathname();
   const { data: session }: any = useSession();
   useEffect(() => {
     if (userData && userData.rank) {
@@ -67,7 +70,9 @@ export default function AboutProfil({
             </div>
           </div>
           <div>
-            <button className="bg-stone-200 px-2 py-1 rounded-md text-black">follow</button>
+            {pathname !== "/profil" && (
+              <ButtonFollow follower_id={session?.user?._id} user={userData} />
+            )}
           </div>
         </div>
         <div className="p-3 border-x border-b rounded-b-lg flex flex-wrap gap-4">

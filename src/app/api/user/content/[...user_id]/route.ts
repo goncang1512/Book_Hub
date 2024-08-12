@@ -6,6 +6,8 @@ import { bookAutServices } from "@/lib/services/bookauthor";
 import { getLikeContent, getListBook } from "@/lib/middleware/likechek";
 import { bookServices } from "@/lib/services/bookservices";
 import { storyServices } from "@/lib/services/storyservices";
+import UserModels from "@/lib/models/users";
+import { followServices } from "@/lib/services/followservices";
 
 export const GET = async (req: NextRequest, { params }: { params: { user_id: string[] } }) => {
   await connectMongoDB();
@@ -15,6 +17,15 @@ export const GET = async (req: NextRequest, { params }: { params: { user_id: str
     let statusBook: any[] = [];
     const books = await bookServices.byId(user_id[0]);
     const results = await getListBook(books);
+    const user = await UserModels.findOne(
+      { _id: user_id },
+      "_id username email imgProfil rank role createdAt badge",
+    );
+
+    const follower = await followServices.getMengikuti(user._id);
+    const myFollower = await followServices.getDiikuti(user._id);
+
+    const userWithFollower = { ...user.toObject(), follower, myFollower };
 
     if (results && results.length > 0) {
       for (let result of results) {
@@ -47,6 +58,7 @@ export const GET = async (req: NextRequest, { params }: { params: { user_id: str
         books: results,
         storys: storys,
         statusBook,
+        userDetail: userWithFollower,
       },
       { status: 200 },
     );

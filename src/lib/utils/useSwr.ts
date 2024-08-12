@@ -28,6 +28,7 @@ export const useUsers = {
     const { data, isLoading } = useSWR(`/api/user/content/${user_id}`, fetcher);
 
     return {
+      userDetail: data?.userDetail,
       booksUser: data?.books,
       storysUser: data?.storys,
       statusBook: data?.statusBook,

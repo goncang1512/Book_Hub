@@ -12,6 +12,7 @@ import { bookServices } from "@/lib/services/bookservices";
 import { getLikeContent, getListBook } from "@/lib/middleware/likechek";
 import { bookAutServices } from "@/lib/services/bookauthor";
 import { storyServices } from "@/lib/services/storyservices";
+import { followServices } from "@/lib/services/followservices";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -109,13 +110,17 @@ export const GET = async (req: NextRequest) => {
     const cerita = await storyServices.getStoryUser(result._id);
     const storys = await getLikeContent(cerita);
 
+    const getMengikuti = await followServices.getMengikuti(result._id);
+    const diikuti = await followServices.getDiikuti(result._id);
+    const userWithFollower = { ...result.toObject(), follower: getMengikuti, myFollower: diikuti };
+
     logger.info("Success get user");
     return NextResponse.json(
       {
         status: true,
         statusCode: 200,
         message: "Success get user",
-        result,
+        result: userWithFollower,
         books: listBook,
         storys,
         statusBook,
