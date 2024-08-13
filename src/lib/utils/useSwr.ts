@@ -50,7 +50,7 @@ export const useBooks = {
       jenisHot: data?.jenisHot,
     };
   },
-  detailBook: (id: string, user_id: string) => {
+  detailBook: (id: string, user_id?: string) => {
     let url: string = `/api/book/detailbook/${id}`;
     if (user_id) {
       url = `/api/book/detailbook/${id}/${user_id}`;
