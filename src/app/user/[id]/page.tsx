@@ -31,7 +31,7 @@ const UserProfil: React.FC<UserProfilProps> = ({ params }) => {
 
   const { userDetail, userDetailLoading, booksUser, storyUser, statusBook } =
     useUsers.detailUser(username);
-  const { dataFollow, followLoading } = useNewUsers.getMyFollower(session?.user?._id);
+  const { dataFollow, followLoading }: any = useNewUsers.getMyFollower(session?.user?._id);
 
   return (
     <main
@@ -50,7 +50,12 @@ const UserProfil: React.FC<UserProfilProps> = ({ params }) => {
           <>
             <HeaderProfil userData={userDetail} />
             {seeProfilComponent?.seeAbout && (
-              <AboutProfil judul="About" storysUser={storyUser} userData={userDetail} />
+              <AboutProfil
+                dataFollow={dataFollow}
+                judul="About"
+                storysUser={storyUser}
+                userData={userDetail}
+              />
             )}
             {seeProfilComponent?.seeFriends && (
               <FriendsProfil

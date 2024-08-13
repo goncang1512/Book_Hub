@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Img from "../fragments/image";
 import { GlobalState } from "@/lib/context/globalstate";
-import { LikeContext } from "@/lib/context/likecontext";
 import { useSession } from "next-auth/react";
-import { usePathname } from "next/navigation";
+import { ButtonFriends } from "../fragments/buttonfollow";
 
 type user = {
   _id: string;
@@ -107,54 +106,3 @@ export default function FriendsProfil({
     </div>
   );
 }
-
-const ButtonFriends = ({
-  follower,
-  dataUser,
-  myFollower,
-  session,
-  dataFollow,
-}: {
-  follower: any;
-  myFollower: any;
-  dataUser: any;
-  session: any;
-  dataFollow: any;
-}) => {
-  const [followed, setFollowed] = useState(false);
-  const { followUser, unfollowUser } = useContext(LikeContext);
-  const pathaname = usePathname();
-
-  useEffect(() => {
-    const follownya = pathaname === "/profil" ? myFollower : dataFollow.myFollower;
-    const mengikuti = follownya.some(
-      (follow: any) =>
-        follow.follower_id === session?.user?._id && follow?.user_id === dataUser?._id,
-    );
-    setFollowed(mengikuti);
-  }, [follower]);
-
-  return (
-    <>
-      {followed ? (
-        <button
-          className="bg-stone-200 px-2 py-1 rounded-md text-black"
-          onClick={() => {
-            unfollowUser(dataUser?._id, session?.user?._id, dataUser?.username, setFollowed);
-          }}
-        >
-          unfollow
-        </button>
-      ) : (
-        <button
-          className="bg-stone-200 px-2 py-1 rounded-md text-black"
-          onClick={() => {
-            followUser(dataUser?._id, session?.user?._id, dataUser?.username, setFollowed);
-          }}
-        >
-          follow
-        </button>
-      )}
-    </>
-  );
-};

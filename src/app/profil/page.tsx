@@ -35,7 +35,12 @@ export default function Profil() {
       <div className="relative h-full md:p-10 p-4 flex flex-col md:gap-10 gap-4 md:mr-[30%] mr-0 z-10">
         <HeaderProfil userData={session?.user} />
         {seeProfilComponent.seeAbout && (
-          <AboutProfil judul="About" storysUser={storysUser} userData={session?.user} />
+          <AboutProfil
+            dataFollow={null}
+            judul="About"
+            storysUser={storysUser}
+            userData={session?.user}
+          />
         )}
         {seeProfilComponent.seeFriends && (
           <FriendsProfil followerUser={userDetail?.follower} myFollower={userDetail?.myFollower} />

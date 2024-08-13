@@ -1,4 +1,5 @@
 import { LikeContext } from "@/lib/context/likecontext";
+import { usePathname } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 
 export default function ButtonFollow({ user, follower_id }: { user: any; follower_id: string }) {
@@ -33,3 +34,105 @@ export default function ButtonFollow({ user, follower_id }: { user: any; followe
     </>
   );
 }
+
+export const ButtonFriends = ({
+  follower,
+  dataUser,
+  myFollower,
+  session,
+  dataFollow,
+}: {
+  follower: any;
+  myFollower: any;
+  dataUser: any;
+  session: any;
+  dataFollow: any;
+}) => {
+  const [followed, setFollowed] = useState(false);
+  const { followUser, unfollowUser } = useContext(LikeContext);
+  const pathaname = usePathname();
+
+  useEffect(() => {
+    const follownya = pathaname === "/profil" ? myFollower : dataFollow?.myFollower;
+    const mengikuti = follownya?.some(
+      (follow: any) =>
+        follow.follower_id === session?.user?._id && follow?.user_id === dataUser?._id,
+    );
+    setFollowed(mengikuti);
+  }, [follower]);
+
+  return (
+    <>
+      {followed ? (
+        <button
+          className="bg-stone-200 px-2 py-1 rounded-md text-black"
+          onClick={() => {
+            unfollowUser(dataUser?._id, session?.user?._id, dataUser?.username, setFollowed);
+          }}
+        >
+          unfollow
+        </button>
+      ) : (
+        <button
+          className="bg-stone-200 px-2 py-1 rounded-md text-black"
+          onClick={() => {
+            followUser(dataUser?._id, session?.user?._id, dataUser?.username, setFollowed);
+          }}
+        >
+          follow
+        </button>
+      )}
+    </>
+  );
+};
+
+export const ButtonStory = ({
+  user_id,
+  follower_id,
+  book_id,
+  userData,
+  dataFollow,
+  session,
+}: {
+  user_id: string;
+  follower_id: string;
+  book_id: string;
+  userData: any;
+  dataFollow: any;
+  session: any;
+}) => {
+  const [followed, setFollowed] = useState(false);
+  const { followUser, unfollowUser } = useContext(LikeContext);
+
+  useEffect(() => {
+    const mengikuti = dataFollow?.myFollower.some(
+      (follow: any) =>
+        follow.follower_id === session?.user?._id && follow?.user_id === userData?._id,
+    );
+    setFollowed(mengikuti);
+  }, [dataFollow, userData]);
+
+  return (
+    <>
+      {followed ? (
+        <button
+          className="text-blue-500 text-sm"
+          onClick={() => {
+            unfollowUser(user_id, follower_id, userData?.username, setFollowed, book_id);
+          }}
+        >
+          Diikuti
+        </button>
+      ) : (
+        <button
+          className="text-blue-500 text-sm"
+          onClick={() => {
+            followUser(user_id, follower_id, userData?.username, setFollowed, book_id);
+          }}
+        >
+          Ikuti
+        </button>
+      )}
+    </>
+  );
+};

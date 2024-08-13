@@ -9,6 +9,7 @@ import { getLikeContent } from "@/lib/middleware/likechek";
 import { bookServices } from "@/lib/services/bookservices";
 import { storyServices } from "@/lib/services/storyservices";
 import { whislistSrv } from "@/lib/services/whilistservices";
+import { getMyFollower } from "@/lib/middleware/getmyfollower";
 
 export const GET = async (req: NextRequest, { params }: { params: { slug: string[] } }) => {
   await connectMongoDB();
@@ -37,6 +38,11 @@ export const GET = async (req: NextRequest, { params }: { params: { slug: string
       }
     }
 
+    let myFollower;
+    if (slug[2]) {
+      myFollower = await getMyFollower(slug[2]);
+    }
+
     logger.info("Success get detail book by id");
     return NextResponse.json(
       {
@@ -46,6 +52,7 @@ export const GET = async (req: NextRequest, { params }: { params: { slug: string
         result: results,
         statusBook,
         story: storyWithLike,
+        myFollower: myFollower && myFollower,
       },
       { status: 200 },
     );

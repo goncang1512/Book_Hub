@@ -19,6 +19,7 @@ import { SpoilerText } from "@/components/elements/readmoreless";
 import { StoryContext } from "@/lib/context/storycontext";
 import { timeAgo } from "@/lib/utils/parseTime";
 import { Button } from "@/components/elements/button";
+import { ButtonStory } from "../fragments/buttonfollow";
 
 export type StoryType = {
   _id: string;
@@ -58,10 +59,14 @@ export const CardContent = ({
   story,
   seeBook,
   comment,
+  dataFollow,
+  statusCard,
 }: {
   story: StoryType;
   seeBook: boolean;
   comment?: boolean;
+  dataFollow: any;
+  statusCard?: string;
 }) => {
   const { data: session }: any = useSession();
   const [handleUpdate, setHandleUpdate] = useState(false);
@@ -128,17 +133,29 @@ export const CardContent = ({
       <div className="flex flex-col items-start gap-3 w-full">
         <div className="w-full flex items-center justify-between">
           <div className="flex flex-col">
-            <button
-              className="cursor-pointer flex items-center gap-2"
-              onClick={() => handleRouter(story?.user?.username)}
-            >
-              <p className="md:text-base text-sm font-semibold">{story?.user?.username}</p>
-              <div className="flex items-center">
-                {story?.user?.badge?.map((logo: string, index: number) => (
-                  <Img key={index} className="size-4" src={`${logo}`} />
-                ))}
-              </div>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                className="flex items-center gap-2"
+                onClick={() => handleRouter(story?.user?.username)}
+              >
+                <p className="md:text-base text-sm font-semibold">{story?.user?.username}</p>
+                <div className="flex items-center">
+                  {story?.user?.badge?.map((logo: string, index: number) => (
+                    <Img key={index} className="size-4" src={`${logo}`} />
+                  ))}
+                </div>
+              </button>
+              {session?.user?._id !== story?.user?._id && (
+                <ButtonStory
+                  book_id={statusCard === "detail" ? story?._id : story?.book_id}
+                  dataFollow={dataFollow}
+                  follower_id={session?.user?._id}
+                  session={session}
+                  userData={story?.user}
+                  user_id={story?.user?._id}
+                />
+              )}
+            </div>
             <p className="md:text-sm text-xs text-gray-400">{timeAgo(story?.updatedAt)}</p>
           </div>
 
@@ -174,7 +191,8 @@ export const CardContent = ({
             id="input-ception"
             onSubmit={async (e) => {
               e.preventDefault();
-              const hasil = await updateStory(newCeption, story?._id);
+              const book_id = statusCard === "detail" ? story._id : story?.book_id;
+              const hasil = await updateStory(newCeption, story?._id, book_id);
               if (hasil) {
                 setHandleUpdate(false);
               }
@@ -272,7 +290,7 @@ export const CardContent = ({
         <div className="flex items-center gap-3" id="like-component">
           <LikeComponent
             _id={story?._id}
-            book_id={story?.book_id}
+            book_id={statusCard === "detail" ? story._id : story?.book_id}
             contentLike={story?.like_str && story.like_str}
             user={story.user && story.user}
             user_story={story?.user_id && story?.user_id}

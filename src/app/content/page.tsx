@@ -7,6 +7,7 @@ import React from "react";
 import { useStory } from "@/lib/utils/useSwr";
 import { CardContent } from "@/components/layouts/cardstory";
 import { InputStory } from "@/components/layouts/inputstory";
+import { useSession } from "next-auth/react";
 
 export default function Balasan() {
   const router = useRouter();
@@ -15,7 +16,11 @@ export default function Balasan() {
   if (!id) {
     return <div>Loading</div>;
   }
-  const { storyDetail, storyBook, storyDetailLdl } = useStory.detailStory(id && id);
+  const { data: session }: any = useSession();
+  const { storyDetail, dataFollow, storyBook, storyDetailLdl } = useStory.detailStory(
+    id && id,
+    session?.user?._id,
+  );
 
   return (
     <main className="flex">
@@ -37,7 +42,19 @@ export default function Balasan() {
           </div>
 
           <div className="flex flex-col pt-20">
-            <CardContent comment={true} seeBook={true} story={storyDetail && storyDetail} />
+            {storyDetail &&
+              storyDetail?.map((cerita: any) => {
+                return (
+                  <CardContent
+                    key={cerita._id}
+                    comment={true}
+                    dataFollow={dataFollow}
+                    seeBook={true}
+                    statusCard="detail"
+                    story={cerita}
+                  />
+                );
+              })}
             <InputStory idStoryBook={id && id} />
           </div>
           <div className="flex flex-col">
@@ -49,7 +66,13 @@ export default function Balasan() {
               storyBook &&
               storyBook.map((cerita: any) => {
                 return (
-                  <CardContent key={cerita._id} comment={true} seeBook={false} story={cerita} />
+                  <CardContent
+                    key={cerita._id}
+                    comment={true}
+                    dataFollow={dataFollow}
+                    seeBook={false}
+                    story={cerita}
+                  />
                 );
               })
             )}

@@ -3,7 +3,8 @@ import { fetcher } from "../utils/useSwr";
 
 export const useNewUsers = {
   getDetailUser: (user_id: string) => {
-    const { data, isLoading } = useSWR(`/api/user/${user_id}`, fetcher);
+    const shouldFetch = Boolean(user_id);
+    const { data, isLoading } = useSWR(shouldFetch ? `/api/user/${user_id}` : null, fetcher);
 
     return {
       userDetail: data?.result,
@@ -11,7 +12,8 @@ export const useNewUsers = {
     };
   },
   getMisiNotif: (user_id: string) => {
-    const { data, isLoading } = useSWR(`/api/mission/${user_id}`, fetcher);
+    const shouldFetch = Boolean(user_id);
+    const { data, isLoading } = useSWR(shouldFetch ? `/api/mission/${user_id}` : null, fetcher);
 
     return {
       missionUser: data?.mission,
@@ -20,7 +22,8 @@ export const useNewUsers = {
     };
   },
   getMyFollower: (user_id: string) => {
-    const { data, isLoading } = useSWR(`/api/follow/${user_id}`, fetcher);
+    const shouldFetch = Boolean(user_id);
+    const { data, isLoading } = useSWR(shouldFetch ? `/api/follow/${user_id}` : null, fetcher);
 
     return {
       dataFollow: data?.result,

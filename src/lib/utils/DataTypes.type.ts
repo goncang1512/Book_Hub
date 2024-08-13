@@ -205,7 +205,7 @@ export interface StoryInterface {
   loadingDeleteStory: boolean;
   newCeption: string;
   setNewCeption: React.Dispatch<React.SetStateAction<string>>;
-  updateStory: (ception: string, id: string) => Promise<boolean>;
+  updateStory: (ception: string, id: string, book_id: string) => Promise<boolean>;
   loadingUpdateStory: boolean;
   msgUpdateCerita: string;
   msgRank: { experience: number; level: number; point: number };

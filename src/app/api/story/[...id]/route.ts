@@ -2,22 +2,27 @@ import { NextRequest, NextResponse } from "next/server";
 
 import connectMongoDB from "@/lib/config/connectMongoDb";
 import { logger } from "@/lib/utils/logger";
-import { getLikeContent, getLikeStorySingle } from "@/lib/middleware/likechek";
+import { getLikeContent } from "@/lib/middleware/likechek";
 import { storyServices } from "@/lib/services/storyservices";
+import { getMyFollower } from "@/lib/middleware/getmyfollower";
 
 export const GET = async (req: NextRequest, { params }: { params: { id: string[] } }) => {
   await connectMongoDB();
   try {
     let result;
     let story;
+    let myFollower;
     if (params.id[0] === "mystory") {
       const storys: any = await storyServices.getStoryUser(params.id[1]);
       result = await getLikeContent(storys);
     } else if (params.id[0] === "detailstory") {
       const detailStory = await storyServices.detailStory(params.id[1]);
-      result = await getLikeStorySingle(detailStory);
-      const storys: any = await storyServices.getIdBook(params.id[1]);
+      result = await getLikeContent(detailStory);
+      const storys = await storyServices.getIdBook(params.id[1]);
       story = await getLikeContent(storys);
+      if (params.id[2]) {
+        myFollower = await getMyFollower(params.id[2]);
+      }
     }
 
     logger.info("Success get story");
@@ -28,6 +33,7 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string[]
         message: "Success get story",
         result,
         story: story && story,
+        myFollower: myFollower && myFollower,
       },
       { status: 200 },
     );

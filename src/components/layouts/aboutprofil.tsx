@@ -21,10 +21,12 @@ export default function AboutProfil({
   judul,
   userData,
   storysUser,
+  dataFollow,
 }: {
   judul: string;
   userData: UserType;
   storysUser: StoryUser[];
+  dataFollow: any;
 }) {
   const [width, setWidth] = useState("");
   const pathname = usePathname();
@@ -141,7 +143,7 @@ export default function AboutProfil({
         </div>
       </div>
       <div id="story_container">
-        <StoryContainer storysUser={storysUser} />
+        <StoryContainer dataFollow={dataFollow} storysUser={storysUser} />
       </div>
     </div>
   );
@@ -189,7 +191,13 @@ export const BarExp = ({ width }: { width: string }) => {
   );
 };
 
-export const StoryContainer = ({ storysUser }: { storysUser: StoryUser[] }) => {
+export const StoryContainer = ({
+  storysUser,
+  dataFollow,
+}: {
+  storysUser: StoryUser[];
+  dataFollow: any;
+}) => {
   return (
     <div className={`${storysUser?.length === 0 && "hidden"} border bg-white rounded-lg shadow-lg`}>
       <div className="w-full h-14 bg-white p-3 rounded-t-lg border-b flex items-center gap-5">
@@ -197,7 +205,9 @@ export const StoryContainer = ({ storysUser }: { storysUser: StoryUser[] }) => {
       </div>
       {storysUser &&
         storysUser.map((story: StoryType) => {
-          return <CardContent key={story._id} seeBook={true} story={story} />;
+          return (
+            <CardContent key={story._id} dataFollow={dataFollow} seeBook={true} story={story} />
+          );
         })}
     </div>
   );

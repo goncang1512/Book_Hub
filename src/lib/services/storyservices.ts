@@ -33,7 +33,7 @@ export const storyServices = {
     return await StoryModels.deleteMany({ user_id: id });
   },
   detailStory: async (id: string) => {
-    return await StoryModels.findOne({ _id: id })
+    return await StoryModels.find({ _id: id })
       .populate("book")
       .populate("user", "_id username email imgProfil badge rank");
   },

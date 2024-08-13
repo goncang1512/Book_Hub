@@ -4,8 +4,16 @@ import { logger } from "@/lib/utils/logger";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest, { params }: { params: { user_id: string[] } }) => {
+  const user_id = params.user_id[0];
+
+  if (!user_id) {
+    return NextResponse.json(
+      { status: false, statusCode: 422, message: "Harus login dulu." },
+      { status: 422 },
+    );
+  }
+
   try {
-    const user_id = params.user_id[0];
     const result = await UserModels.findOne(
       { _id: user_id },
       "_id username email imgProfil rank role createdAt badge",

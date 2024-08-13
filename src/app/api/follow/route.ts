@@ -6,6 +6,16 @@ export const POST = async (req: NextRequest) => {
   try {
     const { user_id, follower_id } = await req.json();
 
+    const follow = await followServices.checkFollower(user_id, follower_id);
+
+    if (follow || !follower_id) {
+      return NextResponse.json({
+        status: false,
+        statusCode: 422,
+        message: "Gagal melakukan follow user",
+      });
+    }
+
     const result = await followServices.followUser(user_id, follower_id);
 
     logger.info("Success follow user");

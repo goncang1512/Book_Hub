@@ -50,10 +50,15 @@ export const useBooks = {
       jenisHot: data?.jenisHot,
     };
   },
-  detailBook: (id: string) => {
-    const { data, error, isLoading } = useSWR(`/api/book/detailbook/${id}`, fetcher);
+  detailBook: (id: string, user_id: string) => {
+    let url: string = `/api/book/detailbook/${id}`;
+    if (user_id) {
+      url = `/api/book/detailbook/${id}/${user_id}`;
+    }
+    const { data, error, isLoading } = useSWR(url, fetcher);
 
     return {
+      dataFollow: data?.myFollower,
       storyBook: data?.story,
       statusDetail: data?.statusBook,
       detailBook: data?.result,
@@ -73,10 +78,15 @@ export const useStory = {
       storyUserError: error,
     };
   },
-  detailStory: (id: string | null) => {
-    const { data, isLoading } = useSWR(`/api/story/detailstory/${id}`, fetcher);
+  detailStory: (id: string | null, user_id: string) => {
+    let url: string = `/api/story/detailstory/${id}`;
+    if (user_id) {
+      url = `/api/story/detailstory/${id}/${user_id}`;
+    }
+    const { data, isLoading } = useSWR(url, fetcher);
 
     return {
+      dataFollow: data?.myFollower,
       storyBook: data?.story,
       storyDetail: data?.result,
       storyDetailLdl: isLoading,

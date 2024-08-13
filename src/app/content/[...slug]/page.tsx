@@ -9,11 +9,12 @@ import { StoryContext } from "@/lib/context/storycontext";
 import { CardContent } from "@/components/layouts/cardstory";
 import { InputStory } from "@/components/layouts/inputstory";
 import { PesanLvlUp } from "@/components/fragments/levelup";
+import { useSession } from "next-auth/react";
 
 export default function Content({ params }: { params: { slug: string[] } }) {
-  const { detailBook, storyBook, detailBookLoading, statusDetail }: any = useBooks.detailBook(
-    params.slug[0],
-  );
+  const { data: session }: any = useSession();
+  const { detailBook, dataFollow, storyBook, detailBookLoading, statusDetail }: any =
+    useBooks.detailBook(params.slug[0], session?.user?._id);
 
   const { msgLvlUp } = useContext(StoryContext);
   useEffect(() => {
@@ -46,7 +47,14 @@ export default function Content({ params }: { params: { slug: string[] } }) {
           ) : (
             storyBook &&
             storyBook.map((cerita: any) => {
-              return <CardContent key={cerita._id} seeBook={false} story={cerita} />;
+              return (
+                <CardContent
+                  key={cerita._id}
+                  dataFollow={dataFollow}
+                  seeBook={false}
+                  story={cerita}
+                />
+              );
             })
           )}
         </div>

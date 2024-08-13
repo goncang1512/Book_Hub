@@ -35,4 +35,7 @@ export const followServices = {
         createdAt: -1,
       });
   },
+  checkFollower: async (user_id: string, follower_id: string) => {
+    return await FollowerModels.findOne({ user_id, follower_id });
+  },
 };
