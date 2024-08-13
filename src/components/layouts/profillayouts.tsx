@@ -6,13 +6,11 @@ import { useSession, signOut } from "next-auth/react";
 
 import Img from "../fragments/image";
 
-import { CardContent, StoryType } from "./cardstory";
 import DropDown from "./hovercard";
 
 import { GlobalState } from "@/lib/context/globalstate";
 import styles from "@/lib/style.module.css";
 import { UserContext } from "@/lib/context/usercontext";
-import { useStory } from "@/lib/utils/useSwr";
 import { UserType } from "@/lib/utils/DataTypes.type";
 
 export function HeaderProfil({ userData }: { userData: UserType }) {
@@ -143,16 +141,3 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
     </div>
   );
 }
-
-export const StoryContainer = ({ userData }: { userData: UserType }) => {
-  const { storyUser } = useStory.getStoryUser(userData?._id);
-
-  return (
-    <div className={`${storyUser?.length === 0 && "hidden"} border bg-white rounded-lg shadow-lg`}>
-      {storyUser &&
-        storyUser.map((story: StoryType) => {
-          return <CardContent key={story._id} seeBook={false} story={story} />;
-        })}
-    </div>
-  );
-};
