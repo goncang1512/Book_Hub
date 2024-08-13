@@ -180,7 +180,7 @@ export const BarExp = ({ width }: { width: string }) => {
             className={`absolute bg-blue-500 -top-[20px] left-1/2 transform -translate-x-1/2 rounded-sm`}
           >
             <p className="text-[9px] px-1 text-white">{formatWidth(width)}%</p>
-            <div className="h-2 w-[10.3px] absolute bg-blue-500 -bottom-[5px] left-1/2 transform -translate-x-1/2">
+            <div className="h-2 w-[10.3px] absolute bg-blue-500 -bottom-[5.1px] left-1/2 transform -translate-x-1/2">
               <span className="absolute h-[6px] w-2 bg-white -bottom-[0.9px] -left-[2.7px] rounded-tr-full  z-10" />
               <span className="absolute h-[6px] w-2 bg-white -bottom-[0.9px] -right-[2.7px] rounded-tl-full  z-10" />
             </div>
