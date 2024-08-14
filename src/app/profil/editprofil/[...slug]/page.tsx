@@ -297,10 +297,7 @@ function UpdateData() {
       username: session?.user?.username || "",
       number: session?.user?.number || "",
       email: session?.user?.email || "",
-      alamat: session?.user?.alamat?.detail || "",
-      kecamatan: session?.user?.alamat?.kecamatan || "",
-      kabupaten: session?.user?.alamat?.kabupaten || "",
-      provinsi: session?.user?.alamat?.provinsi || "",
+      alamat: session?.user?.alamat || "",
     });
   }, [session]);
 

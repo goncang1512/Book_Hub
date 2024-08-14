@@ -4,8 +4,9 @@ import { useSWRConfig } from "swr";
 
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
+import { LikeContextType } from "../utils/provider.type";
 
-export const LikeContext = createContext<any>(null);
+export const LikeContext = createContext<LikeContextType>({} as LikeContextType);
 
 export default function LikeContextProvider({ children }: { children: React.ReactNode }) {
   const { mutate } = useSWRConfig();

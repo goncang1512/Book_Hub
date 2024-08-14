@@ -8,7 +8,7 @@ import { logger } from "@/lib/utils/logger";
 export default function Global({ children }: { children: React.ReactNode }) {
   const { data: session, update: updateData, status }: any = useSession();
 
-  const { userDetail }: any = useNewUsers.getDetailUser(session?.user?._id);
+  const { userDetail } = useNewUsers.getDetailUser(session?.user?._id);
 
   useEffect(() => {
     const updateProfil = async () => {

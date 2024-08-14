@@ -4,8 +4,9 @@ import * as React from "react";
 import { createContext, useState } from "react";
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
+import { AuthContextType } from "../utils/provider.type";
 
-export const AuthContext = createContext<any>(null);
+export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export default function AuthCntextProvider({ children }: { children: React.ReactNode }) {
   const { push } = useRouter();
@@ -74,7 +75,7 @@ export default function AuthCntextProvider({ children }: { children: React.React
     }
   };
 
-  const updateEmail = async (codeOtp: number, user_id: string) => {
+  const updateEmail = async (codeOtp: string, user_id: string) => {
     try {
       setLoadingEmail(true);
       const res = await instance.patch(`/api/user/email/${user_id}`, { codeOtp });
@@ -102,20 +103,20 @@ export default function AuthCntextProvider({ children }: { children: React.React
   return (
     <AuthContext.Provider
       value={{
-        loadingLogin,
         login,
-        dataLogin,
-        setDataLogin,
-        messageAuth,
-        trueCode,
         sendNewEmail,
         updateEmail,
+        setDataLogin,
+        setNewEmail,
+        setCodeOtp,
+        loadingLogin,
+        dataLogin,
+        messageAuth,
+        trueCode,
         msgUpdateData,
         loadingEmail,
         newEmail,
-        setNewEmail,
         codeOtp,
-        setCodeOtp,
       }}
     >
       {children}

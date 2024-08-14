@@ -5,7 +5,8 @@ import { useSWRConfig } from "swr";
 import { logger } from "../utils/logger";
 
 import instance from "../utils/fetch";
-import { BookProvider, UploadBookType, UploadMyBookType } from "../utils/DataTypes.type";
+import { UploadBookType, UploadMyBookType } from "../utils/DataTypes.type";
+import { BookProvider } from "../utils/provider.type";
 
 export const BookContext = createContext<BookProvider>({} as BookProvider);
 
@@ -46,11 +47,10 @@ export default function BookContextProvider({ children }: { children: React.Reac
   });
 
   const uploadBook = async (body: UploadBookType, id: string, jenis: string) => {
-    const data = { ...body, user_id: id, jenis };
     try {
       setLoadingBook(true);
 
-      const res = await instance.post("/api/book", data);
+      const res = await instance.post("/api/book", { ...body, user_id: id, jenis });
       if (res.data.status) {
         setPreviewUrl(null);
         setBookData({
@@ -140,11 +140,10 @@ export default function BookContextProvider({ children }: { children: React.Reac
   });
 
   const uploadMyBook = async (body: UploadMyBookType, id: string) => {
-    const data = { ...body, user_id: id };
     try {
       setLoadingBook(true);
 
-      const res = await instance.post("/api/book", data);
+      const res = await instance.post("/api/book", { ...body, user_id: id });
       if (res.data.status) {
         setPreviewUrl(null);
         setMyBookData({

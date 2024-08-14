@@ -185,6 +185,8 @@ export const CardContent = ({
             )}
           </div>
         </div>
+
+        {/* Edit STORY */}
         {handleUpdate ? (
           <form
             className="w-full flex flex-col gap-4 md:pr-5"
@@ -225,13 +227,19 @@ export const CardContent = ({
             </div>
           </form>
         ) : check ? (
-          <div>
+          <div className="md:pr-5 w-full">
             <SpoilerText>{story?.ception}</SpoilerText>
+            {story?.createdAt !== story?.updatedAt && (
+              <p className=" text-end text-xs text-gray-400">edited</p>
+            )}
           </div>
         ) : (
-          <div className="text-sm md:text-base">
+          <div className="text-sm md:text-base md:pr-5 w-full">
             {paragraphs &&
               paragraphs.map((text: string, index) => <p key={index}>{text || "\u00A0"}</p>)}
+            {story?.createdAt !== story?.updatedAt && (
+              <p className=" text-end text-xs text-gray-400">edited</p>
+            )}
           </div>
         )}
 

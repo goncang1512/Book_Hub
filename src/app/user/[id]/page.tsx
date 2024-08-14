@@ -31,7 +31,7 @@ const UserProfil: React.FC<UserProfilProps> = ({ params }) => {
 
   const { userDetail, userDetailLoading, booksUser, storyUser, statusBook } =
     useUsers.detailUser(username);
-  const { dataFollow, followLoading }: any = useNewUsers.getMyFollower(session?.user?._id);
+  const { dataFollow, followLoading } = useNewUsers.getMyFollower(session?.user?._id);
 
   return (
     <main

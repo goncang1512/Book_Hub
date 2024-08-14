@@ -52,12 +52,14 @@ export default function Read() {
                           href={`/profil/notifikasi/${pesan._id}`}
                         >
                           <Img
-                            className="size-20 border rounded-full"
+                            className="md:size-20 size-14 border rounded-full"
                             src={`${pesan.user_id[0].imgProfil.imgUrl}`}
                           />
                           <div className={`${pesan.status && "font-bold text-black"}`}>
                             <div className="flex items-center gap-2">
-                              <h3 className="font-semibold">{pesan?.user_id[0].username}</h3>
+                              <h3 className="font-semibold md:text-base text-sm">
+                                {pesan?.user_id[0].username}
+                              </h3>
                               <div className="flex items-center">
                                 {pesan?.user_id[0].badge?.map((logo: string, index: number) => (
                                   <Img key={index} className="size-4" src={`${logo}`} />
@@ -67,7 +69,7 @@ export default function Read() {
                             <p
                               className={`${
                                 pesan.status ? "text-black" : "text-gray-400"
-                              } text-sm truncate md:w-96 w-40 `}
+                              } md:text-sm text-xs truncate md:w-96 w-40 `}
                             >
                               {extractText(pesan?.message)}
                             </p>

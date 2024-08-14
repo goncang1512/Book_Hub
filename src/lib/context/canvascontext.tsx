@@ -4,9 +4,9 @@ import { createContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSWRConfig } from "swr";
 
-import { CanvasProvider } from "../utils/DataTypes.type";
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
+import { CanvasProvider } from "../utils/provider.type";
 
 export const CanvasContext = createContext<CanvasProvider>({} as CanvasProvider);
 

@@ -4,8 +4,9 @@ import { useSWRConfig } from "swr";
 
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
+import { WhislistContextType } from "../utils/provider.type";
 
-export const WhislistContext = createContext<any>(null);
+export const WhislistContext = createContext<WhislistContextType>({} as WhislistContextType);
 
 export default function WhislistContextProvider({ children }: { children: React.ReactNode }) {
   const { mutate } = useSWRConfig();

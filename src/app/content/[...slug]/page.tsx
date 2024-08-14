@@ -13,7 +13,7 @@ import { useSession } from "next-auth/react";
 
 export default function Content({ params }: { params: { slug: string[] } }) {
   const { data: session }: any = useSession();
-  const { detailBook, dataFollow, storyBook, detailBookLoading, statusDetail }: any =
+  const { detailBook, dataFollow, storyBook, detailBookLoading, statusDetail } =
     useBooks.detailBook(params.slug[0], session?.user?._id);
 
   const { msgLvlUp } = useContext(StoryContext);

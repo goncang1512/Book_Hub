@@ -5,8 +5,9 @@ import { useSWRConfig } from "swr";
 import { useSession, signOut } from "next-auth/react";
 
 import instance from "../utils/fetch";
-import { RegisterType, UpdateFoto, UpdateType, UserContextType } from "../utils/DataTypes.type";
+import { RegisterType, UpdateFoto, UpdateType, UpFotoType } from "../utils/DataTypes.type";
 import { logger } from "../utils/logger";
+import { UserContextType } from "../utils/provider.type";
 
 export const UserContext = createContext<UserContextType>({} as UserContextType);
 
@@ -35,9 +36,6 @@ export default function UserContextProvider({ children }: { children: React.Reac
     number: "",
     email: "",
     alamat: "",
-    kecamatan: "",
-    kabupaten: "",
-    provinsi: "",
   });
 
   const registerUser = async (body: RegisterType) => {
@@ -71,7 +69,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
     }
   };
 
-  const updateUsername = async (id: string, body: any) => {
+  const updateUsername = async (id: string, body: UpdateType | null) => {
     try {
       setLoadingUpdateData(true);
       const res = await instance.patch(`/api/user/update/${id}`, body);
@@ -99,7 +97,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
     }
   };
 
-  const newFotoProfil = async (id: string, body: any) => {
+  const newFotoProfil = async (id: string, body: UpFotoType | null) => {
     try {
       setLoadingUpdateFoto(true);
       const res: any = await instance.patch(`/api/user/${id}`, body);

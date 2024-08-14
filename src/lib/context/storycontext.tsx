@@ -4,8 +4,8 @@ import { useSWRConfig } from "swr";
 import { useSession } from "next-auth/react";
 
 import instance from "../utils/fetch";
-import { StoryInterface } from "../utils/DataTypes.type";
 import { logger } from "../utils/logger";
+import { StoryInterface } from "../utils/provider.type";
 
 export const StoryContext = createContext<StoryInterface>({} as StoryInterface);
 
@@ -36,20 +36,18 @@ export default function StoryContextProvider({ children }: { children: React.Rea
   const [loadingUpdateStory, setLoadingUpdateStory] = useState(false);
   const [loadingDeleteStory, setLoadingDeleteStory] = useState(false);
 
-  const uploadStory = async (body: any, id: string, bookId: string | null) => {
+  const uploadStory = async (ception: string, id: string, bookId: string | null) => {
     try {
       setLoadingUploadStory(true);
-      const data = {
-        ception: body,
-        user_id: id,
-        book_id: bookId,
-      };
-
-      const res = await instance.post("/api/story", data, {
-        headers: {
-          Authorization: `Bearer ${session?.accessToken}`,
+      const res = await instance.post(
+        "/api/story",
+        { ception: ception, user_id: id, book_id: bookId },
+        {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`,
+          },
         },
-      });
+      );
 
       if (res.data.status) {
         mutate(`/api/story/mystory/${id}`);
@@ -126,6 +124,7 @@ export default function StoryContextProvider({ children }: { children: React.Rea
         mutate(`/api/story/mystory/${res.data.result.user_id}`);
         mutate(`/api/book/detailbook/${bookId}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${bookId}/${session?.user?._id}`);
+        mutate(`/api/user/content/${session?.user?._id}`);
         setLoadingDeleteStory(false);
       }
     } catch (error) {
@@ -147,6 +146,7 @@ export default function StoryContextProvider({ children }: { children: React.Rea
         mutate(`/api/story/mystory/${res.data.result.user_id}`);
         mutate(`/api/book/detailbook/${res.data.result.book_id}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${book_id}/${session?.user?._id}`);
+        mutate(`/api/user/content/${session?.user?._id}`);
       }
       return true;
     } catch (error: any) {

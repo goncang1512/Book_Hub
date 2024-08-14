@@ -6,8 +6,16 @@ import { UserRegister } from "../utils/DataTypes.type";
 import { logger } from "../utils/logger";
 
 import { UserContext } from "./usercontext";
+import { OtpContextType } from "../utils/provider.type";
 
-export const OtpContext = createContext<any>(null);
+export const OtpContext = createContext<OtpContextType>({} as OtpContextType);
+
+export type BodySendOtp = {
+  username: string;
+  email: string;
+  password: string;
+  confpassword: string;
+};
 
 export default function OtpContextProvider({ children }: { children: React.ReactNode }) {
   const { dataRegister, setDataRegister, setMessageRegister } = useContext(UserContext);
@@ -16,7 +24,7 @@ export default function OtpContextProvider({ children }: { children: React.React
   const [loadingOTP, setLoadingOTP] = useState(false);
   const [waktuOTP, setWaktuOTP] = useState(false);
 
-  const kirimCodeOTP = async (body: any) => {
+  const kirimCodeOTP = async (body: BodySendOtp) => {
     try {
       setLoadingOTP(true);
       const res = await instance.post("/api/user/check", body);
@@ -91,8 +99,8 @@ export default function OtpContextProvider({ children }: { children: React.React
         containerInput,
         seconds,
         loadingOTP,
-        kirimCodeOTP,
         waktuOTP,
+        kirimCodeOTP,
         updateOtp,
         setSeconds,
         deletedOtp,
