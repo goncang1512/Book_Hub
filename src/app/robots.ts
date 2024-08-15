@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/profil/dasboard", "/profil/author"],
       },
     ],
-    sitemap: "https://acme.com/sitemap.xml",
+    sitemap: `${process.env.NEXT_PUBLIC_API_URL}/sitemap.xml`,
   };
 }
