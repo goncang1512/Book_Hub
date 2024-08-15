@@ -78,10 +78,15 @@ export default function CardProduct({
           </div>
         </div>
         <div className="flex items-center justify-between gap-3">
-          <Button size="detail" type="button" variant="detail">
+          <Button
+            label={`buttonProductdetail${index}`}
+            size="detail"
+            type="button"
+            variant="detail"
+          >
             Detail
           </Button>
-          <Button size="buy" type="button" variant="buy">
+          <Button label={`buttonProduct${index}`} size="buy" type="button" variant="buy">
             <MdOutlineShoppingCart size={25} />
           </Button>
         </div>

@@ -9,10 +9,7 @@
     "lint": "next lint",
     "prepare": "husky",
     "eslint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "format": "prettier --write .",
-    "test": "jest",
-    "test:cover": "npm run test -- --coverage",
-    "test:watch": "jest --watchAll"
+    "format": "prettier --write ."
   },
   "husky": {
     "hooks": {
@@ -36,7 +33,6 @@
     "date-fns": "^3.6.0",
     "dompurify": "^3.1.6",
     "font-awesome": "^4.7.0",
-    "froala-editor": "^4.2.1",
     "html-react-parser": "^5.1.12",
     "jodit-react": "^4.1.2",
     "jsonwebtoken": "^9.0.2",
@@ -47,7 +43,6 @@
     "nodemailer": "^6.9.14",
     "react": "^18",
     "react-dom": "^18",
-    "react-froala-wysiwyg": "^4.2.1",
     "react-icons": "^5.2.1",
     "swiper": "^11.1.8",
     "swr": "^2.2.5",

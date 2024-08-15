@@ -53,9 +53,9 @@ export default function SideBar({
         </h1>
         {/* Remake Main */}
         <div className="flex flex-col pt-[20px]">
-          <h4 className="text-sm text-gray-400 pl-8 flex items-center gap-2">
+          <p className="text-sm text-gray-400 pl-8 flex items-center gap-2">
             <FaRegBookmark size={15} /> Main
-          </h4>
+          </p>
           <div className="flex flex-col gap-2">
             <Link
               className={`${
@@ -105,6 +105,7 @@ export default function SideBar({
 
             <button
               ref={searchButtonRef}
+              aria-label="seeSearch"
               className={`flex gap-2 items-center text-lg font-medium px-8 py-1`}
               onClick={() => setSeeSearch(seeSearch ? false : true)}
             >
@@ -118,6 +119,7 @@ export default function SideBar({
           <div className="flex flex-col">
             <div className="z-10">
               <button
+                aria-label="seeDasboard"
                 className={`text-sm text-gray-400 pl-8 flex items-center gap-2 cursor-pointer`}
                 onClick={() => setSeeDasboard(!seeDasboard)}
               >
@@ -211,10 +213,10 @@ export default function SideBar({
             "mt-[11px]"
           } duration-200 ease-in-out flex flex-col`}
         >
-          <h4 className="text-sm text-gray-400 pl-8 flex items-center gap-2">
+          <p className="text-sm text-gray-400 pl-8 flex items-center gap-2">
             <HiMiniBars3BottomRight size={15} />
             Other
-          </h4>
+          </p>
           <div className="flex flex-col gap-2">
             <Link
               className={`${
@@ -241,6 +243,7 @@ export default function SideBar({
                   Profil
                 </Link>
                 <button
+                  aria-label="logoutButton"
                   className="h-max w-max"
                   type="button"
                   onClick={async () => {
@@ -258,6 +261,7 @@ export default function SideBar({
         {status === "unauthenticated" && (
           <div className="flex flex-col gap-2 px-8">
             <button
+              aria-label="buttonSingIn"
               className="bg-[#00b88c] w-full rounded-lg font-semibold text-white text-center py-2"
               type="button"
               onClick={() => signIn()}

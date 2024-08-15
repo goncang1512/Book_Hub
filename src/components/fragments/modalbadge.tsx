@@ -66,7 +66,10 @@ export const ModalBadge = ({ dataUser }: { dataUser: any }) => {
           {ldlPatchBadge ? (
             <span className="loading loading-spinner loading-sm" />
           ) : (
-            <button onClick={() => patchBadge(dataUser?._id, badgeUser)}>
+            <button
+              aria-label="buttonUpdateBadge"
+              onClick={() => patchBadge(dataUser?._id, badgeUser)}
+            >
               <FaRegEdit size={20} />
             </button>
           )}
@@ -79,6 +82,7 @@ export const ModalBadge = ({ dataUser }: { dataUser: any }) => {
               <div key={index} className="flex items-center border gap-1 w-max px-1 rounded-sm">
                 <Img key={index} className="size-6" src={`${logo}`} />
                 <button
+                  aria-label={`buttonBadge${logo}`}
                   className="hover:bg-gray-300 rounded-full"
                   type="button"
                   onClick={() => {
@@ -96,6 +100,7 @@ export const ModalBadge = ({ dataUser }: { dataUser: any }) => {
       </div>
       <form className="modal-backdrop" method="dialog">
         <button
+          aria-label="buttonCloseModalBadge"
           onClick={() => {
             const modal = document.getElementById("modal_badge") as HTMLDialogElement;
             modal.close();

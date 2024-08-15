@@ -165,6 +165,7 @@ export default function UploadBooks() {
                 <div className="flex gap-2 w-full">
                   <Button
                     className="w-full"
+                    label="buttonBackSesi"
                     type="button"
                     variant="primary"
                     onClick={() => setNextInput(false)}
@@ -190,6 +191,7 @@ export default function UploadBooks() {
                   <div className="flex gap-3 w-full">
                     <Button
                       className="w-full"
+                      label="buttonBackButtonGenre"
                       type="button"
                       variant="primary"
                       onClick={() => {
@@ -202,6 +204,7 @@ export default function UploadBooks() {
                     <Button
                       className="w-full flex items-center justify-center"
                       disabled={loadingBook}
+                      label="buttonUploadBook"
                       type="submit"
                       variant="primary"
                     >
@@ -215,6 +218,7 @@ export default function UploadBooks() {
                 ) : (
                   <Button
                     className="w-full"
+                    label="ButtonNextSesi"
                     type="button"
                     variant="primary"
                     onClick={() => {

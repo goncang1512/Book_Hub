@@ -100,7 +100,7 @@ const UpdatePassword = () => {
             >
               Konfirmasi Password Baru
             </Input>
-            <Button type="submit" variant="primary">
+            <Button label="buttonUpdatePassword" type="submit" variant="primary">
               {loadingPassword ? "Loading" : "Update"}
             </Button>
           </form>
@@ -124,7 +124,7 @@ const UpdatePassword = () => {
             >
               Password Lama
             </Input>
-            <Button type="submit" variant="primary">
+            <Button label="buttonUpdatePasswordKirim" type="submit" variant="primary">
               {loadingPassword ? "Loading" : "Kirim"}
             </Button>
           </form>
@@ -157,7 +157,9 @@ const UpdatePassword = () => {
               >
                 Kode OTP
               </Input>
-              <Button type="submit">{loadingEmail ? "Loading..." : "Kode OTP"}</Button>
+              <Button label="buttonKodeOtp" type="submit">
+                {loadingEmail ? "Loading..." : "Kode OTP"}
+              </Button>
             </div>
           </form>
         ) : (
@@ -185,7 +187,11 @@ const UpdatePassword = () => {
               >
                 New Email
               </Input>
-              <Button disabled={newEmail === session?.user?.email} type="submit">
+              <Button
+                disabled={newEmail === session?.user?.email}
+                label="buttonNewEmail"
+                type="submit"
+              >
                 {loadingEmail ? "Loading..." : "New Email"}{" "}
               </Button>
             </div>
@@ -268,6 +274,7 @@ const UpdateFotoProfil = () => {
         <Button
           className="w-max px-3 rounded-lg font-semibold"
           disabled={loadingUpdateFoto}
+          label="buttonUpdateFotoProfil"
           type="submit"
           variant="primary"
         >
@@ -276,6 +283,7 @@ const UpdateFotoProfil = () => {
         <Button
           className="w-max px-3 rounded-lg font-semibold"
           disabled={loadingDelete}
+          label="buttonDeleteFotoProfil"
           type="button"
           variant="danger"
           onClick={() => deleteFoto(session?.user?._id, session?.user?.imgProfil.public_id)}
@@ -367,7 +375,13 @@ function UpdateData() {
         </Input>
       </div>
       <div className="w-full flex justify-start">
-        <Button className="w-96" disabled={loadingUpdateData} type="submit" variant="login">
+        <Button
+          className="w-96"
+          disabled={loadingUpdateData}
+          label="buttonUpdateDatauser"
+          type="submit"
+          variant="login"
+        >
           {loadingUpdateData ? "loading..." : "Update Data User"}
         </Button>
       </div>

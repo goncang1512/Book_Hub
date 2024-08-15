@@ -189,7 +189,12 @@ const ModalAddChapter = ({
             <option value="Submitted">Submit</option>
             <option value="Draft">Draft</option>
           </select>
-          <Button disabled={loadingCanvas} type="submit" variant="primary">
+          <Button
+            disabled={loadingCanvas}
+            label="buttonUpdateChapter"
+            type="submit"
+            variant="primary"
+          >
             {loadingCanvas ? "Loading..." : "Update Chapter"}
           </Button>
         </form>

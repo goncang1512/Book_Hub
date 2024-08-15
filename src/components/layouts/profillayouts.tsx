@@ -62,6 +62,7 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
               className={`${styles.containerButton}  flex items-center gap-2 font-semibold text-gray-800 ease-in-out duration-200 relative ${buttonStyle}`}
             >
               <button
+                aria-label="buttonSeeAbout"
                 type="button"
                 onClick={() =>
                   setSeeProfilComponent({
@@ -76,6 +77,7 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
                 About
               </button>
               <button
+                aria-label="seeFriends"
                 type="button"
                 onClick={() =>
                   setSeeProfilComponent({
@@ -90,6 +92,7 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
                 Friends
               </button>
               <button
+                aria-label="seeProduct"
                 type="button"
                 onClick={() =>
                   setSeeProfilComponent({
@@ -105,7 +108,7 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
               </button>
             </div>
             {session?.user?._id === userData?._id && (
-              <DropDown>
+              <DropDown label={userData?._id}>
                 <div className="flex flex-col gap-2 z-40">
                   <Link className="active:text-gray-400" href={"/setting"}>
                     Setting
@@ -114,6 +117,7 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
                     Upload Buku
                   </Link>
                   <button
+                    aria-label="deleteAccount"
                     className="text-start w-max"
                     onClick={() => {
                       const confirm = window.confirm("Apakah Anda yakin ingin menghapus akun?");
@@ -125,6 +129,7 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
                     Delete Account
                   </button>
                   <button
+                    aria-labelledby="buttonLogout"
                     className="text-start w-max"
                     onClick={async () => {
                       await signOut({ callbackUrl: "/login" });

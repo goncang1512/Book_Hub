@@ -108,6 +108,7 @@ const ModalAddChapter = ({
     <dialog className="modal" id="modal_add_chapter">
       <div className="relative modal-box">
         <button
+          aria-labelledby="buttonClosemodalChapter"
           className="absolute top-2 right-2 active:bg-gray-300 rounded-full"
           onClick={() => {
             const modal = document.getElementById("modal_add_chapter") as HTMLDialogElement;
@@ -159,7 +160,7 @@ const ModalAddChapter = ({
             <option value="Draft">Draft</option>
             <option value="Submitted">Submit</option>
           </select>
-          <Button disabled={loadingCanvas} type="submit" variant="primary">
+          <Button disabled={loadingCanvas} label="buttonAddChapter" type="submit" variant="primary">
             {loadingCanvas ? "Loading..." : "Add Chapter"}
           </Button>
         </form>

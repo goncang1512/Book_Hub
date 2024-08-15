@@ -74,6 +74,7 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
       <td>
         <div className="flex items-center gap-3">
           <button
+            aria-labelledby={`buttonRouter${dataUser?._id}`}
             className="avatar cursor-pointer"
             onClick={() => handleRouter(dataUser?.username)}
           >
@@ -81,6 +82,7 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
           </button>
           <div>
             <button
+              aria-labelledby={`buttonrouter${index}`}
               className="flex items-center gap-2 cursor-pointer"
               onClick={() => handleRouter(dataUser?.username)}
             >
@@ -106,6 +108,7 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
           </div>
           <div className={`flex relative w-full justify-end pr-7`}>
             <button
+              aria-labelledby={`buttoonModalTable${dataUser?._id}`}
               onClick={() => {
                 const modal = document.getElementById("modal_badge") as HTMLDialogElement;
                 setDetailUser(dataUser);
@@ -125,7 +128,11 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
               dataUser?._id === session?.user?._id ? "hidden" : "flex"
             } relative w-full justify-end flex pr-7`}
           >
-            <button ref={btnAuthor} onClick={() => setEditAuthor(!editAuthor)}>
+            <button
+              ref={btnAuthor}
+              aria-labelledby={`buttonRegEdit${index}`}
+              onClick={() => setEditAuthor(!editAuthor)}
+            >
               <FaRegEdit size={20} />
             </button>
             <select

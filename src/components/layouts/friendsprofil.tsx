@@ -47,6 +47,7 @@ export default function FriendsProfil({
         </div>
         <div className="flex items-center">
           <button
+            aria-label="buttonMengikuti"
             className={`${seePengikut && "text-[#00b88c]"}`}
             onClick={() => setSeePengikut(true)}
           >
@@ -54,6 +55,7 @@ export default function FriendsProfil({
           </button>
           <p className="px-2">|</p>
           <button
+            aria-label="buttonDiikuti"
             className={`${!seePengikut && "text-[#00b88c]"}`}
             onClick={() => setSeePengikut(false)}
           >
@@ -71,6 +73,7 @@ export default function FriendsProfil({
               className="border-b p-3 flex items-center justify-between gap-2 w-full"
             >
               <button
+                aria-label={`buttonseeUser${follow?._id}`}
                 className="flex items-center justify-start w-full gap-2"
                 onClick={() => handleRouter(dataUser.username)}
               >
@@ -95,6 +98,7 @@ export default function FriendsProfil({
                   dataFollow={dataFollow}
                   dataUser={dataUser}
                   follower={followerUser}
+                  label={`buttonFriends${follow?._id}`}
                   myFollower={myFollower}
                   session={session}
                 />

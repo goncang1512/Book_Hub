@@ -22,14 +22,15 @@ export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBa
       className="z-50 w-full h-12 bg-white border-t fixed bottom-0 left-0 md:hidden flex justify-center"
     >
       <div className="w-full flex items-center justify-around">
-        <Link href={"/"}>
+        <Link aria-label="homeLink" href={"/"}>
           <HomeIcon color="#000" size={25} />
         </Link>
-        <Link href={"/profil/whislist"}>
+        <Link aria-label="whislistLink" href={"/profil/whislist"}>
           <Whislist color="#000" size={25} />
         </Link>
         <div>
           <button
+            aria-label="buttonSearch"
             className={`flex gap-2 items-center text-lg font-medium px-3 py-1`}
             id="button-search"
             onClick={() => setSeeSearch(seeSearch ? false : true)}
@@ -37,7 +38,7 @@ export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBa
             <MdOutlineSearch size={25} />
           </button>
         </div>
-        <Link className="relative" href={"/profil/notifikasi"}>
+        <Link aria-label="NotifLink" className="relative" href={"/profil/notifikasi"}>
           <span
             className={`size-2 bg-red-500 absolute rounded-full top-[5%] right-[19%] ${
               notifUser?.length > 0 ? "flex" : "hidden"
@@ -45,7 +46,7 @@ export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBa
           />
           <IoNotificationsOutline size={25} />
         </Link>
-        <Link href={"/profil"}>
+        <Link aria-label="profilLink" href={"/profil"}>
           <LuUser size={25} />
         </Link>
       </div>

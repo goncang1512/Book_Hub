@@ -73,7 +73,11 @@ export default function AboutProfil({
           </div>
           <div>
             {pathname !== "/profil" && (
-              <ButtonFollow follower_id={session?.user?._id} user={userData} />
+              <ButtonFollow
+                follower_id={session?.user?._id}
+                label={`buttonFollow${userData?._id}`}
+                user={userData}
+              />
             )}
           </div>
         </div>

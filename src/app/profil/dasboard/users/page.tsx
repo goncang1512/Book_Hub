@@ -62,6 +62,7 @@ export default function UserDasboard() {
             />
             <div className="flex items-center gap-2">
               <button
+                aria-labelledby="buttonKeyword"
                 className={`${keyword !== "" ? "flex" : "hidden"}`}
                 type="button"
                 onClick={() => {
@@ -70,7 +71,7 @@ export default function UserDasboard() {
               >
                 <IoMdClose size={25} />
               </button>
-              <button type="submit">
+              <button aria-labelledby="buttonseacrh" type="submit">
                 <IoMdSearch size={25} />
               </button>
             </div>

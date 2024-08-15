@@ -26,6 +26,7 @@ export const PesanLvlUp = ({
       </div>
       <form className="modal-backdrop" method="dialog">
         <button
+          aria-label="buttonCloseModalLvlUp"
           onClick={() =>
             setMsgLvlUp({
               ...msgLvlUp,

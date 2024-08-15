@@ -109,7 +109,13 @@ export default function Register() {
               >
                 Kode OTP
               </Input>
-              <Button disabled={loadingRegister} size="login" type="submit" variant="login">
+              <Button
+                disabled={loadingRegister}
+                label="ButtonRegister"
+                size="login"
+                type="submit"
+                variant="login"
+              >
                 {loadingRegister ? "Loading..." : "Register"}
               </Button>
             </form>
@@ -183,7 +189,13 @@ export default function Register() {
                 >
                   Confirm Password
                 </Input>
-                <Button disabled={loadingOTP} size="login" type="submit" variant="login">
+                <Button
+                  disabled={loadingOTP}
+                  label="buttonSignUP"
+                  size="login"
+                  type="submit"
+                  variant="login"
+                >
                   {loadingOTP ? "Loading..." : "Sign Up"}
                 </Button>
               </div>

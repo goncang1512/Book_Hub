@@ -79,6 +79,7 @@ export default function SearchContainer({
           />
           <div className="absolute top-0 left-0 duration-200">
             <button
+              aria-label="buttonSearch"
               className={`ml-2 text-[1em] left-0 top-[8.4px] absolute ease-[cubic-bezier(0.05, 0.81, 0, 0.93)] duration-200`}
               type="button"
             >

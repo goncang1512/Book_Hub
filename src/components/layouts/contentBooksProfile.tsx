@@ -63,7 +63,11 @@ export function ProfilBooksDekstop({
               <BarisTable name="Judul">{title}</BarisTable>
               <BarisTable name="Penulis">
                 {jenis !== "Review" ? (
-                  <button className="text-blue-500" onClick={() => handleRouter(writer)}>
+                  <button
+                    aria-label={`buttonseeWriter${_id}`}
+                    className="text-blue-500"
+                    onClick={() => handleRouter(writer)}
+                  >
                     {writer}
                   </button>
                 ) : (
@@ -131,7 +135,11 @@ export const BooksProfileMobile = ({
             <td className="px-1 align-top">:</td>
             <td>
               {jenis !== "Review" ? (
-                <button className="text-blue-900" onClick={() => handleRouter(writer)}>
+                <button
+                  aria-label={`handlerouterWriter${_id}`}
+                  className="text-blue-900"
+                  onClick={() => handleRouter(writer)}
+                >
                   {writer}
                 </button>
               ) : (

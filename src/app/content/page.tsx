@@ -35,7 +35,7 @@ export default function Balasan() {
           }`}
         >
           <div className="flex items-center border-b py-5 pl-2 gap-5 z-20 fixed top-0 md:left-[288px] left-0 bg-white md:w-[50.2%] w-full">
-            <button onClick={() => router.back()}>
+            <button aria-labelledby="buttonBackPage" onClick={() => router.back()}>
               <FaArrowLeft size={25} />
             </button>
             <h1 className="text-xl font-bold">Story</h1>

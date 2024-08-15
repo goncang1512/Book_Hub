@@ -65,6 +65,7 @@ export const InputStory = ({ idStoryBook }: { idStoryBook: string }) => {
                     loadingUploadStory || (status === "unauthenticated" && "cursor-not-allowed")
                   } rounded-full flex items-center justify-center`}
                   disabled={loadingUploadStory || status === "unauthenticated"}
+                  label="buttonInputStory"
                   size="medium"
                   type="submit"
                   variant="posting"

@@ -51,7 +51,7 @@ export const UploadGenre = ({
         >
           Genre
         </Input>
-        <Button type="button" onClick={addGenre}>
+        <Button label="buttonGenre" type="button" onClick={addGenre}>
           Add
         </Button>
       </div>

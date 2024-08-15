@@ -165,6 +165,7 @@ export default function UploadBooks() {
                 <div className="flex gap-2 w-full">
                   <Button
                     className="w-full"
+                    label="buttonback"
                     type="button"
                     variant="primary"
                     onClick={() => setNextInput(false)}
@@ -172,6 +173,7 @@ export default function UploadBooks() {
                     Back
                   </Button>
                   <button
+                    aria-labelledby="buttonNextSesi"
                     className="w-full bg-[#00b88c] text-white border-transparent 
                     md:hover:bg-[#1AA886] max-[640px]:active:bg-[#1AA886] rounded-lg"
                     type="button"
@@ -190,6 +192,7 @@ export default function UploadBooks() {
                   <div className="flex gap-3 w-full">
                     <Button
                       className="w-full"
+                      label="buttonBackGenre"
                       type="button"
                       variant="primary"
                       onClick={() => {
@@ -202,6 +205,7 @@ export default function UploadBooks() {
                     <Button
                       className="w-full flex items-center justify-center"
                       disabled={loadingBook}
+                      label="ButtonUPdloadBook"
                       type="submit"
                       variant="primary"
                     >
@@ -215,6 +219,7 @@ export default function UploadBooks() {
                 ) : (
                   <Button
                     className="w-full"
+                    label="buttonNextUploadBook"
                     type="button"
                     variant="primary"
                     onClick={() => {

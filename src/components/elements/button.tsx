@@ -31,7 +31,9 @@ const button = cva("button", {
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof button> {}
+    VariantProps<typeof button> {
+  label: string;
+}
 
 export const Button: React.FC<ButtonProps> = ({
   className,
@@ -40,9 +42,11 @@ export const Button: React.FC<ButtonProps> = ({
   type,
   disabled,
   onClick,
+  label,
   ...props
 }) => (
   <button
+    aria-label={label}
     className={button({ variant, size, className })}
     disabled={disabled}
     type={type}

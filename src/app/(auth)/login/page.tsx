@@ -61,6 +61,7 @@ export default function Login() {
           <Button
             className={`${loadingLogin && "cursor-not-allowed"}`}
             disabled={loadingLogin}
+            label="buttonLogin"
             size="login"
             type="submit"
             variant="login"

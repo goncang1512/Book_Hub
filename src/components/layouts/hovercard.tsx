@@ -1,11 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 
-import { HoverCard, HoverCardTrigger } from "@/components/ui/hover-card";
-
-export default function DropDown({ children }: { children: React.ReactNode }) {
+export default function DropDown({
+  children,
+  label,
+}: {
+  children: React.ReactNode;
+  label: string;
+}) {
   const [showCardContent, setShowCardContent] = useState(false);
-  const buttonRef = useRef<HTMLAnchorElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -28,7 +32,7 @@ export default function DropDown({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="relative">
-      <HoverCard>
+      <div>
         <div
           ref={containerRef}
           className={`${
@@ -39,15 +43,16 @@ export default function DropDown({ children }: { children: React.ReactNode }) {
         >
           {children}
         </div>
-        <HoverCardTrigger
+        <button
           ref={buttonRef}
+          aria-label={label}
           className="cursor-pointer relative"
           onMouseEnter={() => setShowCardContent(true)}
           onMouseLeave={() => setShowCardContent(false)}
         >
           <HiDotsHorizontal className="relative" size={25} />
-        </HoverCardTrigger>
-      </HoverCard>
+        </button>
+      </div>
     </div>
   );
 }

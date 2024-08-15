@@ -89,7 +89,7 @@ export function CardBook({
               <h1 className="max-md:truncate max-md:w-24 leading-none">{title}</h1>
             </div>
             <div className="flex items-center gap-3 relative">
-              <Link href={`/content/${_id}`}>
+              <Link aria-label={`comment${_id}`} href={`/content/${_id}`}>
                 <FaRegComments size={25} />
               </Link>
               <AddList book={dataContent} size={20} />
@@ -101,13 +101,17 @@ export function CardBook({
                       status.book_id === _id &&
                       status._id &&
                       status.status === "Rilis" && (
-                        <Link key={status._id} href={`/read?id=${_id}&chapter=${status._id}`}>
+                        <Link
+                          key={status._id}
+                          aria-label={`rilis${_id}`}
+                          href={`/read?id=${_id}&chapter=${status._id}`}
+                        >
                           <BiBookReader size={25} />
                         </Link>
                       ),
                   )
                 ) : (
-                  <Link href={`/read/${_id}`}>
+                  <Link aria-label={`cerpen${_id}`} href={`/read/${_id}`}>
                     <BiBookReader size={25} />
                   </Link>
                 )
@@ -116,15 +120,17 @@ export function CardBook({
               )}
 
               {session?.user?._id === user_id && (
-                <DropDown>
+                <DropDown label={_id}>
                   <div className="flex flex-col">
                     <button
+                      aria-label="buttonDeleteBook"
                       className="active:text-gray-400 text-start"
                       onClick={() => deletedBook(_id, session?.user?._id)}
                     >
                       Hapus Buku
                     </button>
                     <Link
+                      aria-label={`edit${_id}`}
                       className="active:text-gray-400"
                       href={`${
                         ISBN === 0 ? `/profil/author/mybook/${_id}` : `/profil/upload/${_id}`
@@ -141,6 +147,7 @@ export function CardBook({
                             return (
                               <Link
                                 key={item._id}
+                                aria-label={`statusRilis${_id}`}
                                 className="active:text-gray-400"
                                 href={`/profil/author/texteditor?id=${item.book_id}&c=${item._id}`}
                               >
@@ -151,6 +158,7 @@ export function CardBook({
                             return (
                               <Link
                                 key={item._id}
+                                aria-label={`statusDraft${_id}`}
                                 className="active:text-gray-400"
                                 href={`/profil/author/texteditor?id=${item.book_id}&c=${item._id}`}
                               >
@@ -161,6 +169,7 @@ export function CardBook({
                             return (
                               <Link
                                 key={item._id}
+                                aria-label={`statusSubmitted${_id}`}
                                 className="active:text-gray-400"
                                 href={`/profil/author/texteditor/${item.book_id}`}
                               >
@@ -196,6 +205,7 @@ export function CardBook({
                 <p className="md:flex hidden text-xs text-gray-500 items-center">{terbit}</p>
                 <button
                   ref={buttonRef}
+                  aria-label={`buttonDetailClick${_id}`}
                   className={`${
                     pathname === "/profil/whislist" ? "flex" : "md:hidden flex"
                   } text-sm ${
@@ -237,7 +247,7 @@ export function CardBook({
             >
               Bookmark
             </Input>
-            <Button disabled={loadingHalaman} variant="primary">
+            <Button disabled={loadingHalaman} label={`buttonBookmark${_id}`} variant="primary">
               {loadingHalaman ? <span className="loading loading-dots loading-md" /> : "Update"}
             </Button>
           </form>
@@ -261,13 +271,17 @@ export const AddList = ({ book, size }: { book: any; size: number }) => {
     <>
       {isLiked ? (
         <button
+          aria-label={`deleteList${book._id}`}
           className="text-red-500 active:scale-110"
           onClick={() => deleteList(session?.user?._id, book._id, setIsLiked)}
         >
           <FaHeart size={size} />
         </button>
       ) : (
-        <button onClick={() => addList(session?.user?._id, book._id, setIsLiked)}>
+        <button
+          aria-label={`addlist${book._id}`}
+          onClick={() => addList(session?.user?._id, book._id, setIsLiked)}
+        >
           <FaRegHeart size={size} />
         </button>
       )}

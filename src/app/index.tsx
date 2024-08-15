@@ -4,11 +4,34 @@ import { usePathname } from "next/navigation";
 
 import OpenWindow from "@/components/layouts/openwindow";
 import CanvasContextProvider from "@/lib/context/canvascontext";
+import { useNewUsers } from "@/lib/swr/userswr";
+import { logger } from "@/lib/utils/logger";
 
 export default function Index({ children }: { children: React.ReactNode }) {
-  const { data: session, status }: any = useSession();
+  const { data: session, status, update: updateData }: any = useSession();
   const [hasOpened, setHasOpened] = useState(false);
   const pathname = usePathname();
+
+  const { userDetail } = useNewUsers.getDetailUser(session?.user?._id);
+
+  useEffect(() => {
+    const updateProfil = async () => {
+      try {
+        await updateData({
+          status: "UpdateProfil",
+          badge: userDetail?.badge,
+          rank: userDetail?.rank,
+          role: userDetail?.role,
+        });
+      } catch (error) {
+        logger.error(`${error}`);
+      }
+    };
+
+    if (userDetail && status === "authenticated") {
+      updateProfil();
+    }
+  }, [userDetail]);
 
   useEffect(() => {
     const openedBefore = localStorage.getItem("openedBefore") === "true";

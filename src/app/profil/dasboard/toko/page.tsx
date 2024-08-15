@@ -47,6 +47,7 @@ export default function Toko() {
       {bisaSeason && (
         <Button
           className=""
+          label="buttonNewSeason"
           variant="primary"
           onClick={() => {
             const modal = document.getElementById("modal_new_season") as HTMLDialogElement;
@@ -147,7 +148,7 @@ const ModalNewSeason = ({
           >
             Password new season
           </Input>
-          <Button type="submit" variant="primary">
+          <Button label="buttonPasswordSeason" type="submit" variant="primary">
             {loadingNewSession ? "Loading..." : "New Season"}
           </Button>
         </form>

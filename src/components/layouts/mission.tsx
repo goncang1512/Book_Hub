@@ -99,6 +99,7 @@ export default function Mission({
                               ) : (
                                 <div className="relative bg-red-500 w-max">
                                   <button
+                                    aria-label={`buttonClaim${misi?._id}`}
                                     className="bg-yellow-400 border border-yellow-400 text-black w-8 h-5 flex items-center justify-center"
                                     onClick={() => claimMisi(hasil?._id, misi.point)}
                                   >
@@ -116,6 +117,7 @@ export default function Mission({
                               )
                             ) : (
                               <Link
+                                aria-label={`misiLink${misi?._id}`}
                                 className="bg-black border border-yellow-600 text-yellow-400 w-8 h-5 flex items-center justify-center"
                                 href={misi.link}
                               >
@@ -220,6 +222,7 @@ export const ButtonMission = ({
   return (
     <button
       ref={buttonMission}
+      aria-label="buttonMission"
       className={`${dragging ? "cursor-grabbing" : "cursor-grab"} ${className}`}
       style={{ top: `${position.top}px`, touchAction: "none" }}
       onClick={() => setSeeMission(!seeMission)}

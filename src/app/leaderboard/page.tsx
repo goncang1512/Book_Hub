@@ -73,6 +73,7 @@ export default function Leaderboard() {
                           </div>
                           <div>
                             <button
+                              aria-labelledby={`buttonRouter${user?.username}`}
                               className="flex items-center gap-2"
                               onClick={() => handleRouter(user?.username)}
                             >

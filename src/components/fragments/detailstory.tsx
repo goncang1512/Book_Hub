@@ -29,6 +29,7 @@ export default function DetailStory({ children }: { children: React.ReactNode })
       <div className="flex items-center justify-end">
         <button
           ref={buttonRef}
+          aria-label="buttonDetailStory"
           className={`${seeDetail ? "-rotate-90" : ""} pb-2 duration-150`}
           onClick={() => setSeeDetail(!seeDetail)}
         >

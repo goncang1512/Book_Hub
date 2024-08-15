@@ -2,7 +2,15 @@ import { LikeContext } from "@/lib/context/likecontext";
 import { usePathname } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 
-export default function ButtonFollow({ user, follower_id }: { user: any; follower_id: string }) {
+export default function ButtonFollow({
+  user,
+  follower_id,
+  label,
+}: {
+  user: any;
+  follower_id: string;
+  label: string;
+}) {
   const [followed, setFollowed] = useState(false);
   const { followUser, unfollowUser } = useContext(LikeContext);
 
@@ -14,6 +22,7 @@ export default function ButtonFollow({ user, follower_id }: { user: any; followe
     <>
       {followed ? (
         <button
+          aria-label={label}
           className="bg-stone-200 px-2 py-1 rounded-md text-black"
           onClick={() => {
             unfollowUser(user?._id, follower_id, user?.username, setFollowed);
@@ -23,6 +32,7 @@ export default function ButtonFollow({ user, follower_id }: { user: any; followe
         </button>
       ) : (
         <button
+          aria-label={label}
           className="bg-stone-200 px-2 py-1 rounded-md text-black"
           onClick={() => {
             followUser(user?._id, follower_id, user?.username, setFollowed);
@@ -41,12 +51,14 @@ export const ButtonFriends = ({
   myFollower,
   session,
   dataFollow,
+  label,
 }: {
   follower: any;
   myFollower: any;
   dataUser: any;
   session: any;
   dataFollow: any;
+  label: string;
 }) => {
   const [followed, setFollowed] = useState(false);
   const { followUser, unfollowUser } = useContext(LikeContext);
@@ -65,6 +77,7 @@ export const ButtonFriends = ({
     <>
       {followed ? (
         <button
+          aria-label={label}
           className="bg-stone-200 px-2 py-1 rounded-md text-black"
           onClick={() => {
             unfollowUser(dataUser?._id, session?.user?._id, dataUser?.username, setFollowed);
@@ -74,6 +87,7 @@ export const ButtonFriends = ({
         </button>
       ) : (
         <button
+          aria-label={label}
           className="bg-stone-200 px-2 py-1 rounded-md text-black"
           onClick={() => {
             followUser(dataUser?._id, session?.user?._id, dataUser?.username, setFollowed);
@@ -93,6 +107,7 @@ export const ButtonStory = ({
   userData,
   dataFollow,
   session,
+  label,
 }: {
   user_id: string;
   follower_id: string;
@@ -100,6 +115,7 @@ export const ButtonStory = ({
   userData: any;
   dataFollow: any;
   session: any;
+  label: string;
 }) => {
   const [followed, setFollowed] = useState(false);
   const { followUser, unfollowUser } = useContext(LikeContext);
@@ -116,6 +132,7 @@ export const ButtonStory = ({
     <>
       {followed ? (
         <button
+          aria-label={label}
           className="text-blue-500 text-sm"
           onClick={() => {
             unfollowUser(user_id, follower_id, userData?.username, setFollowed, book_id);
@@ -125,6 +142,7 @@ export const ButtonStory = ({
         </button>
       ) : (
         <button
+          aria-label={label}
           className="text-blue-500 text-sm"
           onClick={() => {
             followUser(user_id, follower_id, userData?.username, setFollowed, book_id);

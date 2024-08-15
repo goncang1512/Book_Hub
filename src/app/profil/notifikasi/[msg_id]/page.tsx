@@ -54,6 +54,7 @@ export default function DetailMessage({ params }: { params: { msg_id: string } }
                 <HoverCard.Content>
                   <div>
                     <button
+                      aria-labelledby="buttonHapusnotif"
                       onClick={() => {
                         deletedMessage(msgDetailData?._id).then(() =>
                           router.push(`/profil/notifikasi`),

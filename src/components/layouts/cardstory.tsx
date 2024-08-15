@@ -118,6 +118,7 @@ export const CardContent = ({
   return (
     <div className={`flex items-start justify-start border-b p-5 gap-3 pr-3`} id="main-container">
       <button
+        aria-label="handlerouterUser"
         className="relative w-max flex flex-col justify-center items-center rounded-full cursor-pointer"
         onClick={() => handleRouter(story?.user?.username)}
       >
@@ -135,6 +136,7 @@ export const CardContent = ({
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <button
+                aria-label="handlerouterStory"
                 className="flex items-center gap-2"
                 onClick={() => handleRouter(story?.user?.username)}
               >
@@ -150,6 +152,7 @@ export const CardContent = ({
                   book_id={statusCard === "detail" ? story?._id : story?.book_id}
                   dataFollow={dataFollow}
                   follower_id={session?.user?._id}
+                  label={`buttonStory${story?._id}`}
                   session={session}
                   userData={story?.user}
                   user_id={story?.user?._id}
@@ -161,8 +164,9 @@ export const CardContent = ({
 
           <div className="md:pr-5" id="container-button">
             {session?.user?._id === story?.user_id && (
-              <DropDown>
+              <DropDown label={story?._id}>
                 <button
+                  aria-label="deleteStory"
                   className="active:text-gray-400 flex items-center jsutify-center"
                   onClick={() => {
                     deletedStory(story?._id, story?.book_id);
@@ -175,6 +179,7 @@ export const CardContent = ({
                   )}
                 </button>
                 <button
+                  aria-label="updateStory"
                   className="active:text-gray-400 text-start"
                   type="button"
                   onClick={() => setHandleUpdate(!handleUpdate)}
@@ -214,6 +219,7 @@ export const CardContent = ({
               <Button
                 className="rounded-full flex items-center justify-center"
                 disabled={loadingUpdateStory}
+                label={`buttonEditCerita${story?._id}`}
                 size="medium"
                 type="submit"
                 variant="posting"
@@ -353,6 +359,7 @@ const LikeComponent = ({
     <>
       {liked ? (
         <button
+          aria-label="dislikeStory"
           className="active:scale-125"
           onClick={() => {
             setLikeContent({
@@ -368,6 +375,7 @@ const LikeComponent = ({
         </button>
       ) : (
         <button
+          aria-label="likeStory"
           onClick={() => {
             setLikeContent({
               ...likeContent,

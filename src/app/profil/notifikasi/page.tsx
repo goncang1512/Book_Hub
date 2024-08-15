@@ -79,12 +79,14 @@ export default function Read() {
                           <HoverCard.Content>
                             <div>
                               <button
+                                aria-labelledby={`buttonHapusNotif${pesan?._id}`}
                                 className="active:text-gray-400"
                                 onClick={() => deletedMessage(pesan._id)}
                               >
                                 Hapus
                               </button>
                               <button
+                                aria-labelledby={`sudahBaca${pesan?._id}`}
                                 className="active:text-gray-400"
                                 onClick={() => readMessage(pesan._id)}
                               >
