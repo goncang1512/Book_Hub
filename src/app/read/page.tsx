@@ -3,9 +3,30 @@ import ProtectBook from "@/components/fragments/protectbook";
 import ReadComponent from "./readcomponent";
 
 import type { Metadata } from "next";
+import { logger } from "@/lib/utils/logger";
 
 type PropsRead = {
   searchParams: { [key: string]: string };
+};
+
+const getChapter = async (chapter: string) => {
+  try {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/read/membaca/${chapter}`, {
+      method: "GET",
+    });
+
+    if (!result.ok) {
+      return null;
+    }
+
+    logger.info("Success get membaca metadata");
+    const data = await result.json();
+
+    return data;
+  } catch (error) {
+    logger.error(`${error}`);
+    return null;
+  }
 };
 
 export async function generateMetadata({ searchParams }: PropsRead): Promise<Metadata> {
@@ -17,13 +38,8 @@ export async function generateMetadata({ searchParams }: PropsRead): Promise<Met
   };
 
   try {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/read/membaca/${chapter}`, {
-      method: "GET",
-    });
+    const data = await getChapter(chapter);
 
-    const data = await result.json();
-
-    console.log(data);
     res = {
       judul: data?.result?.judul,
       chapter: `(${data?.result?.chapter})`,
