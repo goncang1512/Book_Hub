@@ -14,10 +14,15 @@ export async function generateMetadata({ searchParams }: PropsRead): Promise<Met
 
   let res: any;
   try {
-    const result = await instance.get(`/api/read/${chapter}`);
+    const result = await instance.get(`/api/read/${chapter && chapter}`);
     res = result?.data;
   } catch (error) {
-    res = "read";
+    res = {
+      result: {
+        judul: "Read",
+        chapter: "BookHub | ",
+      },
+    };
   }
 
   return {
