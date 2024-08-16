@@ -3,7 +3,6 @@ import ProtectBook from "@/components/fragments/protectbook";
 import ReadComponent from "./readcomponent";
 
 import type { Metadata } from "next";
-import instance from "@/lib/utils/fetch";
 
 type PropsRead = {
   searchParams: { [key: string]: string };
@@ -18,16 +17,25 @@ export async function generateMetadata({ searchParams }: PropsRead): Promise<Met
   };
 
   try {
-    const result = await instance.get(`/api/read/membaca/${chapter}`);
+    const result = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/read/membaca/${chapter}`, {
+      method: "GET",
+    });
+
+    if (!result.ok) {
+      throw new Error("Failed to fetch chapter data");
+    }
+
+    const data = await result.json();
     res = {
-      judul: result?.data?.result?.judul,
-      chapter: `(${result?.data?.result?.chapter})`,
+      judul: data?.result?.judul,
+      chapter: `(${data?.result?.chapter})`,
     };
-  } catch (error) {
+  } catch (error: any) {
     res = {
       judul: "Read",
       chapter: "BookHub | ",
     };
+    throw new Error("Error fetching chapter data: ", error);
   }
 
   return {

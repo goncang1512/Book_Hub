@@ -11,9 +11,9 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
 
     const result = await canvasSrv.getByIdCanvas(canvas_id);
 
-    logger.info("Success get canvas");
+    logger.info("Success get canvas metadata");
     return NextResponse.json(
-      { status: true, statusCode: 200, message: "Success get canvas", result },
+      { status: true, statusCode: 200, message: "Success get canvas metadata", result },
       { status: 200 },
     );
   } catch (error) {
