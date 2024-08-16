@@ -12,22 +12,26 @@ type PropsRead = {
 export async function generateMetadata({ searchParams }: PropsRead): Promise<Metadata> {
   const chapter = searchParams?.chapter;
 
-  let res: any;
+  let res: { judul: string; chapter: string } = {
+    judul: "",
+    chapter: "",
+  };
   try {
-    const result = await instance.get(`/api/read/${chapter && chapter}`);
-    res = result?.data;
+    const result = await instance.get(`/api/read/${chapter}`);
+    res = {
+      judul: result?.data?.result?.judul,
+      chapter: `(${result?.data?.result?.chapter})`,
+    };
   } catch (error) {
     res = {
-      result: {
-        judul: "Read",
-        chapter: "BookHub | ",
-      },
+      judul: "Read",
+      chapter: "BookHub | ",
     };
   }
 
   return {
-    title: `(${res?.result?.chapter}) ${res?.result?.judul}`,
-    description: `Ini merupakan halaman baca chapter ${res?.result?.chapter} dengan judul  ${res?.result?.judul}`,
+    title: `${res?.chapter} ${res?.judul}`,
+    description: `Ini merupakan halaman baca chapter ${res?.chapter} dengan judul  ${res?.judul}`,
   };
 }
 
