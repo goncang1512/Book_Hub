@@ -10,26 +10,26 @@ type PropsRead = {
 };
 
 export async function generateMetadata({ searchParams }: PropsRead): Promise<Metadata> {
-  const chapter = searchParams.chapter;
+  const chapter = searchParams?.chapter;
 
   let res: any;
   try {
     const result = await instance.get(`/api/read/${chapter}`);
-    res = result.data;
+    res = result?.data;
   } catch (error) {
     res = "read";
   }
 
   return {
-    title: `(${res.result.chapter}) ${res.result.judul}`,
-    description: `Ini merupakan halaman baca chapter ${res.result.chapter} dengan judul  ${res.result.judul}`,
+    title: `(${res?.result?.chapter}) ${res?.result?.judul}`,
+    description: `Ini merupakan halaman baca chapter ${res?.result?.chapter} dengan judul  ${res?.result?.judul}`,
   };
 }
 
 const ReadBook: React.FC<PropsRead> = ({ searchParams }) => {
-  const book_id = searchParams.id;
-  const chapter = searchParams.chapter;
-  const status = searchParams.status;
+  const book_id = searchParams?.id;
+  const chapter = searchParams?.chapter;
+  const status = searchParams?.status;
 
   return (
     <ProtectBook>

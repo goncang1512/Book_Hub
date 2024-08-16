@@ -4,6 +4,7 @@ import CanvasModels from "@/lib/models/canvasModels";
 import { bookAutServices } from "@/lib/services/bookauthor";
 import { logger } from "@/lib/utils/logger";
 import { canvasSrv } from "@/lib/services/canvasservices";
+import connectMongoDB from "@/lib/config/connectMongoDb";
 
 export const PATCH = async (req: NextRequest, { params }: { params: { id: string } }) => {
   try {
@@ -148,6 +149,7 @@ export const PUT = async (req: NextRequest, { params }: { params: { id: string }
 };
 
 export const GET = async (req: NextRequest, { params }: { params: { id: string } }) => {
+  await connectMongoDB();
   try {
     const canvas_id = params.id;
 
