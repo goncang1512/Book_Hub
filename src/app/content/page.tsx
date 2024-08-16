@@ -11,11 +11,13 @@ import { useSession } from "next-auth/react";
 
 export default function Balasan() {
   const router = useRouter();
+
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   if (!id) {
     return <div>Loading</div>;
   }
+
   const { data: session }: any = useSession();
   const { storyDetail, dataFollow, storyBook, storyDetailLdl } = useStory.detailStory(
     id && id,

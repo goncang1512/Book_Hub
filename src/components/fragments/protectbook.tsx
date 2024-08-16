@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect } from "react";
 
 export default function ProtectBook({ children }: { children: React.ReactNode }) {

@@ -1,121 +1,41 @@
-"use client";
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa6";
-import parse from "html-react-parser";
-import { useSession } from "next-auth/react";
-
-import styles from "@/lib/style.module.css";
+import * as React from "react";
 import ProtectBook from "@/components/fragments/protectbook";
-import { useChapter } from "@/lib/utils/useSwr";
+import ReadComponent from "./readcomponent";
+
+import type { Metadata } from "next";
 import instance from "@/lib/utils/fetch";
-import { useMission } from "@/lib/swr/missionswr";
-import { logger } from "@/lib/utils/logger";
-import { getSome, useUpdateSeconds } from "@/lib/utils/udpateseconds";
 
-export default function ReadBook() {
-  const router = useRouter();
-  const { data: session, status: statusSession }: any = useSession();
-  const searchParams = useSearchParams();
-  const id: any = searchParams.get("id");
-  const chapter: any = searchParams.get("chapter");
-  const status: any = searchParams.get("status");
+type PropsRead = {
+  searchParams: { [key: string]: string };
+};
 
-  const { bacaBuku, bacaBukuLoading } = useChapter.readBook(id && id, chapter && chapter);
-  const { misiUser } = useMission.getMission(session?.user?._id);
+export async function generateMetadata({ searchParams }: PropsRead): Promise<Metadata> {
+  const chapter = searchParams.chapter;
 
-  useEffect(() => {
-    const addReaders = async (user_id: string, chapter_id: string) => {
-      try {
-        await instance.put(`/api/read/${chapter_id}`, { user_id });
-      } catch (error) {
-        logger.error(`${error}`);
-      }
-    };
+  let res: any;
+  try {
+    const result = await instance.get(`/api/read/${chapter}`);
+    res = result.data;
+  } catch (error) {
+    res = "read";
+  }
 
-    if (bacaBukuLoading === false && status !== "check") {
-      addReaders(session?.user?._id, chapter);
-    }
-  }, [chapter, session?.user?._id, bacaBukuLoading, status]);
+  return {
+    title: `(${res.result.chapter}) ${res.result.judul}`,
+    description: `Ini merupakan halaman baca chapter ${res.result.chapter} dengan judul  ${res.result.judul}`,
+  };
+}
 
-  const [novelMissionCompleted, setNovelMissionCompleted] = useState<boolean>(false);
-  const [cerpenMissionCompleted, setCerpenMissionCompleted] = useState<boolean>(false);
-
-  useUpdateSeconds(
-    novelMissionCompleted,
-    cerpenMissionCompleted,
-    session,
-    bacaBuku,
-    misiUser,
-    setNovelMissionCompleted,
-    setCerpenMissionCompleted,
-    statusSession,
-    status,
-  );
-
-  useEffect(() => {
-    if (statusSession === "unauthenticated") return;
-
-    if (misiUser?.length > 0) {
-      setNovelMissionCompleted(getSome(misiUser, "66b233b3672bbe53e753aa97", true));
-      setCerpenMissionCompleted(getSome(misiUser, "66b233e4672bbe53e753aac3", true));
-    }
-  }, [statusSession, misiUser]);
+const ReadBook: React.FC<PropsRead> = ({ searchParams }) => {
+  const book_id = searchParams.id;
+  const chapter = searchParams.chapter;
+  const status = searchParams.status;
 
   return (
     <ProtectBook>
-      <div className="flex">
-        <div className={`relative flex flex-col w-full md:mr-[38%] mr-0 border-r h-full`}>
-          <div className="flex items-center justify-between border-b py-5 pl-2 gap-5 z-20 fixed top-0 md:left-[288px] left-0 bg-white md:w-[50.2%] w-full">
-            <div className="flex items-center gap-3">
-              <button onClick={() => router.back()}>
-                <FaArrowLeft size={25} />
-              </button>
-              <h1 className="text-xl font-bold">Back</h1>
-            </div>
-            <p className="pr-5">
-              Chapter <span className="font-bold">{bacaBuku?.chapter}</span>
-            </p>
-          </div>
-
-          <div className="p-3 pt-20">
-            {bacaBukuLoading ? (
-              <div className="h-screen w-full flex items-center justify-center">
-                <span className="loading loading-bars loading-lg" />
-              </div>
-            ) : (
-              <>
-                <div className={`${styles.noSelect}`}>{parse(`${bacaBuku?.story}`)}</div>
-              </>
-            )}
-          </div>
-
-          {/* Prev and Next Button */}
-          <div
-            className={`flex items-center pb-2 ${
-              !bacaBuku?.prevChapter ? "justify-end" : "justify-between"
-            } px-4`}
-          >
-            {bacaBuku?.prevChapter && (
-              <Link
-                className="p-2 bg-gray-300 rounded-lg"
-                href={`/read?id=${id}&chapter=${bacaBuku?.prevChapter}`}
-              >
-                prev
-              </Link>
-            )}
-            {bacaBuku?.nextChapter && (
-              <Link
-                className="p-2 bg-gray-300 rounded-lg"
-                href={`/read?id=${id}&chapter=${bacaBuku?.nextChapter}`}
-              >
-                next
-              </Link>
-            )}
-          </div>
-        </div>
-      </div>
+      <ReadComponent book_id={book_id} chapter={chapter} status={status} />
     </ProtectBook>
   );
-}
+};
+
+export default ReadBook;

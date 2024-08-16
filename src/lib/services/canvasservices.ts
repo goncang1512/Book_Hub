@@ -7,4 +7,7 @@ export const canvasSrv = {
       { $set: { statUpdate: "Updated" } },
     );
   },
+  getByIdCanvas: async (canvas_id: string) => {
+    return await CanvasModels.findOne({ _id: canvas_id });
+  },
 };
