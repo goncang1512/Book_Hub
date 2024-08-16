@@ -10,31 +10,31 @@ type PropsRead = {
 
 export async function generateMetadata({ searchParams }: PropsRead): Promise<Metadata> {
   const chapter = searchParams?.chapter;
+  const book_id = searchParams?.id;
 
-  let res: { judul: string; chapter: string } = {
+  let data: { judul: string; chapter: string } = {
     judul: "",
     chapter: "",
   };
 
-  try {
-    const canvas = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/read/membaca/${chapter}`,
-    ).then((res) => res.json());
-
-    res = {
-      judul: canvas?.result?.judul,
-      chapter: `(${canvas?.result?.chapter})`,
-    };
-  } catch (error: any) {
-    res = {
-      judul: "Read",
-      chapter: "BookHub | ",
-    };
-  }
+  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/read?id=${book_id}&chapter=${chapter}`)
+    .then(async (res) => {
+      const hasil = await res.json();
+      data = {
+        judul: hasil?.result?.judul,
+        chapter: `(${hasil?.result?.chapter})`,
+      };
+    })
+    .catch(() => {
+      data = {
+        judul: "Read",
+        chapter: "BookHub | ",
+      };
+    });
 
   return {
-    title: `${res?.chapter} ${res?.judul}`,
-    description: `Ini merupakan halaman baca chapter ${res?.chapter} dengan judul  ${res?.judul}`,
+    title: `${data?.chapter} ${data?.judul}`,
+    description: `Ini merupakan halaman baca chapter ${data?.chapter} dengan judul  ${data?.judul}`,
   };
 }
 
