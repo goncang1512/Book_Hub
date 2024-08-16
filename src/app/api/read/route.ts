@@ -86,11 +86,11 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json(
       {
         status: true,
-        statusCode: 201,
+        statusCode: 200,
         message: "Success get canvas",
         result: { ...dataObject, nextChapter, prevChapter, jenis: book.jenis },
       },
-      { status: 201 },
+      { status: 200 },
     );
   } catch (error) {
     logger.error("Failed get canvas" + error);

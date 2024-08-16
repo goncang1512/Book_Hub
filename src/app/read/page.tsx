@@ -16,8 +16,9 @@ export async function generateMetadata({ searchParams }: PropsRead): Promise<Met
     judul: "",
     chapter: "",
   };
+
   try {
-    const result = await instance.get(`/api/read/${chapter}`);
+    const result = await instance.get(`/api/read/membaca/${chapter}`);
     res = {
       judul: result?.data?.result?.judul,
       chapter: `(${result?.data?.result?.chapter})`,
