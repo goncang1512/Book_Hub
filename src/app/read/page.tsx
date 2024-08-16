@@ -35,7 +35,7 @@ export async function generateMetadata({ searchParams }: PropsRead): Promise<Met
       judul: "Read",
       chapter: "BookHub | ",
     };
-    throw new Error("Error fetching chapter data: ", error);
+    throw new Error(`Error fetching chapter data: ${error.message}`);
   }
 
   return {
