@@ -122,7 +122,7 @@ const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status 
             </Link>
           )}
         </div>
-        <div className="border-t">
+        <div className={`${status === "check" ? "hidden" : "flex"} border-t flex-col`}>
           <InputStory chapterBook={book_id} idStoryBook={chapter} />
           <div>
             {storyRead &&
