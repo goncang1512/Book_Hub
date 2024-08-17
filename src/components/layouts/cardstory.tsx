@@ -115,6 +115,7 @@ export const CardContent = ({
     }
   }, [story?.ception, handleUpdate]);
 
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   const check = typeof story?.ception === "string" && story?.ception.includes("||");
   const paragraphs = story?.ception && story?.ception.split("\n");
   return (
@@ -222,17 +223,19 @@ export const CardContent = ({
                 setNewCeption(e.target.value);
               }}
               onKeyDown={async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  const book_id = statusCard === "detail" ? story._id : story?.book_id;
-                  const hasil = await updateStory(
-                    newCeption,
-                    story?._id,
-                    book_id,
-                    chapterBook && chapterBook,
-                  );
-                  if (hasil) {
-                    setHandleUpdate(false);
+                if (!isMobile) {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    const book_id = statusCard === "detail" ? story._id : story?.book_id;
+                    const hasil = await updateStory(
+                      newCeption,
+                      story?._id,
+                      book_id,
+                      chapterBook && chapterBook,
+                    );
+                    if (hasil) {
+                      setHandleUpdate(false);
+                    }
                   }
                 }
               }}

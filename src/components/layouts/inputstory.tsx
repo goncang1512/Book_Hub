@@ -20,6 +20,7 @@ export const InputStory = ({
   const formRef = useRef<HTMLFormElement | null>(null);
   const { dataContent, setDataContent, loadingUploadStory, uploadStory, msgRank, msgUploadCerita } =
     useContext(StoryContext);
+  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
 
   return (
     <div className={`items-center gap-5 border-b w-full px-5 py-3`}>
@@ -67,14 +68,16 @@ export const InputStory = ({
                     value={dataContent}
                     onChange={(e) => setDataContent(e.target.value)}
                     onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-                      if (e.key === "Enter" && !e.shiftKey) {
-                        e.preventDefault();
-                        uploadStory(
-                          dataContent,
-                          session?.user?._id,
-                          idStoryBook && idStoryBook,
-                          chapterBook && chapterBook,
-                        );
+                      if (!isMobile) {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          uploadStory(
+                            dataContent,
+                            session?.user?._id,
+                            idStoryBook && idStoryBook,
+                            chapterBook && chapterBook,
+                          );
+                        }
                       }
                     }}
                   />
