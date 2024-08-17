@@ -3,10 +3,32 @@ import { NextFetchEvent, NextMiddleware, NextRequest, NextResponse } from "next/
 
 const onlyDeveloperPage = ["/profil/dasboard/inbox", "/profil/dasboard/toko"];
 const authPage = ["/login", "/register"];
+const originUrl: string[] = [`${process.env.NEXT_PUBLIC_API_URL}`];
 
 export default function withAuth(middleware: NextMiddleware, requireAuth: string[] = []) {
   return async (req: NextRequest, next: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname;
+    const origin = req.nextUrl.origin;
+
+    if (pathname.startsWith("/api")) {
+      if (!originUrl.includes(origin)) {
+        return NextResponse.json({ error: "Access denied" }, { status: 403 });
+      }
+
+      const response = NextResponse.next();
+      response.headers.set("Access-Control-Allow-Origin", origin || "");
+      response.headers.set(
+        "Access-Control-Allow-Methods",
+        "GET, POST, PUT, PATCH, DELETE, OPTIONS",
+      );
+      response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+      if (req.method === "OPTIONS") {
+        return response;
+      }
+
+      return response;
+    }
 
     const startsWithRequireAuth = requireAuth.some((route) => pathname.startsWith(route));
     if (startsWithRequireAuth) {

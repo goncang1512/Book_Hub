@@ -1,6 +1,7 @@
+import * as React from "react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 
 import { TextArea } from "../elements/textarea";
 import { Button } from "../elements/button";
@@ -8,18 +9,31 @@ import Img from "../fragments/image";
 
 import { StoryContext } from "@/lib/context/storycontext";
 
-export const InputStory = ({ idStoryBook }: { idStoryBook: string }) => {
+export const InputStory = ({
+  idStoryBook,
+  chapterBook,
+}: {
+  idStoryBook: string;
+  chapterBook?: string | null;
+}) => {
   const { data: session, status }: any = useSession();
+  const formRef = useRef<HTMLFormElement | null>(null);
   const { dataContent, setDataContent, loadingUploadStory, uploadStory, msgRank, msgUploadCerita } =
     useContext(StoryContext);
 
   return (
     <div className={`items-center gap-5 border-b w-full px-5 py-3`}>
       <form
+        ref={formRef}
         className="w-full"
         onSubmit={(e) => {
           e.preventDefault();
-          uploadStory(dataContent, session?.user?._id, idStoryBook && idStoryBook);
+          uploadStory(
+            dataContent,
+            session?.user?._id,
+            idStoryBook && idStoryBook,
+            chapterBook && chapterBook,
+          );
         }}
       >
         <table className="w-full">
@@ -52,6 +66,17 @@ export const InputStory = ({ idStoryBook }: { idStoryBook: string }) => {
                     placeholder="Apa yang ingin anda ceritakan?"
                     value={dataContent}
                     onChange={(e) => setDataContent(e.target.value)}
+                    onKeyDown={(e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        uploadStory(
+                          dataContent,
+                          session?.user?._id,
+                          idStoryBook && idStoryBook,
+                          chapterBook && chapterBook,
+                        );
+                      }
+                    }}
                   />
                 )}
               </td>

@@ -19,6 +19,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
     book_id: string,
     setLiked: React.Dispatch<SetStateAction<boolean>>,
     username: string,
+    chapterBook?: string | null,
   ) => {
     try {
       const data = {
@@ -38,6 +39,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
         mutate(`/api/story/detailstory/${book_id}/${session?.user?._id}`);
         mutate(`/api/book/detailbook/${book_id && book_id}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${book_id}/${session?.user?._id}`);
+        mutate(`/api/read?id=${chapterBook}&chapter=${book_id}&user_id=${session?.user?._id}`);
       }
     } catch (error) {
       setLiked(false);
@@ -52,6 +54,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
     setLiked: React.Dispatch<SetStateAction<boolean>>,
     user_story: string,
     username: string,
+    chapterBook?: string | null,
   ) => {
     try {
       setLiked(false);
@@ -64,6 +67,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
         mutate(`/api/user?user_id=${username}`);
         mutate(`/api/book/detailbook/${book_id && book_id}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${book_id}/${session?.user?._id}`);
+        mutate(`/api/read?id=${chapterBook}&chapter=${book_id}&user_id=${session?.user?._id}`);
       }
     } catch (error) {
       logger.error(`${error}`);
@@ -77,6 +81,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
     username: string,
     setFollowed: Dispatch<SetStateAction<boolean>>,
     book_id?: string,
+    chapterBook?: string | null,
   ) => {
     try {
       setFollowed(true);
@@ -88,6 +93,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
         mutate(`/api/follow/${session?.user?._id}`);
         mutate(`/api/book/detailbook/${book_id && book_id}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${book_id}/${session?.user?._id}`);
+        mutate(`/api/read?id=${chapterBook}&chapter=${book_id}&user_id=${session?.user?._id}`);
       }
     } catch (error) {
       setFollowed(false);
@@ -101,6 +107,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
     username: string,
     setFollowed: Dispatch<SetStateAction<boolean>>,
     book_id?: string,
+    chapterBook?: string | null,
   ) => {
     try {
       setFollowed(false);
@@ -112,6 +119,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
         mutate(`/api/follow/${session?.user?._id}`);
         mutate(`/api/book/detailbook/${book_id && book_id}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${book_id}/${session?.user?._id}`);
+        mutate(`/api/read?id=${chapterBook}&chapter=${book_id}&user_id=${session?.user?._id}`);
       }
     } catch (error) {
       logger.error(`${error}`);

@@ -4,6 +4,9 @@ import { logger } from "@/lib/utils/logger";
 import { bookAutServices } from "@/lib/services/bookauthor";
 import connectMongoDB from "@/lib/config/connectMongoDb";
 import { bookServices } from "@/lib/services/bookservices";
+import { storyServices } from "@/lib/services/storyservices";
+import { getLikeContent } from "@/lib/middleware/likechek";
+import { getMyFollower } from "@/lib/middleware/getmyfollower";
 
 export const POST = async (req: NextRequest) => {
   try {
@@ -67,9 +70,12 @@ export const POST = async (req: NextRequest) => {
 export const GET = async (req: NextRequest) => {
   await connectMongoDB();
   try {
-    const searchParams = new URLSearchParams(req.url.split("?")[1]);
+    const searchParams = req.nextUrl.searchParams;
     const book_id: any = searchParams.get("id");
     const chapterStr: any = searchParams.get("chapter");
+    const user_id = searchParams.get("user_id");
+
+    console.log(user_id);
 
     const canvas = await bookAutServices.getChapter(book_id, "Rilis");
     const result = await bookAutServices.readBook(chapterStr);
@@ -80,6 +86,14 @@ export const GET = async (req: NextRequest) => {
       chapterIndex !== -1 && chapterIndex < canvas.length - 1 ? canvas[chapterIndex + 1]._id : null;
     const prevChapter = chapterIndex > 0 ? canvas[chapterIndex - 1]._id : null;
 
+    const storys: any = await storyServices.getIdBook(chapterStr);
+    const storyWithLike = await getLikeContent(storys);
+
+    let myFollower;
+    if (user_id) {
+      myFollower = await getMyFollower(user_id);
+    }
+
     const dataObject = result.toObject ? result.toObject() : result;
 
     logger.info("Success get canvas");
@@ -89,6 +103,8 @@ export const GET = async (req: NextRequest) => {
         statusCode: 200,
         message: "Success get canvas",
         result: { ...dataObject, nextChapter, prevChapter, jenis: book.jenis },
+        storys: storyWithLike,
+        myFollower: myFollower && myFollower,
       },
       { status: 200 },
     );

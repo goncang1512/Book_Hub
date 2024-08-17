@@ -35,6 +35,7 @@ export interface InputProps
   pattern?: string;
   placeholder?: string;
   onChange: ChangeEventHandler<HTMLTextAreaElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement>;
 }
 
 export const TextArea: React.FC<InputProps> = ({
@@ -50,6 +51,7 @@ export const TextArea: React.FC<InputProps> = ({
   value,
   required,
   placeholder,
+  onKeyDown,
   ...rest
 }) => {
   return (
@@ -62,6 +64,7 @@ export const TextArea: React.FC<InputProps> = ({
         required={required}
         value={value}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         {...rest}
       />
       <label className={input({ varLabel, className: classLabel })} htmlFor={name}>

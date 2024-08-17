@@ -108,6 +108,7 @@ export const ButtonStory = ({
   dataFollow,
   session,
   label,
+  chapterBook,
 }: {
   user_id: string;
   follower_id: string;
@@ -116,6 +117,7 @@ export const ButtonStory = ({
   dataFollow: any;
   session: any;
   label: string;
+  chapterBook?: string | null;
 }) => {
   const [followed, setFollowed] = useState(false);
   const { followUser, unfollowUser } = useContext(LikeContext);
@@ -135,7 +137,14 @@ export const ButtonStory = ({
           aria-label={label}
           className="text-blue-500 text-sm"
           onClick={() => {
-            unfollowUser(user_id, follower_id, userData?.username, setFollowed, book_id);
+            unfollowUser(
+              user_id,
+              follower_id,
+              userData?.username,
+              setFollowed,
+              book_id,
+              chapterBook,
+            );
           }}
         >
           Diikuti
@@ -145,7 +154,7 @@ export const ButtonStory = ({
           aria-label={label}
           className="text-blue-500 text-sm"
           onClick={() => {
-            followUser(user_id, follower_id, userData?.username, setFollowed, book_id);
+            followUser(user_id, follower_id, userData?.username, setFollowed, book_id, chapterBook);
           }}
         >
           Ikuti

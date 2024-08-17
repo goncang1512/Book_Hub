@@ -61,12 +61,14 @@ export const CardContent = ({
   comment,
   dataFollow,
   statusCard,
+  chapterBook,
 }: {
   story: StoryType;
   seeBook: boolean;
   comment?: boolean;
   dataFollow: any;
   statusCard?: string;
+  chapterBook?: string | null;
 }) => {
   const { data: session }: any = useSession();
   const [handleUpdate, setHandleUpdate] = useState(false);
@@ -150,6 +152,7 @@ export const CardContent = ({
               {session?.user?._id !== story?.user?._id && (
                 <ButtonStory
                   book_id={statusCard === "detail" ? story?._id : story?.book_id}
+                  chapterBook={chapterBook}
                   dataFollow={dataFollow}
                   follower_id={session?.user?._id}
                   label={`buttonStory${story?._id}`}
@@ -169,7 +172,7 @@ export const CardContent = ({
                   aria-label="deleteStory"
                   className="active:text-gray-400 flex items-center jsutify-center"
                   onClick={() => {
-                    deletedStory(story?._id, story?.book_id);
+                    deletedStory(story?._id, story?.book_id, chapterBook);
                   }}
                 >
                   {loadingDeleteStory ? (
@@ -199,7 +202,12 @@ export const CardContent = ({
             onSubmit={async (e) => {
               e.preventDefault();
               const book_id = statusCard === "detail" ? story._id : story?.book_id;
-              const hasil = await updateStory(newCeption, story?._id, book_id);
+              const hasil = await updateStory(
+                newCeption,
+                story?._id,
+                book_id,
+                chapterBook && chapterBook,
+              );
               if (hasil) {
                 setHandleUpdate(false);
               }
@@ -212,6 +220,21 @@ export const CardContent = ({
               value={newCeption}
               onChange={(e) => {
                 setNewCeption(e.target.value);
+              }}
+              onKeyDown={async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  const book_id = statusCard === "detail" ? story._id : story?.book_id;
+                  const hasil = await updateStory(
+                    newCeption,
+                    story?._id,
+                    book_id,
+                    chapterBook && chapterBook,
+                  );
+                  if (hasil) {
+                    setHandleUpdate(false);
+                  }
+                }
               }}
             />
             <div className="w-full gap-5 flex justify-end items-center">
@@ -305,6 +328,7 @@ export const CardContent = ({
           <LikeComponent
             _id={story?._id}
             book_id={statusCard === "detail" ? story._id : story?.book_id}
+            chapterBook={chapterBook}
             contentLike={story?.like_str && story.like_str}
             user={story.user && story.user}
             user_story={story?.user_id && story?.user_id}
@@ -332,12 +356,14 @@ const LikeComponent = ({
   contentLike,
   book_id,
   user,
+  chapterBook,
 }: {
   _id: string;
   user_story: string;
   contentLike: any;
   book_id: string;
   user: any;
+  chapterBook?: string | null;
 }) => {
   const [likeContent, setLikeContent] = useState<{
     user_id: string;
@@ -367,7 +393,15 @@ const LikeComponent = ({
               user_id: "hhgjhjhgj",
               story_id: "ljhjkhjhkjhkjh",
             });
-            disLike(session?.user?._id, _id, book_id, setLiked, user_story, user?.username);
+            disLike(
+              session?.user?._id,
+              _id,
+              book_id,
+              setLiked,
+              user_story,
+              user?.username,
+              chapterBook,
+            );
           }}
         >
           <BiSolidLike className="text-blue-500" size={25} />
@@ -382,7 +416,15 @@ const LikeComponent = ({
               user_id: session?.user?._id,
               story_id: _id,
             });
-            addLike(session?.user?._id, _id, user_story, book_id, setLiked, user?.username);
+            addLike(
+              session?.user?._id,
+              _id,
+              user_story,
+              book_id,
+              setLiked,
+              user?.username,
+              chapterBook,
+            );
           }}
         >
           <BiLike size={25} />

@@ -120,7 +120,7 @@ export default function Home() {
       </div>
 
       {/* Top Trending 3 Jenis Buku */}
-      <div className="px-4 pb-4 gap-3 w-full flex items-start justify-center">
+      <div className="px-4 pb-4 gap-3 w-full flex items-start md:justify-center justify-around">
         {jenisHot &&
           jenisHot?.map((hot: { type: string; data: any }, index: number) => {
             return (

@@ -148,10 +148,17 @@ export const useChapter = {
       detailChapterLoading: isLoading,
     };
   },
-  readBook: (book_id: string, chapter: string) => {
-    const { data, isLoading } = useSWR(`/api/read?id=${book_id}&chapter=${chapter}`, fetcher);
+  readBook: (book_id: string, chapter: string, user_id: string) => {
+    let url: string = `/api/read?id=${book_id}&chapter=${chapter}`;
+    if (user_id) {
+      url = `/api/read?id=${book_id}&chapter=${chapter}&user_id=${user_id}`;
+    }
+
+    const { data, isLoading } = useSWR(url, fetcher);
 
     return {
+      dataFollow: data?.myFollower,
+      storyRead: data?.storys,
       bacaBuku: data?.result,
       bacaBukuLoading: isLoading,
     };

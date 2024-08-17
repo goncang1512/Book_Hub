@@ -11,6 +11,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import parse from "html-react-parser";
 import Link from "next/link";
 import styles from "@/lib/style.module.css";
+import { InputStory } from "@/components/layouts/inputstory";
+import { CardContent } from "@/components/layouts/cardstory";
 
 interface ReadComponentProps {
   book_id: string;
@@ -21,7 +23,11 @@ interface ReadComponentProps {
 const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status }) => {
   const router = useRouter();
   const { data: session, status: statusSession }: any = useSession();
-  const { bacaBuku, bacaBukuLoading } = useChapter.readBook(book_id, chapter);
+  const { bacaBuku, storyRead, dataFollow, bacaBukuLoading } = useChapter.readBook(
+    book_id,
+    chapter,
+    session?.user?._id,
+  );
   const { misiUser } = useMission.getMission(session?.user?._id);
 
   useEffect(() => {
@@ -115,6 +121,24 @@ const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status 
               next
             </Link>
           )}
+        </div>
+        <div className="border-t">
+          <InputStory chapterBook={book_id} idStoryBook={chapter} />
+          <div>
+            {storyRead &&
+              storyRead?.map((cerita: any) => {
+                return (
+                  <CardContent
+                    key={cerita?._id}
+                    chapterBook={book_id}
+                    comment={false}
+                    dataFollow={dataFollow}
+                    seeBook={false}
+                    story={cerita}
+                  />
+                );
+              })}
+          </div>
         </div>
       </div>
     </div>

@@ -28,6 +28,7 @@ export interface LikeContextType {
     book_id: string,
     setLiked: React.Dispatch<React.SetStateAction<boolean>>,
     username: string,
+    chapterBook?: string | null,
   ) => void;
   disLike: (
     user_id: string,
@@ -36,6 +37,7 @@ export interface LikeContextType {
     setLiked: React.Dispatch<React.SetStateAction<boolean>>,
     user_story: string,
     username: string,
+    chapterBook?: string | null,
   ) => void;
   followUser: (
     user_id: string,
@@ -43,6 +45,7 @@ export interface LikeContextType {
     username: string,
     setFollowed: React.Dispatch<React.SetStateAction<boolean>>,
     book_id?: string,
+    chapterBook?: string | null,
   ) => void;
   unfollowUser: (
     user_id: string,
@@ -50,6 +53,7 @@ export interface LikeContextType {
     username: string,
     setFollowed: React.Dispatch<React.SetStateAction<boolean>>,
     book_id?: string,
+    chapterBook?: string | null,
   ) => void;
 }
 
@@ -126,11 +130,16 @@ export interface UserContextType {
 // StoryContext
 export interface StoryInterface {
   setNewCeption: React.Dispatch<React.SetStateAction<string>>;
-  updateStory: (ception: string, id: string, book_id: string) => Promise<boolean>;
+  updateStory: (
+    ception: string,
+    id: string,
+    book_id: string,
+    chapterBook?: string | null,
+  ) => Promise<boolean>;
   setMsgLvlUp: React.Dispatch<React.SetStateAction<LvlUpType>>;
   setDataContent: React.Dispatch<React.SetStateAction<string>>;
-  deletedStory: (id: string, bookId: string) => void;
-  uploadStory: (ception: string, id: string, bookId: string) => void;
+  deletedStory: (id: string, bookId: string, chapterBook?: string | null) => void;
+  uploadStory: (ception: string, id: string, bookId: string, chapterBook?: string | null) => void;
   loadingUploadStory: boolean;
   loadingDeleteStory: boolean;
   dataContent: string;

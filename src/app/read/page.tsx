@@ -17,9 +17,7 @@ export async function generateMetadata({ searchParams }: PropsRead): Promise<Met
     chapter: "",
   };
 
-  await fetch(
-    `https://book-hub-git-master-samuderanstgmailcoms-projects.vercel.app/api/read?id=${book_id}&chapter=${chapter}`,
-  )
+  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/read?id=${book_id}&chapter=${chapter}`)
     .then(async (res) => {
       const hasil = await res.json();
       data = {

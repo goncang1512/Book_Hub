@@ -36,7 +36,12 @@ export default function StoryContextProvider({ children }: { children: React.Rea
   const [loadingUpdateStory, setLoadingUpdateStory] = useState(false);
   const [loadingDeleteStory, setLoadingDeleteStory] = useState(false);
 
-  const uploadStory = async (ception: string, id: string, bookId: string | null) => {
+  const uploadStory = async (
+    ception: string,
+    id: string,
+    bookId: string | null,
+    chapterBook?: string | null,
+  ) => {
     try {
       setLoadingUploadStory(true);
       const res = await instance.post(
@@ -56,6 +61,9 @@ export default function StoryContextProvider({ children }: { children: React.Rea
         mutate(`/api/mission/${session?.user?._id}`);
         mutate(`/api/book/detailbook/${bookId}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${bookId}/${session?.user?._id}`);
+        mutate(
+          `/api/read?id=${chapterBook}&chapter=${res.data.result.book_id}&user_id=${session?.user?._id}`,
+        );
         setDataContent("");
         update({
           status: "updateRank",
@@ -112,7 +120,7 @@ export default function StoryContextProvider({ children }: { children: React.Rea
     }
   };
 
-  const deletedStory = async (id: string, bookId: string) => {
+  const deletedStory = async (id: string, bookId: string, chapterBook?: string | null) => {
     try {
       setLoadingDeleteStory(true);
       const res = await instance.delete(`/api/story/${id}`);
@@ -125,6 +133,9 @@ export default function StoryContextProvider({ children }: { children: React.Rea
         mutate(`/api/book/detailbook/${bookId}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${bookId}/${session?.user?._id}`);
         mutate(`/api/user/content/${session?.user?._id}`);
+        mutate(
+          `/api/read?id=${chapterBook}&chapter=${res.data.result.book_id}&user_id=${session?.user?._id}`,
+        );
         setLoadingDeleteStory(false);
       }
     } catch (error) {
@@ -133,7 +144,12 @@ export default function StoryContextProvider({ children }: { children: React.Rea
     }
   };
 
-  const updateStory = async (ception: string, id: string, book_id: string) => {
+  const updateStory = async (
+    ception: string,
+    id: string,
+    book_id: string,
+    chapterBook?: string | null,
+  ) => {
     try {
       setLoadingUpdateStory(true);
       const data = {
@@ -147,6 +163,9 @@ export default function StoryContextProvider({ children }: { children: React.Rea
         mutate(`/api/book/detailbook/${res.data.result.book_id}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${book_id}/${session?.user?._id}`);
         mutate(`/api/user/content/${session?.user?._id}`);
+        mutate(
+          `/api/read?id=${chapterBook}&chapter=${res.data.result.book_id}&user_id=${session?.user?._id}`,
+        );
       }
       return true;
     } catch (error: any) {
