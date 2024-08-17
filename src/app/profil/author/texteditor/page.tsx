@@ -47,7 +47,7 @@ export default function TextEditor() {
   const searchParams = useSearchParams();
   const id: any = searchParams.get("id");
   const chapter: any = searchParams.get("c");
-  const { bacaBuku, bacaBukuLoading } = useChapter.readBook(id && id, chapter && chapter);
+  const { bacaBuku, bacaBukuLoading } = useChapter.readBook(id && id, chapter && chapter, "");
   const [content, setContent] = useState("");
   const [wordCount, setWordCount] = useState(0);
 
