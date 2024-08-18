@@ -3,8 +3,8 @@ import { GiBookmarklet } from "react-icons/gi";
 
 export default function OpenWindow() {
   const [text, setText] = useState({
-    from: "dari",
-    grup: "Studio Mogo",
+    from: "from",
+    grup: "Mogo Studio",
   });
 
   useEffect(() => {

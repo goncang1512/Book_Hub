@@ -37,7 +37,7 @@ export default function Content({ params }: { params: { slug: string[] } }) {
       <div className="flex flex-col w-full md:mr-[38%] mr-0">
         <BooksProfileMobile dataBook={detailBook && detailBook} statusBook={statusDetail} />
         <div className="md:pt-0 pt-5">
-          <InputStory idStoryBook={params.slug[0]} />
+          <InputStory idStoryBook={params.slug[0]} type="story" />
         </div>
         <div className="w-full">
           {detailBookLoading ? (

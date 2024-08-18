@@ -40,13 +40,14 @@ export default function StoryContextProvider({ children }: { children: React.Rea
     ception: string,
     id: string,
     bookId: string | null,
+    type: string,
     chapterBook?: string | null,
   ) => {
     try {
       setLoadingUploadStory(true);
       const res = await instance.post(
         "/api/story",
-        { ception: ception, user_id: id, book_id: bookId },
+        { ception: ception, user_id: id, book_id: bookId, type },
         {
           headers: {
             Authorization: `Bearer ${session?.accessToken}`,

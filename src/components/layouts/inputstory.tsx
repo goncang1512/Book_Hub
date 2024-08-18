@@ -12,8 +12,10 @@ import { StoryContext } from "@/lib/context/storycontext";
 export const InputStory = ({
   idStoryBook,
   chapterBook,
+  type,
 }: {
   idStoryBook: string;
+  type: string;
   chapterBook?: string | null;
 }) => {
   const { data: session, status }: any = useSession();
@@ -33,6 +35,7 @@ export const InputStory = ({
             dataContent,
             session?.user?._id,
             idStoryBook && idStoryBook,
+            type,
             chapterBook && chapterBook,
           );
         }}
@@ -75,6 +78,7 @@ export const InputStory = ({
                             dataContent,
                             session?.user?._id,
                             idStoryBook && idStoryBook,
+                            type,
                             chapterBook && chapterBook,
                           );
                         }

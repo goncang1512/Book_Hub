@@ -8,6 +8,9 @@ const StoryModel = new Schema(
     book_id: {
       type: String,
     },
+    type: {
+      type: String,
+    },
     ception: { type: String, trim: false },
     book: {
       type: mongoose.Schema.Types.ObjectId,

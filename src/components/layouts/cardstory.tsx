@@ -26,6 +26,7 @@ export type StoryType = {
   user_id: string;
   book_id: string;
   ception: string;
+  type: string;
   user: {
     _id: string;
     username: string;
@@ -340,9 +341,7 @@ export const CardContent = ({
           {!comment && (
             <Link
               className={`flex`}
-              href={`${
-                story?.book ? `/content?id=${story?._id}` : `/content?id=${story?.book_id}`
-              }`}
+              href={` ${story?.type === "chapter" ? `/content?id=${story?._id}` : story?.book ? `/content?id=${story?._id}` : `/content?id=${story?.book_id}`}`}
             >
               <FaRegComments size={25} />
             </Link>

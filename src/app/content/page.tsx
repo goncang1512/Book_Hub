@@ -57,7 +57,7 @@ export default function Balasan() {
                   />
                 );
               })}
-            <InputStory idStoryBook={id && id} />
+            <InputStory idStoryBook={id && id} type="balasan" />
           </div>
           <div className="flex flex-col">
             {storyDetailLdl ? (

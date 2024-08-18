@@ -10,7 +10,7 @@ import { applayMission } from "@/lib/services/missionservices";
 
 export const POST = async (req: NextRequest) => {
   await connectMongoDB();
-  const { ception, user_id, book_id } = await req.json();
+  const { ception, user_id, book_id, type } = await req.json();
 
   try {
     const data = {
@@ -19,6 +19,7 @@ export const POST = async (req: NextRequest) => {
       book_id,
       book: book_id,
       user: user_id,
+      type,
     };
 
     if (!ception) {

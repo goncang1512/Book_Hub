@@ -139,7 +139,13 @@ export interface StoryInterface {
   setMsgLvlUp: React.Dispatch<React.SetStateAction<LvlUpType>>;
   setDataContent: React.Dispatch<React.SetStateAction<string>>;
   deletedStory: (id: string, bookId: string, chapterBook?: string | null) => void;
-  uploadStory: (ception: string, id: string, bookId: string, chapterBook?: string | null) => void;
+  uploadStory: (
+    ception: string,
+    id: string,
+    bookId: string,
+    type: string,
+    chapterBook?: string | null,
+  ) => void;
   loadingUploadStory: boolean;
   loadingDeleteStory: boolean;
   dataContent: string;
