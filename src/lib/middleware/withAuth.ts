@@ -13,7 +13,7 @@ export default function withAuth(middleware: NextMiddleware, requireAuth: string
     const pathname = req.nextUrl.pathname;
     const origin = req.nextUrl.origin;
 
-    if (pathname.startsWith("/api")) {
+    if (pathname.startsWith("/api") && !pathname.startsWith("/api/cron")) {
       if (!originUrl.includes(origin)) {
         return NextResponse.json({ error: "Access denied" }, { status: 403 });
       }
