@@ -64,7 +64,9 @@ export default function Mission({
                       const hasil =
                         misi.misiUser &&
                         misi.misiUser.find((misi: any) => misi.user_id === session?.user?._id);
-                      const percentage = ((hasil?.process ? hasil.process : 0) / misi.max) * 100;
+                      const processValue = hasil?.process !== undefined ? hasil.process : 0;
+                      const maxValue = misi.max !== undefined ? misi.max : 1;
+                      const percentage = (processValue / maxValue) * 100;
                       return (
                         <tr key={misi._id} className="border-none">
                           <td className="flex md:items-center items-star px-0">
@@ -111,7 +113,9 @@ export default function Mission({
                                       "-translate-y-5 opacity-0 transition-opacity duration-1000"
                                     } absolute -top-1 right-[7px] text-sm text-red-500 italic`}
                                   >
-                                    {msgPoint.status && `+${msgPoint.msg}`}
+                                    {msgPoint.status &&
+                                      msgPoint.misi_id === misi._id &&
+                                      `+${msgPoint.msg}`}
                                   </span>
                                 </div>
                               )

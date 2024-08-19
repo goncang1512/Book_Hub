@@ -21,6 +21,7 @@ const ComponentUser: React.FC<TesComponenType> = ({ username }) => {
   const { userDetail, userDetailLoading, booksUser, storyUser, statusBook } =
     useUsers.detailUser(username);
   const { dataFollow, followLoading } = useNewUsers.getMyFollower(session?.user?._id);
+
   return (
     <main
       className={`${

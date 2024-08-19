@@ -25,6 +25,7 @@ export default function MisiContextProvider({ children }: { children: React.Reac
   const [msgPoint, setMsgPoint] = useState({
     msg: 0,
     status: false,
+    misi_id: "",
   });
 
   const claimMisi = async (misiUserId: string, point: number) => {
@@ -37,12 +38,14 @@ export default function MisiContextProvider({ children }: { children: React.Reac
           ...msgPoint,
           msg: res.data.player.point,
           status: res.data.status,
+          misi_id: res.data.result.mission_id,
         });
         setTimeout(() => {
           setMsgPoint({
             ...msgPoint,
             msg: 0,
             status: false,
+            misi_id: "",
           });
         }, 1000);
       }

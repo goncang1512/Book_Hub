@@ -38,7 +38,9 @@ export default function Home() {
   return (
     <main className="w-full flex flex-col">
       <div className="w-full flex items-center md:justify-start justify-center pb-3">
-        <h1 className="pt-4 pl-4 text-xl font-bold">Sedang Hangat</h1>
+        <h1 className="pt-4 pl-4 font-bold" style={{ fontSize: "clamp(16px, 2vw, 20px)" }}>
+          Sedang Hangat
+        </h1>
       </div>
       <div className="md:w-[80vw] w-full pl-4 pr-4">
         <Swiper
@@ -71,7 +73,9 @@ export default function Home() {
       </div>
 
       <div className="w-full flex items-center md:justify-start justify-center">
-        <h1 className="pt-4 pl-4 text-xl font-bold">Buku Baru</h1>
+        <h1 className="pt-4 pl-4 font-bold" style={{ fontSize: "clamp(16px, 2vw, 20px)" }}>
+          Buku Baru
+        </h1>
       </div>
       <div className="w-full p-4 flex flex-wrap md:flex-row flex-col gap-4 h-full">
         {booksLoading

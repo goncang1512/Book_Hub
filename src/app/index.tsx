@@ -34,15 +34,15 @@ export default function Index({ children }: { children: React.ReactNode }) {
   }, [userDetail]);
 
   useEffect(() => {
-    const openedBefore = localStorage.getItem("openedBefore") === "true";
+    const openedBefore = sessionStorage.getItem("openedBefore") === "true";
     setHasOpened(openedBefore);
 
     if (session?.user) {
-      localStorage.setItem("openedBefore", "true");
+      sessionStorage.setItem("openedBefore", "true");
     }
 
     const handleBeforeUnload = () => {
-      localStorage.setItem("openedBefore", "false");
+      sessionStorage.setItem("openedBefore", "false");
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);

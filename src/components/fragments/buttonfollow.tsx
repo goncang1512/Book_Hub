@@ -6,10 +6,14 @@ export default function ButtonFollow({
   user,
   follower_id,
   label,
+  dataUser,
+  session,
 }: {
   user: any;
   follower_id: string;
   label: string;
+  dataUser: any;
+  session: any;
 }) {
   const [followed, setFollowed] = useState(false);
   const { followUser, unfollowUser } = useContext(LikeContext);
@@ -38,7 +42,9 @@ export default function ButtonFollow({
             followUser(user?._id, follower_id, user?.username, setFollowed);
           }}
         >
-          follow
+          {dataUser.myFollower.some((follow: any) => follow.user_id === session?.user?._id)
+            ? "followback"
+            : "follow"}
         </button>
       )}
     </>
@@ -93,7 +99,10 @@ export const ButtonFriends = ({
             followUser(dataUser?._id, session?.user?._id, dataUser?.username, setFollowed);
           }}
         >
-          follow
+          {dataFollow?.follower?.some((follow: any) => follow.follower_id === dataUser?._id) ||
+          pathaname === "/profil"
+            ? "followback"
+            : "follow"}
         </button>
       )}
     </>
@@ -157,7 +166,9 @@ export const ButtonStory = ({
             followUser(user_id, follower_id, userData?.username, setFollowed, book_id, chapterBook);
           }}
         >
-          Ikuti
+          {dataFollow?.follower?.some((follow: any) => follow.follower_id === userData?._id)
+            ? "Ikuti kembali"
+            : "ikuti"}
         </button>
       )}
     </>
