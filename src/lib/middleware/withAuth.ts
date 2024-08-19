@@ -3,7 +3,10 @@ import { NextFetchEvent, NextMiddleware, NextRequest, NextResponse } from "next/
 
 const onlyDeveloperPage = ["/profil/dasboard/inbox", "/profil/dasboard/toko"];
 const authPage = ["/login", "/register"];
-const originUrl: string[] = [`${process.env.NEXT_PUBLIC_API_URL}`];
+const originUrl: string[] = [
+  `${process.env.NEXT_PUBLIC_API_URL}`,
+  "book-k91lfyxgn-samuderanstgmailcoms-projects.vercel.app",
+];
 
 export default function withAuth(middleware: NextMiddleware, requireAuth: string[] = []) {
   return async (req: NextRequest, next: NextFetchEvent) => {
