@@ -27,7 +27,7 @@ const MissionSchema = new Schema(
   },
 );
 
-export const MissionModels = models.missions || model("missions", MissionSchema);
+export const MissionModels = models?.missions || model("missions", MissionSchema);
 
 const MisiUserSchema = new Schema(
   {
@@ -64,4 +64,4 @@ const MisiUserSchema = new Schema(
   },
 );
 
-export const MisiUserModels = models.misiusers || model("misiusers", MisiUserSchema);
+export const MisiUserModels = models?.misiusers || model("misiusers", MisiUserSchema);

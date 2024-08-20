@@ -24,6 +24,6 @@ const MessageSchema = new Schema(
   },
 );
 
-const MessageModels = models.messages || model("messages", MessageSchema);
+const MessageModels = models?.messages || model("messages", MessageSchema);
 
 export default MessageModels;

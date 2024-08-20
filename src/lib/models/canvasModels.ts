@@ -35,6 +35,6 @@ const CanvasModel = new Schema(
   },
 );
 
-const CanvasModels = models.canvas || model("canvas", CanvasModel);
+const CanvasModels = models?.canvas || model("canvas", CanvasModel);
 
 export default CanvasModels;

@@ -24,6 +24,6 @@ const VeryfiedEmail = new Schema(
   },
 );
 
-const VeryfiedModel = models.veryfied_model || model("veryfied_model", VeryfiedEmail);
+const VeryfiedModel = models?.veryfied_model || model("veryfied_model", VeryfiedEmail);
 
 export default VeryfiedModel;

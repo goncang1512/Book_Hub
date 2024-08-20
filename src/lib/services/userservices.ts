@@ -1,11 +1,18 @@
 import UserModels from "../models/users";
 import VeryfiedModel from "../models/veryfiedEmailModel";
+import instance from "../utils/fetch";
 
 type UserUpdate = {
   username: string;
   alamat: string;
   email: string;
   number: string;
+};
+
+export const getNotifTitle = async (user_id: string) => {
+  const res = await instance.get(`/api/message/notif/${user_id}`);
+
+  return res;
 };
 
 export const userSevices = {

@@ -48,7 +48,6 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
     try {
       await instance.put(`/api/message/${msg_id}`);
       mutate(`/api/message/${session?.user?._id}`);
-      mutate(`/api/message/notif/${session?.user?._id}`);
       mutate(`/api/mission/${session?.user?._id}`);
     } catch (error) {
       logger.error(`${error}`);

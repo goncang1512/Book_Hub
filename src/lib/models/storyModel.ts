@@ -26,7 +26,7 @@ const StoryModel = new Schema(
   },
 );
 
-const StoryModels = models.story || model("story", StoryModel);
+const StoryModels = models?.story || model("story", StoryModel);
 export default StoryModels;
 
 // Like Models

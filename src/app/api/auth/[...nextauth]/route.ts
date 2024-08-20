@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 import connectMongoDB from "@/lib/config/connectMongoDb";
 import UserModels from "@/lib/models/users";
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
