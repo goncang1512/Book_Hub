@@ -10,7 +10,7 @@ const image = cva("bg-cover bg-no-repeat bg-center", {
     },
     size: {
       book: "md:w-[144px] md:h-[223.09px] w-[124px] h-[183.09px]",
-      bookCard: "md:w-[92px] w-[89px] h-[140px] md:h-[144px]",
+      bookCard: "md:w-[90px] w-[89px] h-[140px] md:h-[144px]",
       avatar: "md:size-28 size-20",
     },
   },

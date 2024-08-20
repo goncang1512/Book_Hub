@@ -143,7 +143,7 @@ export default function Home() {
                   return (
                     <div key={index} className="flex md:flex-row flex-col gap-2">
                       <Link
-                        className="md:w-[92px] w-[90px] h-[140px] md:h-[144px] relative"
+                        className="md:w-[90px] w-[87px] h-[140px] md:h-[144px] relative"
                         href={`${linkBook}`}
                       >
                         <Img size={"bookCard"} src={`${buku.imgBooks.imgUrl}`} variant="bookCard" />

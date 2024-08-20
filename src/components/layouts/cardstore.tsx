@@ -77,7 +77,7 @@ export function CardBook({
       }  p-3 gap-4 border bg-white shadow-lg rounded-lg duration-500 ease-in-out`}
     >
       <div className="gap-4 flex">
-        <div className="md:w-[92px] w-[90px] h-[140px] md:h-[144px] relative">
+        <div className="md:w-[90px] w-[89px] h-[140px] md:h-[144px] relative">
           <Img size="bookCard" src={`${imgBooks?.imgUrl}`} variant="bookCard" />
           <span
             className={`${jenis === "Review" && "bg-blue-500"} ${
