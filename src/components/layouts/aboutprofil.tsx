@@ -87,14 +87,22 @@ export default function AboutProfil({
           {/* satu */}
           <div className="w-full flex items-start gap-2 border-b py-2">
             <div className="flex gap-5">
-              <Link className="flex flex-col justify-center items-center" href={"/leaderboard"}>
+              <Link
+                aria-label="linkToLeaderboard"
+                className="flex flex-col justify-center items-center"
+                href={"/leaderboard"}
+              >
                 <p className="font-medium text-xs">Musim</p>
                 <Img className="size-24" src={`${userData?.rank?.rankNow}`} />
                 <p className="font-medium text-xs">
                   {newMyRank} {userData?.rank?.level}
                 </p>
               </Link>
-              <Link className="flex flex-col justify-center items-center" href={"/leaderboard"}>
+              <Link
+                aria-label="linkLeaderboard"
+                className="flex flex-col justify-center items-center"
+                href={"/leaderboard"}
+              >
                 <p className="font-medium text-xs">Riwayat</p>
                 <Img className="size-24" src={`${userData?.rank?.rankTertinggi?.img}`} />
                 <p className="font-medium text-xs">
@@ -114,7 +122,11 @@ export default function AboutProfil({
                     {userData?.alamat ? (
                       userData?.alamat
                     ) : (
-                      <Link className="text-blue-500" href={"/profil/editprofil/biografi"}>
+                      <Link
+                        aria-label="link-to-alamat"
+                        className="text-blue-500"
+                        href={"/profil/editprofil/biografi"}
+                      >
                         Tambahkan alamat di sini
                       </Link>
                     )}
@@ -130,7 +142,11 @@ export default function AboutProfil({
                     {userData?.number ? (
                       userData?.number
                     ) : (
-                      <Link className="text-blue-500" href={"/profil/editprofil/biografi"}>
+                      <Link
+                        aria-label="link-add-number"
+                        className="text-blue-500"
+                        href={"/profil/editprofil/biografi"}
+                      >
                         Tambahkan nomor HP di sini
                       </Link>
                     )}

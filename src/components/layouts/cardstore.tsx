@@ -13,6 +13,7 @@ import ReadMoreLess from "../elements/readmoreless";
 import { Input } from "../elements/input";
 import { Button } from "../elements/button";
 import Img from "../fragments/image";
+import { useResponsiveValue } from "@/lib/utils/extractText";
 
 import DropDown from "./hovercard";
 
@@ -63,6 +64,12 @@ export function CardBook({
     setHalaman({ ...halaman, halaman: dataContent?.halaman });
   }, [dataContent]);
 
+  const height = useResponsiveValue({
+    widthBreakpoint: 768,
+    mobileValue: "15",
+    desktopValue: "20",
+  });
+
   return (
     <div
       className={`flex flex-col ${
@@ -70,7 +77,7 @@ export function CardBook({
       }  p-3 gap-4 border bg-white shadow-lg rounded-lg duration-500 ease-in-out`}
     >
       <div className="gap-4 flex">
-        <div className="w-[92px] h-[144px] relative">
+        <div className="md:w-[92px] w-[90px] h-[140px] md:h-[144px] relative">
           <Img size="bookCard" src={`${imgBooks?.imgUrl}`} variant="bookCard" />
           <span
             className={`${jenis === "Review" && "bg-blue-500"} ${
@@ -188,17 +195,18 @@ export function CardBook({
             <ReadMoreLess
               other
               maxLength={210}
-              mobile={150}
+              mobile={120}
+              style={{ fontSize: "clamp(0.75rem, 2vw, 0.875rem)" }}
               text={sinopsis}
-              textFont="md:text-sm text-xs text-gray-600"
+              textFont="text-gray-900"
             />
           </div>
           <div>
             <hr className="h-[2px] bg-gray-500 rounded-full mb-1" />
             <div className="flex justify-between text-sm items-center">
               <div className="flex gap-1 items-center text-sm">
-                <p className="text-sm text-gray-500 flex gap-2 items-center">
-                  <IconWriter size={20} /> Penulis: {writer}
+                <p className="md:text-sm text-xs text-gray-500 flex gap-2 items-center">
+                  <IconWriter size={parseInt(height)} /> Penulis: {writer}
                 </p>
               </div>
               <div className="relative flex gap-2">
@@ -210,7 +218,7 @@ export function CardBook({
                     pathname === "/profil/whislist" ? "flex" : "md:hidden flex"
                   } text-sm ${
                     seeDetail ? "rotate-0" : "rotate-90"
-                  } duration-200 ease-linear hover:bg-gray-300 rounded-full`}
+                  } duration-200 p-1 ease-linear hover:bg-gray-300 rounded-full`}
                   onClick={() => handleDetailClick()}
                 >
                   <IoIosArrowDown size={15} />

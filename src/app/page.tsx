@@ -142,11 +142,11 @@ export default function Home() {
                           : null;
                   return (
                     <div key={index} className="flex md:flex-row flex-col gap-2">
-                      <Link className="w-[92px] h-[144px] relative" href={`${linkBook}`}>
-                        <Img
-                          className="w-full h-[144px] rounded-lg object-cover border"
-                          src={`${buku.imgBooks.imgUrl}`}
-                        />
+                      <Link
+                        className="md:w-[92px] w-[90px] h-[140px] md:h-[144px] relative"
+                        href={`${linkBook}`}
+                      >
+                        <Img size={"bookCard"} src={`${buku.imgBooks.imgUrl}`} variant="bookCard" />
                         <span
                           className={`${
                             buku.jenis === "Review" && "bg-blue-500"

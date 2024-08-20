@@ -7,9 +7,10 @@ type ReadMoreType = {
   textFont: string;
   other: boolean;
   mobile?: number;
+  style?: Record<string, any>;
 };
 
-const ReadMoreLess = ({ text, maxLength, mobile, textFont, other }: ReadMoreType) => {
+const ReadMoreLess = ({ text, maxLength, mobile, textFont, other, style }: ReadMoreType) => {
   const [isFullTextShown, setIsFullTextShown] = useState(false);
   const toggleShowText = () => {
     setIsFullTextShown(!isFullTextShown);
@@ -37,7 +38,7 @@ const ReadMoreLess = ({ text, maxLength, mobile, textFont, other }: ReadMoreType
   return (
     <div>
       {isFullTextShown ? (
-        <div className={textFont}>
+        <div className={textFont} style={style}>
           {paragraphs &&
             paragraphs.map((text: string, index) => <p key={index}>{text || "\u00A0"}</p>)}
           <button className="cursor-pointer text-gray-400" onClick={toggleShowText}>
@@ -46,7 +47,7 @@ const ReadMoreLess = ({ text, maxLength, mobile, textFont, other }: ReadMoreType
           </button>
         </div>
       ) : (
-        <p className={textFont}>
+        <p className={textFont} style={style}>
           {text && text.slice(0, panjangTeks)}
           {text && text.length > panjangTeks && (
             <button onClick={toggleShowText}>
