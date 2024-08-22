@@ -354,7 +354,12 @@ export const ModalDeleteBook: React.FC<{
             >
               Title
             </Input>
-            <Button label="buttonDeleteBook" size="login" type="submit" variant="login">
+            <Button
+              label={`${dataDelete.book_id}buttonDeleteBook`}
+              size="login"
+              type="submit"
+              variant="login"
+            >
               {loadingBook ? (
                 <div className="flex items-center justify-center">
                   <span className="loading loading-dots loading-md" />
