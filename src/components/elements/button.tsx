@@ -43,6 +43,7 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   onClick,
   label,
+  children,
   ...props
 }) => (
   <button
@@ -52,5 +53,7 @@ export const Button: React.FC<ButtonProps> = ({
     type={type}
     onClick={onClick}
     {...props}
-  />
+  >
+    {children}
+  </button>
 );

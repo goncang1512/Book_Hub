@@ -54,8 +54,8 @@ export default function Home() {
           modules={[Scrollbar, A11y]}
           scrollbar={{ draggable: true }}
           slidesPerView={1}
-          spaceBetween={10}
-          style={{ paddingBottom: "15px" }}
+          spaceBetween={16}
+          style={{ paddingBottom: "15px", paddingRight: "1px" }}
         >
           {booksLoading
             ? Array.from({ length: 5 }).map((_, index) => (
@@ -143,7 +143,7 @@ export default function Home() {
                   return (
                     <div key={index} className="flex md:flex-row flex-col gap-2">
                       <Link
-                        className="md:w-[90px] w-[87px] h-[140px] md:h-[144px] relative"
+                        className="md:w-[88px] w-[87px] h-[140px] md:h-[144px] relative"
                         href={`${linkBook}`}
                       >
                         <Img size={"bookCard"} src={`${buku.imgBooks.imgUrl}`} variant="bookCard" />

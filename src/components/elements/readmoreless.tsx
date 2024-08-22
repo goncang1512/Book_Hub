@@ -52,7 +52,7 @@ const ReadMoreLess = ({ text, maxLength, mobile, textFont, other, style }: ReadM
           {text && text.length > panjangTeks && (
             <button onClick={toggleShowText}>
               <span className="cursor-pointer text-gray-400">
-                {other ? " lihat lainnya" : "..."}
+                {other ? " ...lihat lainnya" : "..."}
               </span>
             </button>
           )}

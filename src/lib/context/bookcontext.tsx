@@ -85,13 +85,16 @@ export default function BookContextProvider({ children }: { children: React.Reac
 
   const deletedBook = async (id: string, user_id: string) => {
     try {
+      setLoadingBook(true);
       const res = await instance.delete(`/api/book/${id}`);
       if (res.data.status) {
         mutate(`/api/book`);
         mutate(`/api/book/${user_id}`);
+        setLoadingBook(false);
       }
     } catch (error) {
       logger.error(`${error}`);
+      setLoadingBook(false);
     }
   };
 

@@ -22,7 +22,7 @@ export async function generateMetadata({ searchParams }: PropsRead): Promise<Met
       const hasil = await res.json();
       data = {
         judul: hasil?.result?.judul,
-        chapter: `(${hasil?.result?.chapter})`,
+        chapter: `${hasil?.result?.chapter} -`,
       };
     })
     .catch(() => {

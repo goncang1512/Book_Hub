@@ -1,9 +1,10 @@
 import * as React from "react";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { FaRegHeart, FaHeart, FaRegComments } from "react-icons/fa6";
 import { BiBookReader } from "react-icons/bi";
 import { FiBook } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 import { IconWriter } from "@public/svg/assets";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -38,8 +39,13 @@ export function CardBook({
   if (!dataContent) return 0;
   const pathname = usePathname();
   const { data: session }: any = useSession();
-  const { deletedBook } = React.useContext(BookContext);
   const { updateHalaman, loadingHalaman } = React.useContext(WhislistContext);
+  const modalDeleteBookRef = useRef<HTMLDialogElement | null>(null);
+  const [dataDelete, setDataDelete] = useState({
+    book_id: "",
+    user_id: "",
+    title: "",
+  });
 
   const { _id, imgBooks, title, sinopsis, writer, terbit, user_id, ISBN, jenis } = dataContent;
 
@@ -70,6 +76,12 @@ export function CardBook({
     desktopValue: "20",
   });
 
+  const height25 = useResponsiveValue({
+    widthBreakpoint: 768,
+    mobileValue: "20",
+    desktopValue: "24",
+  });
+
   return (
     <div
       className={`flex flex-col ${
@@ -77,7 +89,7 @@ export function CardBook({
       }  p-3 gap-4 border bg-white shadow-lg rounded-lg duration-500 ease-in-out`}
     >
       <div className="gap-4 flex">
-        <div className="md:w-[90px] w-[89px] h-[140px] md:h-[144px] relative">
+        <div className="md:w-[88px] w-[80px] h-[140px] md:h-[144px] relative">
           <Img size="bookCard" src={`${imgBooks?.imgUrl}`} variant="bookCard" />
           <span
             className={`${jenis === "Review" && "bg-blue-500"} ${
@@ -92,14 +104,14 @@ export function CardBook({
         <div className="flex flex-col justify-between w-full">
           <div className="flex w-full justify-between items-center">
             <div className="font-semibold flex items-center gap-1 md:text-base text-sm text-clip overflow-hidden">
-              <FiBook size={20} />
-              <h1 className="max-md:truncate max-md:w-24 leading-none">{title}</h1>
+              <FiBook size={parseInt(height)} />
+              <h1 className="truncate max-md:max-w-24 max-w-[20rem]">{title}</h1>
             </div>
             <div className="flex items-center gap-3 relative">
               <Link aria-label={`comment${_id}`} href={`/content/${_id}`}>
-                <FaRegComments size={25} />
+                <FaRegComments size={parseInt(height25)} />
               </Link>
-              <AddList book={dataContent} size={20} />
+              <AddList book={dataContent} size={parseInt(height25)} />
               {jenis !== "Review" ? (
                 jenis === "Cerpen" ? (
                   statusBook &&
@@ -113,13 +125,13 @@ export function CardBook({
                           aria-label={`rilis${_id}`}
                           href={`/read?id=${_id}&chapter=${status._id}`}
                         >
-                          <BiBookReader size={25} />
+                          <BiBookReader size={parseInt(height25)} />
                         </Link>
                       ),
                   )
                 ) : (
                   <Link aria-label={`cerpen${_id}`} href={`/read/${_id}`}>
-                    <BiBookReader size={25} />
+                    <BiBookReader size={parseInt(height25)} />
                   </Link>
                 )
               ) : (
@@ -127,12 +139,15 @@ export function CardBook({
               )}
 
               {session?.user?._id === user_id && (
-                <DropDown label={_id}>
-                  <div className="flex flex-col">
+                <DropDown label={_id} size={parseInt(height25)}>
+                  <div className="flex flex-col md:text-base text-sm">
                     <button
                       aria-label="buttonDeleteBook"
                       className="active:text-gray-400 text-start"
-                      onClick={() => deletedBook(_id, session?.user?._id)}
+                      onClick={() => {
+                        modalDeleteBookRef?.current?.showModal();
+                        setDataDelete({ user_id: session?.user?._id, book_id: _id, title: title });
+                      }}
                     >
                       Hapus Buku
                     </button>
@@ -194,11 +209,11 @@ export function CardBook({
           <div className="h-full py-1">
             <ReadMoreLess
               other
-              maxLength={210}
+              maxLength={pathname === "/profil" || pathname.startsWith("/user") ? 300 : 210}
               mobile={120}
               style={{ fontSize: "clamp(0.75rem, 2vw, 0.875rem)" }}
               text={sinopsis}
-              textFont="text-gray-900"
+              textFont="text-gray-900 leading-[1.178rem]"
             />
           </div>
           <div>
@@ -262,6 +277,7 @@ export function CardBook({
           <p className="md:hidden flex text-xs text-gray-500 items-center">Terbit : {terbit}</p>
         </div>
       </div>
+      <ModalDeleteBook dataDelete={dataDelete} refDialog={modalDeleteBookRef} />
     </div>
   );
 }
@@ -294,5 +310,65 @@ export const AddList = ({ book, size }: { book: any; size: number }) => {
         </button>
       )}
     </>
+  );
+};
+
+export const ModalDeleteBook: React.FC<{
+  refDialog: any;
+  dataDelete: { user_id: string; book_id: string; title: string };
+}> = ({ refDialog, dataDelete }) => {
+  const [valueDelete, setValueDelete] = useState<string>("");
+  const { deletedBook, loadingBook } = React.useContext(BookContext);
+  return (
+    <dialog ref={refDialog} className="modal" id="my_modal_2">
+      <div className="modal-box relative">
+        <button
+          className="absolute right-1 top-1 p-2 rounded-full max-md:active:bg-slate-300 md:hover:bg-slate-300 hover:bg-none"
+          type="button"
+          onClick={() => refDialog?.current?.close()}
+        >
+          <IoClose size={25} />
+        </button>
+        <div className="pt-[10px]">
+          <form
+            className="flex flex-col gap-3"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (dataDelete.title === valueDelete) {
+                deletedBook(dataDelete?.book_id, dataDelete?.user_id);
+              }
+            }}
+          >
+            <p>
+              Enter book name <strong>{dataDelete.title}</strong> to continue:
+            </p>
+            <Input
+              container="labelFloat"
+              name="titlebook"
+              required={true}
+              type="text"
+              value={valueDelete}
+              varLabel="labelFloat"
+              variant="labelFloat"
+              onChange={(e) => setValueDelete(e.target.value)}
+            >
+              Title
+            </Input>
+            <Button label="buttonDeleteBook" size="login" type="submit" variant="login">
+              {loadingBook ? (
+                <div className="flex items-center justify-center">
+                  <span className="loading loading-dots loading-md" />
+                </div>
+              ) : (
+                "Delete Book"
+              )}
+            </Button>
+          </form>
+        </div>
+      </div>
+      <form className="modal-backdrop" method="dialog">
+        <button>close</button>
+      </form>
+    </dialog>
   );
 };
