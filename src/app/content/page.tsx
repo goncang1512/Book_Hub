@@ -24,8 +24,6 @@ export default function Balasan() {
     session?.user?._id,
   );
 
-  console.log(storyBook);
-
   return (
     <main className="flex">
       {storyDetailLdl ? (
