@@ -27,13 +27,15 @@ type StatusBook = {
   _id: string;
 };
 
-export function CardBook({
+function CardBook({
   dataContent,
   ukuran,
   statusBook,
+  children,
 }: {
   dataContent: any;
   ukuran: string;
+  children: React.ReactNode;
   statusBook?: StatusBook[];
 }) {
   if (!dataContent) return 0;
@@ -111,7 +113,7 @@ export function CardBook({
               <Link aria-label={`comment${_id}`} href={`/content/${_id}`}>
                 <FaRegComments size={parseInt(height25)} />
               </Link>
-              <AddList book={dataContent} size={parseInt(height25)} />
+              {children}
               {jenis !== "Review" ? (
                 jenis === "Cerpen" ? (
                   statusBook &&
@@ -142,7 +144,7 @@ export function CardBook({
                 <DropDown label={_id} size={parseInt(height25)}>
                   <div className="flex flex-col md:text-base text-sm">
                     <button
-                      aria-label="buttonDeleteBook"
+                      aria-label={`${_id}buttonDeleteBook`}
                       className="active:text-gray-400 text-start"
                       onClick={() => {
                         modalDeleteBookRef?.current?.showModal();
@@ -282,7 +284,15 @@ export function CardBook({
   );
 }
 
-export const AddList = ({ book, size }: { book: any; size: number }) => {
+const AddList = ({
+  book,
+  pagination,
+  keyword,
+}: {
+  book: any;
+  pagination?: { page: number; limit: number };
+  keyword?: string;
+}) => {
   const { data: session }: any = useSession();
   const { addList, deleteList } = useContext(WhislistContext);
   const [isLiked, setIsLiked] = useState(false);
@@ -291,22 +301,28 @@ export const AddList = ({ book, size }: { book: any; size: number }) => {
     setIsLiked(book?.listBook?.some((w: any) => w.user_id === session?.user?._id));
   }, [book?.listBook]);
 
+  const height25 = useResponsiveValue({
+    widthBreakpoint: 768,
+    mobileValue: "18",
+    desktopValue: keyword === "search" ? "18" : "21",
+  });
+
   return (
     <>
       {isLiked ? (
         <button
           aria-label={`deleteList${book._id}`}
           className="text-red-500 active:scale-110"
-          onClick={() => deleteList(session?.user?._id, book._id, setIsLiked)}
+          onClick={() => deleteList(session?.user?._id, book._id, setIsLiked, pagination, keyword)}
         >
-          <FaHeart size={size} />
+          <FaHeart size={height25} />
         </button>
       ) : (
         <button
           aria-label={`addlist${book._id}`}
-          onClick={() => addList(session?.user?._id, book._id, setIsLiked)}
+          onClick={() => addList(session?.user?._id, book._id, setIsLiked, pagination, keyword)}
         >
-          <FaRegHeart size={size} />
+          <FaRegHeart size={height25} />
         </button>
       )}
     </>
@@ -377,3 +393,7 @@ export const ModalDeleteBook: React.FC<{
     </dialog>
   );
 };
+
+CardBook.List = AddList;
+
+export default CardBook;

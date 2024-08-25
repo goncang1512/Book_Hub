@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import React from "react";
 
 import { useMyBook } from "@/lib/utils/useSwr";
-import { CardBook } from "@/components/layouts/cardstore";
+import CardBook from "@/components/layouts/cardstore";
 import { CardBookSkaleton } from "@/components/layouts/skeleton";
 
 export default function MyBook() {
@@ -16,7 +16,9 @@ export default function MyBook() {
         ? Array.from({ length: 5 }).map((_, index) => <CardBookSkaleton key={index + 1} />)
         : myBookAut &&
           myBookAut.map((book: any) => (
-            <CardBook key={book._id} dataContent={book} statusBook={statusBook} ukuran="" />
+            <CardBook key={book._id} dataContent={book} statusBook={statusBook} ukuran="">
+              <CardBook.List book={book} />
+            </CardBook>
           ))}
     </div>
   );

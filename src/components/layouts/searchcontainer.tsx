@@ -1,14 +1,15 @@
-import React, { LegacyRef, useEffect, useState } from "react";
+import React, { LegacyRef, useContext, useState } from "react";
 import { MdOutlineSearch } from "react-icons/md";
 import Link from "next/link";
 import { FaRegComments } from "react-icons/fa6";
 
-import { AddList } from "./cardstore";
+import CardBook from "./cardstore";
 
 import styles from "@/lib/style.module.css";
-import instance from "@/lib/utils/fetch";
 import useDebounce from "@/lib/utils/useDebaunce";
-import { logger } from "@/lib/utils/logger";
+import useSWR from "swr";
+import { fetcher } from "@/lib/utils/useSwr";
+import { GlobalState } from "@/lib/context/globalstate";
 
 const DELAY = 1000;
 
@@ -21,41 +22,19 @@ export default function SearchContainer({
   containerSearchRef: LegacyRef<HTMLDivElement> | null;
 }) {
   const { debounce } = useDebounce();
-  const [data, setData] = useState("");
-  const [dataSearch, setDataSearch] = useState([]);
-  const [notFound, setNotFound] = useState({
-    status: false,
-    message: "",
-  });
+  const [keyword, setKeyWord] = useState("");
+  const [query, setQuery] = useState("");
 
-  const searchBook = async () => {
-    try {
-      const res = await instance.get(`/api/search?title=${data}`);
-      setDataSearch(res.data.result);
-    } catch (error: any) {
-      if (error.response) {
-        setNotFound({
-          status: true,
-          message: error.response.data.message,
-        });
-        setTimeout(() => {
-          setNotFound({
-            status: false,
-            message: "",
-          });
-        }, 5000);
-      } else {
-        logger.error(`${error}`);
-      }
-    }
+  const { data, error } = useSWR(
+    keyword && seeSearch ? `/api/search?title=${keyword}` : null,
+    fetcher,
+  );
+
+  const handleSearch = (e: any) => {
+    const value = e.target.value;
+    setQuery(value);
+    debounce(() => setKeyWord(value), DELAY)();
   };
-
-  const debouncedSearch = debounce(searchBook, DELAY);
-  useEffect(() => {
-    if (seeSearch) {
-      debouncedSearch();
-    }
-  }, [data]);
 
   return (
     <div
@@ -72,10 +51,8 @@ export default function SearchContainer({
             name="search"
             placeholder=""
             type="text"
-            value={data}
-            onChange={(e) => {
-              setData(e.target.value);
-            }}
+            value={query}
+            onChange={handleSearch}
           />
           <div className="absolute top-0 left-0 duration-200">
             <button
@@ -96,11 +73,11 @@ export default function SearchContainer({
         </div>
       </div>
       <div className="pt-4">
-        {notFound.status ? (
-          <p className="text-red-500 text-center italic text-sm">{notFound.message}</p>
+        {error ? (
+          <p className="text-red-500 text-center italic text-sm">{error.response.data.message}</p>
         ) : (
-          dataSearch &&
-          dataSearch.map((book: BookType) => <CardSearch key={book._id} book={book} />)
+          data?.result &&
+          data?.result.map((book: BookType) => <CardSearch key={book._id} book={book} />)
         )}
       </div>
     </div>
@@ -117,17 +94,28 @@ type BookType = {
   writer: string;
   terbit: string;
   sinopsis: string;
+  jenis: string;
 };
 
 const CardSearch = ({ book }: { book: BookType }) => {
+  const { currentPage } = useContext(GlobalState);
   return (
     <div className="border-b py-1 gap-3 w-full flex">
-      <Link href={`/content/${book?._id}`}>
+      <Link className="relative" href={`/content/${book?._id}`}>
         <img
           alt=""
-          className="w-12 h-[69.6px] rounded-sm object-cover"
+          className="w-12 h-[69.6px] rounded-sm object-cover border"
           src={book?.imgBooks?.imgUrl}
         />
+        <span
+          className={`${book?.jenis === "Review" && "bg-blue-500"} ${
+            book?.jenis === "Novel" && "bg-green-500"
+          } ${
+            book?.jenis === "Cerpen" && "bg-orange-500"
+          } text-center absolute bottom-0 left-0 p-[2px] text-white rounded-tr-sm rounded-bl-sm text-[5px] border-b border-l`}
+        >
+          {book?.jenis}
+        </span>
       </Link>
       <div className="w-full flex flex-col">
         <div className="flex items-center justify-between">
@@ -138,7 +126,11 @@ const CardSearch = ({ book }: { book: BookType }) => {
             <Link href={`/content/${book?._id}`}>
               <FaRegComments size={18} />
             </Link>
-            <AddList book={book} size={16} />
+            <CardBook.List
+              book={book}
+              keyword="search"
+              pagination={{ page: currentPage, limit: 8 }}
+            />
           </div>
         </div>
         <p className="text-sm text-gray-400">{book?.writer}</p>

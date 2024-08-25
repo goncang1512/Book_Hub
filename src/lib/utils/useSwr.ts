@@ -39,12 +39,11 @@ export const useUsers = {
 
 export const useBooks = {
   allBook: () => {
-    const { data, error, isLoading } = useSWR("/api/book", fetcher);
+    const { data, error, isLoading } = useSWR(`/api/book`, fetcher);
 
     return {
       recomendedBook: data?.recomended,
       statusBook: data?.statusBook,
-      books: data?.result,
       booksLoading: isLoading,
       bookError: error,
       jenisHot: data?.jenisHot,

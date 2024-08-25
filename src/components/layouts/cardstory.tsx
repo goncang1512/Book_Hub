@@ -54,6 +54,7 @@ export type StoryType = {
     };
   };
   like_str: any;
+  balasanSum: any;
 };
 
 export const CardContent = ({
@@ -339,12 +340,17 @@ export const CardContent = ({
           />
 
           {!comment && (
-            <Link
-              className={`flex`}
-              href={` ${story?.type === "chapter" ? `/content?id=${story?._id}` : story?.book ? `/content?id=${story?._id}` : `/content?id=${story?.book_id}`}`}
-            >
-              <FaRegComments size={25} />
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                className={`flex`}
+                href={` ${story?.type === "chapter" ? `/content?id=${story?._id}` : story?.book ? `/content?id=${story?._id}` : `/content?id=${story?.book_id}`}`}
+              >
+                <FaRegComments size={25} />
+              </Link>
+              <p className="text-center text-xs text-gray-400">
+                {story?.balasanSum.length > 0 && story?.balasanSum.length}
+              </p>
+            </div>
           )}
         </div>
       </div>
@@ -388,7 +394,7 @@ const LikeComponent = ({
       {liked ? (
         <button
           aria-label="dislikeStory"
-          className="active:scale-125"
+          className="active:scale-125 flex gap-2 items-center"
           onClick={() => {
             setLikeContent({
               ...likeContent,
@@ -412,6 +418,7 @@ const LikeComponent = ({
       ) : (
         <button
           aria-label="likeStory"
+          className="flex items-center gap-2"
           onClick={() => {
             setLikeContent({
               ...likeContent,

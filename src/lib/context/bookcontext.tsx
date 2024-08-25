@@ -90,6 +90,7 @@ export default function BookContextProvider({ children }: { children: React.Reac
       if (res.data.status) {
         mutate(`/api/book`);
         mutate(`/api/book/${user_id}`);
+        mutate(`/api/user/content/${user_id}`);
         setLoadingBook(false);
       }
     } catch (error) {

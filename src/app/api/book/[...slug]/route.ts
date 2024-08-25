@@ -5,7 +5,7 @@ import connectMongoDB from "@/lib/config/connectMongoDb";
 import { checkExistingFoto as deleteCover, updateCover } from "@/lib/middleware/uploadImg";
 import { checkFotoProfil as checkCover } from "@/lib/middleware/checkUser";
 import { bookAutServices } from "@/lib/services/bookauthor";
-import { getLikeContent } from "@/lib/middleware/likechek";
+import { getBalasan, getLikeContent } from "@/lib/middleware/likechek";
 import { bookServices } from "@/lib/services/bookservices";
 import { storyServices } from "@/lib/services/storyservices";
 import { whislistSrv } from "@/lib/services/whilistservices";
@@ -43,6 +43,8 @@ export const GET = async (req: NextRequest, { params }: { params: { slug: string
       myFollower = await getMyFollower(slug[2]);
     }
 
+    const hasil = await getBalasan(storyWithLike);
+
     logger.info("Success get detail book by id");
     return NextResponse.json(
       {
@@ -51,7 +53,7 @@ export const GET = async (req: NextRequest, { params }: { params: { slug: string
         message: "Success get detail book by id",
         result: results,
         statusBook,
-        story: storyWithLike,
+        story: hasil,
         myFollower: myFollower && myFollower,
       },
       { status: 200 },

@@ -62,11 +62,15 @@ export interface WhislistContextType {
     user_id: string,
     book_id: string,
     setIsLiked: React.Dispatch<React.SetStateAction<boolean>>,
+    pagination?: { page: number; limit: number },
+    keyword?: string,
   ) => void;
   deleteList: (
     user_id: string,
     book_id: string,
     setIsLiked: React.Dispatch<React.SetStateAction<boolean>>,
+    pagination?: { page: number; limit: number },
+    keyword?: string,
   ) => void;
   updateHalaman: (book_id: string, halaman: { halaman: string }, user_id: string) => void;
   loadingHalaman: boolean;

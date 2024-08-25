@@ -33,6 +33,7 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
   });
   const [seeDetail, setSeeDetail] = useState("");
   const [seeMission, setSeeMission] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { missionUser, notifUser, ldgMisiNotif } = useNewUsers.getMisiNotif(session?.user?._id);
 
@@ -85,6 +86,8 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
         missionUser,
         notifUser,
         ldgMisiNotif,
+        currentPage,
+        setCurrentPage,
       }}
     >
       {children}

@@ -2,11 +2,12 @@ import { useRef } from "react";
 
 const useDebounce = () => {
   const debounceTimeout = useRef<any>(null);
+
   const debounce = (func: Function, delay: number) => {
-    return () => {
+    return (...args: any[]) => {
       if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
       debounceTimeout.current = setTimeout(() => {
-        func();
+        func(...args);
       }, delay);
     };
   };

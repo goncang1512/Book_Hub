@@ -5,9 +5,8 @@ import { checkFotoProfil as checkFotoCover } from "@/lib/middleware/checkUser";
 import { uploadCover } from "@/lib/middleware/uploadImg";
 import connectMongoDB from "@/lib/config/connectMongoDb";
 import BooksModels from "@/lib/models/booksModels";
-import { bookAutServices } from "@/lib/services/bookauthor";
 import { bookServ, bookServices } from "@/lib/services/bookservices";
-import { getListBook } from "@/lib/middleware/likechek";
+import { getListBook, processBooks } from "@/lib/middleware/likechek";
 
 export const POST = async (req: NextRequest) => {
   await connectMongoDB();
@@ -75,29 +74,12 @@ export const POST = async (req: NextRequest) => {
 
 export const GET = async () => {
   await connectMongoDB();
+
   try {
     const results = await bookServices.getAll();
+    const statusBookResults = await processBooks(results);
 
-    let statusBook: any[] = [];
-
-    if (results.length > 0) {
-      for (let result of results) {
-        if (result.jenis === "Cerpen") {
-          const canvas = await bookAutServices.getCerpen(result._id);
-          if (canvas.length > 0) {
-            canvas.forEach((item) => {
-              statusBook.push({
-                _id: item._id,
-                book_id: item.book_id,
-                status: item.status,
-              });
-            });
-          } else {
-            statusBook.push({ _id: null, book_id: result._id, status: null });
-          }
-        }
-      }
-    }
+    let statusBook = [...statusBookResults];
 
     let recomended = [];
     let filterBooks = [];
@@ -139,7 +121,6 @@ export const GET = async () => {
 
     recomended.sort((a, b) => b.sumReaders - a.sumReaders);
 
-    const hasil = await getListBook(results);
     const newRecomended = await getListBook(recomended);
 
     logger.info("Success get all book");
@@ -148,8 +129,8 @@ export const GET = async () => {
         status: true,
         statusCode: 200,
         message: "Success get all books",
-        result: hasil,
         recomended: newRecomended,
+        totalPage: results.length,
         statusBook,
         jenisHot,
       },

@@ -51,6 +51,10 @@ export const bookServices = {
   getAll: async () => {
     return await BooksModels.find().sort({ newChapter: -1, updatedAt: -1 });
   },
+  getPage: async (page: number, limit: number) => {
+    const skip = (page - 1) * limit;
+    return await BooksModels.find().sort({ newChapter: -1, updatedAt: -1 }).skip(skip).limit(limit);
+  },
   byId: async (id: string) => {
     return await BooksModels.find({ user_id: id }).sort({ updatedAt: -1 });
   },
