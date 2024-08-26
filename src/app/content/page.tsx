@@ -8,6 +8,7 @@ import { useStory } from "@/lib/utils/useSwr";
 import { CardContent } from "@/components/layouts/cardstory";
 import { InputStory } from "@/components/layouts/inputstory";
 import { useSession } from "next-auth/react";
+import InfiniteSwrStory from "@/components/layouts/infiniteSwr";
 
 export default function Balasan() {
   const router = useRouter();
@@ -54,31 +55,21 @@ export default function Balasan() {
                     seeBook={true}
                     statusCard="detail"
                     story={cerita}
+                    urlData={`/api/story/limit/${id && id}`}
                   />
                 );
               })}
-            <InputStory idStoryBook={id && id} type="balasan" />
+            <InputStory
+              idStoryBook={id && id}
+              type="balasan"
+              urlData={`/api/story/limit/${id && id}`}
+            />
           </div>
-          <div className="flex flex-col">
-            {storyDetailLdl ? (
-              <div className="w-full justify-center items-center">
-                <span className="loading loading-dots loading-md" />
-              </div>
-            ) : (
-              storyBook &&
-              storyBook.map((cerita: any) => {
-                return (
-                  <CardContent
-                    key={cerita._id}
-                    comment={true}
-                    dataFollow={dataFollow}
-                    seeBook={false}
-                    story={cerita}
-                  />
-                );
-              })
-            )}
-          </div>
+          <InfiniteSwrStory
+            dataFollow={dataFollow}
+            seeBook={false}
+            url={`/api/story/limit/${id && id}`}
+          />
         </div>
       )}
       <div />

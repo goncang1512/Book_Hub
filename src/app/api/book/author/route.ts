@@ -9,7 +9,7 @@ export const GET = async (req: NextRequest) => {
   await connectMongoDB();
   const searchParams = req.nextUrl.searchParams;
   const page = searchParams.get("page") || "1";
-  const limit = searchParams.get("limit") || "2";
+  const limit = searchParams.get("limit") || "8";
 
   try {
     const getPageBook = await bookServices.getPage(parseInt(page), parseInt(limit));

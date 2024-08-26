@@ -5,6 +5,8 @@ import { useSWRConfig } from "swr";
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
 import { LikeContextType } from "../utils/provider.type";
+import { unstable_serialize } from "swr/infinite";
+import { getKey } from "../swr/storySwr";
 
 export const LikeContext = createContext<LikeContextType>({} as LikeContextType);
 
@@ -19,6 +21,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
     book_id: string,
     setLiked: React.Dispatch<SetStateAction<boolean>>,
     username: string,
+    urlData: string,
     chapterBook?: string | null,
   ) => {
     try {
@@ -40,6 +43,11 @@ export default function LikeContextProvider({ children }: { children: React.Reac
         mutate(`/api/book/detailbook/${book_id && book_id}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${book_id}/${session?.user?._id}`);
         mutate(`/api/read?id=${chapterBook}&chapter=${book_id}&user_id=${session?.user?._id}`);
+        mutate(
+          unstable_serialize((pageIndex: any, previousPageData: any) =>
+            getKey(pageIndex, previousPageData, urlData),
+          ),
+        );
       }
     } catch (error) {
       setLiked(false);
@@ -54,6 +62,7 @@ export default function LikeContextProvider({ children }: { children: React.Reac
     setLiked: React.Dispatch<SetStateAction<boolean>>,
     user_story: string,
     username: string,
+    urlData: string,
     chapterBook?: string | null,
   ) => {
     try {
@@ -68,6 +77,11 @@ export default function LikeContextProvider({ children }: { children: React.Reac
         mutate(`/api/book/detailbook/${book_id && book_id}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${book_id}/${session?.user?._id}`);
         mutate(`/api/read?id=${chapterBook}&chapter=${book_id}&user_id=${session?.user?._id}`);
+        mutate(
+          unstable_serialize((pageIndex: any, previousPageData: any) =>
+            getKey(pageIndex, previousPageData, urlData),
+          ),
+        );
       }
     } catch (error) {
       logger.error(`${error}`);

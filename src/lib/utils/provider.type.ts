@@ -28,6 +28,7 @@ export interface LikeContextType {
     book_id: string,
     setLiked: React.Dispatch<React.SetStateAction<boolean>>,
     username: string,
+    urlData: string,
     chapterBook?: string | null,
   ) => void;
   disLike: (
@@ -37,6 +38,7 @@ export interface LikeContextType {
     setLiked: React.Dispatch<React.SetStateAction<boolean>>,
     user_story: string,
     username: string,
+    urlData: string,
     chapterBook?: string | null,
   ) => void;
   followUser: (
@@ -134,22 +136,11 @@ export interface UserContextType {
 // StoryContext
 export interface StoryInterface {
   setNewCeption: React.Dispatch<React.SetStateAction<string>>;
-  updateStory: (
-    ception: string,
-    id: string,
-    book_id: string,
-    chapterBook?: string | null,
-  ) => Promise<boolean>;
+  updateStory: (ception: string, id: string, book_id: string, urlData: string) => Promise<boolean>;
   setMsgLvlUp: React.Dispatch<React.SetStateAction<LvlUpType>>;
   setDataContent: React.Dispatch<React.SetStateAction<string>>;
-  deletedStory: (id: string, bookId: string, chapterBook?: string | null) => void;
-  uploadStory: (
-    ception: string,
-    id: string,
-    bookId: string,
-    type: string,
-    chapterBook?: string | null,
-  ) => void;
+  deletedStory: (id: string, bookId: string, urlData: string) => void;
+  uploadStory: (ception: string, id: string, bookId: string, type: string, urlData: string) => void;
   loadingUploadStory: boolean;
   loadingDeleteStory: boolean;
   dataContent: string;

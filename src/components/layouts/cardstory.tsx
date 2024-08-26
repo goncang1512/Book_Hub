@@ -64,11 +64,13 @@ export const CardContent = ({
   dataFollow,
   statusCard,
   chapterBook,
+  urlData,
 }: {
   story: StoryType;
   seeBook: boolean;
   comment?: boolean;
   dataFollow: any;
+  urlData: string;
   statusCard?: string;
   chapterBook?: string | null;
 }) => {
@@ -175,7 +177,7 @@ export const CardContent = ({
                   aria-label="deleteStory"
                   className="active:text-gray-400 flex items-center jsutify-center"
                   onClick={() => {
-                    deletedStory(story?._id, story?.book_id, chapterBook);
+                    deletedStory(story?._id, story?.book_id, urlData);
                   }}
                 >
                   {loadingDeleteStory ? (
@@ -205,12 +207,7 @@ export const CardContent = ({
             onSubmit={async (e) => {
               e.preventDefault();
               const book_id = statusCard === "detail" ? story._id : story?.book_id;
-              const hasil = await updateStory(
-                newCeption,
-                story?._id,
-                book_id,
-                chapterBook && chapterBook,
-              );
+              const hasil = await updateStory(newCeption, story?._id, book_id, urlData);
               if (hasil) {
                 setHandleUpdate(false);
               }
@@ -229,12 +226,7 @@ export const CardContent = ({
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
                     const book_id = statusCard === "detail" ? story._id : story?.book_id;
-                    const hasil = await updateStory(
-                      newCeption,
-                      story?._id,
-                      book_id,
-                      chapterBook && chapterBook,
-                    );
+                    const hasil = await updateStory(newCeption, story?._id, book_id, urlData);
                     if (hasil) {
                       setHandleUpdate(false);
                     }
@@ -335,6 +327,7 @@ export const CardContent = ({
             book_id={statusCard === "detail" ? story._id : story?.book_id}
             chapterBook={chapterBook}
             contentLike={story?.like_str && story.like_str}
+            urlData={urlData}
             user={story.user && story.user}
             user_story={story?.user_id && story?.user_id}
           />
@@ -348,7 +341,7 @@ export const CardContent = ({
                 <FaRegComments size={25} />
               </Link>
               <p className="text-center text-xs text-gray-400">
-                {story?.balasanSum.length > 0 && story?.balasanSum.length}
+                {story?.balasanSum?.length > 0 && story?.balasanSum?.length}
               </p>
             </div>
           )}
@@ -364,6 +357,7 @@ const LikeComponent = ({
   contentLike,
   book_id,
   user,
+  urlData,
   chapterBook,
 }: {
   _id: string;
@@ -371,6 +365,7 @@ const LikeComponent = ({
   contentLike: any;
   book_id: string;
   user: any;
+  urlData: string;
   chapterBook?: string | null;
 }) => {
   const [likeContent, setLikeContent] = useState<{
@@ -408,6 +403,7 @@ const LikeComponent = ({
               setLiked,
               user_story,
               user?.username,
+              urlData,
               chapterBook,
             );
           }}
@@ -432,6 +428,7 @@ const LikeComponent = ({
               book_id,
               setLiked,
               user?.username,
+              urlData,
               chapterBook,
             );
           }}

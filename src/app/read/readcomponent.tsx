@@ -12,7 +12,7 @@ import parse from "html-react-parser";
 import Link from "next/link";
 import styles from "@/lib/style.module.css";
 import { InputStory } from "@/components/layouts/inputstory";
-import { CardContent } from "@/components/layouts/cardstory";
+import InfiniteSwrStory from "@/components/layouts/infiniteSwr";
 
 interface ReadComponentProps {
   book_id: string;
@@ -23,7 +23,7 @@ interface ReadComponentProps {
 const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status }) => {
   const router = useRouter();
   const { data: session, status: statusSession }: any = useSession();
-  const { bacaBuku, storyRead, dataFollow, bacaBukuLoading } = useChapter.readBook(
+  const { bacaBuku, dataFollow, bacaBukuLoading } = useChapter.readBook(
     book_id,
     chapter,
     session?.user?._id,
@@ -123,22 +123,16 @@ const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status 
           )}
         </div>
         <div className={`${status === "check" ? "hidden" : "flex"} border-t flex-col`}>
-          <InputStory chapterBook={book_id} idStoryBook={chapter} type="chapter" />
-          <div>
-            {storyRead &&
-              storyRead?.map((cerita: any) => {
-                return (
-                  <CardContent
-                    key={cerita?._id}
-                    chapterBook={book_id}
-                    comment={false}
-                    dataFollow={dataFollow}
-                    seeBook={false}
-                    story={cerita}
-                  />
-                );
-              })}
-          </div>
+          <InputStory
+            idStoryBook={chapter}
+            type="chapter"
+            urlData={`/api/story/limit/${chapter}`}
+          />
+          <InfiniteSwrStory
+            dataFollow={dataFollow}
+            seeBook={false}
+            url={`/api/story/limit/${chapter}`}
+          />
         </div>
       </div>
     </div>
