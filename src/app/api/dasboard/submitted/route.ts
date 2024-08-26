@@ -2,8 +2,10 @@ import { NextResponse } from "next/server";
 
 import { bookAutServices } from "@/lib/services/bookauthor";
 import { logger } from "@/lib/utils/logger";
+import connectMongoDB from "@/lib/config/connectMongoDb";
 
 export const GET = async () => {
+  await connectMongoDB();
   try {
     const result = await bookAutServices.submitted();
 
