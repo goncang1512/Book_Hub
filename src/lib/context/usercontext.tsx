@@ -231,7 +231,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
       );
       if (res.data.status) {
         setLdlPatchBadge(false);
-        mutate(`/api/user/leaderboard`);
+        mutate(`/api/dasboard/submitted/user`);
         mutate(`/api/user?user_id=${res.data.result._id}`);
       }
     } catch (error) {

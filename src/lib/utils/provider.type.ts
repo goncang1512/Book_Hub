@@ -232,6 +232,7 @@ export interface DasboardProps {
   searchUser: (keyword: string) => void;
   setKeyWord: React.Dispatch<React.SetStateAction<string>>;
   updateCanvas: (id: string, editStatus: EditStatus, setNewDataChapter: any) => void;
+  bannedUser: (user_id: string, status: string) => void;
   keyword: string;
   dataUser: dataUserType | null;
   msgSearchUser: {

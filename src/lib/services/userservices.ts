@@ -108,12 +108,10 @@ export const userSevices = {
     );
   },
   leaderbaord: async () => {
-    return await UserModels.find({}, "_id username email imgProfil rank createdAt role badge").sort(
-      {
-        "rank.level": -1,
-        "rank.experience": -1,
-      },
-    );
+    return await UserModels.find({}, "_id username imgProfil rank createdAt role badge").sort({
+      "rank.level": -1,
+      "rank.experience": -1,
+    });
   },
   updatePassword: async (id: string, password: string) => {
     return await UserModels.findOneAndUpdate({ _id: id }, { $set: { password } }, { new: true });

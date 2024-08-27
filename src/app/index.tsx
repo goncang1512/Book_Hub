@@ -22,6 +22,7 @@ export default function Index({ children }: { children: React.ReactNode }) {
           badge: userDetail?.badge,
           rank: userDetail?.rank,
           role: userDetail?.role,
+          accountStatus: userDetail?.status,
         });
       } catch (error) {
         logger.error(`${error}`);

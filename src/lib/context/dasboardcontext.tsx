@@ -38,10 +38,10 @@ export default function DasboardContextProvider({ children }: { children: React.
         },
       });
       if (res.data.status) {
-        mutate("/api/user/leaderboard");
         mutate(`/api/message/${session?.user?._id}`);
         mutate(`/api/user?user_id=${res.data.result._id}`);
         mutate(`/api/mission/${session?.user?._id}`);
+        mutate("/api/dasboard/submitted/user");
       }
     } catch (error) {
       logger.error(`${error}`);
@@ -89,6 +89,27 @@ export default function DasboardContextProvider({ children }: { children: React.
     }
   };
 
+  const bannedUser = async (user_id: string, status: string) => {
+    try {
+      const res = await instance.patch(
+        `/api/dasboard/${user_id}`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${session?.accessToken}`,
+          },
+        },
+      );
+
+      if (res.data.status) {
+        mutate("/api/dasboard/submitted/user");
+        mutate(`/api/user/${user_id}`);
+      }
+    } catch (error) {
+      logger.error(`${error}`);
+    }
+  };
+
   return (
     <DasboardContext.Provider
       value={{
@@ -99,6 +120,7 @@ export default function DasboardContextProvider({ children }: { children: React.
         dataUser,
         msgSearchUser,
         updateCanvas,
+        bannedUser,
       }}
     >
       {children}

@@ -48,6 +48,9 @@ const UserSchema = new Schema(
         no: Number,
       },
     },
+    status: {
+      type: String,
+    },
   },
   {
     timestamps: {

@@ -1,12 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
-
-import { bookAutServices } from "@/lib/services/bookauthor";
+import { dasboardServices } from "@/lib/services/dasboard";
 import { logger } from "@/lib/utils/logger";
-import connectMongoDB from "@/lib/config/connectMongoDb";
+import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
-export const GET = async (req: NextRequest) => {
-  await connectMongoDB();
+export const PATCH = async (req: NextRequest, { params }: { params: { slug: string[] } }) => {
+  const { status } = await req.json();
   const accessToken = req.headers.get("authorization")?.split(" ")[1];
   const decoded: any = await new Promise((resolve) => {
     jwt.verify(
@@ -20,16 +18,11 @@ export const GET = async (req: NextRequest) => {
 
   try {
     if (decoded?.role === "Developer") {
-      const result = await bookAutServices.submitted();
+      const result = await dasboardServices.updateStatusUser(params.slug[0], status);
 
-      logger.info("Successfully took the canvas submitted");
+      logger.info("Success update status user");
       return NextResponse.json(
-        {
-          status: true,
-          statusCode: 200,
-          message: "Successfully took the canvas submitted",
-          result,
-        },
+        { status: true, statusCode: 200, message: "Success update status user", result },
         { status: 200 },
       );
     } else {
@@ -39,14 +32,9 @@ export const GET = async (req: NextRequest) => {
       );
     }
   } catch (error) {
-    logger.error("Failed to take the canvas submitted" + error);
+    logger.error("Failed update status user");
     return NextResponse.json(
-      {
-        status: false,
-        statusCode: 500,
-        message: "Failed to take the canvas submitted",
-        error,
-      },
+      { status: false, statusCode: 500, message: "Failed update status user", error },
       { status: 500 },
     );
   }

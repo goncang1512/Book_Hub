@@ -92,8 +92,7 @@ export const sendMsgRole = async (email: string, role: string) => {
       <div style="width: 100%; height: 100%; background-color: #fff; padding: 50px 0;">
           <div style="max-width: 600px; margin: 0 auto; background: #fff; border-radius: 10px; box-shadow: 0 0 20px rgba(0,0,0,0.1);">
               <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif; color: #333;">
-                  <h2 style="margin-bottom: 20px; color: #4CAF50;">Role Baru</h2>
-                  <p style="font-size: 18px; margin-bottom: 30px;">Role baru anda:</p>
+                  <h2 style="margin-bottom: 20px; color: #4CAF50;">Akun Anda di Banned</h2>
                   <div style="font-size: 36px; font-weight: bold; margin: 20px 0; padding: 10px 20px; background: #f4f4f4; border-radius: 5px; display: inline-block;">
                       ${role}
                   </div>

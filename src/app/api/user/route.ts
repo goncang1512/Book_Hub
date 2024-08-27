@@ -49,6 +49,7 @@ export const POST = async (req: NextRequest) => {
           img: "/rank-satu.png",
         },
       },
+      status: "aktif",
     };
 
     const result = await userSevices.post(data);
