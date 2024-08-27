@@ -45,7 +45,6 @@ export default function withAuth(middleware: NextMiddleware, requireAuth: string
 
         response.cookies.set("next-auth.session-token", "", { maxAge: -1 });
         response.cookies.set("next-auth.csrf-token", "", { maxAge: -1 });
-        response.cookies.set("next-auth.callback-url", "", { maxAge: -1 });
 
         return response;
       }
