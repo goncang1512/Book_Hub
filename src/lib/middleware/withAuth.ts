@@ -40,15 +40,6 @@ export default function withAuth(middleware: NextMiddleware, requireAuth: string
         secret: process.env.NEXTAUTH_SECRET,
       });
 
-      if (token?.status === "banned") {
-        const response = NextResponse.redirect(new URL("/login", req.url));
-
-        response.cookies.set("next-auth.session-token", "", { maxAge: -1 });
-        response.cookies.set("next-auth.csrf-token", "", { maxAge: -1 });
-
-        return response;
-      }
-
       if (!token && !authPage.includes(pathname)) {
         const url = new URL("/login", req.url);
         url.searchParams.set("callbackUrl", encodeURI(req.url));

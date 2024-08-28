@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 import connectMongoDB from "@/lib/config/connectMongoDb";
 import UserModels from "@/lib/models/users";
-
+// 30 * 24 * 60 * 60,
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -106,13 +106,17 @@ const authOptions: NextAuthOptions = {
     },
 
     async session({ session, token }: any) {
-      session.user = token;
+      if (token.status === "banned") {
+        session = null;
+      } else {
+        session.user = token;
 
-      const accessToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || "", {
-        algorithm: "HS256",
-      });
+        const accessToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || "", {
+          algorithm: "HS256",
+        });
 
-      session.accessToken = accessToken;
+        session.accessToken = accessToken;
+      }
 
       return session;
     },
