@@ -30,6 +30,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { slug: stri
       senderId,
       recipientId,
       message: pesanNotif,
+      type: "message",
     });
 
     if (result.status === "Rilis") {

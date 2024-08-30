@@ -77,6 +77,7 @@ export const PATCH = async (req: NextRequest) => {
               senderId: encoded._id,
               recipientId: user_id,
               message: pesan,
+              type: "message",
             });
 
             logger.info("Success update role user");

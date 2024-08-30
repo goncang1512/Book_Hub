@@ -17,6 +17,9 @@ const MessageSchema = new Schema(
         message: "Array user_id tidak boleh lebih dari 2 elemen.",
       },
     },
+    type: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -106,7 +106,7 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
         dataUser?._id !== session?.user?._id &&
         dataUser?.email !== "samuderanst@gmail.com" ? (
           <button
-            className="bg-red-500 px-2 py-1 text-white rounded-lg"
+            className="bg-red-500 px-2 py-1 text-white rounded-lg active:bg-red-600"
             onClick={() => bannedUser(dataUser?._id, "banned")}
           >
             banned
@@ -117,7 +117,7 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
         dataUser?._id !== session?.user?._id &&
         dataUser?.email !== "samuderanst@gmail.com" ? (
           <button
-            className="bg-blue-500 px-2 py-1 text-white rounded-lg"
+            className="bg-blue-500 px-2 py-1 text-white rounded-lg active:bg-blue-600"
             onClick={() => bannedUser(dataUser?._id, "aktif")}
           >
             unbanned

@@ -32,7 +32,7 @@ export default function Index({ children }: { children: React.ReactNode }) {
     if (userDetail && status === "authenticated") {
       updateProfil();
 
-      if (userDetail?.status === "banned" && pathname.startsWith("/profil")) {
+      if (userDetail?.status === "banned") {
         signOut({ callbackUrl: "/login" });
       }
     }
