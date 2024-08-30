@@ -8,10 +8,7 @@ export const mainmiddleware = async (req: NextRequest) => {
 
   if (token?.status === "banned") {
     const response = NextResponse.redirect(new URL("/login", req.url).toString()); // Menggunakan URL absolut
-    response.cookies.set("next-auth.session-token", "", {
-      maxAge: -1,
-      path: "/",
-    });
+    response.cookies.delete("next-auth.session-token");
 
     return response;
   }

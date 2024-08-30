@@ -65,6 +65,10 @@ const authOptions: NextAuthOptions = {
 
   callbacks: {
     async jwt({ token, account, trigger, user, session }: any) {
+      if (user) {
+        token.status = user.status;
+      }
+
       if (trigger === "update" && session.status === "updateFotoProfil") {
         token.imgProfil = session.imgProfil;
       }
@@ -102,21 +106,18 @@ const authOptions: NextAuthOptions = {
         token.rank = user.rank;
         token.badge = user.badge;
       }
+
       return token;
     },
 
     async session({ session, token }: any) {
-      if (token.status === "banned") {
-        session = null;
-      } else {
-        session.user = token;
+      session.user = token;
 
-        const accessToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || "", {
-          algorithm: "HS256",
-        });
+      const accessToken = jwt.sign(token, process.env.NEXTAUTH_SECRET || "", {
+        algorithm: "HS256",
+      });
 
-        session.accessToken = accessToken;
-      }
+      session.accessToken = accessToken;
 
       return session;
     },

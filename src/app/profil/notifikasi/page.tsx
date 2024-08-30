@@ -37,7 +37,7 @@ export default function Read() {
               <h1 className="text-xl font-bold">Notifikasi</h1>
             </div>
             {messageData && (
-              <div className={`${styles.customScroll} flex-1 overflow-y-auto md:pt-0 pt-[70px]`}>
+              <div className={`${styles.customScroll} flex-1 md:pt-0 pt-[70px]`}>
                 {messageData &&
                   messageData.map((pesan: any) => {
                     return (
