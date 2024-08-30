@@ -212,6 +212,7 @@ export const PATCH = async (req: NextRequest) => {
                 senderId: encoded._id,
                 recipientId: user._id,
                 message: pesan,
+                type: "message",
               });
 
               result.push(hasil);
