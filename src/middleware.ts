@@ -7,7 +7,7 @@ export const mainmiddleware = async (req: NextRequest) => {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   if (token?.status === "banned") {
-    const response = NextResponse.redirect(new URL("/login", req.url).toString()); // Menggunakan URL absolut
+    const response = NextResponse.redirect("/login"); // Menggunakan URL absolut
     response.cookies.delete("next-auth.session-token");
 
     return response;
