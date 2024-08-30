@@ -6,12 +6,17 @@ import { getToken } from "next-auth/jwt";
 export const mainmiddleware = async (req: NextRequest) => {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-  if (token?.status === "banned") {
-    const loginUrl = new URL("/login", req.nextUrl.origin);
-    const response = NextResponse.redirect(loginUrl);
-    response.cookies.delete("next-auth.session-token");
+  const currentPath = req.nextUrl.pathname;
 
-    return response;
+  if (token?.status === "banned") {
+    if (currentPath !== "/login") {
+      const loginUrl = new URL("/login", req.nextUrl.origin);
+      const response = NextResponse.redirect(loginUrl);
+
+      response.cookies.delete("next-auth.session-token");
+
+      return response;
+    }
   }
 
   return NextResponse.next();
