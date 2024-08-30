@@ -8,15 +8,12 @@ export const mainmiddleware = async (req: NextRequest) => {
 
   const currentPath = req.nextUrl.pathname;
 
-  if (token?.status === "banned") {
-    if (currentPath !== "/login") {
-      const loginUrl = new URL("/login", req.nextUrl.origin);
-      const response = NextResponse.redirect(loginUrl);
+  if (token?.status === "banned" && currentPath !== "/login") {
+    const loginUrl = new URL("/login", req.nextUrl.origin);
+    const response = NextResponse.redirect(loginUrl);
+    response.cookies.delete("next-auth.session-token");
 
-      response.cookies.delete("next-auth.session-token");
-
-      return response;
-    }
+    return response;
   }
 
   return NextResponse.next();
