@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 import OpenWindow from "@/components/layouts/openwindow";
@@ -31,6 +31,10 @@ export default function Index({ children }: { children: React.ReactNode }) {
 
     if (userDetail && status === "authenticated") {
       updateProfil();
+
+      if (userDetail?.status === "banned" && pathname.startsWith("/profil")) {
+        signOut({ callbackUrl: "/login" });
+      }
     }
   }, [userDetail]);
 
