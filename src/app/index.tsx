@@ -62,7 +62,7 @@ export default function Index({ children }: { children: React.ReactNode }) {
     return <CanvasContextProvider>{children}</CanvasContextProvider>;
   }
 
-  if (status === "loading" && !authPage.includes(pathname) && !hasOpened) {
+  if (status === "loading" && !session?.user && !authPage.includes(pathname) && !hasOpened) {
     return (
       <CanvasContextProvider>
         <OpenWindow />
