@@ -6,9 +6,9 @@ import { useSession } from "next-auth/react";
 import instance from "../utils/fetch";
 
 import { dataUserType } from "@/components/fragments/baristable";
-import { EditStatus } from "../utils/DataTypes.type";
+import { EditStatus } from "../utils/types/DataTypes.type";
 import { logger } from "../utils/logger";
-import { DasboardProps } from "../utils/provider.type";
+import { DasboardProps } from "../utils/types/provider.type";
 
 export const DasboardContext = createContext<DasboardProps>({} as DasboardProps);
 

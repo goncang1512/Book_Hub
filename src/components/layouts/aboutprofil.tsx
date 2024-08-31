@@ -9,7 +9,7 @@ import Img from "../fragments/image";
 
 import { StoryType } from "./cardstory";
 
-import { UserType } from "@/lib/utils/DataTypes.type";
+import { UserType } from "@/lib/utils/types/DataTypes.type";
 import ButtonFollow from "../fragments/buttonfollow";
 import { usePathname } from "next/navigation";
 import InfiniteSwrStory from "./infiniteSwr";

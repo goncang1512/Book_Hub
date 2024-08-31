@@ -4,7 +4,7 @@ import { useSWRConfig } from "swr";
 
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
-import { WhislistContextType } from "../utils/provider.type";
+import { WhislistContextType } from "../utils/types/provider.type";
 
 export const WhislistContext = createContext<WhislistContextType>({} as WhislistContextType);
 

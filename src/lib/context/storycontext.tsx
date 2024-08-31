@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
-import { StoryInterface } from "../utils/provider.type";
+import { StoryInterface } from "../utils/types/provider.type";
 import { getKey } from "../swr/storySwr";
 import { unstable_serialize } from "swr/infinite";
 

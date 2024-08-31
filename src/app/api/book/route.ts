@@ -7,17 +7,17 @@ import connectMongoDB from "@/lib/config/connectMongoDb";
 import BooksModels from "@/lib/models/booksModels";
 import { bookServ, bookServices } from "@/lib/services/bookservices";
 import { getListBook, processBooks } from "@/lib/middleware/likechek";
+import { ReqCreateBook, UpBookType } from "@/lib/utils/types/booktypes.type";
 
 export const POST = async (req: NextRequest) => {
   await connectMongoDB();
   try {
-    const { title, writer, sinopsis, terbit, imgBooks, user_id, ISBN, genre, jenis } =
-      await req.json();
+    const body: ReqCreateBook = await req.json();
 
     const book = await BooksModels.findOne({
-      title: new RegExp(`^${title}$`, "i"),
-      writer: new RegExp(`^${writer}$`, "i"),
-      ISBN,
+      title: new RegExp(`^${body.title}$`, "i"),
+      writer: new RegExp(`^${body.writer}$`, "i"),
+      ISBN: body.ISBN,
     });
     if (book) {
       return NextResponse.json(
@@ -26,7 +26,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    const hasil = await checkFotoCover(imgBooks);
+    const hasil = await checkFotoCover(body.imgBooks);
     if (hasil.condition) {
       logger.error(`${hasil.message}`);
       return NextResponse.json(
@@ -35,17 +35,10 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    const cover: any = await uploadCover(imgBooks);
-    const data = {
-      title,
-      writer,
-      user_id,
-      sinopsis,
-      terbit,
-      ISBN,
-      genre,
-      jenis,
-      user: user_id,
+    const cover: any = await uploadCover(body.imgBooks);
+    const data: UpBookType = {
+      ...body,
+      user: body.user_id,
       imgBooks: {
         public_id: cover.public_id,
         imgUrl: cover.secure_url,

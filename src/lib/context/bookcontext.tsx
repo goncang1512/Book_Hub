@@ -5,8 +5,8 @@ import { useSWRConfig } from "swr";
 import { logger } from "../utils/logger";
 
 import instance from "../utils/fetch";
-import { UploadBookType, UploadMyBookType } from "../utils/DataTypes.type";
-import { BookProvider } from "../utils/provider.type";
+import { UploadBookType, UploadMyBookType } from "../utils/types/DataTypes.type";
+import { BookProvider } from "../utils/types/provider.type";
 
 export const BookContext = createContext<BookProvider>({} as BookProvider);
 

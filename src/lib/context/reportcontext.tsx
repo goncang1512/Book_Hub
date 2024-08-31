@@ -1,5 +1,5 @@
 import React, { createContext, SetStateAction, useState } from "react";
-import { ReportContextType } from "../utils/provider.type";
+import { ReportContextType } from "../utils/types/provider.type";
 import { logger } from "../utils/logger";
 import instance from "../utils/fetch";
 import { useSWRConfig } from "swr";

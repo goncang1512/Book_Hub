@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { MisiContextType } from "../utils/provider.type";
+import { MisiContextType } from "../utils/types/provider.type";
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
 import { useSWRConfig } from "swr";

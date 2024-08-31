@@ -8,17 +8,15 @@ import { getListBook, processBooks } from "@/lib/middleware/likechek";
 export const GET = async (req: NextRequest) => {
   await connectMongoDB();
   const searchParams = req.nextUrl.searchParams;
-  const page = searchParams.get("page") || "1";
-  const limit = searchParams.get("limit") || "8";
+  const page: string = searchParams.get("page") || "1";
+  const limit: string = searchParams.get("limit") || "8";
 
   try {
     const getPageBook = await bookServices.getPage(parseInt(page), parseInt(limit));
     const results = await bookServices.getAll();
 
     const statusBookResults = await processBooks(getPageBook);
-
     let statusBook = [...statusBookResults];
-
     const hasil = await getListBook(getPageBook);
 
     logger.info("Success get all book");

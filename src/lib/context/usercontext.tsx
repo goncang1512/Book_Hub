@@ -5,9 +5,9 @@ import { useSWRConfig } from "swr";
 import { useSession, signOut } from "next-auth/react";
 
 import instance from "../utils/fetch";
-import { RegisterType, UpdateFoto, UpdateType, UpFotoType } from "../utils/DataTypes.type";
+import { RegisterType, UpdateFoto, UpdateType, UpFotoType } from "../utils/types/DataTypes.type";
 import { logger } from "../utils/logger";
-import { UserContextType } from "../utils/provider.type";
+import { UserContextType } from "../utils/types/provider.type";
 
 export const UserContext = createContext<UserContextType>({} as UserContextType);
 

@@ -11,7 +11,7 @@ import DropDown from "./hovercard";
 import { GlobalState } from "@/lib/context/globalstate";
 import styles from "@/lib/style.module.css";
 import { UserContext } from "@/lib/context/usercontext";
-import { UserType } from "@/lib/utils/DataTypes.type";
+import { UserType } from "@/lib/utils/types/DataTypes.type";
 
 export function HeaderProfil({ userData }: { userData: UserType }) {
   const { data: session }: any = useSession();

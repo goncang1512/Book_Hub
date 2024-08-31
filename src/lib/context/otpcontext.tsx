@@ -2,11 +2,11 @@ import * as React from "react";
 import { createContext, useContext, useState } from "react";
 
 import instance from "../utils/fetch";
-import { UserRegister } from "../utils/DataTypes.type";
+import { UserRegister } from "../utils/types/DataTypes.type";
 import { logger } from "../utils/logger";
 
 import { UserContext } from "./usercontext";
-import { OtpContextType } from "../utils/provider.type";
+import { OtpContextType } from "../utils/types/provider.type";
 
 export const OtpContext = createContext<OtpContextType>({} as OtpContextType);
 

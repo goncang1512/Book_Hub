@@ -4,7 +4,7 @@ import { useSWRConfig } from "swr";
 
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
-import { LikeContextType } from "../utils/provider.type";
+import { LikeContextType } from "../utils/types/provider.type";
 import { unstable_serialize } from "swr/infinite";
 import { getKey } from "../swr/storySwr";
 

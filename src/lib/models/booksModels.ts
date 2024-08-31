@@ -1,4 +1,4 @@
-import mongoose, { model, Schema } from "mongoose";
+import { model, models, Schema } from "mongoose";
 
 const BookSchema = new Schema(
   {
@@ -42,11 +42,10 @@ const BookSchema = new Schema(
   },
   {
     timestamps: true,
+    collection: "books",
   },
 );
 
-const modelName = "books";
-const existingModel = mongoose.connection.models[modelName];
-const BooksModels = existingModel || model("books", BookSchema);
+const BooksModels = models?.books || model("books", BookSchema);
 
 export default BooksModels;
