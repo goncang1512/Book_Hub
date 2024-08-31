@@ -12,6 +12,7 @@ export default function Index({ children }: { children: React.ReactNode }) {
   const [hasOpened, setHasOpened] = useState(false);
   const pathname = usePathname();
 
+  // untuk update data terbaru
   const { userDetail } = useNewUsers.getDetailUser(session?.user?._id);
 
   useEffect(() => {
