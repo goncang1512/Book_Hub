@@ -11,9 +11,9 @@ import {
   UploadMyBookType,
   UserRegister,
 } from "./DataTypes.type";
-import { BodySendOtp } from "../context/otpcontext";
+import { BodySendOtp } from "../../context/otpcontext";
 import { dataUserType } from "@/components/fragments/baristable";
-import { MakeReportType } from "../context/reportcontext";
+import { MakeReportType } from "../../context/reportcontext";
 
 export interface MisiContextType {
   addMisiUser: (user_id: string, mission_id: string, type: string) => void;
