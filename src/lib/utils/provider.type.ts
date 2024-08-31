@@ -13,6 +13,7 @@ import {
 } from "./DataTypes.type";
 import { BodySendOtp } from "../context/otpcontext";
 import { dataUserType } from "@/components/fragments/baristable";
+import { MakeReportType } from "../context/reportcontext";
 
 export interface MisiContextType {
   addMisiUser: (user_id: string, mission_id: string, type: string) => void;
@@ -239,4 +240,13 @@ export interface DasboardProps {
     status: boolean;
     message: string;
   };
+}
+
+export interface ReportContextType {
+  makeReport: (
+    { user_id, report, message, from }: MakeReportType,
+    setDataReport: React.Dispatch<React.SetStateAction<any | null>>,
+  ) => void;
+  deleteOneReport: (report_id: string) => void;
+  deleted: { report_id: string; status: boolean };
 }

@@ -71,7 +71,7 @@ export default function Home() {
 
       <div className="w-full flex items-center md:justify-start justify-center">
         <h1 className="pt-4 pl-4 font-bold" style={{ fontSize: "clamp(16px, 2vw, 20px)" }}>
-          Buku Baru
+          Update Terbaru
         </h1>
       </div>
       <div className="w-full p-4 flex flex-wrap md:flex-row flex-col gap-4 h-full">

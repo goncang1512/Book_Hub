@@ -21,11 +21,22 @@ import DropDown from "./hovercard";
 import { WhislistContext } from "@/lib/context/whislistcontext";
 import { BookContext } from "@/lib/context/bookcontext";
 import useClickOutside from "@/lib/utils/clickoutside";
+import ModalBox from "../fragments/modalbox";
+import { ReportContext } from "@/lib/context/reportcontext";
+import { pesanVar } from "@/lib/utils/pesanvariable";
 
 type StatusBook = {
   book_id: string;
   _id: string;
 };
+
+const report = [
+  "Konten Tidak Pantas",
+  "Pelanggaran Hak Cipta",
+  "Penggunaan Bahasa yang Kasar atau Tidak Sopan",
+  "Gangguan Teknis atau Format",
+  "Pelanggaran Kebijakan Situs",
+];
 
 function CardBook({
   dataContent,
@@ -49,7 +60,8 @@ function CardBook({
     title: "",
   });
 
-  const { _id, imgBooks, title, sinopsis, writer, terbit, user_id, ISBN, jenis } = dataContent;
+  const { _id, imgBooks, title, sinopsis, writer, terbit, user_id, ISBN, jenis, user } =
+    dataContent;
 
   const [seeDetail, setSeeDetail] = useState(false);
   const handleDetailClick = () => {
@@ -83,6 +95,9 @@ function CardBook({
     mobileValue: "20",
     desktopValue: "24",
   });
+
+  const [dataReport, setDataReport] = useState<any>(null);
+  const { makeReport } = useContext(ReportContext);
 
   return (
     <div
@@ -140,72 +155,124 @@ function CardBook({
                 ""
               )}
 
-              {session?.user?._id === user_id && (
-                <DropDown label={_id} size={parseInt(height25)}>
-                  <div className="flex flex-col md:text-base text-sm">
-                    <button
-                      aria-label={`${_id}buttonDeleteBook`}
-                      className="active:text-gray-400 text-start"
-                      onClick={() => {
-                        modalDeleteBookRef?.current?.showModal();
-                        setDataDelete({ user_id: session?.user?._id, book_id: _id, title: title });
-                      }}
-                    >
-                      Hapus Buku
-                    </button>
-                    <Link
-                      aria-label={`edit${_id}`}
-                      className="active:text-gray-400"
-                      href={`${
-                        ISBN === 0 ? `/profil/author/mybook/${_id}` : `/profil/upload/${_id}`
-                      }`}
-                    >
-                      Edit Buku
-                    </Link>
-                    {jenis === "Cerpen" &&
-                      statusBook &&
-                      statusBook
-                        .filter((item: any) => item.book_id === _id && item._id)
-                        .map((item: any) => {
-                          if (item.status === "Rilis") {
-                            return (
-                              <Link
-                                key={item._id}
-                                aria-label={`statusRilis${_id}`}
-                                className="active:text-gray-400"
-                                href={`/profil/author/texteditor?id=${item.book_id}&c=${item._id}`}
-                              >
-                                Edit Cerpen
-                              </Link>
-                            );
-                          } else if (item.status === "Draft") {
-                            return (
-                              <Link
-                                key={item._id}
-                                aria-label={`statusDraft${_id}`}
-                                className="active:text-gray-400"
-                                href={`/profil/author/texteditor?id=${item.book_id}&c=${item._id}`}
-                              >
-                                Edit Draft
-                              </Link>
-                            );
-                          } else if (item.status !== "Submitted") {
-                            return (
-                              <Link
-                                key={item._id}
-                                aria-label={`statusSubmitted${_id}`}
-                                className="active:text-gray-400"
-                                href={`/profil/author/texteditor/${item.book_id}`}
-                              >
-                                Tambah Cerpen
-                              </Link>
-                            );
-                          }
-                          return null;
+              <DropDown label={_id} size={parseInt(height25)}>
+                <div className="flex flex-col md:text-base text-sm">
+                  <button
+                    aria-label={`${_id}buttonReport`}
+                    className="active:text-gray-400 text-start"
+                    onClick={() =>
+                      setDataReport({
+                        boook_id: _id,
+                        user_id,
+                      })
+                    }
+                  >
+                    Report
+                  </button>
+                  {dataReport && (
+                    <ModalBox dataModal={dataReport} setDataModal={setDataReport}>
+                      <div className="flex flex-col justify-start items-start">
+                        {report.map((laporan: string, index: number) => {
+                          return (
+                            <button
+                              key={index}
+                              aria-label={`${index}buttonLaporan`}
+                              className="active:text-slate-300 text-base text-start"
+                              onClick={() => {
+                                makeReport(
+                                  {
+                                    user_id: session?.user?._id,
+                                    message: pesanVar.cardBook({
+                                      imgUser: imgBooks?.imgUrl,
+                                      title,
+                                      book_id: _id,
+                                      jenis,
+                                      username: user?.username,
+                                    }),
+                                    from: "book",
+                                    report: laporan,
+                                  },
+                                  setDataReport,
+                                );
+                              }}
+                            >
+                              {laporan}
+                            </button>
+                          );
                         })}
-                  </div>
-                </DropDown>
-              )}
+                      </div>
+                    </ModalBox>
+                  )}
+                  {session?.user?._id === user_id && (
+                    <>
+                      <button
+                        aria-label={`${_id}buttonDeleteBook`}
+                        className="active:text-gray-400 text-start"
+                        onClick={() => {
+                          modalDeleteBookRef?.current?.showModal();
+                          setDataDelete({
+                            user_id: session?.user?._id,
+                            book_id: _id,
+                            title: title,
+                          });
+                        }}
+                      >
+                        Hapus Buku
+                      </button>
+                      <Link
+                        aria-label={`edit${_id}`}
+                        className="active:text-gray-400"
+                        href={`${
+                          ISBN === 0 ? `/profil/author/mybook/${_id}` : `/profil/upload/${_id}`
+                        }`}
+                      >
+                        Edit Buku
+                      </Link>
+                      {jenis === "Cerpen" &&
+                        statusBook &&
+                        statusBook
+                          .filter((item: any) => item.book_id === _id && item._id)
+                          .map((item: any) => {
+                            if (item.status === "Rilis") {
+                              return (
+                                <Link
+                                  key={item._id}
+                                  aria-label={`statusRilis${_id}`}
+                                  className="active:text-gray-400"
+                                  href={`/profil/author/texteditor?id=${item.book_id}&c=${item._id}`}
+                                >
+                                  Edit Cerpen
+                                </Link>
+                              );
+                            } else if (item.status === "Draft") {
+                              return (
+                                <Link
+                                  key={item._id}
+                                  aria-label={`statusDraft${_id}`}
+                                  className="active:text-gray-400"
+                                  href={`/profil/author/texteditor?id=${item.book_id}&c=${item._id}`}
+                                >
+                                  Edit Draft
+                                </Link>
+                              );
+                            } else if (item.status !== "Submitted") {
+                              return (
+                                <Link
+                                  key={item._id}
+                                  aria-label={`statusSubmitted${_id}`}
+                                  className="active:text-gray-400"
+                                  href={`/profil/author/texteditor/${item.book_id}`}
+                                >
+                                  Tambah Cerpen
+                                </Link>
+                              );
+                            }
+                            return null;
+                          })}
+                    </>
+                  )}
+                </div>
+              </DropDown>
             </div>
           </div>
           <div className="h-full py-1">

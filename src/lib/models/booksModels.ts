@@ -5,6 +5,10 @@ const BookSchema = new Schema(
     user_id: {
       type: String,
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
+    },
     title: {
       type: String,
     },
@@ -28,22 +32,6 @@ const BookSchema = new Schema(
     },
     jenis: {
       type: String,
-    },
-    tranding: {
-      status: {
-        type: Boolean,
-      },
-      ranking: {
-        type: Number,
-      },
-    },
-    whislist: {
-      type: [
-        {
-          user_id: { type: Schema.Types.ObjectId, ref: "users" },
-          halaman: { type: Number },
-        },
-      ],
     },
     newChapter: {
       type: Date,

@@ -49,14 +49,30 @@ export const bookServices = {
     return await BooksModels.create(body);
   },
   getAll: async () => {
-    return await BooksModels.find().sort({ newChapter: -1, updatedAt: -1 });
+    return await BooksModels.find().sort({ newChapter: -1, updatedAt: -1 }).populate({
+      path: "user",
+      model: "users",
+      select: "_id username email imgProfil role badge",
+    });
   },
   getPage: async (page: number, limit: number) => {
     const skip = (page - 1) * limit;
-    return await BooksModels.find().sort({ newChapter: -1, updatedAt: -1 }).skip(skip).limit(limit);
+    return await BooksModels.find()
+      .populate({
+        path: "user",
+        model: "users",
+        select: "_id username email imgProfil role badge",
+      })
+      .sort({ newChapter: -1, updatedAt: -1 })
+      .skip(skip)
+      .limit(limit);
   },
   byId: async (id: string) => {
-    return await BooksModels.find({ user_id: id }).sort({ updatedAt: -1 });
+    return await BooksModels.find({ user_id: id }).sort({ updatedAt: -1 }).populate({
+      path: "user",
+      model: "users",
+      select: "_id username email imgProfil role badge",
+    });
   },
   byIdBook: async (id: string) => await BooksModels.findOne({ _id: id }),
   deleteBook: async (id: string) => {
@@ -78,7 +94,11 @@ export const bookServices = {
     return await BooksModels.findOneAndUpdate({ _id: id }, { $set: body });
   },
   searchBook: async (title: string | null) => {
-    return await BooksModels.find({ title: { $regex: title, $options: "i" } });
+    return await BooksModels.find({ title: { $regex: title, $options: "i" } }).populate({
+      path: "user",
+      model: "users",
+      select: "_id username email imgProfil role badge",
+    });
   },
   deleteMany: async (user_id: string) => {
     const book = await BooksModels.findOne({ user_id });

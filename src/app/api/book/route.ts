@@ -45,6 +45,7 @@ export const POST = async (req: NextRequest) => {
       ISBN,
       genre,
       jenis,
+      user: user_id,
       imgBooks: {
         public_id: cover.public_id,
         imgUrl: cover.secure_url,
@@ -139,7 +140,7 @@ export const GET = async () => {
   } catch (error) {
     logger.error("Gagal ambil semua buku" + error);
     return NextResponse.json(
-      { status: false, statusCode: 500, message: "Failed get all book" },
+      { status: false, statusCode: 500, message: "Failed get all book", error },
       { status: 500 },
     );
   }
