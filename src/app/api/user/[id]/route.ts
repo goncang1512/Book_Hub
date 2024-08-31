@@ -9,6 +9,7 @@ import { checkExistingFoto } from "@/lib/middleware/uploadImg";
 import { bookServices } from "@/lib/services/bookservices";
 import { storyServices } from "@/lib/services/storyservices";
 import { userSevices } from "@/lib/services/userservices";
+import connectMongoDB from "@/lib/config/connectMongoDb";
 
 export const PATCH = async (req: NextRequest, { params }: { params: { id: string } }) => {
   try {
@@ -145,6 +146,7 @@ export const DELETE = async (req: NextRequest, { params }: { params: { id: strin
 };
 
 export const GET = async (req: NextRequest, { params }: { params: { id: string } }) => {
+  await connectMongoDB();
   try {
     let result;
     if (params.id === "leaderboard") {

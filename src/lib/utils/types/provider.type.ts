@@ -11,8 +11,9 @@ import {
   UploadMyBookType,
   UserRegister,
 } from "./DataTypes.type";
-import { BodySendOtp } from "../context/otpcontext";
+import { BodySendOtp } from "../../context/otpcontext";
 import { dataUserType } from "@/components/fragments/baristable";
+import { MakeReportType } from "../../context/reportcontext";
 
 export interface MisiContextType {
   addMisiUser: (user_id: string, mission_id: string, type: string) => void;
@@ -28,6 +29,7 @@ export interface LikeContextType {
     book_id: string,
     setLiked: React.Dispatch<React.SetStateAction<boolean>>,
     username: string,
+    urlData: string,
     chapterBook?: string | null,
   ) => void;
   disLike: (
@@ -37,6 +39,7 @@ export interface LikeContextType {
     setLiked: React.Dispatch<React.SetStateAction<boolean>>,
     user_story: string,
     username: string,
+    urlData: string,
     chapterBook?: string | null,
   ) => void;
   followUser: (
@@ -62,11 +65,15 @@ export interface WhislistContextType {
     user_id: string,
     book_id: string,
     setIsLiked: React.Dispatch<React.SetStateAction<boolean>>,
+    pagination?: { page: number; limit: number },
+    keyword?: string,
   ) => void;
   deleteList: (
     user_id: string,
     book_id: string,
     setIsLiked: React.Dispatch<React.SetStateAction<boolean>>,
+    pagination?: { page: number; limit: number },
+    keyword?: string,
   ) => void;
   updateHalaman: (book_id: string, halaman: { halaman: string }, user_id: string) => void;
   loadingHalaman: boolean;
@@ -130,22 +137,11 @@ export interface UserContextType {
 // StoryContext
 export interface StoryInterface {
   setNewCeption: React.Dispatch<React.SetStateAction<string>>;
-  updateStory: (
-    ception: string,
-    id: string,
-    book_id: string,
-    chapterBook?: string | null,
-  ) => Promise<boolean>;
+  updateStory: (ception: string, id: string, book_id: string, urlData: string) => Promise<boolean>;
   setMsgLvlUp: React.Dispatch<React.SetStateAction<LvlUpType>>;
   setDataContent: React.Dispatch<React.SetStateAction<string>>;
-  deletedStory: (id: string, bookId: string, chapterBook?: string | null) => void;
-  uploadStory: (
-    ception: string,
-    id: string,
-    bookId: string,
-    type: string,
-    chapterBook?: string | null,
-  ) => void;
+  deletedStory: (id: string, bookId: string, urlData: string) => void;
+  uploadStory: (ception: string, id: string, bookId: string, type: string, urlData: string) => void;
   loadingUploadStory: boolean;
   loadingDeleteStory: boolean;
   dataContent: string;
@@ -237,10 +233,20 @@ export interface DasboardProps {
   searchUser: (keyword: string) => void;
   setKeyWord: React.Dispatch<React.SetStateAction<string>>;
   updateCanvas: (id: string, editStatus: EditStatus, setNewDataChapter: any) => void;
+  bannedUser: (user_id: string, status: string) => void;
   keyword: string;
   dataUser: dataUserType | null;
   msgSearchUser: {
     status: boolean;
     message: string;
   };
+}
+
+export interface ReportContextType {
+  makeReport: (
+    { user_id, report, message, from }: MakeReportType,
+    setDataReport: React.Dispatch<React.SetStateAction<any | null>>,
+  ) => void;
+  deleteOneReport: (report_id: string) => void;
+  deleted: { report_id: string; status: boolean };
 }

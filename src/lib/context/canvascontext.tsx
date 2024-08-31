@@ -6,7 +6,7 @@ import { useSWRConfig } from "swr";
 
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
-import { CanvasProvider } from "../utils/provider.type";
+import { CanvasProvider } from "../utils/types/provider.type";
 
 export const CanvasContext = createContext<CanvasProvider>({} as CanvasProvider);
 

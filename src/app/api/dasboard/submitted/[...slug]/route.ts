@@ -10,6 +10,9 @@ import { msgServices } from "@/lib/services/message";
 import { userSevices } from "@/lib/services/userservices";
 import { logger } from "@/lib/utils/logger";
 import { naikPeringkat } from "@/lib/middleware/updateLvl";
+import connectMongoDB from "@/lib/config/connectMongoDb";
+import jwt from "jsonwebtoken";
+import { dasboardServices } from "@/lib/services/dasboard";
 
 export const PATCH = async (req: NextRequest, { params }: { params: { slug: string[] } }) => {
   try {
@@ -27,6 +30,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { slug: stri
       senderId,
       recipientId,
       message: pesanNotif,
+      type: "message",
     });
 
     if (result.status === "Rilis") {
@@ -75,6 +79,57 @@ export const PATCH = async (req: NextRequest, { params }: { params: { slug: stri
         status: false,
         statusCode: 500,
         message: "Failed update status canvas",
+        error,
+      },
+      { status: 500 },
+    );
+  }
+};
+
+export const GET = async (req: NextRequest, { params }: { params: { slug: string[] } }) => {
+  await connectMongoDB();
+
+  if (params.slug[0] !== "user") {
+    throw "Endpoint salah";
+  }
+
+  const accessToken = req.headers.get("authorization")?.split(" ")[1];
+  const decoded: any = await new Promise((resolve) => {
+    jwt.verify(
+      accessToken || "",
+      process.env.NEXTAUTH_SECRET || "" || "",
+      (error: any, encoded) => {
+        resolve(encoded);
+      },
+    );
+  });
+  try {
+    if (decoded?.role === "Developer") {
+      const result = await dasboardServices.dasboardUser();
+
+      logger.info("Successfully took the canvas submitted");
+      return NextResponse.json(
+        {
+          status: true,
+          statusCode: 200,
+          message: "Successfully took the canvas submitted",
+          result,
+        },
+        { status: 200 },
+      );
+    } else {
+      return NextResponse.json(
+        { status: false, statusCode: 401, message: "Unauthorized" },
+        { status: 401 },
+      );
+    }
+  } catch (error) {
+    logger.error("Failed get user dasboard" + error);
+    return NextResponse.json(
+      {
+        status: false,
+        statusCode: 500,
+        message: "Failed get user dasboard",
         error,
       },
       { status: 500 },

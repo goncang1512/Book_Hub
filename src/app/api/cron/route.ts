@@ -2,7 +2,7 @@ import { misiServices } from "@/lib/services/missionservices";
 import { logger } from "@/lib/utils/logger";
 import { NextResponse } from "next/server";
 
-export const DELETE = async () => {
+export const GET = async () => {
   try {
     const result = await misiServices.udpateHarian();
 

@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 import connectMongoDB from "@/lib/config/connectMongoDb";
 import UserModels from "@/lib/models/users";
-
+// 30 * 24 * 60 * 60,
 const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -31,6 +31,10 @@ const authOptions: NextAuthOptions = {
 
         const user = await UserModels.findOne({ email: email });
 
+        if (user?.status === "banned") {
+          throw new Error("Akun telah di banned gunakan akun lain.");
+        }
+
         if (!user) {
           throw new Error("User tidak ditemukan");
         }
@@ -51,6 +55,7 @@ const authOptions: NextAuthOptions = {
           alamat: user.alamat,
           rank: user.rank,
           badge: user.badge,
+          status: user.status,
         };
 
         return data;
@@ -60,6 +65,10 @@ const authOptions: NextAuthOptions = {
 
   callbacks: {
     async jwt({ token, account, trigger, user, session }: any) {
+      if (user) {
+        token.status = user.status;
+      }
+
       if (trigger === "update" && session.status === "updateFotoProfil") {
         token.imgProfil = session.imgProfil;
       }
@@ -72,6 +81,7 @@ const authOptions: NextAuthOptions = {
         token.badge = session.badge;
         token.rank = session.rank;
         token.role = session.role;
+        token.status = session.accountStatus;
       }
 
       if (trigger === "update" && session.status === "updateData") {
@@ -96,6 +106,7 @@ const authOptions: NextAuthOptions = {
         token.rank = user.rank;
         token.badge = user.badge;
       }
+
       return token;
     },
 

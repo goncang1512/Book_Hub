@@ -1,9 +1,13 @@
-import mongoose, { model, Schema } from "mongoose";
+import { model, models, Schema } from "mongoose";
 
 const BookSchema = new Schema(
   {
     user_id: {
       type: String,
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "users",
     },
     title: {
       type: String,
@@ -29,22 +33,6 @@ const BookSchema = new Schema(
     jenis: {
       type: String,
     },
-    tranding: {
-      status: {
-        type: Boolean,
-      },
-      ranking: {
-        type: Number,
-      },
-    },
-    whislist: {
-      type: [
-        {
-          user_id: { type: Schema.Types.ObjectId, ref: "users" },
-          halaman: { type: Number },
-        },
-      ],
-    },
     newChapter: {
       type: Date,
     },
@@ -54,11 +42,10 @@ const BookSchema = new Schema(
   },
   {
     timestamps: true,
+    collection: "books",
   },
 );
 
-const modelName = "books";
-const existingModel = mongoose.connection.models[modelName];
-const BooksModels = existingModel || model("books", BookSchema);
+const BooksModels = models?.books || model("books", BookSchema);
 
 export default BooksModels;

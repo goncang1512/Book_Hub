@@ -2,7 +2,7 @@ import * as React from "react";
 import { MdOutlineBorderColor, MdOutlineSearch, MdOutlineLeaderboard } from "react-icons/md";
 import { HomeIcon, Whislist, DasboardIcon } from "@public/svg/assets";
 import Link from "next/link";
-import { HiOutlineInbox } from "react-icons/hi";
+import { HiOutlineInbox, HiUserGroup } from "react-icons/hi";
 import { BiStore } from "react-icons/bi";
 import { IoNotificationsOutline } from "react-icons/io5";
 import { LuUser } from "react-icons/lu";
@@ -146,7 +146,7 @@ export default function SideBar({
                         } flex gap-2 items-center text-lg font-medium px-8 py-1`}
                         href={"/profil/dasboard/users"}
                       >
-                        <HiOutlineInbox size={20} />
+                        <HiUserGroup size={20} />
                         User
                       </Link>
                       <Link

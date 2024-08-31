@@ -1,4 +1,4 @@
-import mongoose, { model, Schema } from "mongoose";
+import { model, Schema, models } from "mongoose";
 
 const UserSchema = new Schema(
   {
@@ -48,17 +48,19 @@ const UserSchema = new Schema(
         no: Number,
       },
     },
+    status: {
+      type: String,
+    },
   },
   {
     timestamps: {
       createdAt: true,
       updatedAt: false,
     },
+    collection: "users",
   },
 );
 
-const modelName = "users";
-const existingModel = mongoose.connection.models[modelName];
-const UserModels = existingModel || model("users", UserSchema);
+const UserModels = models?.users || model("users", UserSchema);
 
 export default UserModels;

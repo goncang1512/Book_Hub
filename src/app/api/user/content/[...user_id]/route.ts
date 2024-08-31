@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { logger } from "@/lib/utils/logger";
 import connectMongoDB from "@/lib/config/connectMongoDb";
 import { bookAutServices } from "@/lib/services/bookauthor";
-import { getLikeContent, getListBook } from "@/lib/middleware/likechek";
+import { getBalasan, getLikeContent, getListBook } from "@/lib/middleware/likechek";
 import { bookServices } from "@/lib/services/bookservices";
 import { storyServices } from "@/lib/services/storyservices";
 import UserModels from "@/lib/models/users";
@@ -48,6 +48,7 @@ export const GET = async (req: NextRequest, { params }: { params: { user_id: str
 
     const cerita = await storyServices.getStoryUser(user_id[0]);
     const storys = await getLikeContent(cerita);
+    const storysWithBalasan = await getBalasan(storys);
 
     logger.info("Success get book by user id");
     return NextResponse.json(
@@ -56,7 +57,7 @@ export const GET = async (req: NextRequest, { params }: { params: { user_id: str
         statusCode: 200,
         message: "Success get book by user id",
         books: results,
-        storys: storys,
+        storys: storysWithBalasan,
         statusBook,
         userDetail: userWithFollower,
       },

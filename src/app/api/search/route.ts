@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { bookServices } from "@/lib/services/bookservices";
 import { logger } from "@/lib/utils/logger";
+import { getListBook } from "@/lib/middleware/likechek";
 
 export const GET = async (req: NextRequest) => {
   try {
@@ -10,6 +11,7 @@ export const GET = async (req: NextRequest) => {
     const valueSearch = searhcParams.get("title");
 
     const result = await bookServices.searchBook(valueSearch);
+    const hasil = await getListBook(result);
 
     if (result.length === 0) {
       logger.error(`Buku "${valueSearch}" tidak ada.`);
@@ -29,7 +31,7 @@ export const GET = async (req: NextRequest) => {
         status: true,
         statusCode: 200,
         message: "Success get book by search",
-        result,
+        result: hasil,
       },
       { status: 200 },
     );

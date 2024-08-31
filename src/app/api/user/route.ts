@@ -9,7 +9,7 @@ import UserModels from "@/lib/models/users";
 import { msgServices } from "@/lib/services/message";
 import { userSevices, veryfiedServices } from "@/lib/services/userservices";
 import { bookServices } from "@/lib/services/bookservices";
-import { getLikeContent, getListBook } from "@/lib/middleware/likechek";
+import { getBalasan, getLikeContent, getListBook } from "@/lib/middleware/likechek";
 import { bookAutServices } from "@/lib/services/bookauthor";
 import { storyServices } from "@/lib/services/storyservices";
 import { followServices } from "@/lib/services/followservices";
@@ -49,6 +49,7 @@ export const POST = async (req: NextRequest) => {
           img: "/rank-satu.png",
         },
       },
+      status: "aktif",
     };
 
     const result = await userSevices.post(data);
@@ -113,6 +114,7 @@ export const GET = async (req: NextRequest) => {
     const getMengikuti = await followServices.getMengikuti(result._id);
     const diikuti = await followServices.getDiikuti(result._id);
     const userWithFollower = { ...result.toObject(), follower: getMengikuti, myFollower: diikuti };
+    const storyWithBalasan = await getBalasan(storys);
 
     logger.info("Success get user");
     return NextResponse.json(
@@ -122,7 +124,7 @@ export const GET = async (req: NextRequest) => {
         message: "Success get user",
         result: userWithFollower,
         books: listBook,
-        storys,
+        storys: storyWithBalasan,
         statusBook,
       },
       { status: 200 },
@@ -210,6 +212,7 @@ export const PATCH = async (req: NextRequest) => {
                 senderId: encoded._id,
                 recipientId: user._id,
                 message: pesan,
+                type: "message",
               });
 
               result.push(hasil);

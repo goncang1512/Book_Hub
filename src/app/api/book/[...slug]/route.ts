@@ -2,46 +2,29 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { logger } from "@/lib/utils/logger";
 import connectMongoDB from "@/lib/config/connectMongoDb";
-import { checkExistingFoto as deleteCover, updateCover } from "@/lib/middleware/uploadImg";
+import { updateCover } from "@/lib/middleware/uploadImg";
 import { checkFotoProfil as checkCover } from "@/lib/middleware/checkUser";
-import { bookAutServices } from "@/lib/services/bookauthor";
-import { getLikeContent } from "@/lib/middleware/likechek";
+import { getBalasan, getLikeContent } from "@/lib/middleware/likechek";
 import { bookServices } from "@/lib/services/bookservices";
 import { storyServices } from "@/lib/services/storyservices";
-import { whislistSrv } from "@/lib/services/whilistservices";
 import { getMyFollower } from "@/lib/middleware/getmyfollower";
+import { DateBookType } from "@/lib/utils/types/booktypes.type";
 
 export const GET = async (req: NextRequest, { params }: { params: { slug: string[] } }) => {
   await connectMongoDB();
   try {
     const { slug } = params;
 
-    let statusBook: any[] = [];
-    const results = await bookServices.byIdBook(slug[1]);
+    const { results, statusBook } = await bookServices.getContentSingle(slug[1]);
     const storys: any = await storyServices.getIdBook(params.slug[1]);
     const storyWithLike = await getLikeContent(storys);
-
-    if (results) {
-      if (results.jenis === "Cerpen") {
-        const canvas = await bookAutServices.getCerpen(results._id);
-        if (canvas.length > 0) {
-          canvas.forEach((item) => {
-            statusBook.push({
-              _id: item._id,
-              book_id: item.book_id,
-              status: item.status,
-            });
-          });
-        } else {
-          statusBook.push({ _id: null, book_id: results._id, status: null });
-        }
-      }
-    }
 
     let myFollower;
     if (slug[2]) {
       myFollower = await getMyFollower(slug[2]);
     }
+
+    const hasil = await getBalasan(storyWithLike);
 
     logger.info("Success get detail book by id");
     return NextResponse.json(
@@ -51,7 +34,7 @@ export const GET = async (req: NextRequest, { params }: { params: { slug: string
         message: "Success get detail book by id",
         result: results,
         statusBook,
-        story: storyWithLike,
+        story: hasil,
         myFollower: myFollower && myFollower,
       },
       { status: 200 },
@@ -68,9 +51,7 @@ export const GET = async (req: NextRequest, { params }: { params: { slug: string
 export const DELETE = async (req: NextRequest, { params }: { params: { slug: string[] } }) => {
   await connectMongoDB();
   try {
-    const result = await bookServices.deleteBook(params.slug[0]);
-    await deleteCover(result?.imgBooks?.public_id);
-    await whislistSrv.deleteMany(params.slug[0]);
+    const result = await bookServices.deleteOneBook(params.slug[0]);
 
     logger.info("Success deleted book");
     return NextResponse.json(
@@ -115,7 +96,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { slug: stri
       };
     }
 
-    const data = {
+    const data: DateBookType = {
       title,
       writer,
       sinopsis,
@@ -123,6 +104,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { slug: stri
       imgBooks: imgDetail,
       genre,
     };
+
     const result = await bookServices.update(data, params.slug[0]);
 
     logger.info("Success update book");

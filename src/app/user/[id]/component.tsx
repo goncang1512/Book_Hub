@@ -1,6 +1,6 @@
 "use client";
 import AboutProfil from "@/components/layouts/aboutprofil";
-import { CardBook } from "@/components/layouts/cardstore";
+import CardBook from "@/components/layouts/cardstore";
 import FriendsProfil from "@/components/layouts/friendsprofil";
 import { HeaderProfil } from "@/components/layouts/profillayouts";
 import { GlobalState } from "@/lib/context/globalstate";
@@ -62,7 +62,9 @@ const ComponentUser: React.FC<TesComponenType> = ({ username }) => {
                       dataContent={book}
                       statusBook={statusBook}
                       ukuran="w-full"
-                    />
+                    >
+                      <CardBook.List book={book} />
+                    </CardBook>
                   ))}
               </div>
             )}

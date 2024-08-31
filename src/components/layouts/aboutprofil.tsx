@@ -7,11 +7,12 @@ import { useEffect, useState } from "react";
 
 import Img from "../fragments/image";
 
-import { CardContent, StoryType } from "./cardstory";
+import { StoryType } from "./cardstory";
 
-import { UserType } from "@/lib/utils/DataTypes.type";
+import { UserType } from "@/lib/utils/types/DataTypes.type";
 import ButtonFollow from "../fragments/buttonfollow";
 import { usePathname } from "next/navigation";
+import InfiniteSwrStory from "./infiniteSwr";
 
 interface StoryUser extends StoryType {
   length: number;
@@ -87,14 +88,22 @@ export default function AboutProfil({
           {/* satu */}
           <div className="w-full flex items-start gap-2 border-b py-2">
             <div className="flex gap-5">
-              <Link className="flex flex-col justify-center items-center" href={"/leaderboard"}>
+              <Link
+                aria-label="linkToLeaderboard"
+                className="flex flex-col justify-center items-center"
+                href={"/leaderboard"}
+              >
                 <p className="font-medium text-xs">Musim</p>
                 <Img className="size-24" src={`${userData?.rank?.rankNow}`} />
                 <p className="font-medium text-xs">
                   {newMyRank} {userData?.rank?.level}
                 </p>
               </Link>
-              <Link className="flex flex-col justify-center items-center" href={"/leaderboard"}>
+              <Link
+                aria-label="linkLeaderboard"
+                className="flex flex-col justify-center items-center"
+                href={"/leaderboard"}
+              >
                 <p className="font-medium text-xs">Riwayat</p>
                 <Img className="size-24" src={`${userData?.rank?.rankTertinggi?.img}`} />
                 <p className="font-medium text-xs">
@@ -114,7 +123,11 @@ export default function AboutProfil({
                     {userData?.alamat ? (
                       userData?.alamat
                     ) : (
-                      <Link className="text-blue-500" href={"/profil/editprofil/biografi"}>
+                      <Link
+                        aria-label="link-to-alamat"
+                        className="text-blue-500"
+                        href={"/profil/editprofil/biografi"}
+                      >
                         Tambahkan alamat di sini
                       </Link>
                     )}
@@ -130,7 +143,11 @@ export default function AboutProfil({
                     {userData?.number ? (
                       userData?.number
                     ) : (
-                      <Link className="text-blue-500" href={"/profil/editprofil/biografi"}>
+                      <Link
+                        aria-label="link-add-number"
+                        className="text-blue-500"
+                        href={"/profil/editprofil/biografi"}
+                      >
                         Tambahkan nomor HP di sini
                       </Link>
                     )}
@@ -149,7 +166,7 @@ export default function AboutProfil({
         </div>
       </div>
       <div id="story_container">
-        <StoryContainer dataFollow={dataFollow} storysUser={storysUser} />
+        <StoryContainer dataFollow={dataFollow} storysUser={storysUser} user_id={userData?._id} />
       </div>
     </div>
   );
@@ -203,21 +220,24 @@ export const BarExp = ({ width }: { width: string }) => {
 export const StoryContainer = ({
   storysUser,
   dataFollow,
+  user_id,
 }: {
   storysUser: StoryUser[];
   dataFollow: any;
+  user_id: string;
 }) => {
   return (
     <div className={`${storysUser?.length === 0 && "hidden"} border bg-white rounded-lg shadow-lg`}>
       <div className="w-full h-14 bg-white p-3 rounded-t-lg border-b flex items-center gap-5">
         <h1 className="font-semibold">Story</h1>
       </div>
-      {storysUser &&
-        storysUser.map((story: StoryType) => {
-          return (
-            <CardContent key={story._id} dataFollow={dataFollow} seeBook={true} story={story} />
-          );
-        })}
+      <div className="">
+        <InfiniteSwrStory
+          dataFollow={dataFollow}
+          seeBook={true}
+          url={`/api/story/limit/user/${user_id}`}
+        />
+      </div>
     </div>
   );
 };

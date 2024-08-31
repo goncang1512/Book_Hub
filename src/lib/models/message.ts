@@ -17,6 +17,9 @@ const MessageSchema = new Schema(
         message: "Array user_id tidak boleh lebih dari 2 elemen.",
       },
     },
+    type: {
+      type: String,
+    },
   },
   {
     timestamps: true,
@@ -24,6 +27,6 @@ const MessageSchema = new Schema(
   },
 );
 
-const MessageModels = models.messages || model("messages", MessageSchema);
+const MessageModels = models?.messages || model("messages", MessageSchema);
 
 export default MessageModels;

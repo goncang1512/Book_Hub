@@ -25,7 +25,7 @@ export default function Read() {
   return (
     <section className="flex">
       <main
-        className={`relative flex flex-col w-full md:mr-[38%] mr-0 border-r h-screen overflow-y-hidden`}
+        className={`relative flex flex-col w-full md:mr-[38%] mr-0 border-r ${messageData?.length > 6 ? "h-full" : "h-screen"}`}
       >
         {msgLoading ? (
           <div className="w-full h-screen flex justify-center items-center">
@@ -37,9 +37,7 @@ export default function Read() {
               <h1 className="text-xl font-bold">Notifikasi</h1>
             </div>
             {messageData && (
-              <div
-                className={`${styles.customScroll} flex-1 overflow-y-scroll pb-[100px] md:pt-0 pt-[70px]`}
-              >
+              <div className={`${styles.customScroll} flex-1 md:pt-0 pt-[70px]`}>
                 {messageData &&
                   messageData.map((pesan: any) => {
                     return (

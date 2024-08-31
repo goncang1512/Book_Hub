@@ -5,7 +5,9 @@ import { useSession } from "next-auth/react";
 
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
-import { StoryInterface } from "../utils/provider.type";
+import { StoryInterface } from "../utils/types/provider.type";
+import { getKey } from "../swr/storySwr";
+import { unstable_serialize } from "swr/infinite";
 
 export const StoryContext = createContext<StoryInterface>({} as StoryInterface);
 
@@ -41,7 +43,7 @@ export default function StoryContextProvider({ children }: { children: React.Rea
     id: string,
     bookId: string | null,
     type: string,
-    chapterBook?: string | null,
+    urlData: string,
   ) => {
     try {
       setLoadingUploadStory(true);
@@ -63,7 +65,9 @@ export default function StoryContextProvider({ children }: { children: React.Rea
         mutate(`/api/book/detailbook/${bookId}/${session?.user?._id}`);
         mutate(`/api/story/detailstory/${bookId}/${session?.user?._id}`);
         mutate(
-          `/api/read?id=${chapterBook}&chapter=${res.data.result.book_id}&user_id=${session?.user?._id}`,
+          unstable_serialize((pageIndex: any, previousPageData: any) =>
+            getKey(pageIndex, previousPageData, urlData),
+          ),
         );
         setDataContent("");
         update({
@@ -121,7 +125,7 @@ export default function StoryContextProvider({ children }: { children: React.Rea
     }
   };
 
-  const deletedStory = async (id: string, bookId: string, chapterBook?: string | null) => {
+  const deletedStory = async (id: string, bookId: string, urlData: string) => {
     try {
       setLoadingDeleteStory(true);
       const res = await instance.delete(`/api/story/${id}`);
@@ -135,7 +139,9 @@ export default function StoryContextProvider({ children }: { children: React.Rea
         mutate(`/api/story/detailstory/${bookId}/${session?.user?._id}`);
         mutate(`/api/user/content/${session?.user?._id}`);
         mutate(
-          `/api/read?id=${chapterBook}&chapter=${res.data.result.book_id}&user_id=${session?.user?._id}`,
+          unstable_serialize((pageIndex: any, previousPageData: any) =>
+            getKey(pageIndex, previousPageData, urlData),
+          ),
         );
         setLoadingDeleteStory(false);
       }
@@ -145,12 +151,7 @@ export default function StoryContextProvider({ children }: { children: React.Rea
     }
   };
 
-  const updateStory = async (
-    ception: string,
-    id: string,
-    book_id: string,
-    chapterBook?: string | null,
-  ) => {
+  const updateStory = async (ception: string, id: string, book_id: string, urlData: string) => {
     try {
       setLoadingUpdateStory(true);
       const data = {
@@ -165,7 +166,9 @@ export default function StoryContextProvider({ children }: { children: React.Rea
         mutate(`/api/story/detailstory/${book_id}/${session?.user?._id}`);
         mutate(`/api/user/content/${session?.user?._id}`);
         mutate(
-          `/api/read?id=${chapterBook}&chapter=${res.data.result.book_id}&user_id=${session?.user?._id}`,
+          unstable_serialize((pageIndex: any, previousPageData: any) =>
+            getKey(pageIndex, previousPageData, urlData),
+          ),
         );
       }
       return true;

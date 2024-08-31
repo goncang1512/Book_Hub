@@ -54,6 +54,7 @@ export type StoryType = {
     };
   };
   like_str: any;
+  balasanSum: any;
 };
 
 export const CardContent = ({
@@ -63,11 +64,13 @@ export const CardContent = ({
   dataFollow,
   statusCard,
   chapterBook,
+  urlData,
 }: {
   story: StoryType;
   seeBook: boolean;
   comment?: boolean;
   dataFollow: any;
+  urlData: string;
   statusCard?: string;
   chapterBook?: string | null;
 }) => {
@@ -174,7 +177,7 @@ export const CardContent = ({
                   aria-label="deleteStory"
                   className="active:text-gray-400 flex items-center jsutify-center"
                   onClick={() => {
-                    deletedStory(story?._id, story?.book_id, chapterBook);
+                    deletedStory(story?._id, story?.book_id, urlData);
                   }}
                 >
                   {loadingDeleteStory ? (
@@ -204,12 +207,7 @@ export const CardContent = ({
             onSubmit={async (e) => {
               e.preventDefault();
               const book_id = statusCard === "detail" ? story._id : story?.book_id;
-              const hasil = await updateStory(
-                newCeption,
-                story?._id,
-                book_id,
-                chapterBook && chapterBook,
-              );
+              const hasil = await updateStory(newCeption, story?._id, book_id, urlData);
               if (hasil) {
                 setHandleUpdate(false);
               }
@@ -228,12 +226,7 @@ export const CardContent = ({
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
                     const book_id = statusCard === "detail" ? story._id : story?.book_id;
-                    const hasil = await updateStory(
-                      newCeption,
-                      story?._id,
-                      book_id,
-                      chapterBook && chapterBook,
-                    );
+                    const hasil = await updateStory(newCeption, story?._id, book_id, urlData);
                     if (hasil) {
                       setHandleUpdate(false);
                     }
@@ -334,17 +327,23 @@ export const CardContent = ({
             book_id={statusCard === "detail" ? story._id : story?.book_id}
             chapterBook={chapterBook}
             contentLike={story?.like_str && story.like_str}
+            urlData={urlData}
             user={story.user && story.user}
             user_story={story?.user_id && story?.user_id}
           />
 
           {!comment && (
-            <Link
-              className={`flex`}
-              href={` ${story?.type === "chapter" ? `/content?id=${story?._id}` : story?.book ? `/content?id=${story?._id}` : `/content?id=${story?.book_id}`}`}
-            >
-              <FaRegComments size={25} />
-            </Link>
+            <div className="flex items-center gap-2">
+              <Link
+                className={`flex`}
+                href={` ${story?.type === "chapter" ? `/content?id=${story?._id}` : story?.book ? `/content?id=${story?._id}` : `/content?id=${story?.book_id}`}`}
+              >
+                <FaRegComments size={25} />
+              </Link>
+              <p className="text-center text-xs text-gray-400">
+                {story?.balasanSum?.length > 0 && story?.balasanSum?.length}
+              </p>
+            </div>
           )}
         </div>
       </div>
@@ -358,6 +357,7 @@ const LikeComponent = ({
   contentLike,
   book_id,
   user,
+  urlData,
   chapterBook,
 }: {
   _id: string;
@@ -365,6 +365,7 @@ const LikeComponent = ({
   contentLike: any;
   book_id: string;
   user: any;
+  urlData: string;
   chapterBook?: string | null;
 }) => {
   const [likeContent, setLikeContent] = useState<{
@@ -388,7 +389,7 @@ const LikeComponent = ({
       {liked ? (
         <button
           aria-label="dislikeStory"
-          className="active:scale-125"
+          className="active:scale-125 flex gap-2 items-center"
           onClick={() => {
             setLikeContent({
               ...likeContent,
@@ -402,6 +403,7 @@ const LikeComponent = ({
               setLiked,
               user_story,
               user?.username,
+              urlData,
               chapterBook,
             );
           }}
@@ -412,6 +414,7 @@ const LikeComponent = ({
       ) : (
         <button
           aria-label="likeStory"
+          className="flex items-center gap-2"
           onClick={() => {
             setLikeContent({
               ...likeContent,
@@ -425,6 +428,7 @@ const LikeComponent = ({
               book_id,
               setLiked,
               user?.username,
+              urlData,
               chapterBook,
             );
           }}

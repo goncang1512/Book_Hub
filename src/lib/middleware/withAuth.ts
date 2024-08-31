@@ -3,14 +3,17 @@ import { NextFetchEvent, NextMiddleware, NextRequest, NextResponse } from "next/
 
 const onlyDeveloperPage = ["/profil/dasboard/inbox", "/profil/dasboard/toko"];
 const authPage = ["/login", "/register"];
-const originUrl: string[] = [`${process.env.NEXT_PUBLIC_API_URL}`];
+const originUrl: string[] = [
+  `${process.env.NEXT_PUBLIC_API_URL}`,
+  "book-k91lfyxgn-samuderanstgmailcoms-projects.vercel.app",
+];
 
 export default function withAuth(middleware: NextMiddleware, requireAuth: string[] = []) {
   return async (req: NextRequest, next: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname;
     const origin = req.nextUrl.origin;
 
-    if (pathname.startsWith("/api")) {
+    if (pathname.startsWith("/api") && !pathname.startsWith("/api/cron")) {
       if (!originUrl.includes(origin)) {
         return NextResponse.json({ error: "Access denied" }, { status: 403 });
       }

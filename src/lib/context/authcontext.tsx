@@ -4,7 +4,7 @@ import * as React from "react";
 import { createContext, useState } from "react";
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
-import { AuthContextType } from "../utils/provider.type";
+import { AuthContextType } from "../utils/types/provider.type";
 
 export const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 

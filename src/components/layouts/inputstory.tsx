@@ -11,12 +11,12 @@ import { StoryContext } from "@/lib/context/storycontext";
 
 export const InputStory = ({
   idStoryBook,
-  chapterBook,
   type,
+  urlData,
 }: {
   idStoryBook: string;
   type: string;
-  chapterBook?: string | null;
+  urlData: string;
 }) => {
   const { data: session, status }: any = useSession();
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -31,13 +31,7 @@ export const InputStory = ({
         className="w-full"
         onSubmit={(e) => {
           e.preventDefault();
-          uploadStory(
-            dataContent,
-            session?.user?._id,
-            idStoryBook && idStoryBook,
-            type,
-            chapterBook && chapterBook,
-          );
+          uploadStory(dataContent, session?.user?._id, idStoryBook && idStoryBook, type, urlData);
         }}
       >
         <table className="w-full">
@@ -79,7 +73,7 @@ export const InputStory = ({
                             session?.user?._id,
                             idStoryBook && idStoryBook,
                             type,
-                            chapterBook && chapterBook,
+                            urlData,
                           );
                         }
                       }

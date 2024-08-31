@@ -1,3 +1,4 @@
+"use client";
 import * as cheerio from "cheerio";
 import { useState, useEffect } from "react";
 

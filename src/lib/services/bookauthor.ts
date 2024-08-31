@@ -3,7 +3,11 @@ import CanvasModels from "../models/canvasModels";
 
 export const bookAutServices = {
   mybook: async (id: string) => {
-    return await BooksModels.find({ user_id: id, jenis: { $ne: "Review" } });
+    return await BooksModels.find({ user_id: id, jenis: { $ne: "Review" } }).populate({
+      path: "user",
+      model: "users",
+      select: "_id username email imgProfil role badge",
+    });
   },
   post: async (dataChapter: any) => {
     return await CanvasModels.create(dataChapter);

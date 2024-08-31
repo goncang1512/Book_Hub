@@ -24,11 +24,13 @@ export type dataUserType = {
     experience: number;
     rankNow: string;
   };
+  status: string;
 };
 
 export default function BarisTable({ dataUser, index }: { dataUser: dataUserType; index: number }) {
   const { data: session }: any = useSession();
   const { detailUser, setDetailUser, handleRouter } = useContext(GlobalState);
+  const { bannedUser } = useContext(DasboardContext);
   const [editAuthor, setEditAuthor] = useState<boolean>(false);
   const { updateRole } = useContext(DasboardContext);
   const btnAuthor = useRef<HTMLButtonElement | null>(null);
@@ -100,6 +102,29 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
       <td>{dataUser?.email}</td>
       <td>Level {dataUser?.rank?.level}</td>
       <td>
+        {dataUser?.status === "aktif" &&
+        dataUser?._id !== session?.user?._id &&
+        dataUser?.email !== "samuderanst@gmail.com" ? (
+          <button
+            className="bg-red-500 px-2 py-1 text-white rounded-lg active:bg-red-600"
+            onClick={() => bannedUser(dataUser?._id, "banned")}
+          >
+            banned
+          </button>
+        ) : null}
+
+        {dataUser?.status === "banned" &&
+        dataUser?._id !== session?.user?._id &&
+        dataUser?.email !== "samuderanst@gmail.com" ? (
+          <button
+            className="bg-blue-500 px-2 py-1 text-white rounded-lg active:bg-blue-600"
+            onClick={() => bannedUser(dataUser?._id, "aktif")}
+          >
+            unbanned
+          </button>
+        ) : null}
+      </td>
+      <td>
         <div className="flex flex-row items-center justify-between gap-2 font-semibold">
           <div className="flex items-center">
             {dataUser?.badge.map((logo: string, index: number) => (
@@ -125,7 +150,9 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
           <p>{dataUser?.role}</p>
           <div
             className={`${
-              dataUser?._id === session?.user?._id ? "hidden" : "flex"
+              dataUser?._id === session?.user?._id || dataUser?.email === "samuderanst@gmail.com"
+                ? "hidden"
+                : "flex"
             } relative w-full justify-end flex pr-7`}
           >
             <button

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
 import OpenWindow from "@/components/layouts/openwindow";
@@ -22,6 +22,7 @@ export default function Index({ children }: { children: React.ReactNode }) {
           badge: userDetail?.badge,
           rank: userDetail?.rank,
           role: userDetail?.role,
+          accountStatus: userDetail?.status,
         });
       } catch (error) {
         logger.error(`${error}`);
@@ -30,6 +31,10 @@ export default function Index({ children }: { children: React.ReactNode }) {
 
     if (userDetail && status === "authenticated") {
       updateProfil();
+
+      if (userDetail?.status === "banned") {
+        signOut({ callbackUrl: "/login" });
+      }
     }
   }, [userDetail]);
 
@@ -57,7 +62,7 @@ export default function Index({ children }: { children: React.ReactNode }) {
     return <CanvasContextProvider>{children}</CanvasContextProvider>;
   }
 
-  if (status === "loading" && !authPage.includes(pathname) && !hasOpened) {
+  if (status === "loading" && !session?.user && !authPage.includes(pathname) && !hasOpened) {
     return (
       <CanvasContextProvider>
         <OpenWindow />

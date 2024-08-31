@@ -4,11 +4,11 @@ import { IoMdSearch } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 
 import BarisTable, { dataUserType } from "@/components/fragments/baristable";
-import { useUsers } from "@/lib/utils/useSwr";
 import { DasboardContext } from "@/lib/context/dasboardcontext";
+import { useDasboard } from "@/lib/swr/useDasboard";
 
 export default function UserDasboard() {
-  const { userData, userDataLoading } = useUsers.Leaderboard();
+  const { userData, userDataLoading } = useDasboard.getDataUser();
   const { searchUser, keyword, setKeyWord, dataUser, msgSearchUser } = useContext(DasboardContext);
 
   if (userDataLoading) {
@@ -87,6 +87,7 @@ export default function UserDasboard() {
               <th>Name</th>
               <th>Email</th>
               <th>Rank</th>
+              <th>Status</th>
               <th>Badge</th>
               <th>Role</th>
             </tr>

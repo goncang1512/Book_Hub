@@ -1,8 +1,18 @@
 import useSWR from "swr";
 
 import instance from "./fetch";
+import { useSession } from "next-auth/react";
 
 export const fetcher = (url: string) => instance.get(url).then((res) => res.data);
+export const axiosfetcher = (url: string, token: string) => {
+  return instance
+    .get(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => res.data);
+};
 
 export const useUsers = {
   Leaderboard: () => {
@@ -39,12 +49,11 @@ export const useUsers = {
 
 export const useBooks = {
   allBook: () => {
-    const { data, error, isLoading } = useSWR("/api/book", fetcher);
+    const { data, error, isLoading } = useSWR(`/api/book`, fetcher);
 
     return {
       recomendedBook: data?.recomended,
       statusBook: data?.statusBook,
-      books: data?.result,
       booksLoading: isLoading,
       bookError: error,
       jenisHot: data?.jenisHot,
@@ -164,7 +173,10 @@ export const useChapter = {
     };
   },
   submitted: () => {
-    const { data, isLoading } = useSWR(`/api/dasboard/submitted`, fetcher);
+    const { data: session }: any = useSession();
+    const { data, isLoading } = useSWR(session ? `/api/dasboard/submitted` : null, (url) =>
+      axiosfetcher(url, session?.accessToken),
+    );
 
     return {
       dataChapter: data?.result,

@@ -7,7 +7,7 @@ import { ElementProfil, ElementProfilDua } from "@public/svg/element";
 import { HeaderProfil } from "@/components/layouts/profillayouts";
 import AboutProfil from "@/components/layouts/aboutprofil";
 import { GlobalState } from "@/lib/context/globalstate";
-import { CardBook } from "@/components/layouts/cardstore";
+import CardBook from "@/components/layouts/cardstore";
 import { useUsers } from "@/lib/utils/useSwr";
 import FriendsProfil from "@/components/layouts/friendsprofil";
 
@@ -49,12 +49,9 @@ export default function Profil() {
           <div className="flex flex-wrap gap-4 w-full justify-start">
             {booksUser &&
               booksUser.map((book: any) => (
-                <CardBook
-                  key={book._id}
-                  dataContent={book}
-                  statusBook={statusBook}
-                  ukuran="w-full"
-                />
+                <CardBook key={book._id} dataContent={book} statusBook={statusBook} ukuran="w-full">
+                  <CardBook.List book={book} />
+                </CardBook>
               ))}
           </div>
         )}

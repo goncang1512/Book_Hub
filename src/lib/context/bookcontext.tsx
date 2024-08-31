@@ -5,8 +5,8 @@ import { useSWRConfig } from "swr";
 import { logger } from "../utils/logger";
 
 import instance from "../utils/fetch";
-import { UploadBookType, UploadMyBookType } from "../utils/DataTypes.type";
-import { BookProvider } from "../utils/provider.type";
+import { UploadBookType, UploadMyBookType } from "../utils/types/DataTypes.type";
+import { BookProvider } from "../utils/types/provider.type";
 
 export const BookContext = createContext<BookProvider>({} as BookProvider);
 
@@ -85,13 +85,17 @@ export default function BookContextProvider({ children }: { children: React.Reac
 
   const deletedBook = async (id: string, user_id: string) => {
     try {
+      setLoadingBook(true);
       const res = await instance.delete(`/api/book/${id}`);
       if (res.data.status) {
         mutate(`/api/book`);
         mutate(`/api/book/${user_id}`);
+        mutate(`/api/user/content/${user_id}`);
+        setLoadingBook(false);
       }
     } catch (error) {
       logger.error(`${error}`);
+      setLoadingBook(false);
     }
   };
 

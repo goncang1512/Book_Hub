@@ -1,11 +1,18 @@
 import UserModels from "../models/users";
 import VeryfiedModel from "../models/veryfiedEmailModel";
+import instance from "../utils/fetch";
 
 type UserUpdate = {
   username: string;
   alamat: string;
   email: string;
   number: string;
+};
+
+export const getNotifTitle = async (user_id: string) => {
+  const res = await instance.get(`/api/message/notif/${user_id}`);
+
+  return res;
 };
 
 export const userSevices = {
@@ -101,12 +108,10 @@ export const userSevices = {
     );
   },
   leaderbaord: async () => {
-    return await UserModels.find({}, "_id username email imgProfil rank createdAt role badge").sort(
-      {
-        "rank.level": -1,
-        "rank.experience": -1,
-      },
-    );
+    return await UserModels.find({}, "_id username imgProfil rank createdAt role badge").sort({
+      "rank.level": -1,
+      "rank.experience": -1,
+    });
   },
   updatePassword: async (id: string, password: string) => {
     return await UserModels.findOneAndUpdate({ _id: id }, { $set: { password } }, { new: true });

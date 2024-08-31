@@ -4,7 +4,7 @@ import { useSWRConfig } from "swr";
 
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
-import { WhislistContextType } from "../utils/provider.type";
+import { WhislistContextType } from "../utils/types/provider.type";
 
 export const WhislistContext = createContext<WhislistContextType>({} as WhislistContextType);
 
@@ -16,6 +16,8 @@ export default function WhislistContextProvider({ children }: { children: React.
     user_id: string,
     book_id: string,
     setIsLiked: React.Dispatch<SetStateAction<boolean>>,
+    pagination?: { page: number; limit: number },
+    keyword?: string,
   ) => {
     try {
       setIsLiked(true);
@@ -26,6 +28,8 @@ export default function WhislistContextProvider({ children }: { children: React.
       mutate(`/api/book/${user_id}`);
       mutate(`/api/user/content/${user_id}`);
       mutate(`/api/user/${res.data.user._id}`);
+      mutate(`/api/book/author?page=${pagination?.page}&limit=${pagination?.limit}`);
+      mutate(`/api/search?title=${keyword}`);
     } catch (error) {
       logger.error(`${error}`);
       setIsLiked(false);
@@ -36,6 +40,8 @@ export default function WhislistContextProvider({ children }: { children: React.
     user_id: string,
     book_id: string,
     setIsLiked: React.Dispatch<SetStateAction<boolean>>,
+    pagination?: { page: number; limit: number },
+    keyword?: string,
   ) => {
     try {
       setIsLiked(false);
@@ -45,6 +51,8 @@ export default function WhislistContextProvider({ children }: { children: React.
       mutate(`/api/book/author/${user_id}`);
       mutate(`/api/user/content/${user_id}`);
       mutate(`/api/user/${res.data.user._id}`);
+      mutate(`/api/book/author?page=${pagination?.page}&limit=${pagination?.limit}`);
+      mutate(`/api/search?title=${keyword}`);
     } catch (error) {
       logger.error(`${error}`);
       setIsLiked(true);

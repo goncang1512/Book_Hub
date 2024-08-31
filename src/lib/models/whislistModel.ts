@@ -26,6 +26,6 @@ const WhislistModel = new Schema(
   },
 );
 
-const WhislistModels = models.whislist || model("whislist", WhislistModel);
+const WhislistModels = models?.whislist || model("whislist", WhislistModel);
 
 export default WhislistModels;

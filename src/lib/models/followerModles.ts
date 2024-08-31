@@ -23,6 +23,6 @@ const FollowerSchema = new Schema(
   },
 );
 
-const FollowerModels = models.followers || model("followers", FollowerSchema);
+const FollowerModels = models?.followers || model("followers", FollowerSchema);
 
 export default FollowerModels;

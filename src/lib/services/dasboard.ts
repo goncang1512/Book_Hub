@@ -29,4 +29,20 @@ export const dasboardServices = {
       },
     );
   },
+  dasboardUser: async () => {
+    return await UserModels.find(
+      {},
+      "_id username email imgProfil rank createdAt role badge status",
+    ).sort({
+      "rank.level": -1,
+      "rank.experience": -1,
+    });
+  },
+  updateStatusUser: async (user_id: string, status: string) => {
+    return await UserModels.findOneAndUpdate(
+      { _id: user_id },
+      { $set: { status: status } },
+      { new: true },
+    );
+  },
 };

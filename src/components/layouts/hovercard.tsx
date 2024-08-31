@@ -4,9 +4,11 @@ import { HiDotsHorizontal } from "react-icons/hi";
 export default function DropDown({
   children,
   label,
+  size,
 }: {
   children: React.ReactNode;
   label: string;
+  size?: number;
 }) {
   const [showCardContent, setShowCardContent] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -37,7 +39,7 @@ export default function DropDown({
           ref={containerRef}
           className={`${
             showCardContent ? "opacity-100" : "opacity-0 pointer-events-none"
-          } hover:opacity-100 absolute top-4 right-5 flex-col bg-white border rounded-lg p-3 w-36 duration-100 z-10`}
+          } hover:opacity-100 absolute md:top-4 top-3 md:right-5 right-4 flex-col bg-white border rounded-lg p-3 w-36 duration-100 z-10`}
           onMouseEnter={() => setShowCardContent(true)}
           onMouseLeave={() => setShowCardContent(false)}
         >
@@ -50,7 +52,7 @@ export default function DropDown({
           onMouseEnter={() => setShowCardContent(true)}
           onMouseLeave={() => setShowCardContent(false)}
         >
-          <HiDotsHorizontal className="relative" size={25} />
+          <HiDotsHorizontal className="relative" size={size ? size : 25} />
         </button>
       </div>
     </div>

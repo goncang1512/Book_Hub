@@ -2,11 +2,12 @@ import mongoose from "mongoose";
 import MessageModels from "../models/message";
 
 export const msgServices = {
-  post: async (data: { senderId: string; recipientId: string; message: string }) => {
+  post: async (data: { senderId: string; recipientId: string; message: string; type: string }) => {
     const message = {
       message: data.message,
       user_id: [data.senderId, data.recipientId],
       status: true,
+      type: data.type,
     };
     return await MessageModels.create(message);
   },

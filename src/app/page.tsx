@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-icons/md";
 import { SiFireship } from "react-icons/si";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,24 +11,16 @@ import Link from "next/link";
 import Img from "@/components/fragments/image";
 import { CardBookSkaleton } from "@/components/layouts/skeleton";
 import { useBooks } from "@/lib/utils/useSwr";
-import { CardBook } from "@/components/layouts/cardstore";
+import CardBook from "@/components/layouts/cardstore";
+import { bookSWR } from "@/lib/swr/bookSwr";
+import { GlobalState } from "@/lib/context/globalstate";
 
 export default function Home() {
-  const { books, jenisHot, recomendedBook, booksLoading, statusBook } = useBooks.allBook();
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [currentBooks, setCurrentBooks] = useState([]);
   const booksPerPage = 8;
-  const totalPages = Math.ceil(books?.length / booksPerPage);
-
-  useEffect(() => {
-    if (!booksLoading) {
-      const startIndex = (currentPage - 1) * booksPerPage;
-      const endIndex = startIndex + booksPerPage;
-      setCurrentBooks(books?.slice(startIndex, endIndex));
-    }
-  }, [currentPage, booksLoading, books]);
-
+  const { currentPage, setCurrentPage } = useContext(GlobalState);
+  const { jenisHot, recomendedBook, booksLoading, statusBook } = useBooks.allBook();
+  const { totalPage, statusPage, books, pageLoading } = bookSWR.allBook(currentPage, booksPerPage);
+  const totalPages = Math.ceil(totalPage / booksPerPage);
   const handlePageChange = (pageNumber: number) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
@@ -54,8 +46,8 @@ export default function Home() {
           modules={[Scrollbar, A11y]}
           scrollbar={{ draggable: true }}
           slidesPerView={1}
-          spaceBetween={10}
-          style={{ paddingBottom: "15px" }}
+          spaceBetween={16}
+          style={{ paddingBottom: "15px", paddingRight: "1px" }}
         >
           {booksLoading
             ? Array.from({ length: 5 }).map((_, index) => (
@@ -66,7 +58,12 @@ export default function Home() {
             : recomendedBook &&
               recomendedBook.map((book: any) => (
                 <SwiperSlide key={book._id}>
-                  <CardBook dataContent={book} statusBook={statusBook} ukuran="w-full" />
+                  <CardBook dataContent={book} statusBook={statusBook} ukuran="w-full">
+                    <CardBook.List
+                      book={book}
+                      pagination={{ page: currentPage, limit: booksPerPage }}
+                    />
+                  </CardBook>
                 </SwiperSlide>
               ))}
         </Swiper>
@@ -74,22 +71,27 @@ export default function Home() {
 
       <div className="w-full flex items-center md:justify-start justify-center">
         <h1 className="pt-4 pl-4 font-bold" style={{ fontSize: "clamp(16px, 2vw, 20px)" }}>
-          Buku Baru
+          Update Terbaru
         </h1>
       </div>
       <div className="w-full p-4 flex flex-wrap md:flex-row flex-col gap-4 h-full">
-        {booksLoading
-          ? Array.from({ length: 5 }).map((_, index) => (
+        {pageLoading
+          ? Array.from({ length: booksPerPage }).map((_, index) => (
               <CardBookSkaleton key={index + 1} ukuran="" />
             ))
-          : currentBooks &&
-            currentBooks.map((book: any) => (
-              <CardBook key={book._id} dataContent={book} statusBook={statusBook} ukuran="" />
+          : books &&
+            books.map((book: any) => (
+              <CardBook key={book._id} dataContent={book} statusBook={statusPage} ukuran="">
+                <CardBook.List
+                  book={book}
+                  pagination={{ page: currentPage, limit: booksPerPage }}
+                />
+              </CardBook>
             ))}
       </div>
       <div
         className={`${
-          totalPages === 1 ? "hidden" : "flex"
+          totalPages === 1 || pageLoading ? "hidden" : "flex"
         } w-full items-center justify-center gap-2 pb-3`}
       >
         <button
@@ -142,11 +144,11 @@ export default function Home() {
                           : null;
                   return (
                     <div key={index} className="flex md:flex-row flex-col gap-2">
-                      <Link className="w-[92px] h-[144px] relative" href={`${linkBook}`}>
-                        <Img
-                          className="w-full h-[144px] rounded-lg object-cover border"
-                          src={`${buku.imgBooks.imgUrl}`}
-                        />
+                      <Link
+                        className="md:w-[88px] w-[87px] h-[140px] md:h-[144px] relative"
+                        href={`${linkBook}`}
+                      >
+                        <Img size={"bookCard"} src={`${buku.imgBooks.imgUrl}`} variant="bookCard" />
                         <span
                           className={`${
                             buku.jenis === "Review" && "bg-blue-500"

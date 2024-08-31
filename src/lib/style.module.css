@@ -9,6 +9,18 @@
   color: #3b82f6;
 }
 
+/* INPUT CREATE CONTENT */
+.inputADD input:focus ~ label,
+.inputADD input:not(:placeholder-shown) ~ label {
+  font-size: 0.8em;
+  transform: translateX(1px) translateY(-24px);
+  color: black;
+}
+
+.inputADD input:focus ~ label {
+  color: #3b82f6;
+}
+
 .searchBox input:focus ~ div,
 .searchBox input:not(:placeholder-shown) ~ div {
   transform: translateX(260px);
@@ -48,22 +60,6 @@
   display: flex;
 }
 
-/* INPUT CREATE CONTENT */
-.inputADD input:focus ~ label,
-.inputADD input:not(:placeholder-shown) ~ label {
-  font-size: 0.8em;
-  transform: translateX(1px) translateY(-24px);
-  color: black;
-}
-
-.inputADD input:focus ~ label {
-  color: #3b82f6;
-}
-
-.barExp:hover .persenExp {
-  display: block;
-}
-
 .noSelect {
   user-select: none;
   -webkit-user-select: none; /* Safari */
@@ -89,21 +85,8 @@
   background: #555; /* Thumb color on hover */
 }
 
-/* .customScroll::-webkit-scrollbar-track {
-  background-color: #edf2f7;
-} */
-
 .customScroll::-webkit-scrollbar-thumb {
   background-color: #a0a0a0; /* Warna thumb */
   border-radius: 2px; /* Sudut border thumb */
   transition: width 0.3s;
-}
-
-/* .textEditor {
-  height: 10000px;
-} */
-
-.textEditor {
-  min-width: 100vh;
-  margin: 0 auto;
 }
