@@ -107,7 +107,7 @@ export async function processBooks(books: any) {
           });
         });
       } else {
-        statusBook.push({ _id: null, book_id: book._id, status: null });
+        statusBook.push({ _id: null, book_id: book._id, status: "nothing" });
       }
     }
   }

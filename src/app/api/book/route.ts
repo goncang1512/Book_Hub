@@ -38,6 +38,7 @@ export const POST = async (req: NextRequest) => {
     const cover: any = await uploadCover(body.imgBooks);
     const data: UpBookType = {
       ...body,
+      terbit: new Date(body.terbit),
       user: body.user_id,
       imgBooks: {
         public_id: cover.public_id,

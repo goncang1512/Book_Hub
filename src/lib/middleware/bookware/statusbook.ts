@@ -16,7 +16,7 @@ export const getStatusBook = async (results: ResultsBook[]) => {
             });
           });
         } else {
-          statusBook.push({ _id: null, book_id: result._id, status: null });
+          statusBook.push({ _id: null, book_id: result._id, status: "nothing" });
         }
       }
     }

@@ -128,7 +128,7 @@ export default function UploadBooks() {
               className="bg-red-500"
               container="float"
               name="terbit"
-              type="text"
+              type="date"
               value={bookData.terbit}
               varLabel="float"
               variant="float"

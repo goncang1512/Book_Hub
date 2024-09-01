@@ -18,7 +18,7 @@ export type UpBookType = {
   title: string;
   writer: string;
   sinopsis: string;
-  terbit: string;
+  terbit: Date;
   user_id: string;
   ISBN: number;
   genre: string[];
@@ -34,7 +34,7 @@ export type DateBookType = {
   title: string;
   writer: string;
   sinopsis: string;
-  terbit: string;
+  terbit: Date;
   imgBooks: {
     public_id: string;
     imgUrl: string;

@@ -20,7 +20,7 @@ const BookSchema = new Schema(
     },
     sinopsis: { type: String, trim: false },
     terbit: {
-      type: String,
+      type: Date,
     },
     imgBooks: {
       public_id: {

@@ -1,5 +1,11 @@
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, parseISO, format } from "date-fns";
 import { id } from "date-fns/locale";
+
+export const parseDate = (terbit: Date) => {
+  const parsedDate = parseISO(terbit?.toString());
+  const formattedDate = format(parsedDate, "d MMMM yyyy", { locale: id });
+  return formattedDate;
+};
 
 export const timeAgo = (tanggal: Date) => {
   if (!tanggal) return "Invalid date";

@@ -114,7 +114,7 @@ export const bookServices = {
             });
           });
         } else {
-          statusBook.push({ _id: null, book_id: results._id, status: null });
+          statusBook.push({ _id: null, book_id: results._id, status: "nothing" });
         }
       }
     }

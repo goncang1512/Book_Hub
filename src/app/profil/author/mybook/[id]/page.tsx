@@ -9,6 +9,7 @@ import { Button } from "@/components/elements/button";
 import { BookContext } from "@/lib/context/bookcontext";
 import { useBooks } from "@/lib/utils/useSwr";
 import { UploadGenre } from "@/components/layouts/uploadbook";
+import { format } from "date-fns";
 
 export default function EditBook({ params }: { params: { id: string } }) {
   const [nextInput, setNextInput] = useState<boolean>(false);
@@ -53,9 +54,8 @@ export default function EditBook({ params }: { params: { id: string } }) {
         ...editBook,
         title: detailBook?.title || "",
         writer: detailBook?.writer || "",
-        terbit: detailBook?.terbit || "",
+        terbit: detailBook?.terbit ? format(new Date(detailBook.terbit), "yyyy-MM-dd") : "",
         sinopsis: detailBook?.sinopsis || "",
-        ISBN: detailBook?.ISBN || "",
         genre: detailBook?.genre || [],
       });
       setPreviewUpdate(detailBook?.imgBooks?.imgUrl);
@@ -142,7 +142,7 @@ export default function EditBook({ params }: { params: { id: string } }) {
               className="bg-red-500"
               container="float"
               name="terbit"
-              type="text"
+              type="date"
               value={editBook.terbit}
               varLabel="float"
               variant="float"

@@ -90,3 +90,30 @@
   border-radius: 2px; /* Sudut border thumb */
   transition: width 0.3s;
 }
+
+/*------ Settings ------*/
+
+.contMark .saveReguler {
+  position: absolute;
+  animation: keyframes-fill 0.5s;
+  transform-origin: top;
+}
+
+.contMark .saveSolid {
+  position: absolute;
+  animation: keyframes-fill 0.5s;
+  display: none;
+  transform-origin: top;
+}
+
+/* ------ Animation ------ */
+@keyframes keyframes-fill {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scaleY(1.2);
+  }
+}

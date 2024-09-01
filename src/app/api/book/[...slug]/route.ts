@@ -100,7 +100,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { slug: stri
       title,
       writer,
       sinopsis,
-      terbit,
+      terbit: new Date(terbit),
       imgBooks: imgDetail,
       genre,
     };

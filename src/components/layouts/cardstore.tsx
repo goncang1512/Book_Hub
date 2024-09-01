@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useContext, useEffect, useRef, useState } from "react";
-import { FaRegHeart, FaHeart, FaRegComments } from "react-icons/fa6";
+import { FaRegComments } from "react-icons/fa6";
 import { BiBookReader } from "react-icons/bi";
 import { FiBook } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
@@ -9,12 +9,14 @@ import { IconWriter } from "@public/svg/assets";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import styles from "@/lib/style.module.css";
 
 import ReadMoreLess from "../elements/readmoreless";
 import { Input } from "../elements/input";
 import { Button } from "../elements/button";
 import Img from "../fragments/image";
 import { useResponsiveValue } from "@/lib/utils/extractText";
+import { parseDate } from "@/lib/utils/parseTime";
 
 import DropDown from "./hovercard";
 
@@ -156,7 +158,7 @@ function CardBook({
               )}
 
               <DropDown label={_id} size={parseInt(height25)}>
-                <div className="flex flex-col md:text-base text-sm">
+                <div className="flex flex-col w-full md:text-base text-sm">
                   <button
                     aria-label={`${_id}buttonReport`}
                     className="active:text-gray-400 text-start"
@@ -171,7 +173,7 @@ function CardBook({
                   </button>
                   {dataReport && (
                     <ModalBox dataModal={dataReport} setDataModal={setDataReport}>
-                      <div className="flex flex-col justify-start items-start">
+                      <div className="flex flex-col justify-start">
                         {report.map((laporan: string, index: number) => {
                           return (
                             <button
@@ -204,10 +206,10 @@ function CardBook({
                     </ModalBox>
                   )}
                   {session?.user?._id === user_id && (
-                    <>
+                    <div className="flex flex-col">
                       <button
                         aria-label={`${_id}buttonDeleteBook`}
-                        className="active:text-gray-400 text-start"
+                        className="active:text-gray-400 text-start w-auto whitespace-nowrap"
                         onClick={() => {
                           modalDeleteBookRef?.current?.showModal();
                           setDataDelete({
@@ -221,7 +223,7 @@ function CardBook({
                       </button>
                       <Link
                         aria-label={`edit${_id}`}
-                        className="active:text-gray-400"
+                        className="active:text-gray-400 w-auto whitespace-nowrap"
                         href={`${
                           ISBN === 0 ? `/profil/author/mybook/${_id}` : `/profil/upload/${_id}`
                         }`}
@@ -231,14 +233,14 @@ function CardBook({
                       {jenis === "Cerpen" &&
                         statusBook &&
                         statusBook
-                          .filter((item: any) => item.book_id === _id && item._id)
+                          .filter((item: any) => item.book_id === _id)
                           .map((item: any) => {
                             if (item.status === "Rilis") {
                               return (
                                 <Link
                                   key={item._id}
                                   aria-label={`statusRilis${_id}`}
-                                  className="active:text-gray-400"
+                                  className="active:text-gray-400 w-auto whitespace-nowrap"
                                   href={`/profil/author/texteditor?id=${item.book_id}&c=${item._id}`}
                                 >
                                   Edit Cerpen
@@ -249,27 +251,28 @@ function CardBook({
                                 <Link
                                   key={item._id}
                                   aria-label={`statusDraft${_id}`}
-                                  className="active:text-gray-400"
+                                  className="active:text-gray-400 w-auto whitespace-nowrap"
                                   href={`/profil/author/texteditor?id=${item.book_id}&c=${item._id}`}
                                 >
                                   Edit Draft
                                 </Link>
                               );
-                            } else if (item.status !== "Submitted") {
+                            } else if (item.status === "nothing") {
                               return (
                                 <Link
-                                  key={item._id}
+                                  key={item.book_id}
                                   aria-label={`statusSubmitted${_id}`}
-                                  className="active:text-gray-400"
+                                  className="active:text-gray-400 w-auto whitespace-nowrap"
                                   href={`/profil/author/texteditor/${item.book_id}`}
                                 >
                                   Tambah Cerpen
                                 </Link>
                               );
+                            } else {
+                              return null;
                             }
-                            return null;
                           })}
-                    </>
+                    </div>
                   )}
                 </div>
               </DropDown>
@@ -294,7 +297,9 @@ function CardBook({
                 </p>
               </div>
               <div className="relative flex gap-2">
-                <p className="md:flex hidden text-xs text-gray-500 items-center">{terbit}</p>
+                <p className="md:flex hidden text-xs text-gray-500 items-center">
+                  {parseDate(terbit)}
+                </p>
                 <button
                   ref={buttonRef}
                   aria-label={`buttonDetailClick${_id}`}
@@ -343,7 +348,9 @@ function CardBook({
               {loadingHalaman ? <span className="loading loading-dots loading-md" /> : "Update"}
             </Button>
           </form>
-          <p className="md:hidden flex text-xs text-gray-500 items-center">Terbit : {terbit}</p>
+          <p className="md:hidden flex text-xs text-gray-500 items-center">
+            Terbit : {parseDate(terbit)}
+          </p>
         </div>
       </div>
       <ModalDeleteBook dataDelete={dataDelete} refDialog={modalDeleteBookRef} />
@@ -375,24 +382,37 @@ const AddList = ({
   });
 
   return (
-    <>
-      {isLiked ? (
-        <button
-          aria-label={`deleteList${book._id}`}
-          className="text-red-500 active:scale-110"
-          onClick={() => deleteList(session?.user?._id, book._id, setIsLiked, pagination, keyword)}
-        >
-          <FaHeart size={height25} />
-        </button>
-      ) : (
-        <button
-          aria-label={`addlist${book._id}`}
-          onClick={() => addList(session?.user?._id, book._id, setIsLiked, pagination, keyword)}
-        >
-          <FaRegHeart size={height25} />
-        </button>
-      )}
-    </>
+    <button
+      className={`${styles.contMark} text-[30px] flex justify-center items-center relative cursor-pointer select-none`}
+      onClick={() => {
+        isLiked
+          ? deleteList(session?.user?._id, book._id, setIsLiked, pagination, keyword)
+          : addList(session?.user?._id, book._id, setIsLiked, pagination, keyword);
+      }}
+    >
+      <svg
+        className={`${isLiked ? `${styles.saveReguler}` : ""}`}
+        height={`${height25}px`}
+        viewBox="0 0 384 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 48C0 21.5 21.5 0 48 0l0 48V441.4l130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4V48H48V0H336c26.5 0 48 21.5 48 48V488c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488V48z"
+          fill={isLiked ? "#facc15 " : "#000000"}
+        />
+      </svg>
+      <svg
+        className={`${isLiked ? "" : `${styles.saveSolid}`}`}
+        height={`${height25}px`}
+        viewBox="0 0 384 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0 48V487.7C0 501.1 10.9 512 24.3 512c5 0 9.9-1.5 14-4.4L192 400 345.7 507.6c4.1 2.9 9 4.4 14 4.4c13.4 0 24.3-10.9 24.3-24.3V48c0-26.5-21.5-48-48-48H48C21.5 0 0 21.5 0 48z"
+          fill={isLiked ? "#facc15" : "#facc15"}
+        />
+      </svg>
+    </button>
   );
 };
 
@@ -402,6 +422,8 @@ export const ModalDeleteBook: React.FC<{
 }> = ({ refDialog, dataDelete }) => {
   const [valueDelete, setValueDelete] = useState<string>("");
   const { deletedBook, loadingBook } = React.useContext(BookContext);
+  const [msgDltBook, setMsgDltBook] = useState("");
+
   return (
     <dialog ref={refDialog} className="modal" id="my_modal_2">
       <div className="modal-box relative">
@@ -419,9 +441,15 @@ export const ModalDeleteBook: React.FC<{
               e.preventDefault();
               if (dataDelete.title === valueDelete) {
                 deletedBook(dataDelete?.book_id, dataDelete?.user_id);
+              } else {
+                setMsgDltBook("Book name salah coba lagi.");
+                setTimeout(() => {
+                  setMsgDltBook("");
+                }, 3000);
               }
             }}
           >
+            <p className={`${!msgDltBook && "hidden"} text-red-500 italic text-md`}>{msgDltBook}</p>
             <p>
               Enter book name <strong>{dataDelete.title}</strong> to continue:
             </p>

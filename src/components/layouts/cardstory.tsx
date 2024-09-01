@@ -173,27 +173,29 @@ export const CardContent = ({
           <div className="md:pr-5" id="container-button">
             {session?.user?._id === story?.user_id && (
               <DropDown label={story?._id}>
-                <button
-                  aria-label="deleteStory"
-                  className="active:text-gray-400 flex items-center jsutify-center"
-                  onClick={() => {
-                    deletedStory(story?._id, story?.book_id, urlData);
-                  }}
-                >
-                  {loadingDeleteStory ? (
-                    <span className="loading loading-spinner loading-md" />
-                  ) : (
-                    "Hapus cerita"
-                  )}
-                </button>
-                <button
-                  aria-label="updateStory"
-                  className="active:text-gray-400 text-start"
-                  type="button"
-                  onClick={() => setHandleUpdate(!handleUpdate)}
-                >
-                  Edit Cerita
-                </button>
+                <div className="flex flex-col w-full">
+                  <button
+                    aria-label="deleteStory"
+                    className="active:text-gray-400 flex items-center justify-center w-auto whitespace-nowrap"
+                    onClick={() => {
+                      deletedStory(story?._id, story?.book_id, urlData);
+                    }}
+                  >
+                    {loadingDeleteStory ? (
+                      <span className="loading loading-dots loading-md" />
+                    ) : (
+                      "Hapus cerita"
+                    )}
+                  </button>
+                  <button
+                    aria-label="updateStory"
+                    className="active:text-gray-400 text-start w-auto whitespace-nowrap"
+                    type="button"
+                    onClick={() => setHandleUpdate(!handleUpdate)}
+                  >
+                    Edit Cerita
+                  </button>
+                </div>
               </DropDown>
             )}
           </div>

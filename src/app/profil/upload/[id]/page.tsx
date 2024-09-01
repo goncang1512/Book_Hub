@@ -2,6 +2,7 @@
 import * as React from "react";
 import { useState, useContext, useEffect } from "react";
 import { IoCloudUploadOutline } from "react-icons/io5";
+import { format } from "date-fns";
 
 import styles from "@/lib/style.module.css";
 import { Input } from "@/components/elements/input";
@@ -53,7 +54,7 @@ export default function EditBook({ params }: { params: { id: string } }) {
         ...editBook,
         title: detailBook?.title || "",
         writer: detailBook?.writer || "",
-        terbit: detailBook?.terbit || "",
+        terbit: detailBook?.terbit ? format(new Date(detailBook.terbit), "yyyy-MM-dd") : "",
         sinopsis: detailBook?.sinopsis || "",
         ISBN: detailBook?.ISBN || "",
         genre: detailBook?.genre || [],
@@ -142,7 +143,7 @@ export default function EditBook({ params }: { params: { id: string } }) {
               className="bg-red-500"
               container="float"
               name="terbit"
-              type="text"
+              type="date"
               value={editBook.terbit}
               varLabel="float"
               variant="float"
