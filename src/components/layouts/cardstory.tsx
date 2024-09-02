@@ -448,9 +448,9 @@ const LikeComponent = ({
   }, [contentLike]);
 
   return (
-    <>
+    <div className="flex items-center gap-2">
       <button
-        className={`flex items-center size-[50px] relative gap-1`}
+        className={`flex items-center relative gap-1`}
         onClick={() => {
           if (liked) {
             setLikeContent({
@@ -514,10 +514,12 @@ const LikeComponent = ({
             <polygon className={`stroke-[#3b82f6] fill-[#3b82f6]`} points="80,80 70,70" />
           </svg>
         </div>
+      </button>
+      {contentLike?.length > 0 && (
         <p className="text-center text-sm text-gray-400">
           {contentLike?.length > 0 && contentLike?.length}
         </p>
-      </button>
-    </>
+      )}
+    </div>
   );
 };
