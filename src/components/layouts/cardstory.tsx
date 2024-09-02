@@ -6,6 +6,7 @@ import { IconWriter } from "@public/svg/assets";
 import { FiBook } from "react-icons/fi";
 import { BiSolidLike, BiLike } from "react-icons/bi";
 import { FaRegComments } from "react-icons/fa6";
+import styles from "@/lib/style.module.css";
 
 import DetailStory from "../fragments/detailstory";
 import Img from "../fragments/image";
@@ -17,9 +18,12 @@ import ReadMoreLess from "@/components/elements/readmoreless";
 import { LikeContext } from "@/lib/context/likecontext";
 import { SpoilerText } from "@/components/elements/readmoreless";
 import { StoryContext } from "@/lib/context/storycontext";
-import { timeAgo } from "@/lib/utils/parseTime";
+import { parseDate, timeAgo } from "@/lib/utils/parseTime";
 import { Button } from "@/components/elements/button";
 import { ButtonStory } from "../fragments/buttonfollow";
+import ModalBox from "../fragments/modalbox";
+import { pesanVar } from "@/lib/utils/pesanvariable";
+import { ReportContext } from "@/lib/context/reportcontext";
 
 export type StoryType = {
   _id: string;
@@ -46,7 +50,7 @@ export type StoryType = {
     title: string;
     _id: string;
     writer: string;
-    terbit: string;
+    terbit: Date;
     sinopsis: string;
     imgBooks: {
       public_id: string;
@@ -56,6 +60,16 @@ export type StoryType = {
   like_str: any;
   balasanSum: any;
 };
+
+const report = [
+  "Konten Tidak Pantas",
+  "Penggunaan Bahasa Kasar atau Tidak Sopan",
+  "Informasi Palsu atau Menyesatkan",
+  "Spam atau Promosi",
+  "Trolling atau Provokasi",
+  "Out of Topic",
+  "Penyalahgunaan Sistem Ulasan",
+];
 
 export const CardContent = ({
   story,
@@ -77,6 +91,7 @@ export const CardContent = ({
   const { data: session }: any = useSession();
   const [handleUpdate, setHandleUpdate] = useState(false);
   const { handleRouter } = useContext(GlobalState);
+  const { makeReport } = useContext(ReportContext);
   const {
     deletedStory,
     loadingDeleteStory,
@@ -119,9 +134,11 @@ export const CardContent = ({
     }
   }, [story?.ception, handleUpdate]);
 
+  const [dataReport, setDataReport] = useState<any>(null);
   const isMobile = /Mobi|Android/i.test(navigator.userAgent);
   const check = typeof story?.ception === "string" && story?.ception.includes("||");
   const paragraphs = story?.ception && story?.ception.split("\n");
+
   return (
     <div className={`flex items-start justify-start border-b p-5 gap-3 pr-3`} id="main-container">
       <button
@@ -171,33 +188,77 @@ export const CardContent = ({
           </div>
 
           <div className="md:pr-5" id="container-button">
-            {session?.user?._id === story?.user_id && (
-              <DropDown label={story?._id}>
-                <div className="flex flex-col w-full">
-                  <button
-                    aria-label="deleteStory"
-                    className="active:text-gray-400 flex items-center justify-center w-auto whitespace-nowrap"
-                    onClick={() => {
-                      deletedStory(story?._id, story?.book_id, urlData);
-                    }}
-                  >
-                    {loadingDeleteStory ? (
-                      <span className="loading loading-dots loading-md" />
-                    ) : (
-                      "Hapus cerita"
-                    )}
-                  </button>
-                  <button
-                    aria-label="updateStory"
-                    className="active:text-gray-400 text-start w-auto whitespace-nowrap"
-                    type="button"
-                    onClick={() => setHandleUpdate(!handleUpdate)}
-                  >
-                    Edit Cerita
-                  </button>
-                </div>
-              </DropDown>
-            )}
+            <DropDown label={story?._id}>
+              <div className="flex flex-col w-full">
+                <button
+                  aria-label={`${story?._id}buttonReport`}
+                  className="text-start"
+                  onClick={() =>
+                    setDataReport({
+                      story_id: story?._id,
+                      user_id: story?.user_id,
+                    })
+                  }
+                >
+                  Report
+                </button>
+                {dataReport && (
+                  <ModalBox dataModal={dataReport} setDataModal={setDataReport}>
+                    <div className="flex flex-col justify-start">
+                      {report.map((laporan: string, index: number) => (
+                        <button
+                          key={index}
+                          aria-label={`${index}buttonLaporan`}
+                          className="active:text-slate-300 text-base text-start"
+                          onClick={() => {
+                            makeReport(
+                              {
+                                user_id: session?.user?._id,
+                                message: pesanVar.storyCard({
+                                  username: story?.user?.username,
+                                  story: story?.ception,
+                                  link_id: story?.type === "balasan" ? story?.book_id : story?._id,
+                                }),
+                                from: "story",
+                                report: laporan,
+                              },
+                              setDataReport,
+                            );
+                          }}
+                        >
+                          {laporan}
+                        </button>
+                      ))}
+                    </div>
+                  </ModalBox>
+                )}
+                {session?.user?._id === story?.user_id && (
+                  <>
+                    <button
+                      aria-label="deleteStory"
+                      className="active:text-gray-400 flex items-center justify-center w-auto whitespace-nowrap"
+                      onClick={() => {
+                        deletedStory(story?._id, story?.book_id, urlData);
+                      }}
+                    >
+                      {loadingDeleteStory ? (
+                        <span className="loading loading-dots loading-md" />
+                      ) : (
+                        "Hapus cerita"
+                      )}
+                    </button>
+                    <button
+                      aria-label="updateStory"
+                      className="active:text-gray-400 text-start w-auto whitespace-nowrap"
+                      type="button"
+                      onClick={() => setHandleUpdate(!handleUpdate)}
+                    >
+                      Edit Cerita
+                    </button>
+                  </>
+                )}
+              </div>
+            </DropDown>
           </div>
         </div>
 
@@ -308,7 +369,7 @@ export const CardContent = ({
                   <IconWriter size={20} /> Penulis: {story?.book?.writer}
                 </p>
                 <p className="text-xs text-gray-500 md:flex hidden items-center">
-                  {story?.book?.terbit}
+                  {story?.book?.terbit && parseDate(story?.book?.terbit)}
                 </p>
               </div>
             </div>
@@ -317,7 +378,7 @@ export const CardContent = ({
                 Penulis: {story?.book?.writer}
               </p>
               <p className="text-sm text-gray-500 flex gap-2 items-center">
-                Terbit : {story?.book?.terbit}
+                Terbit : {story?.book?.terbit && parseDate(story?.book?.terbit)}
               </p>
             </DetailStory>
           </div>
@@ -342,7 +403,7 @@ export const CardContent = ({
               >
                 <FaRegComments size={25} />
               </Link>
-              <p className="text-center text-xs text-gray-400">
+              <p className="text-center text-sm text-gray-400">
                 {story?.balasanSum?.length > 0 && story?.balasanSum?.length}
               </p>
             </div>
@@ -388,11 +449,10 @@ const LikeComponent = ({
 
   return (
     <>
-      {liked ? (
-        <button
-          aria-label="dislikeStory"
-          className="active:scale-125 flex gap-2 items-center"
-          onClick={() => {
+      <button
+        className={`flex items-center size-[50px] relative gap-1`}
+        onClick={() => {
+          if (liked) {
             setLikeContent({
               ...likeContent,
               user_id: "hhgjhjhgj",
@@ -408,16 +468,7 @@ const LikeComponent = ({
               urlData,
               chapterBook,
             );
-          }}
-        >
-          <BiSolidLike className="text-blue-500" size={25} />
-          <p className="text-center text-xs text-gray-400">{contentLike?.length}</p>
-        </button>
-      ) : (
-        <button
-          aria-label="likeStory"
-          className="flex items-center gap-2"
-          onClick={() => {
+          } else {
             setLikeContent({
               ...likeContent,
               user_id: session?.user?._id,
@@ -433,14 +484,40 @@ const LikeComponent = ({
               urlData,
               chapterBook,
             );
-          }}
-        >
-          <BiLike size={25} />
-          <p className="text-center text-xs text-gray-400">
-            {contentLike?.length > 0 ? contentLike?.length : ""}
-          </p>
-        </button>
-      )}
+          }
+        }}
+      >
+        <div className={`${styles.checkmark} flex items-center justify-center size-[30px]`}>
+          <BiLike
+            className={`${styles.outline} text-black absolute`}
+            size={25}
+            style={{ display: liked ? "none" : "block" }}
+          />
+          <BiSolidLike
+            className={` text-blue-500 absolute ${styles.filled} `}
+            size={25}
+            style={{ display: liked ? "block" : "none" }}
+          />
+
+          <svg
+            className={`${styles.celebrate}`}
+            height="100"
+            style={{ display: liked ? "block" : "none" }}
+            width="100"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon className={`stroke-[#3b82f6] fill-[#3b82f6]`} points="10,10 20,20" />
+            <polygon className={`stroke-[#3b82f6] fill-[#3b82f6]`} points="10,50 20,50" />
+            <polygon className={`stroke-[#3b82f6] fill-[#3b82f6]`} points="20,80 30,70" />
+            <polygon className={`stroke-[#3b82f6] fill-[#3b82f6]`} points="90,10 80,20" />
+            <polygon className={`stroke-[#3b82f6] fill-[#3b82f6]`} points="90,50 80,50" />
+            <polygon className={`stroke-[#3b82f6] fill-[#3b82f6]`} points="80,80 70,70" />
+          </svg>
+        </div>
+        <p className="text-center text-sm text-gray-400">
+          {contentLike?.length > 0 && contentLike?.length}
+        </p>
+      </button>
     </>
   );
 };

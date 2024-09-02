@@ -9,6 +9,7 @@ import Link from "next/link";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useContext } from "react";
 import { ReportContext } from "@/lib/context/reportcontext";
+import ReadMoreLess from "@/components/elements/readmoreless";
 
 export default function Inbox() {
   const [buttonChapter, setButtonChapter] = React.useState(true);
@@ -92,10 +93,28 @@ const ReportComponent = () => {
         <tbody>
           {dataReport &&
             dataReport?.map((data: any, index: number) => {
+              const myMessage = data.from === "story" ? data.message.split("##") : data.message;
               return (
                 <tr key={data.cerita}>
                   <th>{index + 1}</th>
-                  <td>{parse(data?.message)}</td>
+                  <td>
+                    {data.from === "story" ? (
+                      <div>
+                        <p>{parse(myMessage[0])}</p>
+                        <div className="max-w-[400px]">
+                          <ReadMoreLess
+                            maxLength={100}
+                            mobile={90}
+                            other={true}
+                            text={myMessage[1]}
+                            textFont="text-base"
+                          />
+                        </div>
+                      </div>
+                    ) : (
+                      parse(data.message)
+                    )}
+                  </td>
                   <td>{data.report}</td>
                   <td>
                     <div className="flex items-center gap-5">

@@ -41,4 +41,32 @@ export const pesanVar = {
         </div>
         `;
   },
+  storyCard: ({
+    username,
+    story,
+    link_id,
+  }: {
+    username: string;
+    story: string;
+    link_id: string;
+  }) => {
+    let result = `
+        <div style="display: flex; flex-direction: column; justif-content: start;">
+            <a
+                href="/user/@${username}"
+                target="_blank"
+                style="height: max-content; width: 88px; text-decoration: none;  color: blue; font-weight: 600;"
+            >${username}</a>
+            <a
+                href="/content?id=${link_id}"
+                target="_blank"
+                style="height: max-content; width: 88px; text-decoration: none;  color: blue;"
+            >See More</a>
+        </div>
+         ##
+        ${story}
+    `;
+
+    return result;
+  },
 };

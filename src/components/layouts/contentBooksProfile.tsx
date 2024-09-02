@@ -4,6 +4,7 @@ import Link from "next/link";
 import ReadMoreLess from "../elements/readmoreless";
 import Img from "../fragments/image";
 import { GlobalState } from "@/lib/context/globalstate";
+import { parseDate } from "@/lib/utils/parseTime";
 
 type BookType = {
   _id: string;
@@ -11,7 +12,7 @@ type BookType = {
   user_id: string;
   writer: string;
   sinopsis: string;
-  terbit: string;
+  terbit: Date;
   ISBN: number;
   genre: string[];
   jenis: string;
@@ -74,7 +75,7 @@ export function ProfilBooksDekstop({
                   writer
                 )}
               </BarisTable>
-              <BarisTable name="Terbit">{terbit}</BarisTable>
+              <BarisTable name="Terbit">{parseDate(terbit)}</BarisTable>
               {ISBN !== 0 && <BarisTable name="ISBN">{ISBN}</BarisTable>}
               <BarisTable name="Genre">
                 {genre &&
@@ -150,7 +151,7 @@ export const BooksProfileMobile = ({
           <tr>
             <td className="text-start align-top">Terbit</td>
             <td className="px-1 align-top">:</td>
-            <td>{terbit}</td>
+            <td>{parseDate(terbit)}</td>
           </tr>
           <tr>
             <td className="text-start align-top">Genre</td>
