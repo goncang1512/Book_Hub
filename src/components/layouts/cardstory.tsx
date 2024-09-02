@@ -448,7 +448,7 @@ const LikeComponent = ({
   }, [contentLike]);
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-1">
       <button
         className={`flex items-center relative gap-1`}
         onClick={() => {
