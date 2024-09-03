@@ -50,6 +50,7 @@ export default function Balasan() {
                 return (
                   <CardContent
                     key={cerita._id}
+                    classStory="border-b"
                     comment={true}
                     dataFollow={dataFollow}
                     seeBook={true}
@@ -70,6 +71,9 @@ export default function Balasan() {
             seeBook={false}
             url={`/api/story/limit/${id && id}`}
           />
+          <div className="py-2 flex items-center justify-center">
+            <p className="text-xs text-[#c7c7c7]">© 2024 BookHub from Mogo Studio</p>
+          </div>
         </div>
       )}
       <div />

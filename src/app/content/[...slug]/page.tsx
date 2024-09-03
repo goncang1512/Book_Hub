@@ -38,6 +38,9 @@ export default function Content({ params }: { params: { slug: string[] } }) {
           seeBook={false}
           url={`/api/story/limit/${params.slug[0]}`}
         />
+        <div className="py-2 flex items-center justify-center">
+          <p className="text-xs text-[#c7c7c7]">© 2024 BookHub from Mogo Studio</p>
+        </div>
       </div>
 
       {/* Card BOOK */}

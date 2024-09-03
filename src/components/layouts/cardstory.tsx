@@ -79,6 +79,7 @@ export const CardContent = ({
   statusCard,
   chapterBook,
   urlData,
+  classStory,
 }: {
   story: StoryType;
   seeBook: boolean;
@@ -87,6 +88,7 @@ export const CardContent = ({
   urlData: string;
   statusCard?: string;
   chapterBook?: string | null;
+  classStory?: string;
 }) => {
   const { data: session }: any = useSession();
   const [handleUpdate, setHandleUpdate] = useState(false);
@@ -140,7 +142,10 @@ export const CardContent = ({
   const paragraphs = story?.ception && story?.ception.split("\n");
 
   return (
-    <div className={`flex items-start justify-start border-b p-5 gap-3 pr-3`} id="main-container">
+    <div
+      className={`${classStory} flex items-start justify-start p-5 gap-3 pr-3`}
+      id="main-container"
+    >
       <button
         aria-label="handlerouterUser"
         className="relative w-max flex flex-col justify-center items-center rounded-full cursor-pointer"

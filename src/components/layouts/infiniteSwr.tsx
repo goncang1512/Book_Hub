@@ -24,10 +24,11 @@ export default function InfiniteSwrStory({
     <div className="w-full">
       {dataStory &&
         dataStory?.map((result: any) => {
-          return result?.data?.map((cerita: any) => {
+          return result?.data?.map((cerita: any, index: number) => {
             return (
               <CardContent
                 key={cerita._id}
+                classStory={`${dataStory.length === 1 && index === 0 ? "border-none" : "border-t"}`}
                 dataFollow={dataFollow}
                 seeBook={seeBook}
                 story={cerita}

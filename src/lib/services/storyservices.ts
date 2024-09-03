@@ -11,7 +11,7 @@ export const storyServices = {
   },
   delete: async (id: string) => {
     const story = await StoryModels.findOne({ _id: id });
-    await StoryModels.deleteMany({ book_id: id });
+    await StoryModels.deleteMany({ book_id: id, type: "balasan" });
     await LikeModels.deleteMany({ story_id: id });
     await StoryModels.findOneAndDelete({ _id: id });
     return story;

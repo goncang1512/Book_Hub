@@ -10,6 +10,7 @@ import ReadMoreLess from "@/components/elements/readmoreless";
 import { DropDownKlik } from "@/components/layouts/hovercard";
 import { CanvasContext } from "@/lib/context/canvascontext";
 import Img from "@/components/fragments/image";
+import { parseDate } from "@/lib/utils/parseTime";
 
 export default function Read({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -83,7 +84,7 @@ export default function Read({ params }: { params: { id: string } }) {
                     <tr>
                       <th className="text-start align-top">Terbit</th>
                       <td className="px-1 align-top">:</td>
-                      <td>{detailChapter?.terbit}</td>
+                      <td>{detailChapter?.terbit && parseDate(detailChapter?.terbit)}</td>
                     </tr>
                     <tr>
                       <th className="text-start align-top">Genre</th>

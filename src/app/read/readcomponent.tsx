@@ -134,6 +134,9 @@ const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status 
             url={`/api/story/limit/${chapter}`}
           />
         </div>
+        <div className="py-2 flex items-center justify-center">
+          <p className="text-xs text-[#c7c7c7]">© 2024 BookHub from Mogo Studio</p>
+        </div>
       </div>
     </div>
   );
