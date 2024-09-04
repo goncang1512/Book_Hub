@@ -25,7 +25,7 @@ export default function Read({ params }: { params: { id: string } }) {
   });
 
   useEffect(() => {
-    if (detailChapter?.jenis === "Cerpen") {
+    if (detailChapter?.jenis === "Cerpen" && session?.user?._id !== detailChapter?.user_id) {
       router.back();
     }
   }, [detailChapter?.jenis]);
@@ -47,13 +47,18 @@ export default function Read({ params }: { params: { id: string } }) {
         }`}
       >
         {/* Add Chapter */}
-        {session?.user?._id === detailChapter?.user_id && (
-          <div className="fixed bottom-3 md:right-[31.5%] right-[2%] md:mb-0 mb-11 border rounded-full p-2 bg-green-500 z-30">
-            <Link href={`/profil/author/texteditor/${detailChapter?._id}`}>
-              <BiBookAdd size={30} />
-            </Link>
-          </div>
-        )}
+        {session?.user?._id === detailChapter?.user_id &&
+          detailChapter?.jenis === "Cerpen" &&
+          detailChapter?.canvas?.length < 1 &&
+          draftChapter?.length < 1 &&
+          submitChapter?.length < 1 && (
+            <div className="fixed bottom-3 md:right-[31.5%] right-[2%] md:mb-0 mb-11 border rounded-full p-2 bg-green-500 z-30">
+              <Link href={`/profil/author/texteditor/${detailChapter?._id}`}>
+                <BiBookAdd size={30} />
+              </Link>
+            </div>
+          )}
+
         {/* Akhir Add Chapter */}
 
         {detailChapterLoading ? (

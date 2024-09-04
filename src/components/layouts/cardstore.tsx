@@ -230,48 +230,15 @@ function CardBook({
                       >
                         Edit Buku
                       </Link>
-                      {jenis === "Cerpen" &&
-                        statusBook &&
-                        statusBook
-                          .filter((item: any) => item.book_id === _id)
-                          .map((item: any) => {
-                            if (item.status === "Rilis") {
-                              return (
-                                <Link
-                                  key={item._id}
-                                  aria-label={`statusRilis${_id}`}
-                                  className="active:text-gray-400 w-auto whitespace-nowrap"
-                                  href={`/profil/author/texteditor?id=${item.book_id}&c=${item._id}`}
-                                >
-                                  Edit Cerpen
-                                </Link>
-                              );
-                            } else if (item.status === "Draft") {
-                              return (
-                                <Link
-                                  key={item._id}
-                                  aria-label={`statusDraft${_id}`}
-                                  className="active:text-gray-400 w-auto whitespace-nowrap"
-                                  href={`/profil/author/texteditor?id=${item.book_id}&c=${item._id}`}
-                                >
-                                  Edit Draft
-                                </Link>
-                              );
-                            } else if (item.status === "nothing") {
-                              return (
-                                <Link
-                                  key={item.book_id}
-                                  aria-label={`statusSubmitted${_id}`}
-                                  className="active:text-gray-400 w-auto whitespace-nowrap"
-                                  href={`/profil/author/texteditor/${item.book_id}`}
-                                >
-                                  Tambah Cerpen
-                                </Link>
-                              );
-                            } else {
-                              return null;
-                            }
-                          })}
+                      {jenis === "Cerpen" && (
+                        <Link
+                          aria-label={`readCerpen${_id}`}
+                          className="active:text-gray-400 w-auto whitespace-nowrap"
+                          href={`/read/${_id}`}
+                        >
+                          See Book
+                        </Link>
+                      )}
                     </div>
                   )}
                 </div>

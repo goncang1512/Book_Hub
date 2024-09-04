@@ -40,7 +40,7 @@ export function ProfilBooksDekstop({
     <div className="bg-white w-[32.1%] h-screen fixed top-0 right-0 md:flex hidden flex-col p-5 border-l">
       <div className="h-screen overflow-auto scroll-smooth">
         <div className="w-full flex justify-center">
-          {jenis !== "Review" ? (
+          {jenis !== "Review" && statusBook[0]._id ? (
             <Link
               href={
                 jenis === "Cerpen" ? `/read?id=${_id}&chapter=${statusBook[0]._id}` : `/read/${_id}`
@@ -107,7 +107,7 @@ export const BooksProfileMobile = ({
 
   return (
     <div className="md:hidden flex w-full bg-[#27AB8B] border-none gap-2 px-5 py-2 ">
-      {jenis !== "Review" ? (
+      {jenis !== "Review" && statusBook[0]._id ? (
         <Link
           href={
             jenis === "Cerpen" ? `/read?id=${_id}&chapter=${statusBook[0]._id}` : `/read/${_id}`
