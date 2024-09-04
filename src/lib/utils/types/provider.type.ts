@@ -177,6 +177,15 @@ export interface CanvasProvider {
   setChapterUpData: React.Dispatch<
     React.SetStateAction<{ judul: string; chapter: string; status: string }>
   >;
+  uploadAudio: (
+    canvas_id: string,
+    dataAudio: { audio: string; size: number; type: string },
+    setAudioSrc: React.Dispatch<React.SetStateAction<any>>,
+    setDataAudio: React.Dispatch<
+      React.SetStateAction<{ type: string; size: number; audio: string }>
+    >,
+    fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
+  ) => void;
   chapterData: {
     judul: string;
     chapter: string;
@@ -186,6 +195,7 @@ export interface CanvasProvider {
   msgChapter: string;
   ldlDeleteCanvas: boolean;
   chapterUpData: { judul: string; chapter: string; status: string };
+  ldlAudio: boolean;
 }
 
 export interface BookProvider {

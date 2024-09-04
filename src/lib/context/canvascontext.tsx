@@ -125,6 +125,35 @@ export default function CanvasContextProvider({ children }: { children: React.Re
     }
   };
 
+  const [ldlAudio, setLdlAudio] = useState(false);
+  const uploadAudio = async (
+    canvas_id: string,
+    dataAudio: { audio: string; size: number; type: string },
+    setAudioSrc: React.Dispatch<React.SetStateAction<any>>,
+    setDataAudio: React.Dispatch<
+      React.SetStateAction<{ type: string; size: number; audio: string }>
+    >,
+    fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
+  ) => {
+    try {
+      const res = await instance.post("/api/read/audio", { ...dataAudio, canvas_id });
+
+      if (res.data.status) {
+        setAudioSrc(null);
+        setDataAudio({
+          type: "",
+          size: 0,
+          audio: "",
+        });
+        if (fileInputRef?.current) {
+          fileInputRef.current.value = "";
+        }
+      }
+    } catch (error) {
+      logger.error("Failed upload audio cerpen");
+    }
+  };
+
   return (
     <CanvasContext.Provider
       value={{
@@ -138,6 +167,8 @@ export default function CanvasContextProvider({ children }: { children: React.Re
         deletedCanvas,
         chapterUpData,
         setChapterUpData,
+        uploadAudio,
+        ldlAudio,
       }}
     >
       {children}

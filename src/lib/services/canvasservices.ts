@@ -10,4 +10,7 @@ export const canvasSrv = {
   getByIdCanvas: async (canvas_id: string) => {
     return await CanvasModels.findOne({ _id: canvas_id });
   },
+  addAudio: async (canvas_id: string, audio: { public_id: string; audioUrl: string }) => {
+    return await CanvasModels.findOneAndUpdate({ _id: canvas_id }, { $set: { audio: audio } });
+  },
 };

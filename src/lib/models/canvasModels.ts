@@ -24,6 +24,10 @@ const CanvasModel = new Schema(
     statUpdate: {
       type: String,
     },
+    audio: {
+      public_id: String,
+      audioUrl: String,
+    },
     status: {
       type: String,
     },

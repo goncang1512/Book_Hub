@@ -1,6 +1,8 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { BiBookAdd } from "react-icons/bi";
+import { MdOutlineAudiotrack, MdOutlineFileUpload } from "react-icons/md";
+import { FaRegTrashAlt } from "react-icons/fa";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -15,6 +17,7 @@ import { parseDate } from "@/lib/utils/parseTime";
 export default function Read({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { data: session }: any = useSession();
+  const { uploadAudio, ldlAudio } = useContext(CanvasContext);
 
   const { detailChapter, draftChapter, submitChapter, detailChapterLoading } =
     useChapter.detailBook(params.id);
@@ -39,6 +42,38 @@ export default function Read({ params }: { params: { id: string } }) {
 
   const sortSubmit = reversedChapters ? submitChapter : submitChapter?.slice().reverse();
 
+  const [audioSrc, setAudioSrc] = useState(null);
+  const [dataAudio, setDataAudio] = useState<{
+    size: number;
+    type: string;
+    audio: string;
+  }>({
+    size: 0,
+    type: "",
+    audio: "",
+  });
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        setAudioSrc(e.target.result);
+
+        const dataAudio = {
+          size: file.size,
+          type: file.type,
+          audio: reader.result as string,
+        };
+        setDataAudio(dataAudio);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  console.log(detailChapter?.canvas, draftChapter, submitChapter);
+
   return (
     <section className="flex">
       <div
@@ -47,17 +82,88 @@ export default function Read({ params }: { params: { id: string } }) {
         }`}
       >
         {/* Add Chapter */}
-        {session?.user?._id === detailChapter?.user_id &&
-          detailChapter?.jenis === "Cerpen" &&
-          detailChapter?.canvas?.length < 1 &&
-          draftChapter?.length < 1 &&
-          submitChapter?.length < 1 && (
-            <div className="fixed bottom-3 md:right-[31.5%] right-[2%] md:mb-0 mb-11 border rounded-full p-2 bg-green-500 z-30">
-              <Link href={`/profil/author/texteditor/${detailChapter?._id}`}>
-                <BiBookAdd size={30} />
-              </Link>
-            </div>
-          )}
+        <div className="fixed bottom-3 md:right-[31.5%] right-[2%] md:mb-0 mb-11 flex flex-col gap-4">
+          {session?.user?._id === detailChapter?.user_id &&
+            detailChapter?.jenis === "Cerpen" &&
+            detailChapter?.canvas?.length < 1 &&
+            draftChapter?.length < 1 &&
+            submitChapter?.length < 1 && (
+              <div className="border rounded-full p-2 bg-green-500 z-30">
+                <Link
+                  className="flex items-center justify-center"
+                  href={`/profil/author/texteditor/${detailChapter?._id}`}
+                >
+                  <BiBookAdd size={30} />
+                </Link>
+              </div>
+            )}
+
+          {session?.user?._id === detailChapter?.user_id &&
+            detailChapter?.jenis === "Cerpen" &&
+            (detailChapter?.canvas.length >= 1 ||
+              draftChapter.length >= 1 ||
+              submitChapter.length >= 1) && (
+              <div className="flex items-center gap-3">
+                {!audioSrc ? (
+                  <div className="border rounded-full p-2 bg-green-500 z-30">
+                    <label className="cursor-pointer" htmlFor="file-upload">
+                      <MdOutlineAudiotrack size={30} />
+                    </label>
+                    <input
+                      ref={fileInputRef}
+                      accept="audio/*"
+                      className="hidden"
+                      id="file-upload"
+                      type="file"
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                ) : (
+                  <button
+                    className="flex items-center justify-center border rounded-full p-2 bg-blue-400 z-30"
+                    disabled={ldlAudio}
+                    onClick={() => {
+                      uploadAudio(
+                        detailChapter?.canvas[0]?._id ||
+                          draftChapter[0]._id ||
+                          submitChapter[0]._id,
+                        dataAudio,
+                        setAudioSrc,
+                        setDataAudio,
+                        fileInputRef,
+                      );
+                    }}
+                  >
+                    {ldlAudio ? (
+                      <span className="loading loading-spinner loading-md" />
+                    ) : (
+                      <MdOutlineFileUpload size={30} />
+                    )}
+                  </button>
+                )}
+                {audioSrc && (
+                  <>
+                    <audio controls className="max-md:w-48">
+                      <source src={audioSrc} type="audio/mpeg" />
+                      <track kind="metadata" srcLang="en" />
+                      Your browser does not support the audio element.
+                    </audio>
+                    <button
+                      className="flex border rounded-full p-2 bg-red-500 z-30"
+                      onClick={() => {
+                        setAudioSrc(null);
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
+                    >
+                      <FaRegTrashAlt size={30} />
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+        </div>
 
         {/* Akhir Add Chapter */}
 

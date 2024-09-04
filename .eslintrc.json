@@ -41,6 +41,7 @@
     "no-unused-vars": "warn",
     "unused-imports/no-unused-vars": "off",
     "unused-imports/no-unused-imports": "off",
+    "jsx-a11y/media-has-caption": "off",
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {

@@ -59,3 +59,16 @@ export const updateCover = async (
     return logger.info("Failed upload img");
   }
 };
+
+export const uploadAudio = async (audio: any) => {
+  try {
+    const result = await cloudinary.uploader.upload(`${audio.audio}`, {
+      resource_type: "video", // Specify resource_type as "video" for audio and video files
+      folder: "audio",
+    });
+
+    return result;
+  } catch (error) {
+    return logger.info("Failed upload img");
+  }
+};
