@@ -25,6 +25,24 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
     });
   }, [nilai]);
 
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    const handleEnded = () => {
+      setIsPlaying(false);
+    };
+
+    if (audio) {
+      audio.addEventListener("ended", handleEnded);
+    }
+
+    return () => {
+      if (audio) {
+        audio.removeEventListener("ended", handleEnded);
+      }
+    };
+  }, []);
+
   const handlePlayPause = () => {
     if (isPlaying) {
       audioRef.current?.pause();

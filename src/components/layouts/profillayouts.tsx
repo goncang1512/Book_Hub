@@ -20,8 +20,8 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
   const { seeAbout, seeFriends, seeProduct } = seeProfilComponent;
 
   const buttonStyle = `${
-    seeAbout && "after:w-[48px] after:-translate-x-[112px]"
-  } ${seeFriends && "after:w-[56px] after:-translate-x-[48px]"} ${seeProduct && "after:w-[38px]"}`;
+    seeAbout && "after:w-[48px] after:-translate-x-[120px]"
+  } ${seeFriends && "after:w-[58px] after:-translate-x-[56px]"} ${seeProduct && "after:w-[47px]"}`;
 
   return (
     <div className="flex flex-col items-center w-full relative z-[20]">
