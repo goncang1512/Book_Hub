@@ -17,7 +17,7 @@ import { parseDate } from "@/lib/utils/parseTime";
 export default function Read({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { data: session }: any = useSession();
-  const { uploadAudio, ldlAudio } = useContext(CanvasContext);
+  const { uploadAudio, ldlAudio, updateAudio } = useContext(CanvasContext);
 
   const { detailChapter, draftChapter, submitChapter, detailChapterLoading } =
     useChapter.detailBook(params.id);
@@ -72,8 +72,6 @@ export default function Read({ params }: { params: { id: string } }) {
     }
   };
 
-  console.log(detailChapter?.canvas, draftChapter, submitChapter);
-
   return (
     <section className="flex">
       <div
@@ -101,8 +99,8 @@ export default function Read({ params }: { params: { id: string } }) {
           {session?.user?._id === detailChapter?.user_id &&
             detailChapter?.jenis === "Cerpen" &&
             (detailChapter?.canvas.length >= 1 ||
-              draftChapter.length >= 1 ||
-              submitChapter.length >= 1) && (
+              draftChapter?.length >= 1 ||
+              submitChapter?.length >= 1) && (
               <div className="flex items-center gap-3">
                 {!audioSrc ? (
                   <div className="border rounded-full p-2 bg-green-500 z-30">
@@ -123,21 +121,35 @@ export default function Read({ params }: { params: { id: string } }) {
                     className="flex items-center justify-center border rounded-full p-2 bg-blue-400 z-30"
                     disabled={ldlAudio}
                     onClick={() => {
-                      uploadAudio(
-                        detailChapter?.canvas[0]?._id ||
-                          draftChapter[0]._id ||
-                          submitChapter[0]._id,
-                        dataAudio,
-                        setAudioSrc,
-                        setDataAudio,
-                        fileInputRef,
-                      );
+                      detailChapter?.canvas[0]?.audio ||
+                      draftChapter[0]?.audio ||
+                      submitChapter[0]?.audio
+                        ? updateAudio(
+                            detailChapter?.canvas[0]?._id ||
+                              draftChapter[0]?._id ||
+                              submitChapter[0]?._id,
+                            dataAudio,
+                            setAudioSrc,
+                            setDataAudio,
+                            fileInputRef,
+                          )
+                        : uploadAudio(
+                            detailChapter?.canvas[0]?._id ||
+                              draftChapter[0]?._id ||
+                              submitChapter[0]?._id,
+                            dataAudio,
+                            setAudioSrc,
+                            setDataAudio,
+                            fileInputRef,
+                          );
                     }}
                   >
                     {ldlAudio ? (
                       <span className="loading loading-spinner loading-md" />
                     ) : (
-                      <MdOutlineFileUpload size={30} />
+                      <>
+                        <MdOutlineFileUpload size={30} />
+                      </>
                     )}
                   </button>
                 )}

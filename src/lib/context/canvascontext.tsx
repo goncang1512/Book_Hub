@@ -136,9 +136,11 @@ export default function CanvasContextProvider({ children }: { children: React.Re
     fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
   ) => {
     try {
+      setLdlAudio(true);
       const res = await instance.post("/api/read/audio", { ...dataAudio, canvas_id });
 
       if (res.data.status) {
+        setLdlAudio(false);
         setAudioSrc(null);
         setDataAudio({
           type: "",
@@ -150,6 +152,38 @@ export default function CanvasContextProvider({ children }: { children: React.Re
         }
       }
     } catch (error) {
+      setLdlAudio(false);
+      logger.error("Failed upload audio cerpen");
+    }
+  };
+
+  const updateAudio = async (
+    canvas_id: string,
+    dataAudio: { audio: string; size: number; type: string },
+    setAudioSrc: React.Dispatch<React.SetStateAction<any>>,
+    setDataAudio: React.Dispatch<
+      React.SetStateAction<{ type: string; size: number; audio: string }>
+    >,
+    fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
+  ) => {
+    try {
+      setLdlAudio(true);
+      const res = await instance.patch("/api/read/audio", { canvas_id, audio: dataAudio });
+
+      if (res.data.status) {
+        setLdlAudio(false);
+        setAudioSrc(null);
+        setDataAudio({
+          type: "",
+          size: 0,
+          audio: "",
+        });
+        if (fileInputRef?.current) {
+          fileInputRef.current.value = "";
+        }
+      }
+    } catch (error) {
+      setLdlAudio(false);
       logger.error("Failed upload audio cerpen");
     }
   };
@@ -168,6 +202,7 @@ export default function CanvasContextProvider({ children }: { children: React.Re
         chapterUpData,
         setChapterUpData,
         uploadAudio,
+        updateAudio,
         ldlAudio,
       }}
     >

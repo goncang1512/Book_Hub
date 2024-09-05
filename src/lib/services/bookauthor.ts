@@ -1,3 +1,4 @@
+import { deletedAudio } from "../middleware/uploadImg";
 import BooksModels from "../models/booksModels";
 import CanvasModels from "../models/canvasModels";
 
@@ -53,6 +54,9 @@ export const bookAutServices = {
     );
   },
   deleted: async (canvas_id: string) => {
+    const canvas = await CanvasModels.findOne({ _id: canvas_id });
+    await deletedAudio(canvas.audio.public_id);
+
     return await CanvasModels.findOneAndDelete({ _id: canvas_id });
   },
   updateStatus: async (chapter_id: string, status: string) => {

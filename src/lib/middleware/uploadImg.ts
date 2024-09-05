@@ -72,3 +72,12 @@ export const uploadAudio = async (audio: any) => {
     return logger.info("Failed upload img");
   }
 };
+
+export const deletedAudio = async (audio_id: string) => {
+  try {
+    const result = await cloudinary.uploader.destroy(audio_id, { resource_type: "video" });
+    logger.info(`Berhasil hapus img lama: ${result}`);
+  } catch (error) {
+    return logger.error("Failed delted audio cerpen");
+  }
+};

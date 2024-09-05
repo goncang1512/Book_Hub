@@ -186,6 +186,15 @@ export interface CanvasProvider {
     >,
     fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
   ) => void;
+  updateAudio: (
+    canvas_id: string,
+    dataAudio: { audio: string; size: number; type: string },
+    setAudioSrc: React.Dispatch<React.SetStateAction<any>>,
+    setDataAudio: React.Dispatch<
+      React.SetStateAction<{ type: string; size: number; audio: string }>
+    >,
+    fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
+  ) => void;
   chapterData: {
     judul: string;
     chapter: string;

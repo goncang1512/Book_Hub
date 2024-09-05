@@ -6,13 +6,14 @@ import { getSome, useUpdateSeconds } from "@/lib/utils/udpateseconds";
 import { useChapter } from "@/lib/utils/useSwr";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import parse from "html-react-parser";
 import Link from "next/link";
 import styles from "@/lib/style.module.css";
 import { InputStory } from "@/components/layouts/inputstory";
 import InfiniteSwrStory from "@/components/layouts/infiniteSwr";
+import AudioPlayer from "@/components/fragments/playaudio";
 
 interface ReadComponentProps {
   book_id: string;
@@ -72,9 +73,14 @@ const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status 
     }
   }, [statusSession, misiUser]);
 
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
   return (
     <div className="flex">
-      <div className={`relative flex flex-col w-full md:mr-[38%] mr-0 border-r h-full`}>
+      <div
+        ref={containerRef}
+        className={`relative flex flex-col w-full md:mr-[38%] mr-0 border-r h-full`}
+      >
         <div className="flex items-center justify-between border-b py-5 pl-2 gap-5 z-20 fixed top-0 md:left-[288px] left-0 bg-white md:w-[50.2%] w-full">
           <div className="flex items-center gap-3">
             <button onClick={() => router.back()}>
@@ -86,7 +92,7 @@ const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status 
             Chapter <span className="font-bold">{bacaBuku?.chapter}</span>
           </p>
         </div>
-
+        {bacaBuku?.audio && <AudioPlayer audioSrc={bacaBuku?.audio?.audioUrl} />}
         <div className="p-3 pt-20">
           {bacaBukuLoading ? (
             <div className="h-screen w-full flex items-center justify-center">
