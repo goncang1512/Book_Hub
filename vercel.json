@@ -4,5 +4,10 @@
       "path": "/api/cron",
       "schedule": "0 17 * * *"
     }
-  ]
+  ],
+  "functions": {
+    "api/read/audio": {
+      "maxLambdaSize": "10mb"
+    }
+  }
 }
