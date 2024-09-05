@@ -95,12 +95,12 @@ export default function SideBar({
               href={"/profil/notifikasi"}
             >
               <span
-                className={`size-2 bg-red-500 absolute rounded-full top-[5%] right-[48.5%] ${
+                className={`size-2 bg-red-500 absolute rounded-full top-[5%] right-[40%] ${
                   notifUser?.length > 0 ? "flex" : "hidden"
                 } `}
               />
               <IoNotificationsOutline size={19} />
-              Notifikasi
+              Notification
             </Link>
 
             <button
@@ -240,7 +240,7 @@ export default function SideBar({
                   href={`/profil`}
                 >
                   <LuUser size={20} />
-                  Profil
+                  Profile
                 </Link>
                 <button
                   aria-label="logoutButton"

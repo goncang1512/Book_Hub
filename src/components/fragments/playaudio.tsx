@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { useResponsiveValue } from "@/lib/utils/extractText";
 import React, { useEffect, useRef, useState, MouseEvent, TouchEvent } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
+import { useResponsiveValue } from "@/lib/utils/extractText";
 
 export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -10,6 +10,7 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   const [isDragging, setIsDragging] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [startDragTime, setStartDragTime] = useState<number>(0);
 
   const nilai = useResponsiveValue({
     widthBreakpoint: 768,
@@ -34,7 +35,7 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   };
 
   const handleMouseDown = (e: MouseEvent<HTMLDivElement>) => {
-    e.preventDefault(); // Mencegah aksi default saat mouse down
+    e.preventDefault();
     setIsDragging(true);
     setOffset({
       x: e.clientX - position.x,
@@ -44,16 +45,9 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
     if (isDragging) {
-      e.preventDefault(); // Mencegah aksi default saat mouse move
-      const newX = Math.min(
-        window.innerWidth - 60, // batas kanan
-        Math.max(0, e.clientX - offset.x), // batas kiri
-      );
-      const newY = Math.min(
-        window.innerHeight - 60, // batas bawah
-        Math.max(0, e.clientY - offset.y), // batas atas
-      );
-
+      e.preventDefault();
+      const newX = Math.min(window.innerWidth - 60, Math.max(0, e.clientX - offset.x));
+      const newY = Math.min(window.innerHeight - 60, Math.max(0, e.clientY - offset.y));
       setPosition({
         x: newX,
         y: newY,
@@ -62,12 +56,13 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   };
 
   const handleMouseUp = (e: MouseEvent<HTMLDivElement>) => {
-    e.preventDefault(); // Mencegah aksi default saat mouse up
+    e.preventDefault();
     setIsDragging(false);
   };
 
   const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-    e.preventDefault(); // Mencegah aksi default saat touch start
+    e.preventDefault();
+    setStartDragTime(Date.now());
     setIsDragging(true);
     const touch = e.touches[0];
     setOffset({
@@ -78,17 +73,10 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
 
   const handleTouchMove = (e: TouchEvent<HTMLDivElement>) => {
     if (isDragging) {
-      e.preventDefault(); // Mencegah aksi default saat touch move
+      e.preventDefault();
       const touch = e.touches[0];
-      const newX = Math.min(
-        window.innerWidth - 60, // batas kanan
-        Math.max(0, touch.clientX - offset.x), // batas kiri
-      );
-      const newY = Math.min(
-        window.innerHeight - 60, // batas bawah
-        Math.max(0, touch.clientY - offset.y), // batas atas
-      );
-
+      const newX = Math.min(window.innerWidth - 60, Math.max(0, touch.clientX - offset.x));
+      const newY = Math.min(window.innerHeight - 60, Math.max(0, touch.clientY - offset.y));
       setPosition({
         x: newX,
         y: newY,
@@ -97,14 +85,19 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   };
 
   const handleTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
-    e.preventDefault(); // Mencegah aksi default saat touch end
+    e.preventDefault();
     setIsDragging(false);
+
+    // Check if the touch was a tap (not a drag)
+    if (Date.now() - startDragTime < 300) {
+      handlePlayPause();
+    }
   };
 
   return (
     <div
       ref={playerRef}
-      className="fixed flex items-center justify-center border rounded-full p-2 bg-[#00b88c] z-50 size-[60px]"
+      className="fixed flex items-center justify-center border rounded-full p-2 bg-[#00b88c] z-50 size-[60px] ease-linear"
       style={{
         position: "fixed",
         left: `${position.x}px`,

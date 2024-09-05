@@ -34,7 +34,7 @@ export default function Read() {
         ) : (
           <div>
             <div className="md:hidden flex items-center border-b py-5 pl-2 gap-5 z-20 fixed top-0 md:left-[288px] left-0 bg-white md:w-[50.2%] w-full">
-              <h1 className="text-xl font-bold">Notifikasi</h1>
+              <h1 className="text-xl font-bold">notification</h1>
             </div>
             {messageData && (
               <div className={`${styles.customScroll} flex-1 md:pt-0 pt-[70px]`}>

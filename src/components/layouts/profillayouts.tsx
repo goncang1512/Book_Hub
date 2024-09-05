@@ -104,7 +104,7 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
                   })
                 }
               >
-                Book
+                Books
               </button>
             </div>
             {session?.user?._id === userData?._id && (
@@ -114,7 +114,7 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
                     Setting
                   </Link>
                   <Link className="active:text-gray-400" href={"/profil/upload"}>
-                    Upload Buku
+                    Upload books
                   </Link>
                   <button
                     aria-label="deleteAccount"
