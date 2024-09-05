@@ -50,7 +50,7 @@ const ComponentUser: React.FC<TesComponenType> = ({ username }) => {
               <FriendsProfil
                 dataFollow={dataFollow}
                 followerUser={userDetail?.follower}
-                myFollower={userDetail.myFollower}
+                myFollower={userDetail?.myFollower}
               />
             )}
             {seeProfilComponent?.seeProduct && (
