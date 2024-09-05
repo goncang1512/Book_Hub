@@ -3,10 +3,12 @@ import { logger } from "@/lib/utils/logger";
 import { NextRequest, NextResponse } from "next/server";
 import { canvasSrv } from "@/lib/services/canvasservices";
 
-export const POST = async (req: NextRequest) => {
-  const { audio, size, type, canvas_id } = await req.json();
+const maxSize = 3 * 1024 * 1024;
+
+export const POST = async (req: NextRequest, { params }: { params: { canvas_id: string } }) => {
+  const { audio, size, type } = await req.json();
   try {
-    if (audio.size > 9437184) {
+    if (size > maxSize) {
       return NextResponse.json(
         {
           status: false,
@@ -17,7 +19,7 @@ export const POST = async (req: NextRequest) => {
       );
     }
 
-    if (!canvas_id) {
+    if (!params.canvas_id) {
       return NextResponse.json({
         status: false,
         statusCode: 422,
@@ -27,7 +29,7 @@ export const POST = async (req: NextRequest) => {
 
     const newAudio: any = await uploadAudio({ audio, size, type });
 
-    const result = await canvasSrv.addAudio(canvas_id, {
+    const result = await canvasSrv.addAudio(params.canvas_id, {
       public_id: newAudio?.public_id,
       audioUrl: newAudio?.secure_url,
     });
@@ -56,16 +58,15 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-export const PATCH = async (req: NextRequest) => {
+export const PATCH = async (req: NextRequest, { params }: { params: { canvas_id: string } }) => {
   const {
-    canvas_id,
     audio,
   }: {
-    canvas_id: string;
     audio: { size: number; audio: string; type: string };
   } = await req.json();
+
   try {
-    if (audio.size > 9437184) {
+    if (audio.size > maxSize) {
       return NextResponse.json(
         {
           status: false,
@@ -76,10 +77,10 @@ export const PATCH = async (req: NextRequest) => {
       );
     }
 
-    const canvas = await canvasSrv.getByIdCanvas(canvas_id);
+    const canvas = await canvasSrv.getByIdCanvas(params.canvas_id);
 
     const newAudio: any = await uploadAudio(audio);
-    const result = await canvasSrv.addAudio(canvas_id, {
+    const result = await canvasSrv.addAudio(params.canvas_id, {
       public_id: newAudio?.public_id,
       audioUrl: newAudio?.secure_url,
     });

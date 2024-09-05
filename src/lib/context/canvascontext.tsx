@@ -137,7 +137,7 @@ export default function CanvasContextProvider({ children }: { children: React.Re
   ) => {
     try {
       setLdlAudio(true);
-      const res = await instance.post("/api/read/audio", { ...dataAudio, canvas_id });
+      const res = await instance.post(`/api/read/audio/${canvas_id}`, { dataAudio });
 
       if (res.data.status) {
         setLdlAudio(false);
@@ -168,7 +168,7 @@ export default function CanvasContextProvider({ children }: { children: React.Re
   ) => {
     try {
       setLdlAudio(true);
-      const res = await instance.patch("/api/read/audio", { canvas_id, audio: dataAudio });
+      const res = await instance.patch(`/api/read/audio/${canvas_id}`, { audio: dataAudio });
 
       if (res.data.status) {
         setLdlAudio(false);
