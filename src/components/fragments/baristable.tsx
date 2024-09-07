@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useState, useEffect, useRef, useContext, SetStateAction } from "react";
 import { FaRegEdit } from "react-icons/fa";
+import { FiSend } from "react-icons/fi";
 import { useSession } from "next-auth/react";
 
 import Img from "./image";
@@ -8,6 +11,10 @@ import { ModalBadge } from "./modalbadge";
 import { formatDate } from "@/lib/utils/parseTime";
 import { DasboardContext } from "@/lib/context/dasboardcontext";
 import { GlobalState } from "@/lib/context/globalstate";
+import { Button } from "../elements/button";
+import JoditText from "./JoditEditor";
+import { RiCloseLine } from "react-icons/ri";
+import { MessageContext } from "@/lib/context/messagecontext";
 
 export type dataUserType = {
   username: string;
@@ -35,6 +42,7 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
   const { updateRole } = useContext(DasboardContext);
   const btnAuthor = useRef<HTMLButtonElement | null>(null);
   const sltAuthor = useRef<HTMLSelectElement | null>(null);
+  const [newDataUser, setNewDataUser] = useState<any | null>(null);
 
   useEffect(() => {
     const handleClickOutSide = (e: MouseEvent) => {
@@ -189,7 +197,101 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
           </div>
         </div>
       </td>
+      <td>
+        <button onClick={() => setNewDataUser(dataUser)}>
+          <FiSend size={25} />
+        </button>
+      </td>
+      {newDataUser && <ModalInbox dataChapter={dataUser} setNewDataChapter={setNewDataUser} />}
       <ModalBadge dataUser={detailUser} />
     </tr>
   );
 }
+
+const joditButtons = [
+  "bold",
+  "italic",
+  "underline",
+  "strikethrough",
+  "ul",
+  "ol",
+  "outdent",
+  "indent",
+  "align",
+  "link",
+  "image",
+  "font",
+  "fontsize",
+  "brush",
+  "paragraph",
+  "undo",
+  "redo",
+  "hr",
+  "eraser",
+  "fullsize",
+  "cut",
+  "copy",
+  "paste",
+  "superscript",
+  "subscript",
+];
+
+const ModalInbox = ({
+  dataChapter,
+  setNewDataChapter,
+}: {
+  dataChapter: any;
+  setNewDataChapter: React.Dispatch<SetStateAction<any | null>>;
+}) => {
+  const { loadingMsg, sendMessage } = useContext(MessageContext);
+  const { data: session }: any = useSession();
+
+  const [msgInbox, setMsgInbox] = useState("");
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  return (
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 md:px-[100px] px-5"
+      onClick={() => setNewDataChapter(null)}
+    >
+      <div
+        ref={containerRef}
+        className="relative bg-white p-5 rounded-lg shadow-lg w-full"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className="absolute top-2 right-6 rounded-full hover:bg-white text-black hover:text-red-500"
+          onClick={() => setNewDataChapter(null)}
+        >
+          <RiCloseLine size={25} />
+        </button>
+        <form
+          className="flex flex-col gap-3"
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendMessage(
+              {
+                senderId: session?.user?._id,
+                recipientId: dataChapter?._id,
+                message: msgInbox,
+                type: "message",
+              },
+              setNewDataChapter,
+            );
+          }}
+        >
+          <p className="text-base font-semibold">{dataChapter.username}</p>
+          <JoditText
+            content={msgInbox}
+            height={"50vh"}
+            joditButtons={joditButtons}
+            setContent={setMsgInbox}
+          />
+          <Button disabled={loadingMsg} label={`${dataChapter?._id}UpdateInbox`} type="submit">
+            {loadingMsg ? "loading..." : "Send Message"}
+          </Button>
+        </form>
+      </div>
+    </div>
+  );
+};

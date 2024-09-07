@@ -269,3 +269,18 @@ export interface ReportContextType {
   deleteOneReport: (report_id: string) => void;
   deleted: { report_id: string; status: boolean };
 }
+
+export type SendType = {
+  senderId: string;
+  recipientId: string;
+  message: string;
+  type: string;
+};
+
+export interface MessageContextType {
+  sendMessage: (
+    data: SendType,
+    setOpenModel: React.Dispatch<React.SetStateAction<any | null>>,
+  ) => void;
+  loadingMsg: boolean;
+}

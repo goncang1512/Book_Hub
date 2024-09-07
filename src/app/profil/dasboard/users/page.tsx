@@ -90,6 +90,7 @@ export default function UserDasboard() {
               <th>Status</th>
               <th>Badge</th>
               <th>Role</th>
+              <th />
             </tr>
           </thead>
           <tbody>
