@@ -2,10 +2,12 @@ import React, { createContext, Dispatch, SetStateAction, useState } from "react"
 import { MessageContextType, SendType } from "../utils/types/provider.type";
 import { logger } from "../utils/logger";
 import instance from "../utils/fetch";
+import { useSWRConfig } from "swr";
 
 export const MessageContext = createContext<MessageContextType>({} as MessageContextType);
 
 export default function MessageContextProvider({ children }: { children: React.ReactNode }) {
+  const { mutate } = useSWRConfig();
   const [loadingMsg, setLoadingMsg] = useState(false);
 
   const sendMessage = async (
@@ -18,6 +20,7 @@ export default function MessageContextProvider({ children }: { children: React.R
       if (res.data.status) {
         setOpenModel(null);
         setLoadingMsg(false);
+        mutate(`/api/mission/${dataMessage.recipientId}`);
       }
     } catch (error) {
       logger.error(`${error}`);
