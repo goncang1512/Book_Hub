@@ -104,6 +104,10 @@ export type UserType = {
       no: number;
     };
   };
+  profileGround: {
+    public_id: string;
+    urlLatar: string;
+  };
 };
 
 export type LvlUpType = {

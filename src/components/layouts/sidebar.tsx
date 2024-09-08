@@ -48,7 +48,7 @@ export default function SideBar({
         className={`bg-white fixed md:flex hidden left-0 right-0 w-72 h-screen  border-r shadow-lg  flex-col gap-[30px] py-5`}
       >
         <h1 className="flex items-center font-bold pl-8 gap-2">
-          <GiBookmarklet className="text-[#00b88c]" size={40} />
+          <GiBookmarklet className="text-[#0077B6]" size={40} />
           BookHub
         </h1>
         {/* Remake Main */}
@@ -59,7 +59,7 @@ export default function SideBar({
           <div className="flex flex-col gap-2">
             <Link
               className={`${
-                pathname === "/" && "bg-[#00b88c] text-white"
+                pathname === "/" && "bg-[#0077B6] text-white"
               } flex gap-2 items-center text-lg font-medium px-8 py-1`}
               href={"/"}
             >
@@ -68,7 +68,7 @@ export default function SideBar({
 
             <Link
               className={`${
-                pathname === "/orders" && "bg-[#00b88c] text-white"
+                pathname === "/orders" && "bg-[#0077B6] text-white"
               } gap-2 items-center text-lg font-medium px-8 py-1 hidden`}
               href={"/orders"}
             >
@@ -77,7 +77,7 @@ export default function SideBar({
 
             <Link
               className={`${
-                pathname === "/profil/whislist" && "bg-[#00b88c] text-white"
+                pathname === "/profil/whislist" && "bg-[#0077B6] text-white"
               } flex gap-2 items-center text-lg font-medium px-8 py-1`}
               href={"/profil/whislist"}
             >
@@ -89,18 +89,18 @@ export default function SideBar({
             </Link>
 
             <Link
-              className={`${
-                pathname === "/profil/notifikasi" && "bg-[#00b88c] text-white"
-              } flex gap-2 items-center text-lg font-medium px-8 py-1 relative`}
+              className={`${pathname === "/profil/notifikasi" && "bg-[#0077B6] text-white"}`}
               href={"/profil/notifikasi"}
             >
-              <span
-                className={`size-2 bg-red-500 absolute rounded-full top-[5%] right-[40%] ${
-                  notifUser?.length > 0 ? "flex" : "hidden"
-                } `}
-              />
-              <IoNotificationsOutline size={19} />
-              Notification
+              <div className="flex gap-2 items-center text-lg font-medium pl-8 pr-2 py-1 relative w-max ">
+                <span
+                  className={`size-2 bg-red-500 absolute rounded-full top-[5px] right-0 ${
+                    notifUser?.length > 0 ? "flex" : "hidden"
+                  } `}
+                />
+                <IoNotificationsOutline size={19} />
+                Notification
+              </div>
             </Link>
 
             <button
@@ -142,7 +142,7 @@ export default function SideBar({
                     <>
                       <Link
                         className={`${
-                          pathname === "/profil/dasboard/users" && "bg-[#00b88c] text-white"
+                          pathname === "/profil/dasboard/users" && "bg-[#0077B6] text-white"
                         } flex gap-2 items-center text-lg font-medium px-8 py-1`}
                         href={"/profil/dasboard/users"}
                       >
@@ -151,7 +151,7 @@ export default function SideBar({
                       </Link>
                       <Link
                         className={`${
-                          pathname === "/profil/dasboard/inbox" && "bg-[#00b88c] text-white"
+                          pathname === "/profil/dasboard/inbox" && "bg-[#0077B6] text-white"
                         } flex gap-2 items-center text-lg font-medium px-8 py-1`}
                         href={"/profil/dasboard/inbox"}
                       >
@@ -160,7 +160,7 @@ export default function SideBar({
                       </Link>
                       <Link
                         className={`${
-                          pathname === "/profil/dasboard/toko" && "bg-[#00b88c] text-white"
+                          pathname === "/profil/dasboard/toko" && "bg-[#0077B6] text-white"
                         } flex gap-2 items-center text-lg font-medium px-8 py-1`}
                         href={"/profil/dasboard/toko"}
                       >
@@ -173,7 +173,7 @@ export default function SideBar({
                     <>
                       <Link
                         className={`${
-                          pathname === "/profil/author/mybook" && "bg-[#00b88c] text-white"
+                          pathname === "/profil/author/mybook" && "bg-[#0077B6] text-white"
                         } flex gap-2 items-center text-lg font-medium px-8 py-1`}
                         href={"/profil/author/mybook"}
                       >
@@ -182,7 +182,7 @@ export default function SideBar({
                       </Link>
                       <Link
                         className={`${
-                          pathname === "/profil/author" && "bg-[#00b88c] text-white"
+                          pathname === "/profil/author" && "bg-[#0077B6] text-white"
                         } flex gap-2 items-center text-lg font-medium px-8 py-1`}
                         href={"/profil/author"}
                       >
@@ -220,7 +220,7 @@ export default function SideBar({
           <div className="flex flex-col gap-2">
             <Link
               className={`${
-                pathname === "/leaderboard" && "bg-[#00b88c] text-white"
+                pathname === "/leaderboard" && "bg-[#0077B6] text-white"
               } flex gap-2 items-center text-lg font-medium px-8 py-1`}
               href={"/leaderboard"}
             >
@@ -232,7 +232,7 @@ export default function SideBar({
             {session?.user && (
               <div
                 className={`${
-                  pathname === "/profil" && "bg-[#00b88c] text-white"
+                  pathname === "/profil" && "bg-[#0077B6] text-white"
                 } flex w-full justify-between px-8 items-center`}
               >
                 <Link
@@ -262,18 +262,18 @@ export default function SideBar({
           <div className="flex flex-col gap-2 px-8">
             <button
               aria-label="buttonSingIn"
-              className="bg-[#00b88c] w-full rounded-lg font-semibold text-white text-center py-2"
+              className="bg-[#0077B6] w-full rounded-lg font-semibold text-white text-center py-2"
               type="button"
               onClick={() => signIn()}
             >
               Log In
             </button>
             <Link
-              className="flex items-center justify-between bg-[#00b88c] w-full rounded-lg font-semibold text-white text-center py-2 px-2"
+              className="flex items-center justify-between bg-[#0077B6] w-full rounded-lg font-semibold text-white text-center py-2 px-2"
               href={"/register"}
             >
               Sign Up{" "}
-              <span className="bg-white p-2 text-[#00b88c] rounded-lg">
+              <span className="bg-white p-2 text-[#0077B6] rounded-lg">
                 <FaArrowRightLong size={15} />
               </span>
             </Link>

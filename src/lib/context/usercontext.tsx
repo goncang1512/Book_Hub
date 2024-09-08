@@ -240,6 +240,41 @@ export default function UserContextProvider({ children }: { children: React.Reac
     }
   };
 
+  const updateBackground = async (
+    user_id: string,
+    dataLatar: { size: number; latar: string; type: string } | null,
+    setDataFoto: React.Dispatch<
+      React.SetStateAction<{ size: number; latar: string; type: string } | null>
+    >,
+    setDataPreview: React.Dispatch<React.SetStateAction<string | null>>,
+    setBtnEditCover: React.Dispatch<
+      React.SetStateAction<{
+        username: string;
+        _id: string;
+        urlLatar: string;
+      } | null>
+    >,
+  ) => {
+    try {
+      setLoadingUpdateFoto(true);
+      const res = await instance.patch(`/api/user/update/updatelatar/${user_id}`, dataLatar);
+
+      if (res.data.status) {
+        setLoadingUpdateFoto(false);
+        await updateUser({
+          status: "updateCover",
+          profileGround: res.data.result.profileGround,
+        });
+        setDataFoto(null);
+        setDataPreview(null);
+        setBtnEditCover(null);
+      }
+    } catch (error) {
+      logger.error("Failed updated background");
+      setLoadingUpdateFoto(false);
+    }
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -273,6 +308,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
         updatePassword,
         patchBadge,
         ldlPatchBadge,
+        updateBackground,
       }}
     >
       {children}

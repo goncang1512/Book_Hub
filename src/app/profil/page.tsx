@@ -7,7 +7,7 @@ import { ElementProfil, ElementProfilDua } from "@public/svg/element";
 import { HeaderProfil } from "@/components/layouts/profillayouts";
 import AboutProfil from "@/components/layouts/aboutprofil";
 import { GlobalState } from "@/lib/context/globalstate";
-import CardBook from "@/components/layouts/cardstore";
+import CardBook from "@/components/layouts/cardbook";
 import { useUsers } from "@/lib/utils/useSwr";
 import FriendsProfil from "@/components/layouts/friendsprofil";
 

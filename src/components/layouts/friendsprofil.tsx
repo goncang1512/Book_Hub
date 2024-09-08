@@ -48,7 +48,7 @@ export default function FriendsProfil({
         <div className="flex items-center">
           <button
             aria-label="buttonMengikuti"
-            className={`${seePengikut && "text-[#00b88c]"}`}
+            className={`${seePengikut && "text-[#0077B6]"}`}
             onClick={() => setSeePengikut(true)}
           >
             Mengikuti
@@ -56,7 +56,7 @@ export default function FriendsProfil({
           <p className="px-2">|</p>
           <button
             aria-label="buttonDiikuti"
-            className={`${!seePengikut && "text-[#00b88c]"}`}
+            className={`${!seePengikut && "text-[#0077B6]"}`}
             onClick={() => setSeePengikut(false)}
           >
             Diikuti

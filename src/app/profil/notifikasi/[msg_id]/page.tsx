@@ -17,8 +17,11 @@ export default function DetailMessage({ params }: { params: { msg_id: string } }
   const { readMessage, deletedMessage } = useContext(GlobalState);
 
   useEffect(() => {
-    readMessage(params.msg_id);
-  }, [params.msg_id]);
+    if (msgDetailData?.status) {
+      readMessage(params.msg_id);
+    }
+  }, [params.msg_id, msgDetailData?.status]);
+
   return (
     <section className="flex">
       <main

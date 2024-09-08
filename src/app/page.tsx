@@ -11,7 +11,7 @@ import Link from "next/link";
 import Img from "@/components/fragments/image";
 import { CardBookSkaleton } from "@/components/layouts/skeleton";
 import { useBooks } from "@/lib/utils/useSwr";
-import CardBook from "@/components/layouts/cardstore";
+import CardBook from "@/components/layouts/cardbook";
 import { bookSWR } from "@/lib/swr/bookSwr";
 import { GlobalState } from "@/lib/context/globalstate";
 

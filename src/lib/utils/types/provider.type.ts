@@ -112,6 +112,21 @@ export interface UserContextType {
   kirimPassword: (email: string, oldPassword: string) => void;
   updatePassword: (id: string, newPassword: string, confNewPassword: string) => void;
   patchBadge: (id_user: string, badge: string[]) => void;
+  updateBackground: (
+    user_id: string,
+    dataLatar: { size: number; latar: string; type: string } | null,
+    setDataFoto: React.Dispatch<
+      React.SetStateAction<{ size: number; latar: string; type: string } | null>
+    >,
+    setDataPreview: React.Dispatch<React.SetStateAction<string | null>>,
+    setBtnEditCover: React.Dispatch<
+      React.SetStateAction<{
+        username: string;
+        _id: string;
+        urlLatar: string;
+      } | null>
+    >,
+  ) => void;
   loadingRegister: boolean;
   dataRegister: RegisterType;
   messageRegister: string;

@@ -2,7 +2,7 @@
 import { useSession } from "next-auth/react";
 import React from "react";
 
-import CardBook from "@/components/layouts/cardstore";
+import CardBook from "@/components/layouts/cardbook";
 import { CardBookSkaleton } from "@/components/layouts/skeleton";
 import { useList } from "@/lib/utils/useSwr";
 

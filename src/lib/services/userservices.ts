@@ -16,6 +16,13 @@ export const getNotifTitle = async (user_id: string) => {
 };
 
 export const userSevices = {
+  updateBg: async (user_id: string, img: { public_id: string; urlLatar: string }) => {
+    return await UserModels.findOneAndUpdate(
+      { _id: user_id },
+      { $set: { profileGround: { public_id: img.public_id, urlLatar: img.urlLatar } } },
+      { new: true },
+    );
+  },
   get: async () => {
     return await UserModels.find();
   },

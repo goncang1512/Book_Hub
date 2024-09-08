@@ -56,6 +56,7 @@ const authOptions: NextAuthOptions = {
           rank: user.rank,
           badge: user.badge,
           status: user.status,
+          profileGround: user.profileGround,
         };
 
         return data;
@@ -84,6 +85,10 @@ const authOptions: NextAuthOptions = {
         token.status = session.accountStatus;
       }
 
+      if (trigger === "update" && session.status === "updateCover") {
+        token.profileGround = session.profileGround;
+      }
+
       if (trigger === "update" && session.status === "updateData") {
         token.username = session.username;
         token.alamat = session.alamat;
@@ -105,6 +110,7 @@ const authOptions: NextAuthOptions = {
         token.alamat = user.alamat;
         token.rank = user.rank;
         token.badge = user.badge;
+        token.profileGround = user.profileGround;
       }
 
       return token;

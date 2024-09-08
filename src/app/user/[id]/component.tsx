@@ -1,6 +1,6 @@
 "use client";
 import AboutProfil from "@/components/layouts/aboutprofil";
-import CardBook from "@/components/layouts/cardstore";
+import CardBook from "@/components/layouts/cardbook";
 import FriendsProfil from "@/components/layouts/friendsprofil";
 import { HeaderProfil } from "@/components/layouts/profillayouts";
 import { GlobalState } from "@/lib/context/globalstate";

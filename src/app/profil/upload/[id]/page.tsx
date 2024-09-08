@@ -72,7 +72,7 @@ export default function EditBook({ params }: { params: { id: string } }) {
   }
 
   return (
-    <main className="w-full flex items-center justify-center h-screen">
+    <main className="w-full flex items-center justify-center h-screen md:px-0 px-3">
       <form
         className="md:w-auto w-full flex md:flex-row flex-col gap-5 border p-4 rounded-lg bg-white shadow-xl"
         onSubmit={(e) => {
@@ -188,8 +188,7 @@ export default function EditBook({ params }: { params: { id: string } }) {
                     Back
                   </Button>
                   <button
-                    className="w-full bg-[#00b88c] text-white border-transparent 
-                    md:hover:bg-[#1AA886] max-[640px]:active:bg-[#1AA886] rounded-lg"
+                    className="bg-[#0077B6] text-white border-transparent md:hover:bg-[#03045E] max-[640px]:active:bg-[#03045E] rounded-lg w-full"
                     type="button"
                     onClick={() => {
                       setButtonGenre(true);

@@ -44,7 +44,7 @@
 .containerButton::after {
   content: "";
   height: 3px;
-  background-color: #00b88c;
+  background-color: #0077b6;
   border-radius: 100px;
   position: absolute;
   bottom: 0;

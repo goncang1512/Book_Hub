@@ -51,6 +51,10 @@ const UserSchema = new Schema(
     status: {
       type: String,
     },
+    profileGround: {
+      public_id: String,
+      urlLatar: String,
+    },
   },
   {
     timestamps: {

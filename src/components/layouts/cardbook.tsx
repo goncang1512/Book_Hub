@@ -236,7 +236,7 @@ function CardBook({
                           className="active:text-gray-400 w-auto whitespace-nowrap"
                           href={`/read/${_id}`}
                         >
-                          See Book
+                          See Cerpen
                         </Link>
                       )}
                     </div>
