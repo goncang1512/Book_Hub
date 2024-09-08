@@ -1,4 +1,5 @@
 import { getToken } from "next-auth/jwt";
+import { headers } from "next/headers";
 import { NextFetchEvent, NextMiddleware, NextRequest, NextResponse } from "next/server";
 
 const onlyDeveloperPage = ["/profil/dasboard/inbox", "/profil/dasboard/toko"];
@@ -12,8 +13,11 @@ export default function withAuth(middleware: NextMiddleware, requireAuth: string
   return async (req: NextRequest, next: NextFetchEvent) => {
     const pathname = req.nextUrl.pathname;
     const origin = req.nextUrl.origin;
+    const headersList = headers();
 
     if (pathname.startsWith("/api") && !pathname.startsWith("/api/cron")) {
+      const apiKey = headersList.get("x-api-key");
+
       if (!originUrl.includes(origin)) {
         return NextResponse.json({ error: "Access denied" }, { status: 403 });
       }
@@ -28,6 +32,20 @@ export default function withAuth(middleware: NextMiddleware, requireAuth: string
 
       if (req.method === "OPTIONS") {
         return response;
+      }
+
+      if (!pathname.startsWith("/api/auth")) {
+        if ((apiKey && apiKey) !== process.env.NEXT_PUBLIC_API_KEY_URL) {
+          return NextResponse.json(
+            {
+              error: "Access denied",
+              message:
+                "The provided API key is incorrect or expired. Please provide a valid API key.",
+              statusCode: 403,
+            },
+            { status: 403 },
+          );
+        }
       }
 
       return response;
