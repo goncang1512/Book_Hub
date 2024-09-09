@@ -8,10 +8,10 @@ import "swiper/css/scrollbar";
 import { Scrollbar, A11y } from "swiper/modules";
 import Link from "next/link";
 
-import Img from "@/components/fragments/image";
+import Picture from "@/components/elements/image";
 import { CardBookSkaleton } from "@/components/layouts/skeleton";
 import { useBooks } from "@/lib/utils/useSwr";
-import CardBook from "@/components/layouts/cardstore";
+import CardBook from "@/components/layouts/cardbook";
 import { bookSWR } from "@/lib/swr/bookSwr";
 import { GlobalState } from "@/lib/context/globalstate";
 
@@ -50,7 +50,7 @@ export default function Home() {
           style={{ paddingBottom: "15px", paddingRight: "1px" }}
         >
           {booksLoading
-            ? Array.from({ length: 5 }).map((_, index) => (
+            ? Array.from({ length: 2 }).map((_, index) => (
                 <SwiperSlide key={index}>
                   <CardBookSkaleton key={index + 1} ukuran="w-full" />
                 </SwiperSlide>
@@ -148,7 +148,7 @@ export default function Home() {
                         className="md:w-[88px] w-[87px] h-[140px] md:h-[144px] relative"
                         href={`${linkBook}`}
                       >
-                        <Img size={"bookCard"} src={`${buku.imgBooks.imgUrl}`} variant="bookCard" />
+                        <Picture size={"bookCard"} src={buku.imgBooks.imgUrl} variant="bookCard" />
                         <span
                           className={`${
                             buku.jenis === "Review" && "bg-blue-500"

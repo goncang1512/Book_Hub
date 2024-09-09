@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
 import { IoIosClose } from "react-icons/io";
 
-import Img from "./image";
+import Picture from "../elements/image";
 
 import { UserContext } from "@/lib/context/usercontext";
 
@@ -80,7 +80,7 @@ export const ModalBadge = ({ dataUser }: { dataUser: any }) => {
           {badgeUser.map((logo: string, index: number) => {
             return (
               <div key={index} className="flex items-center border gap-1 w-max px-1 rounded-sm">
-                <Img key={index} className="size-6" src={`${logo}`} />
+                <Picture key={index} className="size-6" src={logo} />
                 <button
                   aria-label={`buttonBadge${logo}`}
                   className="hover:bg-gray-300 rounded-full"

@@ -11,7 +11,7 @@ import { useChapter } from "@/lib/utils/useSwr";
 import ReadMoreLess from "@/components/elements/readmoreless";
 import { DropDownKlik } from "@/components/layouts/hovercard";
 import { CanvasContext } from "@/lib/context/canvascontext";
-import Img from "@/components/fragments/image";
+import Picture from "@/components/elements/image";
 import { parseDate } from "@/lib/utils/parseTime";
 
 export default function Read({ params }: { params: { id: string } }) {
@@ -188,7 +188,7 @@ export default function Read({ params }: { params: { id: string } }) {
             {/* Header Detail Book */}
             <div className="flex items-start p-3 border-b gap-6">
               <Link href={`/content/${detailChapter?._id}`}>
-                <Img size="book" src={`${detailChapter?.imgBooks?.imgUrl}`} variant="book" />
+                <Picture size="book" src={detailChapter?.imgBooks?.imgUrl} variant="book" />
               </Link>
               <div>
                 <table className="md:text-base text-sm">

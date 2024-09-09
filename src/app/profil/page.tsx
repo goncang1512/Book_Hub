@@ -4,12 +4,12 @@ import { useContext } from "react";
 import { useSession } from "next-auth/react";
 import { ElementProfil, ElementProfilDua } from "@public/svg/element";
 
-import { HeaderProfil } from "@/components/layouts/profillayouts";
-import AboutProfil from "@/components/layouts/aboutprofil";
+import { HeaderProfil } from "@/components/layouts/profile-layouts/profillayouts";
+import AboutProfil from "@/components/layouts/profile-layouts/aboutprofil";
 import { GlobalState } from "@/lib/context/globalstate";
-import CardBook from "@/components/layouts/cardstore";
+import CardBook from "@/components/layouts/cardbook";
 import { useUsers } from "@/lib/utils/useSwr";
-import FriendsProfil from "@/components/layouts/friendsprofil";
+import FriendsProfil from "@/components/layouts/profile-layouts/friendsprofil";
 
 export default function Profil() {
   const { data: session, status }: any = useSession();

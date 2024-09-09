@@ -81,3 +81,27 @@ export const deletedAudio = async (audio_id: string) => {
     return logger.error("Failed delted audio cerpen");
   }
 };
+
+export const uploadBG = async (
+  img: { size: number; background: string; type: string },
+  public_id: string,
+) => {
+  try {
+    const result = await cloudinary.uploader.upload(`${img.background}`, {
+      folder: "background",
+      transformation: [{ width: 800, height: 300, crop: "fill" }],
+    });
+
+    if (public_id !== "default_id") {
+      await cloudinary.uploader.destroy(public_id);
+    }
+
+    return result;
+  } catch (error) {
+    logger.info("Failed upload img");
+    return {
+      public_id: "",
+      secure_url: "",
+    };
+  }
+};

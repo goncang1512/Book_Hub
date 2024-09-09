@@ -4,16 +4,16 @@ import { cva, type VariantProps } from "class-variance-authority";
 const button = cva("button", {
   variants: {
     variant: {
-      primary: `bg-[#00b88c] text-white border-transparent 
-        md:hover:bg-[#1AA886] max-[640px]:active:bg-[#1AA886] rounded-lg`,
+      primary: `bg-[#0077B6] text-white border-transparent 
+        md:hover:bg-[#03045E] max-[640px]:active:bg-[#03045E] rounded-lg`,
       danger: `bg-red-500 text-white border-transparent 
       hover:bg-red-600`,
       secondary: `bg-white text-gray-800 border-gray-400 hover:bg-gray-100`,
-      login: "bg-[#00b88c] font-semibold text-white rounded-lg active:bg-[#1AA886]",
+      login: "bg-[#0077B6] font-semibold text-white rounded-lg active:bg-[#03045E]",
       detail: "rounded-lg border border-black font-semibold active:bg-slate-100",
       buy: "bg-black text-white rounded-lg active:bg-gray-700",
       posting:
-        "bg-[#00b88c] text-white border-transparent md:hover:bg-[#1AA886] max-[640px]:active:bg-[#1AA886] rounded-full",
+        "bg-[#0077B6] text-white border-transparent md:hover:bg-[#03045E] max-[640px]:active:bg-[#03045E] rounded-full",
     },
     size: {
       small: `text-sm py-1 px-2`,

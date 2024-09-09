@@ -5,7 +5,7 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import { useSession } from "next-auth/react";
 import { useContext } from "react";
 
-import Img from "@/components/fragments/image";
+import Picture from "@/components/elements/image";
 import styles from "@/lib/style.module.css";
 import HoverCard from "@/components/fragments/hoverbutton";
 import { useMessage } from "@/lib/swr/message";
@@ -49,9 +49,9 @@ export default function Read() {
                           className="flex items-center gap-3"
                           href={`/profil/notifikasi/${pesan._id}`}
                         >
-                          <Img
+                          <Picture
                             className="md:size-20 size-14 border rounded-full"
-                            src={`${pesan.user_id[0].imgProfil.imgUrl}`}
+                            src={pesan.user_id[0].imgProfil.imgUrl}
                           />
                           <div className={`${pesan.status && "font-bold text-black"}`}>
                             <div className="flex items-center gap-2">
@@ -60,7 +60,7 @@ export default function Read() {
                               </h3>
                               <div className="flex items-center">
                                 {pesan?.user_id[0].badge?.map((logo: string, index: number) => (
-                                  <Img key={index} className="size-4" src={`${logo}`} />
+                                  <Picture key={index} className="size-4" src={logo} />
                                 ))}
                               </div>
                             </div>

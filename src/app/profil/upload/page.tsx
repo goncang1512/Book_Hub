@@ -53,7 +53,7 @@ export default function UploadBooks() {
   };
 
   return (
-    <main className="w-full flex flex-col gap-3 items-center justify-center h-screen">
+    <main className="w-full flex flex-col gap-3 items-center justify-center h-screen md:px-0 px-3">
       <p className="text-red-500 italic">{msgUploadBook}</p>
       <form
         className="md:w-auto w-full flex md:flex-row flex-col gap-5 border p-4 rounded-lg bg-white shadow-xl"
@@ -174,8 +174,7 @@ export default function UploadBooks() {
                   </Button>
                   <button
                     aria-labelledby="buttonNextSesi"
-                    className="w-full bg-[#00b88c] text-white border-transparent 
-                    md:hover:bg-[#1AA886] max-[640px]:active:bg-[#1AA886] rounded-lg"
+                    className="bg-[#0077B6] text-white border-transparent md:hover:bg-[#03045E] max-[640px]:active:bg-[#03045E] rounded-lg w-full"
                     type="button"
                     onClick={() => {
                       setButtonGenre(true);

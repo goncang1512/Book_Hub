@@ -49,6 +49,10 @@ export const POST = async (req: NextRequest) => {
           img: "/rank-satu.png",
         },
       },
+      profileGround: {
+        public_id: "default_id",
+        urlLatar: "/new-cover-profil.png",
+      },
       status: "aktif",
     };
 
@@ -82,7 +86,7 @@ export const GET = async (req: NextRequest) => {
 
     const result = await UserModels.findOne(
       { username },
-      "_id username email imgProfil rank role createdAt badge",
+      "_id username email imgProfil rank role createdAt badge profileGround",
     );
 
     let statusBook: any[] = [];

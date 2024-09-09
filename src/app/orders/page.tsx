@@ -3,8 +3,7 @@
 import * as React from "react";
 
 import CardProduct from "@/components/layouts/cardproduct";
-import TextEditor from "@/components/fragments/JoditEditor";
-import { useResponsiveValue } from "@/lib/utils/extractText";
+import Picture from "@/components/elements/image";
 
 const product = {
   title: "Teruslah Bodoh Jangan Pintar",
@@ -18,35 +17,7 @@ const product = {
   size: "size-[8rem]",
 };
 
-const joditButtons = [
-  "bold",
-  "italic",
-  "underline",
-  "strikethrough",
-  "ul",
-  "ol",
-  "outdent",
-  "indent",
-  "align",
-  "font",
-  "fontsize",
-  "brush",
-  "paragraph",
-  "undo",
-  "redo",
-  "hr",
-  "eraser",
-  "fullsize",
-  "link",
-  "cut",
-  "copy",
-  "paste",
-  "superscript",
-  "subscript",
-];
-
 export default function Orders() {
-  const [content, setContent] = React.useState("");
   return (
     <div className="p-3 flex flex-col gap-2 w-full justify-start">
       <div className="flex flex-wrap gap-2 w-full justify-start">
@@ -60,15 +31,9 @@ export default function Orders() {
           />
         ))}
       </div>
-      <TextEditor
-        content={content}
-        height={useResponsiveValue({
-          widthBreakpoint: 768,
-          mobileValue: "100vh",
-          desktopValue: "92vh",
-        })}
-        joditButtons={joditButtons}
-        setContent={setContent}
+      <Picture
+        className="rounded-lg object-cover border md:w-[88px] w-[80px] h-[140px] md:h-[144px]"
+        src="https://res.cloudinary.com/dykunvz4p/image/upload/v1716989533/cover/pg0mrdha74kzs9329tyb.jpg"
       />
     </div>
   );

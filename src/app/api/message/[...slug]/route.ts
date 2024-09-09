@@ -38,6 +38,15 @@ export const GET = async (req: NextRequest, { params }: { params: { slug: string
 
 export const PUT = async (req: NextRequest, { params }: { params: { slug: string[] } }) => {
   try {
+    const message = await msgServices.getMsgDetail(params.slug[0]);
+
+    if (!message?.status) {
+      return NextResponse.json(
+        { status: false, statusCode: 422, message: "Message has read" },
+        { status: 422 },
+      );
+    }
+
     const result = await msgServices.readMessage(params.slug[0]);
 
     logger.info("Success read message");

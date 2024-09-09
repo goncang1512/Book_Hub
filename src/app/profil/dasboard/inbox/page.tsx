@@ -18,13 +18,13 @@ export default function Inbox() {
     <div>
       <div className="flex justify-center items-center gap-3 py-2">
         <button
-          className={`${buttonChapter && "text-green-500"}`}
+          className={`${buttonChapter && "text-[#0077B6]"}`}
           onClick={() => setButtonChapter(true)}
         >
           Chapter
         </button>
         <button
-          className={`${!buttonChapter && "text-green-500"}`}
+          className={`${!buttonChapter && "text-[#0077B6]"}`}
           onClick={() => setButtonChapter(false)}
         >
           Report

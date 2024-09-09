@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
-import Img from "../fragments/image";
+import Picture from "../../elements/image";
 import { GlobalState } from "@/lib/context/globalstate";
 import { useSession } from "next-auth/react";
-import { ButtonFriends } from "../fragments/buttonfollow";
+import { ButtonFriends } from "../../fragments/buttonfollow";
 
 type user = {
   _id: string;
@@ -48,7 +48,7 @@ export default function FriendsProfil({
         <div className="flex items-center">
           <button
             aria-label="buttonMengikuti"
-            className={`${seePengikut && "text-[#00b88c]"}`}
+            className={`${seePengikut && "text-[#0077B6]"}`}
             onClick={() => setSeePengikut(true)}
           >
             Mengikuti
@@ -56,7 +56,7 @@ export default function FriendsProfil({
           <p className="px-2">|</p>
           <button
             aria-label="buttonDiikuti"
-            className={`${!seePengikut && "text-[#00b88c]"}`}
+            className={`${!seePengikut && "text-[#0077B6]"}`}
             onClick={() => setSeePengikut(false)}
           >
             Diikuti
@@ -77,16 +77,16 @@ export default function FriendsProfil({
                 className="flex items-center justify-start w-full gap-2"
                 onClick={() => handleRouter(dataUser.username)}
               >
-                <Img
+                <Picture
                   className="md:size-20 size-14 rounded-full border"
-                  src={`${dataUser.imgProfil?.imgUrl}`}
+                  src={dataUser.imgProfil?.imgUrl}
                 />
                 <div className="flex justify-center items-start flex-col leading-[15px]">
                   <div className="flex items-center gap-2">
                     <p className="md:text-base text-sm font-semibold">{dataUser.username}</p>
                     <div className="flex items-center">
                       {dataUser?.badge?.map((logo: string, index: number) => (
-                        <Img key={index} className="size-4" src={`${logo}`} />
+                        <Picture key={index} className="size-4" src={logo} />
                       ))}
                     </div>
                   </div>

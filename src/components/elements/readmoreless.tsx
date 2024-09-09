@@ -43,7 +43,7 @@ const ReadMoreLess = ({ text, maxLength, mobile, textFont, other, style }: ReadM
             paragraphs.map((text: string, index) => <p key={index}>{text || "\u00A0"}</p>)}
           <button className="cursor-pointer text-gray-400" onClick={toggleShowText}>
             {" "}
-            hide
+            Hide
           </button>
         </div>
       ) : (
@@ -51,7 +51,7 @@ const ReadMoreLess = ({ text, maxLength, mobile, textFont, other, style }: ReadM
           {text && text.slice(0, panjangTeks)}
           {text && text.length > panjangTeks && (
             <button onClick={toggleShowText}>
-              <span className="cursor-pointer text-gray-400">{other ? " ...see more" : "..."}</span>
+              <span className="cursor-pointer text-gray-400">{other ? " ...See more" : "..."}</span>
             </button>
           )}
         </p>

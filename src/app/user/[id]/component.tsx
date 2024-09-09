@@ -1,8 +1,8 @@
 "use client";
-import AboutProfil from "@/components/layouts/aboutprofil";
-import CardBook from "@/components/layouts/cardstore";
-import FriendsProfil from "@/components/layouts/friendsprofil";
-import { HeaderProfil } from "@/components/layouts/profillayouts";
+import AboutProfil from "@/components/layouts/profile-layouts/aboutprofil";
+import CardBook from "@/components/layouts/cardbook";
+import FriendsProfil from "@/components/layouts/profile-layouts/friendsprofil";
+import { HeaderProfil } from "@/components/layouts/profile-layouts/profillayouts";
 import { GlobalState } from "@/lib/context/globalstate";
 import { useNewUsers } from "@/lib/swr/userswr";
 import { useUsers } from "@/lib/utils/useSwr";

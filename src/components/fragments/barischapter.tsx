@@ -9,7 +9,7 @@ import { RiCloseLine } from "react-icons/ri";
 import { Button } from "../elements/button";
 
 import JoditText from "./JoditEditor";
-import Img from "./image";
+import Picture from "../elements/image";
 
 import { formatDate } from "@/lib/utils/parseTime";
 import { DasboardContext } from "@/lib/context/dasboardcontext";
@@ -80,9 +80,9 @@ export const BarisChapter = ({ dataChapter, index }: { dataChapter: Canvas; inde
           className="flex items-center gap-3"
           href={`/read?id=${dataChapter.book_id}&chapter=${dataChapter._id}&status=check`}
         >
-          <Img
+          <Picture
             className="w-[50px] h-[90px] border rounded-sm shadow-xl"
-            src={`${dataChapter.book.imgBooks.imgUrl}`}
+            src={dataChapter.book.imgBooks.imgUrl}
           />
           <div>
             <div className="font-bold">{dataChapter.book.title}</div>

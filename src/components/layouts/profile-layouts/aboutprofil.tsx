@@ -5,14 +5,14 @@ import { LogoRole } from "@public/svg/assets";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import Img from "../fragments/image";
+import Picture from "../../elements/image";
 
-import { StoryType } from "./cardstory";
+import { StoryType } from "../cardstory";
 
 import { UserType } from "@/lib/utils/types/DataTypes.type";
-import ButtonFollow from "../fragments/buttonfollow";
+import ButtonFollow from "../../fragments/buttonfollow";
 import { usePathname } from "next/navigation";
-import InfiniteSwrStory from "./infiniteSwr";
+import InfiniteSwrStory from "../infiniteSwr";
 
 interface StoryUser extends StoryType {
   length: number;
@@ -94,7 +94,7 @@ export default function AboutProfil({
                 href={"/leaderboard"}
               >
                 <p className="font-medium text-xs">Musim</p>
-                <Img className="size-24" src={`${userData?.rank?.rankNow}`} />
+                <Picture className="size-24" src={userData?.rank?.rankNow} />
                 <p className="font-medium text-xs">
                   {newMyRank} {userData?.rank?.level}
                 </p>
@@ -105,7 +105,7 @@ export default function AboutProfil({
                 href={"/leaderboard"}
               >
                 <p className="font-medium text-xs">Riwayat</p>
-                <Img className="size-24" src={`${userData?.rank?.rankTertinggi?.img}`} />
+                <Picture className="size-24" src={userData?.rank?.rankTertinggi?.img} />
                 <p className="font-medium text-xs">
                   {nameRank} {userData?.rank?.rankTertinggi?.no}
                 </p>

@@ -3,9 +3,9 @@ import useSWR from "swr";
 import instance from "./fetch";
 import { useSession } from "next-auth/react";
 
-export const fetcher = (url: string) => instance.get(url).then((res) => res.data);
-export const axiosfetcher = (url: string, token: string) => {
-  return instance
+export const fetcher = async (url: string) => await instance.get(url).then((res) => res.data);
+export const axiosfetcher = async (url: string, token: string) => {
+  return await instance
     .get(url, {
       headers: {
         Authorization: `Bearer ${token}`,

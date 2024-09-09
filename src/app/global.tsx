@@ -5,9 +5,11 @@ import { useRef, useState } from "react";
 
 import Index from ".";
 
-import SideBar from "@/components/layouts/sidebar";
+import SideBar from "@/components/layouts/side-layouts/sidebar";
+import SearchContainer from "@/components/layouts/side-layouts/searchcontainer";
+import Mission from "@/components/layouts/side-layouts/mission";
+
 import GlobalStateProvider from "@/lib/context/globalstate";
-import SearchContainer from "@/components/layouts/searchcontainer";
 import AuthCntextProvider from "@/lib/context/authcontext";
 import UserContextProvider from "@/lib/context/usercontext";
 import MobileBar from "@/components/layouts/MobileBar";
@@ -15,7 +17,6 @@ import BookContextProvider from "@/lib/context/bookcontext";
 import StoryContextProvider from "@/lib/context/storycontext";
 import LikeContextProvider from "@/lib/context/likecontext";
 import WhislistContextProvider from "@/lib/context/whislistcontext";
-import Mission from "@/components/layouts/mission";
 import useClickOutside from "@/lib/utils/clickoutside";
 import MisiContextProvider from "@/lib/context/misicontext";
 import ReportContextProvider from "@/lib/context/reportcontext";
