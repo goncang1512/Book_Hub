@@ -76,10 +76,12 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
       />
       <div className="h-16 white border shadow-lg w-full rounded-b-lg bg-white" />
       <div className="absolute left-0 pl-5 md:bottom-[0.7rem] bottom-[1rem] flex items-center gap-5 w-full">
-        <Picture
-          className="md:size-28 size-20 rounded-full border"
-          src={userData?.imgProfil?.imgUrl}
-        />
+        <div className="md:size-28 size-20 bg-white rounded-full">
+          <Picture
+            className="md:size-28 size-20 rounded-full border"
+            src={userData?.imgProfil?.imgUrl}
+          />
+        </div>
 
         <div className="flex flex-col gap-11 w-full relative">
           <div className="flex w-full items-center justify-between absolute md:pr-5 pr-2 md:bottom-1 bottom-3">

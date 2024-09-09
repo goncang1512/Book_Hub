@@ -13,7 +13,7 @@ const image = cva("bg-cover bg-no-repeat bg-center", {
     size: {
       book: "md:w-[144px] md:h-[223.09px] w-[124px] h-[183.09px]",
       bookCard: "md:w-[88px] w-[80px] h-[140px] md:h-[144px]",
-      avatar: "md:size-28 size-20",
+      avatar: "md:w-28 md:h-28 w-20 h-20", // Sesuaikan ukuran Tailwind
     },
   },
   defaultVariants: {},
@@ -24,6 +24,10 @@ export interface DivProps extends React.HTMLAttributes<HTMLDivElement>, VariantP
 }
 
 const Picture: React.FC<DivProps> = ({ src, className, variant, size }) => {
+  if (!src) {
+    return null;
+  }
+
   return (
     <div
       className={`relative overflow-hidden ${styles.imageContainer} ${image({
@@ -33,14 +37,11 @@ const Picture: React.FC<DivProps> = ({ src, className, variant, size }) => {
       })}`}
     >
       <Image
+        fill
         alt="Picture"
-        className="object-cover"
+        className="object-cover w-full h-full"
         draggable={false}
-        height={0}
-        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-        src={src && src}
-        style={{ width: "100%", height: "100%" }}
-        width={0}
+        src={src}
       />
     </div>
   );
