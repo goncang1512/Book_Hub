@@ -350,6 +350,7 @@ const AddList = ({
 
   return (
     <button
+      aria-label={`buttonMark${book._id}`}
       className={`${styles.contMark} text-[30px] flex justify-center items-center relative cursor-pointer select-none`}
       onClick={() => {
         isLiked
@@ -395,6 +396,7 @@ export const ModalDeleteBook: React.FC<{
     <dialog ref={refDialog} className="modal" id="my_modal_2">
       <div className="modal-box relative">
         <button
+          aria-label={`${dataDelete.book_id}buttonDialog`}
           className="absolute right-1 top-1 p-2 rounded-full max-md:active:bg-slate-300 md:hover:bg-slate-300 hover:bg-none"
           type="button"
           onClick={() => refDialog?.current?.close()}
@@ -450,7 +452,7 @@ export const ModalDeleteBook: React.FC<{
         </div>
       </div>
       <form className="modal-backdrop" method="dialog">
-        <button>close</button>
+        <button aria-label={`buttonCloseDlt${dataDelete.book_id}`}>close</button>
       </form>
     </dialog>
   );
