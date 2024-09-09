@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Link from "next/link";
 
 import ReadMoreLess from "../elements/readmoreless";
-import Img from "../fragments/image";
+import Picture from "../elements/image";
 import { GlobalState } from "@/lib/context/globalstate";
 import { parseDate } from "@/lib/utils/parseTime";
 
@@ -48,15 +48,15 @@ export function ProfilBooksDekstop({
                   : `/read/${_id}`
               }
             >
-              <Img
+              <Picture
                 className="w-[144px] h-[223.09px] object-cover rounded-lg"
-                src={`${imgBooks.imgUrl}`}
+                src={imgBooks.imgUrl}
               />
             </Link>
           ) : (
-            <Img
+            <Picture
               className="w-[144px] h-[223.09px] object-cover rounded-lg"
-              src={`${imgBooks.imgUrl}`}
+              src={imgBooks.imgUrl}
             />
           )}
         </div>
@@ -115,15 +115,15 @@ export const BooksProfileMobile = ({
             jenis === "Cerpen" ? `/read?id=${_id}&chapter=${statusBook[0]?._id}` : `/read/${_id}`
           }
         >
-          <Img
+          <Picture
             className="w-[144px] h-[223.09px] border -mb-28 rounded-lg shadow-xl"
-            src={`${imgBooks.imgUrl}`}
+            src={imgBooks.imgUrl}
           />
         </Link>
       ) : (
-        <Img
+        <Picture
           className="w-[144px] h-[223.09px] border -mb-28 rounded-lg shadow-xl"
-          src={`${imgBooks.imgUrl}`}
+          src={imgBooks.imgUrl}
         />
       )}
       <table className="md:text-base text-sm text-white" style={{ width: "71%" }}>

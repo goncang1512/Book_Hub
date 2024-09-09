@@ -3,7 +3,7 @@ import { MdOutlineSearch } from "react-icons/md";
 import Link from "next/link";
 import { FaRegComments } from "react-icons/fa6";
 
-import CardBook from "./cardbook";
+import CardBook from "../cardbook";
 
 import styles from "@/lib/style.module.css";
 import useDebounce from "@/lib/utils/useDebaunce";

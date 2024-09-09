@@ -5,7 +5,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { FiSend } from "react-icons/fi";
 import { useSession } from "next-auth/react";
 
-import Img from "./image";
+import Picture from "../elements/image";
 import { ModalBadge } from "./modalbadge";
 
 import { formatDate } from "@/lib/utils/parseTime";
@@ -88,7 +88,7 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
             className="avatar cursor-pointer"
             onClick={() => handleRouter(dataUser?.username)}
           >
-            <Img className="size-12 border rounded-full" src={`${dataUser?.imgProfil?.imgUrl}`} />
+            <Picture className="size-12 border rounded-full" src={dataUser?.imgProfil?.imgUrl} />
           </button>
           <div>
             <button
@@ -99,7 +99,7 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
               <p className="font-bold">{dataUser?.username}</p>
               <div className="flex items-center">
                 {dataUser?.badge.map((logo: string, index: number) => (
-                  <Img key={index} className="size-4" src={`${logo}`} />
+                  <Picture key={index} className="size-4" src={logo} />
                 ))}
               </div>
             </button>
@@ -136,7 +136,7 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
         <div className="flex flex-row items-center justify-between gap-2 font-semibold">
           <div className="flex items-center">
             {dataUser?.badge.map((logo: string, index: number) => (
-              <Img key={index} className="size-4" src={`${logo}`} />
+              <Picture key={index} className="size-4" src={logo} />
             ))}
           </div>
           <div className={`flex relative w-full justify-end pr-7`}>

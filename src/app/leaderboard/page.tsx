@@ -2,7 +2,7 @@
 import * as React from "react";
 import { useContext } from "react";
 
-import Img from "@/components/fragments/image";
+import Picture from "@/components/elements/image";
 import { GlobalState } from "@/lib/context/globalstate";
 import { useUsers } from "@/lib/utils/useSwr";
 
@@ -40,7 +40,7 @@ export default function Leaderboard() {
                         ? "w-[40px] h-[36px]"
                         : index + 1 === 3
                           ? "w-[30px] h-[32px]"
-                          : null;
+                          : `${index}`;
                   const srcImg =
                     index + 1 === 1
                       ? "/badge/new-number-one.png"
@@ -48,14 +48,14 @@ export default function Leaderboard() {
                         ? "/badge/new-number-two.png"
                         : index + 1 === 3
                           ? "/badge/new-number-three.png"
-                          : null;
+                          : `${index}`;
                   return (
                     <tr key={user._id}>
                       <th>
                         <div className="flex items-center justify-center">
                           {index + 1 >= 1 && index + 1 <= 3 ? (
                             <>
-                              <Img className={`${peringkatClass}`} src={`${srcImg}`} />
+                              <Picture className={`${peringkatClass}`} src={srcImg} />
                             </>
                           ) : (
                             `${index + 1}`
@@ -65,9 +65,9 @@ export default function Leaderboard() {
                       <td>
                         <div className="flex items-center gap-3">
                           <div className="avatar">
-                            <Img
+                            <Picture
                               className="md:flex hidden cursor-pointer md:size-12 size-8 rounded-full border"
-                              src={`${user.imgProfil.imgUrl}`}
+                              src={user.imgProfil.imgUrl}
                               onClick={() => handleRouter(user?.username)}
                             />
                           </div>
@@ -82,7 +82,7 @@ export default function Leaderboard() {
                               </p>
                               <div className="flex items-center">
                                 {user?.badge.map((logo: string, index: number) => (
-                                  <Img key={index} className="size-4" src={`${logo}`} />
+                                  <Picture key={index} className="size-4" src={logo} />
                                 ))}
                               </div>
                             </button>
@@ -90,7 +90,7 @@ export default function Leaderboard() {
                         </div>
                       </td>
                       <td className="flex items-center gap-2">
-                        <Img className="md:size-16 size-8" src={user.rank.rankNow} />
+                        <Picture className="md:size-16 size-8" src={user.rank.rankNow} />
                         <p className="font-semibold text-center">
                           level <br className="md:hidden flex" /> {user.rank.level}
                         </p>

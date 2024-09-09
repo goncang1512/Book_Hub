@@ -3,5 +3,4 @@ node_modules
 .next
 build
 scripts
-next.config.mjs
 componentt.json

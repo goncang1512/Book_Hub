@@ -6,9 +6,9 @@ import { CiCamera } from "react-icons/ci";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 
-import Img from "../fragments/image";
+import Picture from "../../elements/image";
 
-import DropDown from "./hovercard";
+import DropDown from "../hovercard";
 
 import { GlobalState } from "@/lib/context/globalstate";
 import styles from "@/lib/style.module.css";
@@ -16,7 +16,7 @@ import { UserContext } from "@/lib/context/usercontext";
 import { UserType } from "@/lib/utils/types/DataTypes.type";
 import { RiCloseLine } from "react-icons/ri";
 import { IoCloudUploadOutline } from "react-icons/io5";
-import { Button } from "../elements/button";
+import { Button } from "../../elements/button";
 
 export function HeaderProfil({ userData }: { userData: UserType }) {
   const { data: session }: any = useSession();
@@ -76,24 +76,24 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
       />
       <div className="h-16 white border shadow-lg w-full rounded-b-lg bg-white" />
       <div className="absolute left-0 pl-5 md:bottom-[0.7rem] bottom-[1rem] flex items-center gap-5 w-full">
-        <Img
+        <Picture
           className="md:size-28 size-20 rounded-full border"
-          src={`${userData?.imgProfil?.imgUrl}`}
+          src={userData?.imgProfil?.imgUrl}
         />
 
         <div className="flex flex-col gap-11 w-full relative">
-          <div className="flex w-full items-center justify-between absolute pr-5 md:bottom-1 bottom-3">
+          <div className="flex w-full items-center justify-between absolute md:pr-5 pr-2 md:bottom-1 bottom-3">
             <div className="bg-white border shadow-lg px-2 rounded-lg py-1 flex items-center gap-2">
               <h1 className="font-bold text-black md:text-base text-sm">{userData?.username}</h1>
               <div className="flex items-center">
                 {userData?.badge?.map((logo: string, index: number) => (
-                  <Img key={index} className="size-4" src={`${logo}`} />
+                  <Picture key={index} className="size-4" src={logo} />
                 ))}
               </div>
             </div>
             {session?.user?._id === userData?._id && (
               <button
-                className="flex items-center gap-1 p-2 rounded-lg text-white text-sm bg-black/45 hover:bg-black/70"
+                className="flex items-center gap-1 p-2 rounded-lg text-white bg-black/45 hover:bg-black/70 md:text-sm text-xs"
                 onClick={() => {
                   setBtnEditCover({
                     username: userData?.username,

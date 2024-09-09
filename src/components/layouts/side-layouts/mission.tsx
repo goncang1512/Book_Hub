@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { LuMenu } from "react-icons/lu";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
-import { MisiCard } from "./skeleton";
+import { MisiCard } from "../skeleton";
 import { MisiContext } from "@/lib/context/misicontext";
 import { GlobalState } from "@/lib/context/globalstate";
 

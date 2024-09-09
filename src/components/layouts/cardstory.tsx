@@ -9,7 +9,7 @@ import { FaRegComments } from "react-icons/fa6";
 import styles from "@/lib/style.module.css";
 
 import DetailStory from "../fragments/detailstory";
-import Img from "../fragments/image";
+import Picture from "../elements/image";
 
 import DropDown from "./hovercard";
 
@@ -151,9 +151,9 @@ export const CardContent = ({
         className="relative w-max flex flex-col justify-center items-center rounded-full cursor-pointer"
         onClick={() => handleRouter(story?.user?.username)}
       >
-        <Img
+        <Picture
           className="size-14 rounded-full border-2 border-gray-500"
-          src={`${story?.user?.imgProfil?.imgUrl}`}
+          src={story?.user?.imgProfil?.imgUrl}
         />
         <p className="absolute bg-gray-500 text-white size-3 text-[8.5px] rounded-full p-2 text-center flex items-center justify-center text-xs border border-gray-500 bottom-0 translate-y-1/2">
           {story?.user?.rank?.level}
@@ -172,7 +172,7 @@ export const CardContent = ({
                 <p className="md:text-base text-sm font-semibold">{story?.user?.username}</p>
                 <div className="flex items-center">
                   {story?.user?.badge?.map((logo: string, index: number) => (
-                    <Img key={index} className="size-4" src={`${logo}`} />
+                    <Picture key={index} className="size-4" src={logo} />
                   ))}
                 </div>
               </button>
@@ -344,9 +344,9 @@ export const CardContent = ({
           } flex gap-3 mt-2 border p-3 rounded-lg bg-zinc-100 w-full`}
         >
           <Link className="w-[62px] h-[114px]" href={`/content/${story?.book?._id}`}>
-            <Img
+            <Picture
               className="w-[64px] h-[114px] rounded-lg object-cover border"
-              src={`${story?.book?.imgBooks?.imgUrl}`}
+              src={story?.book?.imgBooks?.imgUrl}
             />
           </Link>
           <div className="flex flex-col justify-between w-full">

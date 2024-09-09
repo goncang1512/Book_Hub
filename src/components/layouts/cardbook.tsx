@@ -14,7 +14,7 @@ import styles from "@/lib/style.module.css";
 import ReadMoreLess from "../elements/readmoreless";
 import { Input } from "../elements/input";
 import { Button } from "../elements/button";
-import Img from "../fragments/image";
+import { Picture } from "../elements/image";
 import { useResponsiveValue } from "@/lib/utils/extractText";
 import { parseDate } from "@/lib/utils/parseTime";
 
@@ -109,7 +109,7 @@ function CardBook({
     >
       <div className="gap-4 flex">
         <div className="md:w-[88px] w-[80px] h-[140px] md:h-[144px] relative">
-          <Img size="bookCard" src={`${imgBooks?.imgUrl}`} variant="bookCard" />
+          <Picture size="bookCard" src={`${imgBooks?.imgUrl}`} variant="bookCard" />
           <span
             className={`${jenis === "Review" && "bg-blue-500"} ${
               jenis === "Novel" && "bg-green-500"

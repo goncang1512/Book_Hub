@@ -8,7 +8,7 @@ import parse from "html-react-parser";
 import styles from "@/lib/style.module.css";
 import { useMessage } from "@/lib/swr/message";
 import HoverCard from "@/components/fragments/hoverbutton";
-import Img from "@/components/fragments/image";
+import Picture from "@/components/elements/image";
 import { GlobalState } from "@/lib/context/globalstate";
 
 export default function DetailMessage({ params }: { params: { msg_id: string } }) {
@@ -35,9 +35,9 @@ export default function DetailMessage({ params }: { params: { msg_id: string } }
           <div className={`${styles.customScroll} flex-1 overflow-y-scroll`}>
             <div className="flex items-center justify-between p-4 border-b">
               <div className="flex items-center gap-3">
-                <Img
+                <Picture
                   className="size-16 border rounded-full"
-                  src={`${msgDetailData?.user_id[0].imgProfil.imgUrl}`}
+                  src={msgDetailData?.user_id[0].imgProfil.imgUrl}
                 />
                 <div
                   className={`${
@@ -48,7 +48,7 @@ export default function DetailMessage({ params }: { params: { msg_id: string } }
 
                   <div className="flex items-center">
                     {msgDetailData?.user_id[0].badge?.map((logo: string, index: number) => (
-                      <Img key={index} className="size-4" src={`${logo}`} />
+                      <Picture key={index} className="size-4" src={logo} />
                     ))}
                   </div>
                 </div>
