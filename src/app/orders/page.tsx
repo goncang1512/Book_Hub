@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import CardProduct from "@/components/layouts/cardproduct";
-import { Picture } from "@/components/elements/image";
+import Picture from "@/components/elements/image";
 
 const product = {
   title: "Teruslah Bodoh Jangan Pintar",
