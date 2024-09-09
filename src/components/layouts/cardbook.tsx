@@ -14,7 +14,7 @@ import styles from "@/lib/style.module.css";
 import ReadMoreLess from "../elements/readmoreless";
 import { Input } from "../elements/input";
 import { Button } from "../elements/button";
-import { Picture } from "../elements/image";
+import Picture from "../elements/image";
 import { useResponsiveValue } from "@/lib/utils/extractText";
 import { parseDate } from "@/lib/utils/parseTime";
 
