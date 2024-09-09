@@ -15,6 +15,7 @@ type user = {
   badge: string[];
 };
 
+// Follower Tipe Data
 interface FollowerTypes {
   _id: string;
   user_id: string;
