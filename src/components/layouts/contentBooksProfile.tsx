@@ -22,6 +22,10 @@ type BookType = {
   };
   createdAt: Date;
   updatedAt: Date;
+  user: {
+    username: string;
+    _id: string;
+  };
 };
 
 type StatusType = { _id: string; book_id: string; status: string };
@@ -34,7 +38,7 @@ export function ProfilBooksDekstop({
   statusBook: StatusType[];
 }) {
   const { handleRouter } = useContext(GlobalState);
-  const { _id, title, writer, sinopsis, terbit, genre, imgBooks, ISBN, jenis } = dataBook;
+  const { _id, title, writer, sinopsis, terbit, genre, imgBooks, ISBN, jenis, user } = dataBook;
 
   return (
     <div className="bg-white w-[32.1%] h-screen fixed top-0 right-0 md:flex hidden flex-col p-5 border-l">
@@ -69,7 +73,7 @@ export function ProfilBooksDekstop({
                   <button
                     aria-label={`buttonseeWriter${_id}`}
                     className="text-blue-500"
-                    onClick={() => handleRouter(writer)}
+                    onClick={() => handleRouter(user?.username)}
                   >
                     {writer}
                   </button>
@@ -105,7 +109,7 @@ export const BooksProfileMobile = ({
   statusBook: StatusType[];
 }) => {
   const { handleRouter } = useContext(GlobalState);
-  const { _id, title, writer, sinopsis, terbit, imgBooks, genre, jenis } = dataBook;
+  const { _id, title, writer, sinopsis, terbit, imgBooks, genre, jenis, user } = dataBook;
 
   return (
     <div className="md:hidden flex w-full bg-[#27AB8B] border-none gap-2 px-5 py-2 ">
@@ -141,7 +145,7 @@ export const BooksProfileMobile = ({
                 <button
                   aria-label={`handlerouterWriter${_id}`}
                   className="text-blue-900"
-                  onClick={() => handleRouter(writer)}
+                  onClick={() => handleRouter(user?.username)}
                 >
                   {writer}
                 </button>

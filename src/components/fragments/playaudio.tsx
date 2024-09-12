@@ -115,7 +115,7 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
   return (
     <div
       ref={playerRef}
-      className="fixed flex items-center justify-center border rounded-full p-2 bg-[#00b88c] z-50 size-[60px] ease-linear"
+      className="fixed flex items-center justify-center border rounded-full p-2 bg-bluemary z-50 size-[60px] ease-linear"
       style={{
         position: "fixed",
         left: `${position.x}px`,
@@ -129,7 +129,7 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
       onTouchMove={handleTouchMove}
       onTouchStart={handleTouchStart}
     >
-      <button onClick={handlePlayPause}>
+      <button aria-label="button-play-audio" className="text-white" onClick={handlePlayPause}>
         {isPlaying ? <FaPause size={25} /> : <FaPlay size={25} />}
       </button>
 

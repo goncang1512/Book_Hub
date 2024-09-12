@@ -19,6 +19,7 @@ const config = {
     },
     extend: {
       colors: {
+        bluemary: "#0077B6",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

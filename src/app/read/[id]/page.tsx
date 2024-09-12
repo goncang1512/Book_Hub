@@ -86,9 +86,9 @@ export default function Read({ params }: { params: { id: string } }) {
             detailChapter?.canvas?.length < 1 &&
             draftChapter?.length < 1 &&
             submitChapter?.length < 1 && (
-              <div className="border rounded-full p-2 bg-green-500 z-30">
+              <div className="border rounded-full p-2 bg-bluemary z-30">
                 <Link
-                  className="flex items-center justify-center"
+                  className="flex items-center justify-center text-white"
                   href={`/profil/author/texteditor/${detailChapter?._id}`}
                 >
                   <BiBookAdd size={30} />
@@ -103,8 +103,8 @@ export default function Read({ params }: { params: { id: string } }) {
               submitChapter?.length >= 1) && (
               <div className="flex items-center gap-3">
                 {!audioSrc ? (
-                  <div className="border rounded-full p-2 bg-green-500 z-30">
-                    <label className="cursor-pointer" htmlFor="file-upload">
+                  <div className="border rounded-full p-2 bg-bluemary z-30">
+                    <label className="cursor-pointer text-white" htmlFor="file-upload">
                       <MdOutlineAudiotrack size={30} />
                     </label>
                     <input

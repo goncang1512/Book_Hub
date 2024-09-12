@@ -163,10 +163,18 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
             {session?.user?._id === userData?._id && (
               <DropDown label={userData?._id}>
                 <div className="flex flex-col gap-2 z-40">
-                  <Link className="active:text-gray-400" href={"/setting"}>
+                  <Link
+                    aria-label={`buttonSetting`}
+                    className="active:text-gray-400"
+                    href={"/setting"}
+                  >
                     Setting
                   </Link>
-                  <Link className="active:text-gray-400" href={"/profil/upload"}>
+                  <Link
+                    aria-label="button-upload"
+                    className="active:text-gray-400"
+                    href={"/profil/upload"}
+                  >
                     Upload books
                   </Link>
                   <button
@@ -272,6 +280,7 @@ const ModalInbox = ({
     <dialog className="modal" id="modal_inbox" onClick={() => setDataModal(null)}>
       <div ref={containerRef} className="modal-box" onClick={(e) => e.stopPropagation()}>
         <button
+          aria-label="button-closeModalInbox"
           className="absolute top-2 right-6 rounded-full hover:bg-white text-black hover:text-red-500"
           onClick={() => setDataModal(null)}
         >

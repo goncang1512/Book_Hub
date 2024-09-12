@@ -98,7 +98,11 @@ export const bookServices = {
     return await BooksModels.deleteMany({ user_id });
   },
   getContentSingle: async (book_id: string) => {
-    const results = await BooksModels.findOne({ _id: book_id });
+    const results = await BooksModels.findOne({ _id: book_id }).populate({
+      path: "user",
+      model: "users",
+      select: "_id username email imgProfil role badge",
+    });
 
     let statusBook: any[] = [];
 

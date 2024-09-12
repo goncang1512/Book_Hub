@@ -5,10 +5,12 @@ import React, { SetStateAction, useEffect, useRef } from "react";
 import { RiCloseLine } from "react-icons/ri";
 
 export default function ModalBox({
+  story_id,
   dataModal,
   setDataModal,
   children,
 }: {
+  story_id: string;
   dataModal: any;
   setDataModal: React.Dispatch<SetStateAction<any | null>>;
   children: React.ReactNode;
@@ -30,6 +32,7 @@ export default function ModalBox({
       >
         <div className="flex justify-end pt-1 pr-1">
           <button
+            aria-label={`buttonModalReport${story_id}`}
             className="rounded-full hover:bg-slate-300 text-black hover:text-red-500"
             onClick={() => setDataModal(null)}
           >

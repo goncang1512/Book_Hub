@@ -19,7 +19,7 @@ export default function ButtonFollow({
   const { followUser, unfollowUser } = useContext(LikeContext);
 
   useEffect(() => {
-    setFollowed(user?.follower.some((follow: any) => follow.follower_id === follower_id));
+    setFollowed(user?.follower.some((follow: any) => follow?.follower_id === follower_id));
   }, [user?.follower, follower_id]);
 
   return (
@@ -42,7 +42,7 @@ export default function ButtonFollow({
             followUser(user?._id, follower_id, user?.username, setFollowed);
           }}
         >
-          {dataUser.myFollower.some((follow: any) => follow.user_id === session?.user?._id)
+          {dataUser?.myFollower.some((follow: any) => follow?.user_id === session?.user?._id)
             ? "followback"
             : "follow"}
         </button>

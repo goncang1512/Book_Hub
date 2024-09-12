@@ -147,7 +147,7 @@ export const CardContent = ({
       id="main-container"
     >
       <button
-        aria-label="handlerouterUser"
+        aria-label={`handlerouterUser${story?._id}`}
         className="relative w-max flex flex-col justify-center items-center rounded-full cursor-pointer"
         onClick={() => handleRouter(story?.user?.username)}
       >
@@ -165,7 +165,7 @@ export const CardContent = ({
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <button
-                aria-label="handlerouterStory"
+                aria-label={`handlerouterStory${story?._id}`}
                 className="flex items-center gap-2"
                 onClick={() => handleRouter(story?.user?.username)}
               >
@@ -208,12 +208,16 @@ export const CardContent = ({
                   Report
                 </button>
                 {dataReport && (
-                  <ModalBox dataModal={dataReport} setDataModal={setDataReport}>
+                  <ModalBox
+                    dataModal={dataReport}
+                    setDataModal={setDataReport}
+                    story_id={story?._id}
+                  >
                     <div className="flex flex-col justify-start">
                       {report.map((laporan: string, index: number) => (
                         <button
                           key={index}
-                          aria-label={`${index}buttonLaporan`}
+                          aria-label={`${index}buttonLaporan${story?._id}`}
                           className="active:text-slate-300 text-base text-start"
                           onClick={() => {
                             makeReport(
@@ -240,7 +244,7 @@ export const CardContent = ({
                 {session?.user?._id === story?.user_id && (
                   <>
                     <button
-                      aria-label="deleteStory"
+                      aria-label={`deleteStory${story?._id}`}
                       className="active:text-gray-400 flex items-center justify-center w-auto whitespace-nowrap"
                       onClick={() => {
                         deletedStory(story?._id, story?.book_id, urlData);
@@ -253,7 +257,7 @@ export const CardContent = ({
                       )}
                     </button>
                     <button
-                      aria-label="updateStory"
+                      aria-label={`updateStory${story?._id}`}
                       className="active:text-gray-400 text-start w-auto whitespace-nowrap"
                       type="button"
                       onClick={() => setHandleUpdate(!handleUpdate)}
@@ -343,7 +347,11 @@ export const CardContent = ({
             story?.book ? `${seeBook ? "flex" : "hidden"}` : "hidden"
           } flex gap-3 mt-2 border p-3 rounded-lg bg-zinc-100 w-full`}
         >
-          <Link className="w-[62px] h-[114px]" href={`/content/${story?.book?._id}`}>
+          <Link
+            aria-label={`toBook-${story?._id}`}
+            className="w-[62px] h-[114px]"
+            href={`/content/${story?.book?._id}`}
+          >
             <Picture
               className="w-[64px] h-[114px] rounded-lg object-cover border"
               src={story?.book?.imgBooks?.imgUrl}
@@ -351,7 +359,7 @@ export const CardContent = ({
           </Link>
           <div className="flex flex-col justify-between w-full">
             <div className="flex w-full justify-between items-center">
-              <Link href={`/content/${story?.book?._id}`}>
+              <Link aria-label={`toSeeBook-${story?._id}`} href={`/content/${story?.book?._id}`}>
                 <h1 className="font-semibold flex items-center gap-1">
                   <FiBook size={20} />
                   {story?.book?.title}
@@ -392,17 +400,18 @@ export const CardContent = ({
         <div className="flex items-center gap-3" id="like-component">
           <LikeComponent
             _id={story?._id}
-            book_id={statusCard === "detail" ? story._id : story?.book_id}
+            book_id={statusCard === "detail" ? story?._id : story?.book_id}
             chapterBook={chapterBook}
-            contentLike={story?.like_str && story.like_str}
+            contentLike={story?.like_str && story?.like_str}
             urlData={urlData}
-            user={story.user && story.user}
+            user={story?.user && story.user}
             user_story={story?.user_id && story?.user_id}
           />
 
           {!comment && (
             <div className="flex items-center gap-2">
               <Link
+                aria-label={`toCommentStory-${story?._id}`}
                 className={`flex`}
                 href={` ${story?.type === "chapter" ? `/content?id=${story?._id}` : story?.book ? `/content?id=${story?._id}` : `/content?id=${story?.book_id}`}`}
               >
@@ -455,6 +464,7 @@ const LikeComponent = ({
   return (
     <div className="flex items-center gap-1">
       <button
+        aria-label={`likeContent${_id}`}
         className={`flex items-center relative gap-1`}
         onClick={() => {
           if (liked) {

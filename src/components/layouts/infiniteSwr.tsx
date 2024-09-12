@@ -1,6 +1,7 @@
 import { storySWR } from "@/lib/swr/storySwr";
 import React, { useEffect } from "react";
 import { CardContent } from "./cardstory";
+import { Button } from "../elements/button";
 
 export default function InfiniteSwrStory({
   dataFollow,
@@ -43,12 +44,14 @@ export default function InfiniteSwrStory({
         {isLoading ? (
           <span className="loading loading-spinner loading-md" />
         ) : (
-          <button
-            className="font-mono text-sm text-[#252525] px-2 py-1 uppercase rounded-lg border-2 border-[#252525] bg-white shadow-[3px_3px_0_#000] cursor-pointer active:shadow-none active:translate-x-[3px] active:translate-y-[3px]"
+          <Button
+            label="button-see-more"
+            size="buttonClick"
+            variant="buttonClick"
             onClick={() => setSize(size + 1)}
           >
             see more
-          </button>
+          </Button>
         )}
       </div>
     </div>
