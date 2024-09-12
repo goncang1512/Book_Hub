@@ -172,7 +172,7 @@ function CardBook({
                     Report
                   </button>
                   {dataReport && (
-                    <ModalBox dataModal={dataReport} setDataModal={setDataReport}>
+                    <ModalBox dataModal={dataReport} setDataModal={setDataReport} story_id={_id}>
                       <div className="flex flex-col justify-start">
                         {report.map((laporan: string, index: number) => {
                           return (
