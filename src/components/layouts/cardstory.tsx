@@ -465,24 +465,42 @@ const ModalShare = ({ modalBox, setModalBox, story_id }: any) => {
   return (
     <ModalBox dataModal={modalBox} setDataModal={setModalBox} story_id={story_id}>
       <div className="flex items-center gap-2">
-        <WhatsappShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+        <WhatsappShareButton
+          aria-label={`buttonWhats-${story_id}`}
+          url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}
+        >
           <WhatsappIcon borderRadius={100} size={50} />
         </WhatsappShareButton>
-        <FacebookShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+        <FacebookShareButton
+          aria-label={`buttonFacebook-${story_id}`}
+          url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}
+        >
           <FacebookIcon borderRadius={100} size={50} />
         </FacebookShareButton>
-        <TwitterShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+        <TwitterShareButton
+          aria-label={`buttonTwitter-${story_id}`}
+          url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}
+        >
           <div className="bg-black text-white rounded-full size-[50px] flex items-center justify-center">
             <FaXTwitter size={30} />
           </div>
         </TwitterShareButton>
-        <TelegramShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+        <TelegramShareButton
+          aria-label={`buttonTelegram-${story_id}`}
+          url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}
+        >
           <TelegramIcon borderRadius={100} size={50} />
         </TelegramShareButton>
-        <LinkedinShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+        <LinkedinShareButton
+          aria-label={`buttonLinked-${story_id}`}
+          url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}
+        >
           <LinkedinIcon borderRadius={100} size={50} />
         </LinkedinShareButton>
-        <LineShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+        <LineShareButton
+          aria-label={`buttonLine-${story_id}`}
+          url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}
+        >
           <LineIcon borderRadius={100} size={50} />
         </LineShareButton>
       </div>
