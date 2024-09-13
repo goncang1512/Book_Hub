@@ -97,6 +97,18 @@ export function ProfilBooksDekstop({
           </table>
         </div>
       </div>
+      {jenis !== "Review" && (
+        <div className=" w-full flex items-center justify-center py-2">
+          <Link
+            className="bg-white border shadow-xl px-2 py-2 rounded-sm active:bg-slate-400 font-semibold"
+            href={
+              jenis === "Cerpen" ? `/read?id=${_id}&chapter=${statusBook[0]?._id}` : `/read/${_id}`
+            }
+          >
+            Read Now
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
@@ -112,7 +124,7 @@ export const BooksProfileMobile = ({
   const { _id, title, writer, sinopsis, terbit, imgBooks, genre, jenis, user } = dataBook;
 
   return (
-    <div className="md:hidden flex w-full bg-[#27AB8B] border-none gap-2 px-5 py-2 ">
+    <div className="md:hidden flex w-full bg-bluemary border-none gap-2 px-5 py-2 ">
       {jenis !== "Review" && statusBook[0]?._id ? (
         <Link
           href={
@@ -130,65 +142,82 @@ export const BooksProfileMobile = ({
           src={imgBooks.imgUrl}
         />
       )}
-      <table className="md:text-base text-sm text-white" style={{ width: "71%" }}>
-        <tbody>
-          <tr>
-            <td className="text-start align-top">Judul</td>
-            <td className="px-1 align-top">:</td>
-            <td>{title}</td>
-          </tr>
-          <tr>
-            <td className="text-start align-top">Penulis</td>
-            <td className="px-1 align-top">:</td>
-            <td>
-              {jenis !== "Review" ? (
-                <button
-                  aria-label={`handlerouterWriter${_id}`}
-                  className="text-blue-900"
-                  onClick={() => handleRouter(user?.username)}
-                >
-                  {writer}
-                </button>
-              ) : (
-                writer
-              )}
-            </td>
-          </tr>
-          <tr>
-            <td className="text-start align-top">Terbit</td>
-            <td className="px-1 align-top">:</td>
-            <td>{parseDate(terbit)}</td>
-          </tr>
-          <tr>
-            <td className="text-start align-top">Genre</td>
-            <td className="px-1 align-top">:</td>
-            <td>
-              {genre &&
-                genre.map((teks: string, index: number) =>
-                  index + 1 === genre.length ? teks : `${teks}, `,
+      <div className="flex flex-col w-full">
+        <table className="md:text-base text-sm text-white" style={{ width: "71%" }}>
+          <tbody>
+            <tr>
+              <td className="text-start align-top">Judul</td>
+              <td className="px-1 align-top">:</td>
+              <td>{title}</td>
+            </tr>
+            <tr>
+              <td className="text-start align-top">Penulis</td>
+              <td className="px-1 align-top">:</td>
+              <td>
+                {jenis !== "Review" ? (
+                  <button
+                    aria-label={`handlerouterWriter${_id}`}
+                    className="text-[#CAF0F8]"
+                    onClick={() => handleRouter(user?.username)}
+                  >
+                    {writer}
+                  </button>
+                ) : (
+                  writer
                 )}
-            </td>
-          </tr>
-          <tr>
-            <td className="text-start align-top">Jenis</td>
-            <td className="px-1 align-top">:</td>
-            <td>{jenis}</td>
-          </tr>
-          <tr>
-            <td className="text-start align-top">Sinopsis</td>
-            <td className="px-1 align-top">:</td>
-            <td>
-              <ReadMoreLess
-                other
-                maxLength={200}
-                mobile={90}
-                text={sinopsis}
-                textFont="md:text-base text-sm"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+            </tr>
+            <tr>
+              <td className="text-start align-top">Terbit</td>
+              <td className="px-1 align-top">:</td>
+              <td>{parseDate(terbit)}</td>
+            </tr>
+            <tr>
+              <td className="text-start align-top">Genre</td>
+              <td className="px-1 align-top">:</td>
+              <td>
+                {genre &&
+                  genre.map((teks: string, index: number) =>
+                    index + 1 === genre.length ? teks : `${teks}, `,
+                  )}
+              </td>
+            </tr>
+            <tr>
+              <td className="text-start align-top">Jenis</td>
+              <td className="px-1 align-top">:</td>
+              <td>{jenis}</td>
+            </tr>
+            <tr>
+              <td className="text-start align-top">Sinopsis</td>
+              <td className="px-1 align-top">:</td>
+              <td>
+                <ReadMoreLess
+                  other
+                  maxLength={200}
+                  mobile={90}
+                  text={sinopsis}
+                  textFont="md:text-base text-sm"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        {jenis !== "Review" && (
+          <div className=" w-full flex items-center justify-center py-2">
+            <Link
+              className="bg-white px-2 rounded-sm active:bg-slate-400"
+              href={
+                jenis === "Cerpen"
+                  ? `/read?id=${_id}&chapter=${statusBook[0]?._id}`
+                  : `/read/${_id}`
+              }
+            >
+              Read Now
+            </Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

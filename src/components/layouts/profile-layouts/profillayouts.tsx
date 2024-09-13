@@ -94,8 +94,9 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
               </div>
             </div>
             {session?.user?._id === userData?._id && (
-              <button
+              <Button
                 className="flex items-center gap-1 p-2 rounded-lg text-white bg-black/45 hover:bg-black/70 md:text-sm text-xs"
+                label={`buttonEditCover-${userData?._id}`}
                 onClick={() => {
                   setBtnEditCover({
                     username: userData?.username,
@@ -105,8 +106,8 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
                 }}
               >
                 <CiCamera size={20} />
-                Edit Cover
-              </button>
+                <span className="md:flex hidden">Edit Cover</span>
+              </Button>
             )}
           </div>
 

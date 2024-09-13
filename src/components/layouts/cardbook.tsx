@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useContext, useEffect, useRef, useState } from "react";
-import { FaRegComments } from "react-icons/fa6";
+import { FaRegComments, FaXTwitter } from "react-icons/fa6";
 import { BiBookReader } from "react-icons/bi";
 import { FiBook } from "react-icons/fi";
 import { IoIosArrowDown } from "react-icons/io";
@@ -9,6 +9,15 @@ import { IconWriter } from "@public/svg/assets";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
+import {
+  WhatsappShareButton,
+  FacebookShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  LineShareButton,
+} from "react-share";
+import { WhatsappIcon, FacebookIcon, TelegramIcon, LineIcon, LinkedinIcon } from "react-share";
 import styles from "@/lib/style.module.css";
 
 import ReadMoreLess from "../elements/readmoreless";
@@ -53,6 +62,7 @@ function CardBook({
 }) {
   if (!dataContent) return 0;
   const pathname = usePathname();
+  const [modalBox, setModalBox] = useState<{ book_id: string } | null>(null);
   const { data: session }: any = useSession();
   const { updateHalaman, loadingHalaman } = React.useContext(WhislistContext);
   const modalDeleteBookRef = useRef<HTMLDialogElement | null>(null);
@@ -171,6 +181,13 @@ function CardBook({
                   >
                     Report
                   </button>
+                  <Button
+                    className="active:text-gray-400 text-start"
+                    label={`buttonShareBook-${_id}`}
+                    onClick={() => setModalBox({ book_id: _id })}
+                  >
+                    Share
+                  </Button>
                   {dataReport && (
                     <ModalBox dataModal={dataReport} setDataModal={setDataReport} story_id={_id}>
                       <div className="flex flex-col justify-start">
@@ -321,6 +338,7 @@ function CardBook({
         </div>
       </div>
       <ModalDeleteBook dataDelete={dataDelete} refDialog={modalDeleteBookRef} />
+      <ModalShare book_id={_id} modalBox={modalBox} setModalBox={setModalBox} />
     </div>
   );
 }
@@ -455,6 +473,35 @@ export const ModalDeleteBook: React.FC<{
         <button aria-label={`buttonCloseDlt${dataDelete.book_id}`}>close</button>
       </form>
     </dialog>
+  );
+};
+
+const ModalShare = ({ modalBox, setModalBox, book_id }: any) => {
+  return (
+    <ModalBox dataModal={modalBox} setDataModal={setModalBox} story_id={book_id}>
+      <div className="flex items-center gap-2">
+        <WhatsappShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content/${book_id}`}>
+          <WhatsappIcon borderRadius={100} size={50} />
+        </WhatsappShareButton>
+        <FacebookShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content/${book_id}`}>
+          <FacebookIcon borderRadius={100} size={50} />
+        </FacebookShareButton>
+        <TwitterShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content/${book_id}`}>
+          <div className="bg-black text-white rounded-full size-[50px] flex items-center justify-center">
+            <FaXTwitter size={30} />
+          </div>
+        </TwitterShareButton>
+        <TelegramShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content/${book_id}`}>
+          <TelegramIcon borderRadius={100} size={50} />
+        </TelegramShareButton>
+        <LinkedinShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content/${book_id}`}>
+          <LinkedinIcon borderRadius={100} size={50} />
+        </LinkedinShareButton>
+        <LineShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content/${book_id}`}>
+          <LineIcon borderRadius={100} size={50} />
+        </LineShareButton>
+      </div>
+    </ModalBox>
   );
 };
 

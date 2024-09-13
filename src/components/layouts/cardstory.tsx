@@ -4,9 +4,19 @@ import { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import { IconWriter } from "@public/svg/assets";
 import { FiBook } from "react-icons/fi";
+import { IoArrowRedoOutline, IoShareSocialOutline } from "react-icons/io5";
 import { BiSolidLike, BiLike } from "react-icons/bi";
-import { FaRegComments } from "react-icons/fa6";
+import { FaRegComments, FaXTwitter } from "react-icons/fa6";
 import styles from "@/lib/style.module.css";
+import {
+  WhatsappShareButton,
+  FacebookShareButton,
+  TelegramShareButton,
+  TwitterShareButton,
+  LinkedinShareButton,
+  LineShareButton,
+} from "react-share";
+import { WhatsappIcon, FacebookIcon, TelegramIcon, LineIcon, LinkedinIcon } from "react-share";
 
 import DetailStory from "../fragments/detailstory";
 import Picture from "../elements/image";
@@ -24,6 +34,7 @@ import { ButtonStory } from "../fragments/buttonfollow";
 import ModalBox from "../fragments/modalbox";
 import { pesanVar } from "@/lib/utils/pesanvariable";
 import { ReportContext } from "@/lib/context/reportcontext";
+import { usePathname } from "next/navigation";
 
 export type StoryType = {
   _id: string;
@@ -90,10 +101,12 @@ export const CardContent = ({
   chapterBook?: string | null;
   classStory?: string;
 }) => {
+  const pahtname = usePathname();
   const { data: session }: any = useSession();
   const [handleUpdate, setHandleUpdate] = useState(false);
   const { handleRouter } = useContext(GlobalState);
   const { makeReport } = useContext(ReportContext);
+  const [modalBox, setModalBox] = useState<{ story_id: string } | null>(null);
   const {
     deletedStory,
     loadingDeleteStory,
@@ -397,34 +410,83 @@ export const CardContent = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-3" id="like-component">
-          <LikeComponent
-            _id={story?._id}
-            book_id={statusCard === "detail" ? story?._id : story?.book_id}
-            chapterBook={chapterBook}
-            contentLike={story?.like_str && story?.like_str}
-            urlData={urlData}
-            user={story?.user && story.user}
-            user_story={story?.user_id && story?.user_id}
-          />
+        <div className="flex items-center justify-between w-full" id="like-component">
+          <div className="flex items-center gap-3">
+            <LikeComponent
+              _id={story?._id}
+              book_id={statusCard === "detail" ? story?._id : story?.book_id}
+              chapterBook={chapterBook}
+              contentLike={story?.like_str && story?.like_str}
+              urlData={urlData}
+              user={story?.user && story.user}
+              user_story={story?.user_id && story?.user_id}
+            />
 
-          {!comment && (
-            <div className="flex items-center gap-2">
-              <Link
-                aria-label={`toCommentStory-${story?._id}`}
-                className={`flex`}
-                href={` ${story?.type === "chapter" ? `/content?id=${story?._id}` : story?.book ? `/content?id=${story?._id}` : `/content?id=${story?.book_id}`}`}
-              >
-                <FaRegComments size={25} />
-              </Link>
-              <p className="text-center text-sm text-gray-400">
-                {story?.balasanSum?.length > 0 && story?.balasanSum?.length}
-              </p>
-            </div>
+            {!comment && (
+              <div className="flex items-center gap-2">
+                <Link
+                  aria-label={`toCommentStory-${story?._id}`}
+                  className={`flex`}
+                  href={`/content?id=${story?._id}`}
+                  // href={`${story?.type === "chapter" ? `/content?id=${story?._id}` : story?.book ? `/content?id=${story?._id}` : `/content?id=${story?.book_id}`}`}
+                >
+                  <FaRegComments size={25} />
+                </Link>
+                <p className="text-center text-sm text-gray-400">
+                  {story?.balasanSum?.length > 0 && story?.balasanSum?.length}
+                </p>
+              </div>
+            )}
+
+            <Button
+              label={`buttonShare-${story?._id}`}
+              onClick={() => setModalBox({ story_id: story?._id })}
+            >
+              <IoShareSocialOutline size={25} />
+            </Button>
+          </div>
+          {story?.type === "balasan" && pahtname === "/profil" && (
+            <Link
+              aria-label={`button-seemore-${story?._id}`}
+              className="flex items-center gap-1 md:mr-5"
+              href={`/content?id=${story?.book_id}`}
+            >
+              <IoArrowRedoOutline size={25} />
+            </Link>
           )}
         </div>
       </div>
+      <ModalShare modalBox={modalBox} setModalBox={setModalBox} story_id={modalBox?.story_id} />
     </div>
+  );
+};
+
+const ModalShare = ({ modalBox, setModalBox, story_id }: any) => {
+  return (
+    <ModalBox dataModal={modalBox} setDataModal={setModalBox} story_id={story_id}>
+      <div className="flex items-center gap-2">
+        <WhatsappShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+          <WhatsappIcon borderRadius={100} size={50} />
+        </WhatsappShareButton>
+        <FacebookShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+          <FacebookIcon borderRadius={100} size={50} />
+        </FacebookShareButton>
+        <TwitterShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+          <div className="bg-black text-white rounded-full size-[50px] flex items-center justify-center">
+            <FaXTwitter size={30} />
+          </div>
+        </TwitterShareButton>
+        <TelegramShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+          <TelegramIcon borderRadius={100} size={50} />
+        </TelegramShareButton>
+        <LinkedinShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+          <LinkedinIcon borderRadius={100} size={50} />
+        </LinkedinShareButton>
+        <LineShareButton url={`${process.env.NEXT_PUBLIC_API_URL}/content?id=${story_id}`}>
+          <LineIcon borderRadius={100} size={50} />
+        </LineShareButton>
+      </div>
+    </ModalBox>
   );
 };
 

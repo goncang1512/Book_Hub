@@ -4,6 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 const button = cva("button", {
   variants: {
     variant: {
+      default: "",
       primary: `bg-[#0077B6] text-white border-transparent 
         md:hover:bg-[#03045E] max-[640px]:active:bg-[#03045E] rounded-lg`,
       danger: `bg-red-500 text-white border-transparent 
@@ -18,6 +19,7 @@ const button = cva("button", {
         "text-[#252525] uppercase rounded-lg border-2 border-[#252525] bg-white shadow-[3px_3px_0_#000] cursor-pointer active:shadow-none active:translate-x-[3px] active:translate-y-[3px]",
     },
     size: {
+      default: "",
       small: `text-sm py-1 px-2`,
       medium: `text-base py-2 px-4 font-semibold`,
       login: "w-full py-2",
@@ -27,8 +29,8 @@ const button = cva("button", {
     },
   },
   defaultVariants: {
-    variant: "primary",
-    size: "medium",
+    variant: "default",
+    size: "default",
   },
 });
 
