@@ -301,7 +301,8 @@ function CardBook({
           </div>
         </div>
       </div>
-      {/* See Detail Book */}
+
+      {/* See Detail Book / Bookmark */}
       <div
         className={`${
           seeDetail ? "h-full" : "h-[0px] overflow-hidden -mt-4"
@@ -328,7 +329,12 @@ function CardBook({
             >
               Bookmark
             </Input>
-            <Button disabled={loadingHalaman} label={`buttonBookmark${_id}`} variant="primary">
+            <Button
+              disabled={loadingHalaman}
+              label={`buttonBookmark${_id}`}
+              size="medium"
+              variant="primary"
+            >
               {loadingHalaman ? <span className="loading loading-dots loading-md" /> : "Update"}
             </Button>
           </form>
