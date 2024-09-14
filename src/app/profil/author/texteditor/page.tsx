@@ -83,16 +83,18 @@ export default function TextEditor() {
           setContent={setContent}
         />
         <div className="p-2 flex justify-end">
-          <button
-            className="border p-2 bg-green-400 rounded-lg"
+          <Button
+            label="button-update-chapter"
+            size="medium"
             type="submit"
+            variant="primary"
             onClick={() => {
               const modal = document.getElementById("modal_add_chapter") as HTMLDialogElement;
               modal.showModal();
             }}
           >
             Update Chapter
-          </button>
+          </Button>
         </div>
       </div>
       <ModalAddChapter
@@ -192,6 +194,7 @@ const ModalAddChapter = ({
           <Button
             disabled={loadingCanvas}
             label="buttonUpdateChapter"
+            size="medium"
             type="submit"
             variant="primary"
           >

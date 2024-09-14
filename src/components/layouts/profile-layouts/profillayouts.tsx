@@ -245,7 +245,13 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
               <p className="mt-2 text-xs text-gray-300">Recomend 800px x 300px</p>
             </label>
           </div>
-          <Button label="buttonCover" name="updateCover" type="submit" variant="primary">
+          <Button
+            label="buttonCover"
+            name="updateCover"
+            size="medium"
+            type="submit"
+            variant="primary"
+          >
             {loadingUpdateFoto ? "loading..." : "Update cover"}
           </Button>
         </form>

@@ -81,100 +81,111 @@ export default function Read({ params }: { params: { id: string } }) {
       >
         {/* Add Chapter */}
         <div className="fixed bottom-3 md:right-[31.5%] right-[2%] md:mb-0 mb-11 flex flex-col gap-4">
-          {session?.user?._id === detailChapter?.user_id &&
-            detailChapter?.jenis === "Cerpen" &&
-            detailChapter?.canvas?.length < 1 &&
-            draftChapter?.length < 1 &&
-            submitChapter?.length < 1 && (
-              <div className="border rounded-full p-2 bg-bluemary z-30">
-                <Link
-                  className="flex items-center justify-center text-white"
-                  href={`/profil/author/texteditor/${detailChapter?._id}`}
-                >
-                  <BiBookAdd size={30} />
-                </Link>
-              </div>
-            )}
-
-          {session?.user?._id === detailChapter?.user_id &&
-            detailChapter?.jenis === "Cerpen" &&
-            (detailChapter?.canvas.length >= 1 ||
-              draftChapter?.length >= 1 ||
-              submitChapter?.length >= 1) && (
-              <div className="flex items-center gap-3">
-                {!audioSrc ? (
+          {/* Cek jika user adalah author dari chapter ini */}
+          {session?.user?._id === detailChapter?.user_id && (
+            <>
+              {/* Jika jenisnya adalah Cerpen */}
+              {detailChapter?.jenis === "Cerpen" ? (
+                // Jika tidak ada chapter yang sudah dibuat
+                detailChapter?.canvas?.length < 1 &&
+                draftChapter?.length < 1 &&
+                submitChapter?.length < 1 ? (
                   <div className="border rounded-full p-2 bg-bluemary z-30">
-                    <label className="cursor-pointer text-white" htmlFor="file-upload">
-                      <MdOutlineAudiotrack size={30} />
-                    </label>
-                    <input
-                      ref={fileInputRef}
-                      accept="audio/*"
-                      className="hidden"
-                      id="file-upload"
-                      type="file"
-                      onChange={handleFileChange}
-                    />
+                    <Link
+                      className="flex items-center justify-center text-white"
+                      href={`/profil/author/texteditor/${detailChapter?._id}`}
+                    >
+                      <BiBookAdd size={30} />
+                    </Link>
                   </div>
                 ) : (
-                  <button
-                    className="flex items-center justify-center border rounded-full p-2 bg-blue-400 z-30"
-                    disabled={ldlAudio}
-                    onClick={() => {
-                      detailChapter?.canvas[0]?.audio ||
-                      draftChapter[0]?.audio ||
-                      submitChapter[0]?.audio
-                        ? updateAudio(
-                            detailChapter?.canvas[0]?._id ||
-                              draftChapter[0]?._id ||
-                              submitChapter[0]?._id,
-                            dataAudio,
-                            setAudioSrc,
-                            setDataAudio,
-                            fileInputRef,
-                          )
-                        : uploadAudio(
-                            detailChapter?.canvas[0]?._id ||
-                              draftChapter[0]?._id ||
-                              submitChapter[0]?._id,
-                            dataAudio,
-                            setAudioSrc,
-                            setDataAudio,
-                            fileInputRef,
-                          );
-                    }}
-                  >
-                    {ldlAudio ? (
-                      <span className="loading loading-spinner loading-md" />
+                  <div className="flex items-center gap-3">
+                    {/* Audio upload button jika sudah ada chapter */}
+                    {!audioSrc ? (
+                      <div className="border rounded-full p-2 bg-bluemary z-30">
+                        <label className="cursor-pointer text-white" htmlFor="file-upload">
+                          <MdOutlineAudiotrack size={30} />
+                        </label>
+                        <input
+                          ref={fileInputRef}
+                          accept="audio/*"
+                          className="hidden"
+                          id="file-upload"
+                          type="file"
+                          onChange={handleFileChange}
+                        />
+                      </div>
                     ) : (
+                      <button
+                        className="flex items-center justify-center border rounded-full p-2 bg-blue-400 z-30"
+                        disabled={ldlAudio}
+                        onClick={() => {
+                          const chapterId =
+                            detailChapter?.canvas[0]?._id ||
+                            draftChapter[0]?._id ||
+                            submitChapter[0]?._id;
+
+                          chapterId
+                            ? updateAudio(
+                                chapterId,
+                                dataAudio,
+                                setAudioSrc,
+                                setDataAudio,
+                                fileInputRef,
+                              )
+                            : uploadAudio(
+                                chapterId,
+                                dataAudio,
+                                setAudioSrc,
+                                setDataAudio,
+                                fileInputRef,
+                              );
+                        }}
+                      >
+                        {ldlAudio ? (
+                          <span className="loading loading-spinner loading-md" />
+                        ) : (
+                          <MdOutlineFileUpload size={30} />
+                        )}
+                      </button>
+                    )}
+
+                    {/* Audio controls */}
+                    {audioSrc && (
                       <>
-                        <MdOutlineFileUpload size={30} />
+                        <audio controls className="max-md:w-48">
+                          <source src={audioSrc} type="audio/mpeg" />
+                          <track kind="metadata" srcLang="en" />
+                          Your browser does not support the audio element.
+                        </audio>
+                        <button
+                          className="flex border rounded-full p-2 bg-red-500 z-30"
+                          onClick={() => {
+                            setAudioSrc(null);
+                            if (fileInputRef.current) {
+                              fileInputRef.current.value = "";
+                            }
+                          }}
+                        >
+                          <FaRegTrashAlt size={30} />
+                        </button>
                       </>
                     )}
-                  </button>
-                )}
-                {audioSrc && (
-                  <>
-                    <audio controls className="max-md:w-48">
-                      <source src={audioSrc} type="audio/mpeg" />
-                      <track kind="metadata" srcLang="en" />
-                      Your browser does not support the audio element.
-                    </audio>
-                    <button
-                      className="flex border rounded-full p-2 bg-red-500 z-30"
-                      onClick={() => {
-                        setAudioSrc(null);
-                        if (fileInputRef.current) {
-                          fileInputRef.current.value = "";
-                        }
-                      }}
-                    >
-                      <FaRegTrashAlt size={30} />
-                    </button>
-                  </>
-                )}
-              </div>
-            )}
+                  </div>
+                )
+              ) : (
+                // Jika jenisnya adalah Novel, tampilkan tombol
+                <div className="border rounded-full p-2 bg-bluemary z-30">
+                  <Link
+                    className="flex items-center justify-center text-white"
+                    href={`/profil/author/texteditor/${detailChapter?._id}`}
+                  >
+                    <BiBookAdd size={30} />
+                  </Link>
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Akhir Add Chapter */}

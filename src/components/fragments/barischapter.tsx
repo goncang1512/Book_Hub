@@ -253,7 +253,13 @@ const ModalInbox = ({
             joditButtons={joditButtons}
             setContent={setMsgInbox}
           />
-          <Button disabled={loading} label={`${dataChapter?._id}UpdateInbox`} type="submit">
+          <Button
+            disabled={loading}
+            label={`${dataChapter?._id}UpdateInbox`}
+            size="medium"
+            type="submit"
+            variant="primary"
+          >
             {loading ? "Updating..." : "Update Status"}
           </Button>
           {error && <p className="text-red-500">{error}</p>}
