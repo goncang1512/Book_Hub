@@ -19,7 +19,13 @@ export default function Home() {
   const booksPerPage = 8;
   const { currentPage, setCurrentPage } = useContext(GlobalState);
   const { jenisHot, recomendedBook, booksLoading, statusBook } = useBooks.allBook();
-  const { totalPage, statusPage, books, pageLoading } = bookSWR.allBook(currentPage, booksPerPage);
+  const shouldFetchPagination = !booksLoading;
+  const { totalPage, statusPage, books, pageLoading } = bookSWR.allBook(
+    currentPage,
+    booksPerPage,
+    shouldFetchPagination,
+  );
+
   const totalPages = Math.ceil(totalPage / booksPerPage);
   const handlePageChange = (pageNumber: number) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {

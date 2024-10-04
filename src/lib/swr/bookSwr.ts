@@ -2,9 +2,9 @@ import useSWR from "swr";
 import { fetcher } from "../utils/useSwr";
 
 export const bookSWR = {
-  allBook: (page: number, booksPerPage: number) => {
+  allBook: (page: number, booksPerPage: number, shouldFetch: boolean) => {
     const { data, error, isLoading } = useSWR(
-      `/api/book/author?page=${page}&limit=${booksPerPage}`,
+      shouldFetch ? `/api/book/author?page=${page}&limit=${booksPerPage}` : null,
       fetcher,
     );
 
