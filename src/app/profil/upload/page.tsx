@@ -166,6 +166,7 @@ export default function UploadBooks() {
                   <Button
                     className="w-full"
                     label="buttonback"
+                    size="medium"
                     type="button"
                     variant="primary"
                     onClick={() => setNextInput(false)}
@@ -192,6 +193,7 @@ export default function UploadBooks() {
                     <Button
                       className="w-full"
                       label="buttonBackGenre"
+                      size="medium"
                       type="button"
                       variant="primary"
                       onClick={() => {
@@ -219,6 +221,7 @@ export default function UploadBooks() {
                   <Button
                     className="w-full"
                     label="buttonNextUploadBook"
+                    size="medium"
                     type="button"
                     variant="primary"
                     onClick={() => {

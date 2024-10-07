@@ -181,6 +181,7 @@ export default function EditBook({ params }: { params: { id: string } }) {
                   <Button
                     className="w-full"
                     label="backsesiBook"
+                    size="medium"
                     type="button"
                     variant="primary"
                     onClick={() => setNextInput(false)}
@@ -206,6 +207,7 @@ export default function EditBook({ params }: { params: { id: string } }) {
                     <Button
                       className="w-full"
                       label="butttonBackGenre"
+                      size="medium"
                       type="button"
                       variant="primary"
                       onClick={() => {
@@ -219,6 +221,7 @@ export default function EditBook({ params }: { params: { id: string } }) {
                       className="w-full flex items-center justify-center"
                       disabled={loadingUpdateBook}
                       label="buttonEditBook"
+                      size="medium"
                       type="submit"
                       variant="primary"
                     >
@@ -233,6 +236,7 @@ export default function EditBook({ params }: { params: { id: string } }) {
                   <Button
                     className="w-full"
                     label="buttonNextBook"
+                    size="medium"
                     type="button"
                     variant="primary"
                     onClick={() => {
