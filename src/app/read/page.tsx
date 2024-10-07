@@ -12,28 +12,15 @@ export async function generateMetadata({ searchParams }: PropsRead): Promise<Met
   const chapter = searchParams?.chapter;
   const book_id = searchParams?.id;
 
-  let data: { judul: string; chapter: string } = {
-    judul: "",
-    chapter: "",
-  };
-
   const result = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/read?id=${book_id}&chapter=${chapter}`,
   );
 
   const res = await result.json();
-
-  if (res) {
-    data = {
-      judul: res?.result?.judul,
-      chapter: `${res?.result?.chapter} -`,
-    };
-  } else {
-    data = {
-      judul: "Read",
-      chapter: "BookHub | ",
-    };
-  }
+  let data = {
+    judul: res?.result?.judul ? res?.result?.judul : "Read",
+    chapter: res?.result?.chapter ? `${res?.result?.judul} -` : "BookHub | ",
+  };
 
   return {
     title: `${data?.chapter} ${data?.judul}`,
