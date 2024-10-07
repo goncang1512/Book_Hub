@@ -125,6 +125,26 @@ export default function CanvasContextProvider({ children }: { children: React.Re
     }
   };
 
+  const uploadAudioToCloudinary = async (audioFile: File | null) => {
+    if (!audioFile) throw Error("Tidak ada file audio");
+    const formData = new FormData();
+    formData.append("file", audioFile);
+    formData.append("upload_preset", `${process.env.NEXT_PUBLIC_CLOUD_PRESET}`);
+    formData.append("folder", "audio");
+    formData.append("resource_type", "video");
+
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/video/upload`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+
+    const data = await response.json();
+    return data;
+  };
+
   const [ldlAudio, setLdlAudio] = useState(false);
   const uploadAudio = async (
     canvas_id: string,
@@ -138,10 +158,15 @@ export default function CanvasContextProvider({ children }: { children: React.Re
     if (!dataAudio.audio) {
       throw new Error("No audio file selected");
     }
-    const formData = new FormData();
-    formData.append("audio", dataAudio?.audio);
     try {
       setLdlAudio(true);
+
+      const audio: any = await uploadAudioToCloudinary(dataAudio.audio);
+
+      const formData = new FormData();
+      formData.append("public_id", audio?.public_id);
+      formData.append("secure_url", audio?.secure_url);
+
       const res = await instance.post(`/api/read/audio/${canvas_id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -180,11 +205,18 @@ export default function CanvasContextProvider({ children }: { children: React.Re
       throw new Error("No audio file selected");
     }
 
-    const formData = new FormData();
-    formData.append("audio", dataAudio?.audio);
-
     try {
+      if (dataAudio.size > 10 * 1024 * 1024) {
+        throw new Error("Ukuran file maksimal 10mb");
+      }
       setLdlAudio(true);
+
+      const audio: any = await uploadAudioToCloudinary(dataAudio.audio);
+
+      const formData = new FormData();
+      formData.append("public_id", audio?.public_id);
+      formData.append("secure_url", audio?.secure_url);
+
       const res = await instance.patch(`/api/read/audio/${canvas_id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
