@@ -4,9 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { canvasSrv } from "@/lib/services/canvasservices";
 
 export const POST = async (req: NextRequest, { params }: { params: { canvas_id: string } }) => {
-  const formData = await req.formData();
-  const public_id = formData.get("public_id") as string;
-  const secure_url = formData.get("secure_url") as string;
+  const { public_id, secure_url } = await req.json();
 
   try {
     if (!params.canvas_id) {
@@ -47,9 +45,7 @@ export const POST = async (req: NextRequest, { params }: { params: { canvas_id: 
 };
 
 export const PATCH = async (req: NextRequest, { params }: { params: { canvas_id: string } }) => {
-  const formData = await req.formData();
-  const public_id = formData.get("public_id") as string;
-  const secure_url = formData.get("secure_url") as string;
+  const { public_id, secure_url } = await req.json();
 
   try {
     const canvas = await canvasSrv.getByIdCanvas(params.canvas_id);

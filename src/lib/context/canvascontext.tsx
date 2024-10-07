@@ -125,6 +125,20 @@ export default function CanvasContextProvider({ children }: { children: React.Re
     }
   };
 
+  const retryFetch = async (fetchFunc: any, retries = 3) => {
+    for (let i = 0; i < retries; i++) {
+      try {
+        return await fetchFunc();
+      } catch (error) {
+        if (i < retries - 1) {
+          await new Promise((res) => setTimeout(res, 1000)); // Tunggu 1 detik sebelum mencoba lagi
+        } else {
+          throw error;
+        }
+      }
+    }
+  };
+
   const uploadAudioToCloudinary = async (audioFile: File | null) => {
     if (!audioFile) throw Error("Tidak ada file audio");
     const formData = new FormData();
@@ -133,16 +147,16 @@ export default function CanvasContextProvider({ children }: { children: React.Re
     formData.append("folder", "audio");
     formData.append("resource_type", "video");
 
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/video/upload`,
-      {
-        method: "POST",
-        body: formData,
-      },
-    );
-
-    const data = await response.json();
-    return data;
+    return retryFetch(async () => {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/video/upload`,
+        { method: "POST", body: formData },
+      );
+      if (!response.ok) {
+        throw new Error("Cloudinary upload failed");
+      }
+      return response.json();
+    });
   };
 
   const [ldlAudio, setLdlAudio] = useState(false);
@@ -163,16 +177,16 @@ export default function CanvasContextProvider({ children }: { children: React.Re
 
       const audio: any = await uploadAudioToCloudinary(dataAudio.audio);
 
-      const formData = new FormData();
-      formData.append("public_id", audio?.public_id);
-      formData.append("secure_url", audio?.secure_url);
-
-      const res = await instance.post(`/api/read/audio/${canvas_id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const res = await instance.post(
+        `/api/read/audio/${canvas_id}`,
+        {
+          public_id: audio.public_id,
+          secure_url: audio.secure_url,
         },
-        timeout: 120000,
-      });
+        {
+          timeout: 120000,
+        },
+      );
 
       if (res.data.status) {
         setLdlAudio(false);
@@ -213,16 +227,16 @@ export default function CanvasContextProvider({ children }: { children: React.Re
 
       const audio: any = await uploadAudioToCloudinary(dataAudio.audio);
 
-      const formData = new FormData();
-      formData.append("public_id", audio?.public_id);
-      formData.append("secure_url", audio?.secure_url);
-
-      const res = await instance.patch(`/api/read/audio/${canvas_id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const res = await instance.patch(
+        `/api/read/audio/${canvas_id}`,
+        {
+          public_id: audio.public_id,
+          secure_url: audio.secure_url,
         },
-        timeout: 120000,
-      });
+        {
+          timeout: 120000,
+        },
+      );
 
       if (res.data.status) {
         setLdlAudio(false);
