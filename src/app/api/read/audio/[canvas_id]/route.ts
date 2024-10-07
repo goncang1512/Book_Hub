@@ -1,14 +1,24 @@
-import { deletedAudio, uploadAudio } from "@/lib/middleware/uploadImg";
+import { deletedAudio, uploadAudioStream } from "@/lib/middleware/uploadImg";
 import { logger } from "@/lib/utils/logger";
 import { NextRequest, NextResponse } from "next/server";
 import { canvasSrv } from "@/lib/services/canvasservices";
 
-const maxSize = 3 * 1024 * 1024;
-
 export const POST = async (req: NextRequest, { params }: { params: { canvas_id: string } }) => {
-  const { audio, size, type } = await req.json();
+  const formData = await req.formData();
+  const file = formData.get("audio") as File;
+
+  if (!file) {
+    return NextResponse.json(
+      { status: false, statusCode: 400, message: "File is required." },
+      { status: 400 },
+    );
+  }
+
+  const fileBuffer = await file.arrayBuffer();
+
+  const base64Data = Buffer.from(fileBuffer);
   try {
-    if (size > maxSize) {
+    if (file.size > 10 * 1024 * 1024) {
       return NextResponse.json(
         {
           status: false,
@@ -27,8 +37,7 @@ export const POST = async (req: NextRequest, { params }: { params: { canvas_id: 
       });
     }
 
-    const newAudio: any = await uploadAudio({ audio, size, type });
-
+    const newAudio: any = await uploadAudioStream(base64Data);
     const result = await canvasSrv.addAudio(params.canvas_id, {
       public_id: newAudio?.public_id,
       audioUrl: newAudio?.secure_url,
@@ -59,14 +68,22 @@ export const POST = async (req: NextRequest, { params }: { params: { canvas_id: 
 };
 
 export const PATCH = async (req: NextRequest, { params }: { params: { canvas_id: string } }) => {
-  const {
-    audio,
-  }: {
-    audio: { size: number; audio: string; type: string };
-  } = await req.json();
+  const formData = await req.formData();
+  const file = formData.get("audio") as File;
+
+  if (!file) {
+    return NextResponse.json(
+      { status: false, statusCode: 400, message: "File is required." },
+      { status: 400 },
+    );
+  }
+
+  const fileBuffer = await file.arrayBuffer();
+
+  const base64Data = Buffer.from(fileBuffer);
 
   try {
-    if (audio.size > maxSize) {
+    if (file.size > 10 * 1024 * 1024) {
       return NextResponse.json(
         {
           status: false,
@@ -79,7 +96,7 @@ export const PATCH = async (req: NextRequest, { params }: { params: { canvas_id:
 
     const canvas = await canvasSrv.getByIdCanvas(params.canvas_id);
 
-    const newAudio: any = await uploadAudio(audio);
+    const newAudio: any = await uploadAudioStream(base64Data);
     const result = await canvasSrv.addAudio(params.canvas_id, {
       public_id: newAudio?.public_id,
       audioUrl: newAudio?.secure_url,

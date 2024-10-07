@@ -106,7 +106,6 @@ export default function AudioPlayer({ audioSrc }: { audioSrc: string }) {
     e.preventDefault();
     setIsDragging(false);
 
-    // Check if the touch was a tap (not a drag)
     if (Date.now() - startDragTime < 300) {
       handlePlayPause();
     }

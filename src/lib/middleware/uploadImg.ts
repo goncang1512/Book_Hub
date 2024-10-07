@@ -1,6 +1,9 @@
 import cloudinary from "../config/cloudinary";
 import { logger } from "../utils/logger";
 
+import { v2 as cloudinarys } from "cloudinary";
+import streamifier from "streamifier";
+
 export const uploadImg = async (img: any) => {
   try {
     if (img.oldId !== "profil/ptkdih6zbetqjfddpqhf") {
@@ -62,15 +65,35 @@ export const updateCover = async (
 
 export const uploadAudio = async (audio: any) => {
   try {
-    const result = await cloudinary.uploader.upload(`${audio.audio}`, {
-      resource_type: "video", // Specify resource_type as "video" for audio and video files
+    const result = await cloudinary.uploader.upload(`${audio}`, {
+      resource_type: "video",
       folder: "audio",
     });
 
     return result;
   } catch (error) {
-    return logger.info("Failed upload img");
+    logger.error("Failed to upload audio: " + error); // Menggunakan logger untuk log error
+    throw new Error("Failed to upload audio" + error);
   }
+};
+
+export const uploadAudioStream = async (audioBuffer: Buffer) => {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinarys.uploader.upload_stream(
+      {
+        resource_type: "video",
+        folder: "audio",
+      },
+      (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+        resolve(result);
+      },
+    );
+
+    streamifier.createReadStream(audioBuffer).pipe(uploadStream);
+  });
 };
 
 export const deletedAudio = async (audio_id: string) => {

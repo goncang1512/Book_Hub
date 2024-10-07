@@ -46,11 +46,11 @@ export default function Read({ params }: { params: { id: string } }) {
   const [dataAudio, setDataAudio] = useState<{
     size: number;
     type: string;
-    audio: string;
+    audio: File | null;
   }>({
     size: 0,
     type: "",
-    audio: "",
+    audio: null,
   });
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -61,10 +61,10 @@ export default function Read({ params }: { params: { id: string } }) {
       reader.onload = (e: any) => {
         setAudioSrc(e.target.result);
 
-        const dataAudio = {
+        const dataAudio: any = {
           size: file.size,
           type: file.type,
-          audio: reader.result as string,
+          audio: file,
         };
         setDataAudio(dataAudio);
       };

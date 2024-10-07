@@ -128,16 +128,26 @@ export default function CanvasContextProvider({ children }: { children: React.Re
   const [ldlAudio, setLdlAudio] = useState(false);
   const uploadAudio = async (
     canvas_id: string,
-    dataAudio: { audio: string; size: number; type: string },
+    dataAudio: { audio: File | null; size: number; type: string },
     setAudioSrc: React.Dispatch<React.SetStateAction<any>>,
     setDataAudio: React.Dispatch<
-      React.SetStateAction<{ type: string; size: number; audio: string }>
+      React.SetStateAction<{ type: string; size: number; audio: File | null }>
     >,
     fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
   ) => {
+    if (!dataAudio.audio) {
+      throw new Error("No audio file selected");
+    }
+    const formData = new FormData();
+    formData.append("audio", dataAudio?.audio);
     try {
       setLdlAudio(true);
-      const res = await instance.post(`/api/read/audio/${canvas_id}`, { dataAudio });
+      const res = await instance.post(`/api/read/audio/${canvas_id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 120000,
+      });
 
       if (res.data.status) {
         setLdlAudio(false);
@@ -145,7 +155,7 @@ export default function CanvasContextProvider({ children }: { children: React.Re
         setDataAudio({
           type: "",
           size: 0,
-          audio: "",
+          audio: null,
         });
         if (fileInputRef?.current) {
           fileInputRef.current.value = "";
@@ -159,16 +169,28 @@ export default function CanvasContextProvider({ children }: { children: React.Re
 
   const updateAudio = async (
     canvas_id: string,
-    dataAudio: { audio: string; size: number; type: string },
+    dataAudio: { audio: File | null; size: number; type: string },
     setAudioSrc: React.Dispatch<React.SetStateAction<any>>,
     setDataAudio: React.Dispatch<
-      React.SetStateAction<{ type: string; size: number; audio: string }>
+      React.SetStateAction<{ type: string; size: number; audio: File | null }>
     >,
     fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
   ) => {
+    if (!dataAudio.audio) {
+      throw new Error("No audio file selected");
+    }
+
+    const formData = new FormData();
+    formData.append("audio", dataAudio?.audio);
+
     try {
       setLdlAudio(true);
-      const res = await instance.patch(`/api/read/audio/${canvas_id}`, { audio: dataAudio });
+      const res = await instance.patch(`/api/read/audio/${canvas_id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 120000,
+      });
 
       if (res.data.status) {
         setLdlAudio(false);
@@ -176,7 +198,7 @@ export default function CanvasContextProvider({ children }: { children: React.Re
         setDataAudio({
           type: "",
           size: 0,
-          audio: "",
+          audio: null,
         });
         if (fileInputRef?.current) {
           fileInputRef.current.value = "";
