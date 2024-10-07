@@ -17,20 +17,23 @@ export async function generateMetadata({ searchParams }: PropsRead): Promise<Met
     chapter: "",
   };
 
-  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/read?id=${book_id}&chapter=${chapter}`)
-    .then(async (res) => {
-      const hasil = await res.json();
-      data = {
-        judul: hasil?.result?.judul,
-        chapter: `${hasil?.result?.chapter} -`,
-      };
-    })
-    .catch(() => {
-      data = {
-        judul: "Read",
-        chapter: "BookHub | ",
-      };
-    });
+  const result = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/read?id=${book_id}&chapter=${chapter}`,
+  );
+
+  const res = await result.json();
+
+  if (res) {
+    data = {
+      judul: res?.result?.judul,
+      chapter: `${res?.result?.chapter} -`,
+    };
+  } else {
+    data = {
+      judul: "Read",
+      chapter: "BookHub | ",
+    };
+  }
 
   return {
     title: `${data?.chapter} ${data?.judul}`,
