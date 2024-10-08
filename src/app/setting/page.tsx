@@ -11,7 +11,7 @@ export default function Setting() {
   const { data, status }: any = useSession();
   const { deleteAccount } = useContext(UserContext);
 
-  const { setIsDarkMode } = useContext(GlobalState);
+  const { isDarkMode, setIsDarkMode } = useContext(GlobalState);
 
   const toggleDarkMode = () => {
     setIsDarkMode((prevMode: boolean) => {
@@ -79,6 +79,7 @@ export default function Setting() {
             <p>Theme</p>
             <label className="grid cursor-pointer place-items-center">
               <input
+                checked={isDarkMode}
                 className="toggle theme-controller bg-base-content col-span-2 col-start-1 row-start-1"
                 type="checkbox"
                 value="synthwave"
