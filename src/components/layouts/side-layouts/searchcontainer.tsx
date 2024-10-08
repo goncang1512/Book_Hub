@@ -41,12 +41,12 @@ export default function SearchContainer({
       ref={containerSearchRef}
       className={`${
         seeSearch ? "md:translate-x-[18rem] translate-x-0" : "-translate-x-[100%]"
-      } bg-white border-r shadow-xl h-screen duration-700 w-80 z-40 left-0 fixed p-2`}
+      } bg-white dark:bg-primary-black border-r shadow-xl h-screen duration-700 w-80 z-40 left-0 fixed p-2`}
     >
       <div className="flex flex-col">
         <div className={`${styles.searchBox} relative`}>
           <input
-            className={`border px-2 py-2 outline-none bg-white rounded-md text-black text-[1em] w-full focus:border focus:border-solid focus:border-[#3b82f6] shadow-md`}
+            className={`border px-2 py-2 outline-none bg-white dark:bg-primary-dark rounded-md text-black dark:text-white text-[1em] w-full focus:border focus:border-solid focus:border-[#3b82f6] shadow-md`}
             id="search"
             name="search"
             placeholder=""

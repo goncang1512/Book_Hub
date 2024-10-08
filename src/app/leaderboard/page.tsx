@@ -1,14 +1,12 @@
 "use client";
 import * as React from "react";
-import { useContext } from "react";
 
 import Picture from "@/components/elements/image";
-import { GlobalState } from "@/lib/context/globalstate";
 import { useUsers } from "@/lib/utils/useSwr";
+import Link from "next/link";
 
 export default function Leaderboard() {
   const { userData, userDataLoading } = useUsers.Leaderboard();
-  const { handleRouter } = useContext(GlobalState);
 
   return (
     <>
@@ -20,7 +18,7 @@ export default function Leaderboard() {
         <div className="overflow-x-auto">
           <table className="table">
             {/* head */}
-            <thead>
+            <thead className="text-black dark:text-white">
               <tr>
                 <th>
                   <p className="text-center">No.</p>
@@ -65,17 +63,18 @@ export default function Leaderboard() {
                       <td>
                         <div className="flex items-center gap-3">
                           <div className="avatar">
-                            <Picture
-                              className="md:flex hidden cursor-pointer md:size-12 size-8 rounded-full border"
-                              src={user.imgProfil.imgUrl}
-                              onClick={() => handleRouter(user?.username)}
-                            />
+                            <Link href={`/user/@${user?.username}`}>
+                              <Picture
+                                className="md:flex hidden cursor-pointer md:size-12 size-8 rounded-full border"
+                                src={user.imgProfil.imgUrl}
+                              />
+                            </Link>
                           </div>
                           <div>
-                            <button
+                            <Link
                               aria-labelledby={`buttonRouter${user?.username}`}
                               className="flex items-center gap-2"
-                              onClick={() => handleRouter(user?.username)}
+                              href={`/user/@${user?.username}`}
                             >
                               <p className="font-bold md:text-base text-sm max-md:truncate max-md:w-[50px] cursor-pointer">
                                 {user?.username}
@@ -85,7 +84,7 @@ export default function Leaderboard() {
                                   <Picture key={index} className="size-4" src={logo} />
                                 ))}
                               </div>
-                            </button>
+                            </Link>
                           </div>
                         </div>
                       </td>

@@ -28,7 +28,7 @@ export default function Balasan() {
   return (
     <main className="flex">
       {storyDetailLdl ? (
-        <div className="w-screen h-screen flex items-center justify-center bg-white md:mr-[38%] mr-0">
+        <div className="w-screen h-screen flex items-center justify-center bg-white dark:bg-primary-dark md:mr-[38%] mr-0">
           <span className="loading loading-bars loading-lg" />
         </div>
       ) : (
@@ -37,7 +37,7 @@ export default function Balasan() {
             storyBook?.length > 0 ? "h-full" : "h-screen"
           }`}
         >
-          <div className="flex items-center border-b py-5 pl-2 gap-5 z-20 fixed top-0 md:left-[288px] left-0 bg-white md:w-[50.2%] w-full">
+          <div className="flex items-center border-b py-5 pl-2 gap-5 z-20 fixed top-0 md:left-[288px] left-0 bg-white dark:bg-primary-dark md:w-[50.2%] w-full">
             <button aria-labelledby="buttonBackPage" onClick={() => router.back()}>
               <FaArrowLeft size={25} />
             </button>

@@ -7,12 +7,12 @@ import styles from "@/lib/style.module.css";
 const input = cva("", {
   variants: {
     variant: {
-      float: `border-b px-1 py-2 outline-none bg-white text-black text-[1em] w-full focus:border-b focus:border-solid focus:border-[#3b82f6] bg-white`,
-      labelFloat: `border px-[20px] py-[10px] outline-none bg-white rounded-md text-black text-[1em] w-full focus:border focus:border-solid focus:border-[#3b82f6]`,
+      float: `float-input border-b px-1 py-2 outline-none bg-white dark:bg-transparent text-black dark:text-white text-[1em] w-full focus:text-red-500 focus:border-b focus:border-solid focus:border-[#3b82f6]`,
+      labelFloat: `border px-[20px] py-[10px] outline-none bg-white dark:bg-primary-black rounded-md text-black dark:text-white text-[1em] w-full focus:border focus:border-solid focus:border-[#3b82f6]`,
     },
     varLabel: {
-      float: `bg-transparent pointer-events-none text-base left-0 top-[10px] absolute ease-[cubic-bezier(0.05, 0.81, 0, 0.93)] duration-200 text-slate-400`,
-      labelFloat: `bg-white ml-3 pointer-events-none text-base left-0 top-[10px] absolute ease-[cubic-bezier(0.05, 0.81, 0, 0.93)] duration-200 text-gray-400`,
+      float: `label-float bg-transparent pointer-events-none text-base left-0 top-[10px] absolute ease-[cubic-bezier(0.05, 0.81, 0, 0.93)] duration-200 text-slate-400`,
+      labelFloat: `bg-white dark:bg-primary-black ml-3 pointer-events-none text-base left-0 top-[10px] absolute ease-[cubic-bezier(0.05, 0.81, 0, 0.93)] duration-200 text-gray-400`,
     },
     container: {
       float: `${styles.inputADD} relative`,

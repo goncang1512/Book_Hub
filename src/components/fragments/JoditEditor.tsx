@@ -1,5 +1,6 @@
-import React, { SetStateAction, useMemo } from "react";
+import React, { SetStateAction, useContext, useMemo } from "react";
 import dynamic from "next/dynamic";
+import { GlobalState } from "@/lib/context/globalstate";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 export default function JoditText({
@@ -17,6 +18,8 @@ export default function JoditText({
   width?: string;
   edit?: boolean;
 }) {
+  const { isDarkMode } = useContext(GlobalState);
+
   const config = useMemo(
     () => ({
       placeholder: "Tambahkan cerita...",
@@ -27,10 +30,15 @@ export default function JoditText({
       removeButtons: ["microphone"],
       extraButtons: [],
       toolbarSticky: false,
-      toolbarAdaptive: false,
+      toolbarAdaptive: true,
       cleanHTML: {
         allowedTags: ["p", "strong", "em", "u", "s", "ul", "ol", "li"],
         allowedAttrs: ["href"],
+      },
+      theme: isDarkMode ? "dark" : "",
+      style: {
+        background: isDarkMode ? "#171717" : "#ffffff", // Dark mode or light mode
+        color: isDarkMode ? "#ffffff" : "#000000", // Teks warna berdasarkan mode
       },
     }),
     [joditButtons],

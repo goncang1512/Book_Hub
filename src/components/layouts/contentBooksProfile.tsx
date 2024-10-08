@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import Link from "next/link";
 
 import ReadMoreLess from "../elements/readmoreless";
 import Picture from "../elements/image";
-import { GlobalState } from "@/lib/context/globalstate";
 import { parseDate } from "@/lib/utils/parseTime";
 
 type BookType = {
@@ -37,11 +36,10 @@ export function ProfilBooksDekstop({
   dataBook: BookType;
   statusBook: StatusType[];
 }) {
-  const { handleRouter } = useContext(GlobalState);
   const { _id, title, writer, sinopsis, terbit, genre, imgBooks, ISBN, jenis, user } = dataBook;
 
   return (
-    <div className="bg-white w-[32.1%] h-screen fixed top-0 right-0 md:flex hidden flex-col p-5 border-l">
+    <div className="bg-white dark:bg-primary-dark w-[32.1%] h-screen fixed top-0 right-0 md:flex hidden flex-col p-5 border-l">
       <div className="h-screen overflow-auto scroll-smooth">
         <div className="w-full flex justify-center">
           {jenis !== "Review" && statusBook[0]?._id ? (
@@ -70,13 +68,13 @@ export function ProfilBooksDekstop({
               <BarisTable name="Judul">{title}</BarisTable>
               <BarisTable name="Penulis">
                 {jenis !== "Review" ? (
-                  <button
+                  <Link
                     aria-label={`buttonseeWriter${_id}`}
                     className="text-blue-500"
-                    onClick={() => handleRouter(user?.username)}
+                    href={`/user/@${user?.username}`}
                   >
                     {writer}
-                  </button>
+                  </Link>
                 ) : (
                   writer
                 )}
@@ -100,7 +98,7 @@ export function ProfilBooksDekstop({
       {jenis !== "Review" && (
         <div className=" w-full flex items-center justify-center py-2">
           <Link
-            className="bg-white border shadow-xl px-2 py-2 rounded-sm active:bg-slate-400 font-semibold"
+            className="bg-white dark:bg-primary-dark border shadow-xl px-2 py-2 rounded-sm active:bg-slate-400 font-semibold"
             href={
               jenis === "Cerpen" ? `/read?id=${_id}&chapter=${statusBook[0]?._id}` : `/read/${_id}`
             }
@@ -120,7 +118,6 @@ export const BooksProfileMobile = ({
   dataBook: BookType;
   statusBook: StatusType[];
 }) => {
-  const { handleRouter } = useContext(GlobalState);
   const { _id, title, writer, sinopsis, terbit, imgBooks, genre, jenis, user } = dataBook;
 
   return (
@@ -155,13 +152,13 @@ export const BooksProfileMobile = ({
               <td className="px-1 align-top">:</td>
               <td>
                 {jenis !== "Review" ? (
-                  <button
+                  <Link
                     aria-label={`handlerouterWriter${_id}`}
                     className="text-[#CAF0F8]"
-                    onClick={() => handleRouter(user?.username)}
+                    href={`/user/@${user?.username}`}
                   >
                     {writer}
-                  </button>
+                  </Link>
                 ) : (
                   writer
                 )}
@@ -206,7 +203,7 @@ export const BooksProfileMobile = ({
         {jenis !== "Review" && (
           <div className=" w-full flex items-center justify-center py-2">
             <Link
-              className="bg-white px-2 rounded-sm active:bg-slate-400"
+              className="bg-white dark:bg-primary-black px-2 rounded-sm active:bg-slate-400"
               href={
                 jenis === "Cerpen"
                   ? `/read?id=${_id}&chapter=${statusBook[0]?._id}`

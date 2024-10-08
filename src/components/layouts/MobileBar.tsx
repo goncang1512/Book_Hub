@@ -15,18 +15,18 @@ interface SideBarType {
 }
 
 export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBarType) {
-  const { notifUser } = useContext(GlobalState);
+  const { notifUser, isDarkMode } = useContext(GlobalState);
   return (
     <div
       ref={mobileRef}
-      className="z-50 w-full h-12 bg-white border-t fixed bottom-0 left-0 md:hidden flex justify-center"
+      className="z-50 w-full h-12 bg-white dark:bg-primary-black border-t fixed bottom-0 left-0 md:hidden flex justify-center"
     >
       <div className="w-full flex items-center justify-around">
         <Link aria-label="homeLink" href={"/"}>
-          <HomeIcon color="#000" size={25} />
+          <HomeIcon color={`${isDarkMode ? "#FFFFFF" : "#000"}`} size={25} />
         </Link>
         <Link aria-label="whislistLink" href={"/profil/whislist"}>
-          <Whislist color="#000" size={25} />
+          <Whislist color={`${isDarkMode ? "#FFFFFF" : "#000"}`} size={25} />
         </Link>
         <div>
           <button

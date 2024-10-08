@@ -227,7 +227,7 @@ export function LogoRole({ size, color }: { size: number; color: string }) {
   );
 }
 
-export function IconWriter({ size }: { size: number }) {
+export function IconWriter({ size, color }: { size: number; color?: string }) {
   return (
     <svg
       version="1.0"
@@ -239,7 +239,7 @@ export function IconWriter({ size }: { size: number }) {
     >
       <g
         transform="translate(0.000000,90.000000) scale(0.100000,-0.100000)"
-        fill="#000000"
+        fill={`${color}`}
         stroke="none"
       >
         <path

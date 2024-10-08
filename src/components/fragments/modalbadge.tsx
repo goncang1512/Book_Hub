@@ -49,19 +49,25 @@ export const ModalBadge = ({ dataUser }: { dataUser: any }) => {
 
   return (
     <dialog className="modal" id="modal_badge">
-      <div className="modal-box flex flex-col gap-5">
+      <div className="modal-box dark:bg-primary-dark flex flex-col gap-5">
         <div className={`relative w-full justify-end flex gap-5`}>
           <select
-            className={`flex select select-bordered w-full`}
+            className={`flex select select-bordered w-full dark:bg-transparent`}
             value={lastSelectedBadge || ""}
             onChange={handleSelectChange}
           >
             <option disabled value="">
               Choose a Badge
             </option>
-            <option value="/badge/verify.png">Verify</option>
-            <option value="/badge/pena.png">Pena</option>
-            <option value="/badge/readers.png">Readers</option>
+            <option className="dark:text-black" value="/badge/verify.png">
+              Verify
+            </option>
+            <option className="dark:text-black" value="/badge/pena.png">
+              Pena
+            </option>
+            <option className="dark:text-black" value="/badge/readers.png">
+              Readers
+            </option>
           </select>
           {ldlPatchBadge ? (
             <span className="loading loading-spinner loading-sm" />

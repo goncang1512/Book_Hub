@@ -19,6 +19,11 @@ const config = {
     },
     extend: {
       colors: {
+        latar: {
+          light: "#fffff",
+          dark: "#212121",
+          black: "#171717",
+        },
         bluemary: "#0077B6",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -26,6 +31,8 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
+          dark: "#212121",
+          black: "#171717",
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
@@ -75,17 +82,10 @@ const config = {
       },
     },
   },
-  daisyui: {
-    themes: false,
-    darkTheme: "light",
-    base: true,
-    styled: true,
-    utils: true,
-    rtl: false,
-    prefix: "",
-    logs: true,
-  },
   plugins: [require("tailwindcss-animate"), require("daisyui")],
+  daisyui: {
+    themes: ["light", "dark"], // Memastikan DaisyUI mendukung tema light dan dark
+  },
 } satisfies Config;
 
 export default config;

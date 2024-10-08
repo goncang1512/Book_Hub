@@ -104,7 +104,7 @@ export const CardContent = ({
   const pahtname = usePathname();
   const { data: session }: any = useSession();
   const [handleUpdate, setHandleUpdate] = useState(false);
-  const { handleRouter } = useContext(GlobalState);
+  const { isDarkMode } = useContext(GlobalState);
   const { makeReport } = useContext(ReportContext);
   const [modalBox, setModalBox] = useState<{ story_id: string } | null>(null);
   const {
@@ -159,10 +159,10 @@ export const CardContent = ({
       className={`${classStory} flex items-start justify-start p-5 gap-3 pr-3`}
       id="main-container"
     >
-      <button
+      <Link
         aria-label={`handlerouterUser${story?._id}`}
         className="relative w-max flex flex-col justify-center items-center rounded-full cursor-pointer"
-        onClick={() => handleRouter(story?.user?.username)}
+        href={`/user/@${story?.user?.username}`}
       >
         <Picture
           className="size-14 rounded-full border-2 border-gray-500"
@@ -171,16 +171,16 @@ export const CardContent = ({
         <p className="absolute bg-gray-500 text-white size-3 text-[8.5px] rounded-full p-2 text-center flex items-center justify-center text-xs border border-gray-500 bottom-0 translate-y-1/2">
           {story?.user?.rank?.level}
         </p>
-      </button>
+      </Link>
 
       <div className="flex flex-col items-start gap-3 w-full">
         <div className="w-full flex items-center justify-between">
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <button
+              <Link
                 aria-label={`handlerouterStory${story?._id}`}
                 className="flex items-center gap-2"
-                onClick={() => handleRouter(story?.user?.username)}
+                href={`/user/@${story?.user?.username}`}
               >
                 <p className="md:text-base text-sm font-semibold">{story?.user?.username}</p>
                 <div className="flex items-center">
@@ -188,7 +188,7 @@ export const CardContent = ({
                     <Picture key={index} className="size-4" src={logo} />
                   ))}
                 </div>
-              </button>
+              </Link>
               {session?.user?._id !== story?.user?._id && (
                 <ButtonStory
                   book_id={statusCard === "detail" ? story?._id : story?.book_id}
@@ -266,7 +266,7 @@ export const CardContent = ({
                       {loadingDeleteStory ? (
                         <span className="loading loading-dots loading-md" />
                       ) : (
-                        "Hapus cerita"
+                        "Delete story"
                       )}
                     </button>
                     <button
@@ -275,7 +275,7 @@ export const CardContent = ({
                       type="button"
                       onClick={() => setHandleUpdate(!handleUpdate)}
                     >
-                      Edit Cerita
+                      Edit Story
                     </button>
                   </>
                 )}
@@ -358,7 +358,7 @@ export const CardContent = ({
         <div
           className={`${
             story?.book ? `${seeBook ? "flex" : "hidden"}` : "hidden"
-          } flex gap-3 mt-2 border p-3 rounded-lg bg-zinc-100 w-full`}
+          } flex gap-3 mt-2 border p-3 rounded-lg bg-zinc-100 dark:bg-zinc-800 w-full`}
         >
           <Link
             aria-label={`toBook-${story?._id}`}
@@ -392,7 +392,8 @@ export const CardContent = ({
             <div className="md:flex hidden  justify-between">
               <div className="flex w-full justify-between text-sm items-center">
                 <p className="text-sm text-gray-500 flex gap-2 items-center">
-                  <IconWriter size={20} /> Penulis: {story?.book?.writer}
+                  <IconWriter color={isDarkMode ? "#ffffff" : "#000000"} size={20} /> Penulis:{" "}
+                  {story?.book?.writer}
                 </p>
                 <p className="text-xs text-gray-500 md:flex hidden items-center">
                   {story?.book?.terbit && parseDate(story?.book?.terbit)}
@@ -533,6 +534,7 @@ const LikeComponent = ({
     story_id: "",
   });
   const { addLike, disLike } = useContext(LikeContext);
+  const { isDarkMode } = useContext(GlobalState);
   const { data: session }: any = useSession();
   const [liked, setLiked] = useState(false);
 
@@ -584,7 +586,7 @@ const LikeComponent = ({
       >
         <div className={`${styles.checkmark} flex items-center justify-center size-[30px]`}>
           <BiLike
-            className={`${styles.outline} text-black absolute`}
+            className={`${styles.outline} ${isDarkMode ? "text-white" : "text-black"} absolute`}
             size={25}
             style={{ display: liked ? "none" : "block" }}
           />

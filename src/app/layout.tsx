@@ -22,8 +22,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} flex overflow-x-hidden`}>
+    <html className="bg-white dark:bg-primary-dark" lang="en">
+      <body
+        className={`${inter.className} flex overflow-x-hidden bg-white dark:bg-primary-dark min-h-screen`}
+      >
         <Global>{children}</Global>
       </body>
     </html>

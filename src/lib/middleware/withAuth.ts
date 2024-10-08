@@ -51,6 +51,18 @@ export default function withAuth(middleware: NextMiddleware, requireAuth: string
       return response;
     }
 
+    if (pathname.startsWith("/user")) {
+      const usernameInUrl = pathname.split("@")[1];
+      const token = await getToken({
+        req,
+        secret: process.env.NEXTAUTH_SECRET,
+      });
+
+      if (token?.username === usernameInUrl) {
+        return NextResponse.redirect(new URL("/profil", req.url));
+      }
+    }
+
     const startsWithRequireAuth = requireAuth.some((route) => pathname.startsWith(route));
     if (startsWithRequireAuth) {
       const token = await getToken({

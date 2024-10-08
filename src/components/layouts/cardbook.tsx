@@ -35,6 +35,7 @@ import useClickOutside from "@/lib/utils/clickoutside";
 import ModalBox from "../fragments/modalbox";
 import { ReportContext } from "@/lib/context/reportcontext";
 import { pesanVar } from "@/lib/utils/pesanvariable";
+import { GlobalState } from "@/lib/context/globalstate";
 
 type StatusBook = {
   book_id: string;
@@ -65,6 +66,7 @@ function CardBook({
   const [modalBox, setModalBox] = useState<{ book_id: string } | null>(null);
   const { data: session }: any = useSession();
   const { updateHalaman, loadingHalaman } = React.useContext(WhislistContext);
+  const { isDarkMode } = useContext(GlobalState);
   const modalDeleteBookRef = useRef<HTMLDialogElement | null>(null);
   const [dataDelete, setDataDelete] = useState({
     book_id: "",
@@ -115,7 +117,7 @@ function CardBook({
     <div
       className={`flex flex-col ${
         ukuran ? ukuran : "md:w-[49.3%] w-full"
-      }  p-3 gap-4 border bg-white shadow-lg rounded-lg duration-500 ease-in-out`}
+      }  p-3 gap-4 border bg-white dark:bg-primary-black shadow-lg rounded-lg duration-500 ease-in-out`}
     >
       <div className="gap-4 flex">
         <div className="md:w-[88px] w-[80px] h-[140px] md:h-[144px] relative">
@@ -236,7 +238,7 @@ function CardBook({
                           });
                         }}
                       >
-                        Hapus Buku
+                        Delete book
                       </button>
                       <Link
                         aria-label={`edit${_id}`}
@@ -245,7 +247,7 @@ function CardBook({
                           ISBN === 0 ? `/profil/author/mybook/${_id}` : `/profil/upload/${_id}`
                         }`}
                       >
-                        Edit Buku
+                        Edit book
                       </Link>
                       {jenis === "Cerpen" && (
                         <Link
@@ -269,7 +271,7 @@ function CardBook({
               mobile={120}
               style={{ fontSize: "clamp(0.75rem, 2vw, 0.875rem)" }}
               text={sinopsis}
-              textFont="text-gray-900 leading-[1.178rem]"
+              textFont="text-gray-900 dark:text-[#EAEAEA] leading-[1.178rem]"
             />
           </div>
           <div>
@@ -277,7 +279,8 @@ function CardBook({
             <div className="flex justify-between text-sm items-center">
               <div className="flex gap-1 items-center text-sm">
                 <p className="md:text-sm text-xs text-gray-500 flex gap-2 items-center">
-                  <IconWriter size={parseInt(height)} /> Penulis: {writer}
+                  <IconWriter color={isDarkMode ? "#ffffff" : "#000000"} size={parseInt(height)} />{" "}
+                  Penulis: {writer}
                 </p>
               </div>
               <div className="relative flex gap-2">
@@ -362,6 +365,8 @@ const AddList = ({
   const { addList, deleteList } = useContext(WhislistContext);
   const [isLiked, setIsLiked] = useState(false);
 
+  const { isDarkMode } = useContext(GlobalState);
+
   useEffect(() => {
     setIsLiked(book?.listBook?.some((w: any) => w.user_id === session?.user?._id));
   }, [book?.listBook]);
@@ -390,7 +395,7 @@ const AddList = ({
       >
         <path
           d="M0 48C0 21.5 21.5 0 48 0l0 48V441.4l130.1-92.9c8.3-6 19.6-6 27.9 0L336 441.4V48H48V0H336c26.5 0 48 21.5 48 48V488c0 9-5 17.2-13 21.3s-17.6 3.4-24.9-1.8L192 397.5 37.9 507.5c-7.3 5.2-16.9 5.9-24.9 1.8S0 497 0 488V48z"
-          fill={isLiked ? "#facc15 " : "#000000"}
+          fill={isLiked ? "#facc15 " : `${isDarkMode ? "#ffffff" : "#000000"}`}
         />
       </svg>
       <svg

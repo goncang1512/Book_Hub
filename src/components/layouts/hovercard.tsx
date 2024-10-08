@@ -39,7 +39,7 @@ export default function DropDown({
           ref={containerRef}
           className={`${
             showCardContent ? "opacity-100" : "opacity-0 pointer-events-none"
-          } hover:opacity-100 absolute md:top-4 top-3 md:right-5 right-4 bg-white border rounded-lg p-3 duration-100 z-10 flex`}
+          } hover:opacity-100 absolute md:top-4 top-3 md:right-5 right-4 bg-white dark:bg-primary-black border rounded-lg p-3 duration-100 z-10 flex`}
           onMouseEnter={() => setShowCardContent(true)}
           onMouseLeave={() => setShowCardContent(false)}
         >

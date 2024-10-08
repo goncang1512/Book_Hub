@@ -15,6 +15,7 @@ import { Button } from "../elements/button";
 import JoditText from "./JoditEditor";
 import { RiCloseLine } from "react-icons/ri";
 import { MessageContext } from "@/lib/context/messagecontext";
+import Link from "next/link";
 
 export type dataUserType = {
   username: string;
@@ -36,7 +37,7 @@ export type dataUserType = {
 
 export default function BarisTable({ dataUser, index }: { dataUser: dataUserType; index: number }) {
   const { data: session }: any = useSession();
-  const { detailUser, setDetailUser, handleRouter } = useContext(GlobalState);
+  const { detailUser, setDetailUser } = useContext(GlobalState);
   const { bannedUser } = useContext(DasboardContext);
   const [editAuthor, setEditAuthor] = useState<boolean>(false);
   const { updateRole } = useContext(DasboardContext);
@@ -83,18 +84,18 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
       <th>{index + 1}</th>
       <td>
         <div className="flex items-center gap-3">
-          <button
+          <Link
             aria-labelledby={`buttonRouter${dataUser?._id}`}
             className="avatar cursor-pointer"
-            onClick={() => handleRouter(dataUser?.username)}
+            href={`/user/@${dataUser?.username}`}
           >
             <Picture className="size-12 border rounded-full" src={dataUser?.imgProfil?.imgUrl} />
-          </button>
+          </Link>
           <div>
-            <button
+            <Link
               aria-labelledby={`buttonrouter${index}`}
               className="flex items-center gap-2 cursor-pointer"
-              onClick={() => handleRouter(dataUser?.username)}
+              href={`/user/@${dataUser?.username}`}
             >
               <p className="font-bold">{dataUser?.username}</p>
               <div className="flex items-center">
@@ -102,7 +103,7 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
                   <Picture key={index} className="size-4" src={logo} />
                 ))}
               </div>
-            </button>
+            </Link>
             <div className="text-sm">{formatDate(dataUser?.createdAt, true)}</div>
           </div>
         </div>
@@ -174,7 +175,7 @@ export default function BarisTable({ dataUser, index }: { dataUser: dataUserType
               ref={sltAuthor}
               className={`${
                 editAuthor ? "flex" : "hidden"
-              } select select-bordered w-full absolute -left-[45px] top-[20px]`}
+              } select select-bordered w-[130px] dark:bg-primary-black absolute right-[50px] top-[20px]`}
               value={status}
               onChange={async (e) => {
                 await handleChange(e);
@@ -251,12 +252,12 @@ const ModalInbox = ({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 md:px-[100px] px-5"
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[9999] md:px-[100px] px-5"
       onClick={() => setNewDataChapter(null)}
     >
       <div
         ref={containerRef}
-        className="relative bg-white p-5 rounded-lg shadow-lg w-full"
+        className="relative bg-white dark:bg-primary-dark p-5 rounded-lg shadow-lg w-full"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -280,7 +281,7 @@ const ModalInbox = ({
             );
           }}
         >
-          <p className="text-base font-semibold">{dataChapter.username}</p>
+          <p className="text-base font-semibold">Username: {dataChapter.username}</p>
           <JoditText
             content={msgInbox}
             height={"50vh"}

@@ -81,7 +81,7 @@ const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status 
         ref={containerRef}
         className={`relative flex flex-col w-full md:mr-[38%] mr-0 border-r h-full`}
       >
-        <div className="flex items-center justify-between border-b py-5 pl-2 gap-5 z-20 fixed top-0 md:left-[288px] left-0 bg-white md:w-[50.2%] w-full">
+        <div className="flex items-center justify-between border-b py-5 pl-2 gap-5 z-20 fixed top-0 md:left-[288px] left-0 bg-white dark:bg-primary-dark md:w-[50.2%] w-full">
           <div className="flex items-center gap-3">
             <button onClick={() => router.back()}>
               <FaArrowLeft size={25} />

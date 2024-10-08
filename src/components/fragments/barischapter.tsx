@@ -218,12 +218,12 @@ const ModalInbox = ({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 md:px-[100px] px-5"
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-[99999] md:px-[100px] px-5"
       onClick={() => setNewDataChapter(null)}
     >
       <div
         ref={containerRef}
-        className="relative bg-white p-5 rounded-lg shadow-lg w-full"
+        className="relative bg-white dark:bg-primary-dark p-5 rounded-lg shadow-lg w-full"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -235,7 +235,7 @@ const ModalInbox = ({
         <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
           <p className="text-base font-semibold">{dataChapter.judul}</p>
           <select
-            className="flex select select-bordered w-full"
+            className="flex select dark:bg-primary-black select-bordered w-full"
             value={editStatus.status}
             onChange={(e) => setEditStatus({ ...editStatus, status: e.target.value })}
           >

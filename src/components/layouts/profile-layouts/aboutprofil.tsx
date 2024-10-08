@@ -63,8 +63,8 @@ export default function AboutProfil({
 
   return (
     <div className="flex flex-col gap-5 scroll-smooth">
-      <div className="w-full bg-white rounded-lg">
-        <div className="w-full h-14 bg-white p-3 rounded-t-lg border flex items-center justify-between">
+      <div className="w-full bg-white dark:bg-primary-dark rounded-lg">
+        <div className="w-full h-14 bg-white dark:bg-primary-dark p-3 rounded-t-lg border flex items-center justify-between">
           <div className="flex items-center gap-5">
             <h1 className="font-semibold">{judul}</h1>
             <div className="flex items-center gap-2">
@@ -119,7 +119,7 @@ export default function AboutProfil({
                 <IoLocationOutline className="text-blue-500" size={40} />
                 <div className="flex flex-col">
                   <h1 className="font-semibold">Location</h1>
-                  <p className="text-sm text-gray-900">
+                  <p className="text-sm text-gray-900 dark:text-gray-300">
                     {userData?.alamat ? (
                       userData?.alamat
                     ) : (
@@ -139,7 +139,7 @@ export default function AboutProfil({
                 <IoCallOutline className="text-blue-500" size={40} />
                 <div className="flex flex-col">
                   <h1 className="font-semibold">Phone Number</h1>
-                  <p className="text-sm text-gray-900">
+                  <p className="text-sm text-gray-900 dark:text-gray-300">
                     {userData?.number ? (
                       userData?.number
                     ) : (
@@ -160,7 +160,7 @@ export default function AboutProfil({
             <LogoRole color="#3b82f6" size={43} />
             <div className="flex flex-col">
               <h1 className="font-semibold">Role</h1>
-              <p className="text-sm text-gray-900">{userData?.role}</p>
+              <p className="text-sm text-gray-900 dark:text-gray-300">{userData?.role}</p>
             </div>
           </div>
         </div>
@@ -207,8 +207,8 @@ export const BarExp = ({ width }: { width: string }) => {
               className="h-2 w-[10.3px] absolute bg-blue-500 left-1/2 transform -translate-x-1/2"
               style={{ bottom: "-5.2px" }}
             >
-              <span className="absolute h-[6px] w-2 bg-white -bottom-[0.9px] -left-[2.7px] rounded-tr-full  z-10" />
-              <span className="absolute h-[6px] w-2 bg-white -bottom-[0.9px] -right-[2.7px] rounded-tl-full  z-10" />
+              <span className="absolute h-[6px] w-2 bg-white dark:bg-primary-dark -bottom-[0.9px] -left-[2.7px] rounded-tr-full  z-10" />
+              <span className="absolute h-[6px] w-2 bg-white dark:bg-primary-dark -bottom-[0.9px] -right-[2.7px] rounded-tl-full  z-10" />
             </div>
           </div>
         )}
@@ -227,8 +227,10 @@ export const StoryContainer = ({
   user_id: string;
 }) => {
   return (
-    <div className={`${storysUser?.length === 0 && "hidden"} border bg-white rounded-lg shadow-lg`}>
-      <div className="w-full h-14 bg-white p-3 rounded-t-lg border-b flex items-center gap-5">
+    <div
+      className={`${storysUser?.length === 0 && "hidden"} border bg-white dark:bg-primary-dark rounded-lg shadow-lg`}
+    >
+      <div className="w-full h-14 bg-white dark:bg-primary-dark p-3 rounded-t-lg border-b flex items-center gap-5">
         <h1 className="font-semibold">Story</h1>
       </div>
       <div className="">

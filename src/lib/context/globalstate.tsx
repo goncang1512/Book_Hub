@@ -22,6 +22,7 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
   const { mutate } = useSWRConfig();
   const [detailUser, setDetailUser] = useState<any>();
   const [seeSearch, setSeeSearch] = useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const router = useRouter();
   const { data: session }: any = useSession();
   const [logIn, setLogIn] = useState<boolean>(false);
@@ -88,6 +89,8 @@ export default function GlobalStateProvider({ children }: { children: React.Reac
         ldgMisiNotif,
         currentPage,
         setCurrentPage,
+        isDarkMode,
+        setIsDarkMode,
       }}
     >
       {children}

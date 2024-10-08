@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
@@ -6,13 +6,26 @@ import OpenWindow from "@/components/layouts/openwindow";
 import CanvasContextProvider from "@/lib/context/canvascontext";
 import { useNewUsers } from "@/lib/swr/userswr";
 import { logger } from "@/lib/utils/logger";
+import { GlobalState } from "@/lib/context/globalstate";
 
 export default function Index({ children }: { children: React.ReactNode }) {
   const { data: session, status, update: updateData }: any = useSession();
   const [hasOpened, setHasOpened] = useState(false);
   const pathname = usePathname();
 
-  // untuk update data terbaru
+  const { setIsDarkMode } = useContext(GlobalState);
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem("theme");
+    if (savedMode === "dark") {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    } else {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
   const { userDetail } = useNewUsers.getDetailUser(session?.user?._id);
 
   useEffect(() => {

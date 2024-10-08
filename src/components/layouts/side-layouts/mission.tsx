@@ -40,19 +40,21 @@ export default function Mission({
     }
   }, [seeMission]);
 
+  const { isDarkMode } = useContext(GlobalState);
+
   return (
     <div
       className={`${
         seeMission
           ? `${displayClass} opacity-100 visibility-visible`
-          : `${displayClass} opacity-0 visibility-hidden -z-[200]`
+          : `${displayClass} opacity-0 visibility-hidden -z-[100]`
       } border-r shadow-xl h-screen duration-150 w-[100%] z-40 left-0 fixed bg-black/30`}
     >
       <div
         ref={missionRef}
         className={`${
           seeMission ? "md:translate-x-[18rem] translate-x-0" : "-translate-x-[100%] bg-transparent"
-        } bg-white md:w-[40%] w-[80%] h-screen relative duration-700`}
+        } bg-white dark:bg-primary-black dark:border-r md:w-[40%] w-[80%] h-screen relative duration-700`}
       >
         <div className="p-5 flex flex-col gap-3">
           <div className="overflow-x-auto">
@@ -76,12 +78,12 @@ export default function Mission({
                                 style={{
                                   background: `conic-gradient(
                                   #facc15  ${percentage * 3.6}deg, 
-                                  #fff ${percentage * 3.6}deg
+                                  ${isDarkMode ? "#171717" : "#fff"} ${percentage * 3.6}deg
                                 )`,
                                 }}
                               >
-                                <div className="bg-white size-[51px] rounded-full flex items-center justify-center">
-                                  <p className="bg-black/10 size-[51px] flex items-center justify-center rounded-full text-black p-[1px]">{`${hasil?.process ? hasil?.process : 0}/${misi.max}`}</p>
+                                <div className="bg-white dark:bg-primary-dark size-[51px] rounded-full flex items-center justify-center">
+                                  <p className="bg-black/10 size-[51px] flex items-center justify-center rounded-full text-black dark:text-white p-[1px]">{`${hasil?.process ? hasil?.process : 0}/${misi.max}`}</p>
                                 </div>
                               </div>
                             </div>
@@ -138,7 +140,7 @@ export default function Mission({
         </div>
         <ButtonMission
           buttonMission={buttonMission}
-          className={`${seeMission ? "opacity-100 visibility-visible" : "opacity-0 visibility-hidden"}  bg-white border-r border-y rounded-r-md top-[23.5px] -right-[30px] fixed duration-150`}
+          className={`${seeMission ? "opacity-100 visibility-visible" : "opacity-0 visibility-hidden"}  bg-white dark:bg-primary-black border-r border-y rounded-r-md top-[23.5px] -right-[30px] fixed duration-150`}
           seeMission={seeMission}
           setSeeMission={setSeeMission}
         />

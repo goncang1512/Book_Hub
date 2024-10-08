@@ -74,7 +74,9 @@ export default function DetailMessage({ params }: { params: { msg_id: string } }
               </HoverCard>
             </div>
             <div className="flex p-4">
-              <p className={`text-black text-sm `}>{parse(msgDetailData?.message)}</p>
+              <p className={`text-black dark:text-white text-sm `}>
+                {parse(msgDetailData?.message)}
+              </p>
             </div>
           </div>
         )}

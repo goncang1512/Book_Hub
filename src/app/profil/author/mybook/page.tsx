@@ -56,7 +56,7 @@ export default function UploadBooks() {
     <main className="w-full flex flex-col gap-3 items-center justify-center h-screen md:px-0 px-3">
       <p className="text-red-500 italic">{msgUploadBook}</p>
       <form
-        className="md:w-auto w-full flex md:flex-row flex-col gap-5 border p-4 rounded-lg bg-white shadow-xl"
+        className="md:w-auto w-full flex md:flex-row flex-col gap-5 border p-4 rounded-lg bg-white dark:bg-primary-black shadow-xl"
         onSubmit={(e) => {
           e.preventDefault();
           uploadMyBook(myBookData, session?.user?._id);
@@ -137,7 +137,7 @@ export default function UploadBooks() {
               Terbit
             </Input>
             <select
-              className={`flex select select-bordered w-full`}
+              className={`flex select select-bordered w-full bg-transparent border`}
               value={myBookData.jenis}
               onChange={(e) => {
                 setMyBookData({ ...myBookData, jenis: e.target.value });
@@ -146,13 +146,17 @@ export default function UploadBooks() {
               <option disabled className="bg-blue-400 text-white" value="Jenis Buku">
                 Jenis Buku
               </option>
-              <option value="Novel">Novel</option>
-              <option value="Cerpen">Cerpen</option>
+              <option className="text-black" value="Novel">
+                Novel
+              </option>
+              <option className="text-black" value="Cerpen">
+                Cerpen
+              </option>
             </select>
           </div>
           <div className={`${nextInput ? "flex" : "hidden"} h-full pb-2 w-full`}>
             <textarea
-              className="outline-none min-h-full w-full border rounded-lg p-2"
+              className="outline-none min-h-full w-full bg-transparent border rounded-lg p-2"
               placeholder="sinopsis"
               value={myBookData.sinopsis}
               onChange={(e) => setMyBookData({ ...myBookData, sinopsis: e.target.value })}

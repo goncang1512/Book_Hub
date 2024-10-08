@@ -13,7 +13,7 @@ export default function EndPoint({ params }: { params: { slug: string[] } }) {
   return (
     <div>
       {params.slug[0] === "password" && (
-        <div className="flex items-start justify-center h-screen w-full pt-10">
+        <div className="flex items-center justify-center h-screen w-full pt-10">
           <UpdatePassword />
         </div>
       )}
@@ -21,7 +21,7 @@ export default function EndPoint({ params }: { params: { slug: string[] } }) {
       {params.slug[0] === "email" && <div />}
 
       {params.slug[0] === "fotoprofil" && (
-        <div className="flex items-start justify-center h-screen w-full pt-10">
+        <div className="flex items-center justify-center h-screen w-full pt-10">
           <UpdateFotoProfil />
         </div>
       )}
@@ -64,7 +64,7 @@ const UpdatePassword = () => {
   }, [session?.user?.email]);
 
   return (
-    <div className="w-max flex flex-col gap-4">
+    <div className="w-max flex flex-col gap-4 dark:bg-primary-black p-5 rounded-lg">
       <div>
         <h1 className="font-semibold pb-2">Ganti Password</h1>
         <p className="text-red-500 italic pb-4">{msgPassword}</p>
@@ -100,7 +100,7 @@ const UpdatePassword = () => {
             >
               Konfirmasi Password Baru
             </Input>
-            <Button label="buttonUpdatePassword" type="submit" variant="primary">
+            <Button label="buttonUpdatePassword" size="medium" type="submit" variant="primary">
               {loadingPassword ? "Loading" : "Update"}
             </Button>
           </form>
@@ -124,7 +124,7 @@ const UpdatePassword = () => {
             >
               Password Lama
             </Input>
-            <Button label="buttonUpdatePasswordKirim" type="submit" variant="primary">
+            <Button label="buttonUpdatePasswordKirim" size="medium" type="submit" variant="primary">
               {loadingPassword ? "Loading" : "Kirim"}
             </Button>
           </form>
@@ -249,12 +249,12 @@ const UpdateFotoProfil = () => {
         await newFotoProfil(session?.user?._id, updateFoto);
       }}
     >
-      <div className="flex relative rounded-full size-44">
-        <div className={`${styles.imgUpload} size-44 rounded-full`}>
-          <img alt="" className="border size-44 rounded-full object-cover" src={`${previewUrl}`} />
+      <div className="flex relative rounded-full size-56">
+        <div className={`${styles.imgUpload} size-56 rounded-full`}>
+          <img alt="" className="border size-56 rounded-full object-cover" src={`${previewUrl}`} />
         </div>
         <label
-          className={`${styles.labelUpload} hidden absolute left-0 top-0 text-white text-base  flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif] size-44 hover:bg-black hover:bg-opacity-50 z-10 rounded-full`}
+          className={`${styles.labelUpload} hidden absolute left-0 top-0 text-white text-base  flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif] size-56 hover:bg-black hover:bg-opacity-50 z-10 rounded-full`}
         >
           <IoCloudUploadOutline size={25} />
           Upload file
@@ -275,6 +275,7 @@ const UpdateFotoProfil = () => {
           className="w-max px-3 rounded-lg font-semibold"
           disabled={loadingUpdateFoto}
           label="buttonUpdateFotoProfil"
+          size="medium"
           type="submit"
           variant="primary"
         >
@@ -284,6 +285,7 @@ const UpdateFotoProfil = () => {
           className="w-max px-3 rounded-lg font-semibold"
           disabled={loadingDelete}
           label="buttonDeleteFotoProfil"
+          size="medium"
           type="button"
           variant="danger"
           onClick={() => deleteFoto(session?.user?._id, session?.user?.imgProfil.public_id)}
@@ -379,6 +381,7 @@ function UpdateData() {
           className="w-96"
           disabled={loadingUpdateData}
           label="buttonUpdateDatauser"
+          size="medium"
           type="submit"
           variant="login"
         >

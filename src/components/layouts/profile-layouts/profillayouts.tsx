@@ -74,9 +74,9 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
           backgroundImage: `url('${userData?.profileGround?.urlLatar ? userData?.profileGround?.urlLatar : "/new-cover-profil.png"}')`,
         }}
       />
-      <div className="h-16 white border shadow-lg w-full rounded-b-lg bg-white" />
+      <div className="h-16 white border shadow-lg w-full rounded-b-lg bg-white dark:bg-primary-dark" />
       <div className="absolute left-0 pl-5 md:bottom-[0.7rem] bottom-[1rem] flex items-center gap-5 w-full">
-        <div className="md:size-28 size-20 bg-white rounded-full">
+        <div className="md:size-28 size-20 bg-white dark:bg-primary-dark rounded-full">
           <Picture
             className="md:size-28 size-20 rounded-full border"
             src={userData?.imgProfil?.imgUrl}
@@ -113,7 +113,7 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
 
           <div className="flex items-center justify-between pr-5 absolute md:top-[1.29rem] top-[0.7rem] w-full">
             <div
-              className={`${styles.containerButton}  flex items-center gap-2 font-semibold text-gray-800 ease-in-out duration-200 relative ${buttonStyle}`}
+              className={`${styles.containerButton}  flex items-center gap-2 font-semibold text-gray-800 dark:text-gray-300 ease-in-out duration-200 relative ${buttonStyle}`}
             >
               <button
                 aria-label="buttonSeeAbout"
@@ -207,7 +207,6 @@ export function HeaderProfil({ userData }: { userData: UserType }) {
       </div>
 
       <ModalInbox dataModal={btnEditCover} setDataModal={setBtnEditCover}>
-        <p>{userData?.username}</p>
         <form
           className="flex flex-col gap-3"
           onSubmit={(e) => {
@@ -285,15 +284,19 @@ const ModalInbox = ({
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <dialog className="modal" id="modal_inbox" onClick={() => setDataModal(null)}>
-      <div ref={containerRef} className="modal-box" onClick={(e) => e.stopPropagation()}>
+      <div
+        ref={containerRef}
+        className="modal-box dark:bg-primary-dark"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
           aria-label="button-closeModalInbox"
-          className="absolute top-2 right-6 rounded-full hover:bg-white text-black hover:text-red-500"
+          className="absolute top-2 right-6 rounded-full hover:bg-white text-black dark:text-white dark:hover:bg-zinc-600 hover:text-red-500"
           onClick={() => setDataModal(null)}
         >
           <RiCloseLine size={25} />
         </button>
-        <div className="">{children}</div>
+        <div className="pt-3">{children}</div>
       </div>
     </dialog>
   );

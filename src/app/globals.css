@@ -66,4 +66,8 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .float-input:not(:placeholder-shown) + .label-float {
+    @apply dark:text-white;
+  }
 }

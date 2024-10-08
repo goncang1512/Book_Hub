@@ -54,7 +54,7 @@ export default function UserDasboard() {
         >
           <div className="w-full flex items-center border border-black rounded-full px-4 py-2">
             <input
-              className="outline-none w-full"
+              className="outline-none w-full dark:bg-transparent"
               placeholder="Telusuri..."
               type="text"
               value={keyword}

@@ -39,20 +39,20 @@ export default function SideBar({
 }: SideBarType) {
   const pathname = usePathname();
   const { data: session, status }: { data: any; status: string } = useSession();
-  const { notifUser } = useContext(GlobalState);
+  const { notifUser, isDarkMode } = useContext(GlobalState);
   const [seeDasboard, setSeeDasboard] = useState(false);
 
   return (
-    <div ref={sidebarRef} className="flex z-50">
+    <div ref={sidebarRef} className="flex z-[999]">
       <div
-        className={`bg-white fixed md:flex hidden left-0 right-0 w-72 h-screen  border-r shadow-lg  flex-col gap-[30px] py-5`}
+        className={`bg-white dark:bg-[#171717] fixed md:flex hidden left-0 right-0 w-72 h-screen  border-r shadow-lg  flex-col gap-[30px] py-5`}
       >
         <h1 className="flex items-center font-bold pl-8 gap-2">
           <GiBookmarklet className="text-[#0077B6]" size={40} />
           BookHub
         </h1>
         {/* Remake Main */}
-        <div className="flex flex-col pt-[20px]">
+        <div className="flex flex-col pt-[10px]">
           <p className="text-sm text-gray-400 pl-8 flex items-center gap-2">
             <FaRegBookmark size={15} /> Main
           </p>
@@ -63,7 +63,11 @@ export default function SideBar({
               } flex gap-2 items-center text-lg font-medium px-8 py-1`}
               href={"/"}
             >
-              <HomeIcon color={`${pathname === "/" ? "#FFFFFF" : "#000"}`} size={16} /> Home
+              <HomeIcon
+                color={`${pathname === "/" ? `#FFFFFF` : `${isDarkMode ? "#FFFFFF" : "#000"}`}`}
+                size={16}
+              />{" "}
+              Home
             </Link>
 
             <Link
@@ -82,7 +86,7 @@ export default function SideBar({
               href={"/profil/whislist"}
             >
               <Whislist
-                color={`${pathname === "/profil/whislist" ? "#FFFFFF" : "#000"}`}
+                color={`${pathname === "/profil/whislist" ? "#FFFFFF" : `${isDarkMode ? "#FFFFFF" : "#000"}`}`}
                 size={19}
               />{" "}
               Whislist
@@ -136,7 +140,7 @@ export default function SideBar({
                 <div
                   className={`${
                     seeDasboard ? "translate-y-[0]" : "translate-y-[-101%]"
-                  } flex flex-col duration-200 ease-in-out bg-white`}
+                  } flex flex-col duration-200 ease-in-out bg-latar-light dark:bg-latar-black`}
                 >
                   {session?.user?.role === "Developer" && (
                     <>
@@ -285,7 +289,7 @@ export default function SideBar({
         <>
           {/* <ButtonMissions seeMission={seeMission} setSeeMission={setSeeMission} /> */}
           <ButtonMission
-            className={`${seeMission ? "opacity-0 visibility-hidden" : "opacity-100 visibility-visible"} bg-white border-r border-y rounded-r-md top-[23.5px] md:left-72 left-0 fixed duration-150`}
+            className={`${seeMission ? "opacity-0 visibility-hidden" : "opacity-100 visibility-visible"}    bg-white dark:bg-primary-black border-r border-y rounded-r-md top-[23.5px] md:left-72 left-0 fixed duration-150`}
             seeMission={seeMission}
             setSeeMission={setSeeMission}
           />

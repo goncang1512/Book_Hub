@@ -122,7 +122,7 @@ export default function Home() {
         ))}
         <button
           className={`page-button bg-gray-300 size-6 flex items-center justify-center ${
-            currentPage === totalPages ? "hidden" : ""
+            currentPage === totalPages || !books ? "hidden" : ""
           }`}
           disabled={currentPage === totalPages}
           onClick={() => handlePageChange(currentPage + 1)}

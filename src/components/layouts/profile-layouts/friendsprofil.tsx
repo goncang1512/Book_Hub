@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Picture from "../../elements/image";
-import { GlobalState } from "@/lib/context/globalstate";
 import { useSession } from "next-auth/react";
 import { ButtonFriends } from "../../fragments/buttonfollow";
+import Link from "next/link";
 
 type user = {
   _id: string;
@@ -37,12 +37,11 @@ export default function FriendsProfil({
 }) {
   const [seePengikut, setSeePengikut] = useState(true);
   const { data: session }: any = useSession();
-  const { handleRouter } = useContext(GlobalState);
   const dataSee = seePengikut ? myFollower : followerUser;
 
   return (
     <div className="w-full h-full flex flex-col scroll-smooth">
-      <div className="w-full h-14 bg-white p-3 rounded-t-lg border flex items-center justify-between">
+      <div className="w-full h-14 bg-white dark:bg-primary-dark p-3 rounded-t-lg border flex items-center justify-between">
         <div className="flex items-center gap-5">
           <h1 className="font-semibold">Friends</h1>
         </div>
@@ -65,7 +64,7 @@ export default function FriendsProfil({
         </div>
         <div>{/* <button>follow</button> */}</div>
       </div>
-      <div className="bg-white border rounded-b-lg md:min-h-[12.4rem] min-h-[13rem]">
+      <div className="bg-white dark:bg-primary-dark border rounded-b-lg md:min-h-[12.4rem] min-h-[13rem]">
         {dataSee?.map((follow: FollowerTypes) => {
           const dataUser = seePengikut ? follow.user : follow.follower;
           return (
@@ -73,10 +72,10 @@ export default function FriendsProfil({
               key={follow._id}
               className="border-b p-3 flex items-center justify-between gap-2 w-full"
             >
-              <button
+              <Link
                 aria-label={`buttonseeUser${follow?._id}`}
                 className="flex items-center justify-start w-full gap-2"
-                onClick={() => handleRouter(dataUser.username)}
+                href={`/user/@${dataUser?.username}`}
               >
                 <Picture
                   className="md:size-20 size-14 rounded-full border"
@@ -93,7 +92,7 @@ export default function FriendsProfil({
                   </div>
                   <p className="md:text-sm text-xs text-gray-400">{dataUser.role}</p>
                 </div>
-              </button>
+              </Link>
               {dataUser?._id !== session?.user?._id && (
                 <ButtonFriends
                   dataFollow={dataFollow}

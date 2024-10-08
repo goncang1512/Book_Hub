@@ -53,7 +53,9 @@ export default function Read() {
                             className="md:size-20 size-14 border rounded-full"
                             src={pesan.user_id[0].imgProfil.imgUrl}
                           />
-                          <div className={`${pesan.status && "font-bold text-black"}`}>
+                          <div
+                            className={`${pesan.status && "font-bold text-black dark:text-white"}`}
+                          >
                             <div className="flex items-center gap-2">
                               <h3 className="font-semibold md:text-base text-sm">
                                 {pesan?.user_id[0].username}
@@ -66,7 +68,7 @@ export default function Read() {
                             </div>
                             <p
                               className={`${
-                                pesan.status ? "text-black" : "text-gray-400"
+                                pesan.status ? "text-black dark:text-gray-300" : "text-gray-400"
                               } md:text-sm text-xs truncate md:w-96 w-40 `}
                             >
                               {extractText(pesan?.message)}

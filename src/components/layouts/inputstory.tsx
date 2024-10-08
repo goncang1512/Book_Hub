@@ -55,7 +55,7 @@ export const InputStory = ({
                   </Link>
                 ) : (
                   <TextArea
-                    className="outline-1 w-full md:text-xl text-base min-h-[40px] rounded-lg p-2"
+                    className="outline-1 w-full md:text-xl dark:bg-primary-black text-base min-h-[40px] rounded-lg p-2"
                     name="ception"
                     placeholder="Apa yang ingin anda ceritakan?"
                     value={dataContent}

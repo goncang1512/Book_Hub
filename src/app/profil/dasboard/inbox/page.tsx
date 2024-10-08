@@ -48,7 +48,7 @@ const ChapterComponent = () => {
         <div className="overflow-x-auto h-screen border-t">
           <table className="table">
             {/* head */}
-            <thead>
+            <thead className="text-black dark:text-white">
               <tr>
                 <th>No.</th>
                 <th>Name</th>

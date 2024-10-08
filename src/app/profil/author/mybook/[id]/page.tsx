@@ -73,7 +73,7 @@ export default function EditBook({ params }: { params: { id: string } }) {
   return (
     <main className="w-full flex items-center justify-center h-screen md:px-0 px-3">
       <form
-        className="md:w-auto w-full flex md:flex-row flex-col gap-5 border p-4 rounded-lg bg-white shadow-xl"
+        className="md:w-auto w-full flex md:flex-row flex-col gap-5 border p-4 rounded-lg bg-white dark:bg-primary-black shadow-xl"
         onSubmit={(e) => {
           e.preventDefault();
           updatedBook(editBook, params.id);
@@ -153,7 +153,7 @@ export default function EditBook({ params }: { params: { id: string } }) {
           </div>
           <div className={`${nextInput ? "flex" : "hidden"} h-full pb-2`}>
             <textarea
-              className="outline-none min-h-full border rounded-lg p-2 w-full"
+              className="outline-none min-h-full border bg-transparent rounded-lg p-2 w-full"
               placeholder="sinopsis"
               value={editBook.sinopsis}
               onChange={(e) => setEditBook({ ...editBook, sinopsis: e.target.value })}

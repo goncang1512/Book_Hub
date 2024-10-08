@@ -39,7 +39,7 @@ const HoverCardContent = ({ children }: { children: React.ReactNode }) => {
       ref={containerRef}
       className={`${
         showCardContent ? "opacity-100" : "opacity-0 pointer-events-none"
-      } hover:opacity-100 absolute top-4 right-5 flex-col bg-white border rounded-lg p-3 w-36 duration-100`}
+      } hover:opacity-100 absolute top-4 right-5 flex-col bg-white dark:bg-primary-black border rounded-lg p-3 w-36 duration-100`}
       onMouseEnter={() => setShowCardContent(true)}
       onMouseLeave={() => setShowCardContent(false)}
     >
