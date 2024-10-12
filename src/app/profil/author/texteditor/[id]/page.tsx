@@ -108,7 +108,7 @@ const ModalAddChapter = ({
 
   return (
     <dialog className="modal" id="modal_add_chapter">
-      <div className="relative modal-box">
+      <div className="relative modal-box bg-white dark:bg-primary-black">
         <button
           aria-labelledby="buttonClosemodalChapter"
           className="absolute top-2 right-2 active:bg-gray-300 rounded-full"
@@ -150,7 +150,7 @@ const ModalAddChapter = ({
             Chapter
           </Input>
           <select
-            className={`flex select select-bordered w-full`}
+            className={`flex select w-full bg-white dark:bg-primary-black dark:border dark:border-zinc-700`}
             value={chapterData.status}
             onChange={(e) => {
               setChapterData({ ...chapterData, status: e.target.value });

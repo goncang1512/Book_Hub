@@ -261,7 +261,7 @@ export default function Read({ params }: { params: { id: string } }) {
               <div className="flex items-center gap-1">
                 <button
                   className={`transform duration-100 ease-linear text-xs ${
-                    reversedChapters ? "text-[#00b88c]" : ""
+                    reversedChapters ? "text-bluemary" : ""
                   }`}
                   onClick={() => setReversedChapters(true)}
                 >
@@ -270,7 +270,7 @@ export default function Read({ params }: { params: { id: string } }) {
                 <p className="text-sm">|</p>
                 <button
                   className={`transform duration-100 ease-linear text-xs ${
-                    reversedChapters ? "" : "text-[#00b88c]"
+                    reversedChapters ? "" : "text-bluemary"
                   }`}
                   onClick={() => setReversedChapters(false)}
                 >
@@ -283,7 +283,7 @@ export default function Read({ params }: { params: { id: string } }) {
               (sortDraft?.length > 0 || sortSubmit?.length > 0) && (
                 <div className="border-b flex w-full justify-around py-2">
                   <button
-                    className={`${seeDraft.rilis && "text-[#00b88c]"}`}
+                    className={`${seeDraft.rilis && "text-bluemary"}`}
                     onClick={() =>
                       setSeeDraft({
                         ...seeDraft,
@@ -296,7 +296,7 @@ export default function Read({ params }: { params: { id: string } }) {
                     Rilis
                   </button>
                   <button
-                    className={`${seeDraft.draft && "text-[#00b88c]"}`}
+                    className={`${seeDraft.draft && "text-bluemary"}`}
                     onClick={() =>
                       setSeeDraft({
                         ...seeDraft,
@@ -309,7 +309,7 @@ export default function Read({ params }: { params: { id: string } }) {
                     Draft
                   </button>
                   <button
-                    className={`${seeDraft.submit && "text-[#00b88c]"}`}
+                    className={`${seeDraft.submit && "text-bluemary"}`}
                     onClick={() =>
                       setSeeDraft({
                         ...seeDraft,
@@ -400,13 +400,13 @@ const ChapterKlik = ({
           chapter.status === "Draft" || chapter.status === "Submitted" ? "&status=check" : ""
         }`}
       >
-        <p className={`${chapter?.readers?.includes(session?.user?._id) && "text-[#00b88c]"}`}>
+        <p className={`${chapter?.readers?.includes(session?.user?._id) && "text-bluemary"}`}>
           {chapter?.chapter}
         </p>
         <div>
           <h1
             className={`${
-              chapter?.readers?.includes(session?.user?._id) && "text-[#00b88c]"
+              chapter?.readers?.includes(session?.user?._id) && "text-bluemary"
             } font-semibold`}
           >
             {chapter.judul}
@@ -428,7 +428,7 @@ const ChapterKlik = ({
                 deletedCanvas(chapter._id, params.id);
               }}
             >
-              {ldlDeleteCanvas ? "Loading" : "Hapus"}
+              {ldlDeleteCanvas ? "Loading" : "Delete"}
             </button>
           </div>
         </DropDownKlik>

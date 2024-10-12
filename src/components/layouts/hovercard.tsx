@@ -88,7 +88,7 @@ export const DropDownKlik = ({ children }: { children: React.ReactNode }) => {
           ref={containerRef}
           className={`${
             showCardContent ? "flex" : "hidden"
-          } absolute top-5 right-5 flex-col bg-white border rounded-lg p-3 w-36`}
+          } absolute top-5 right-5 flex-col border rounded-lg p-3 w-36 bg-white dark:bg-primary-black`}
         >
           {children}
         </div>
