@@ -25,7 +25,7 @@ export default function ModalBox({
   }, [dataModal]);
 
   return (
-    <dialog ref={containerRef} className="modal" onClick={() => setDataModal(null)}>
+    <dialog ref={containerRef} className="modal px-4" onClick={() => setDataModal(null)}>
       <div
         className="relative bg-white rounded-lg shadow-lg max-w-screen-md mx-auto"
         onClick={(e) => e.stopPropagation()}

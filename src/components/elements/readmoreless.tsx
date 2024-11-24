@@ -7,10 +7,19 @@ type ReadMoreType = {
   textFont: string;
   other: boolean;
   mobile?: number;
+  tab?: number;
   style?: Record<string, any>;
 };
 
-const ReadMoreLess = ({ text, maxLength, mobile, textFont, other, style }: ReadMoreType) => {
+const ReadMoreLess = ({
+  text,
+  maxLength = 120,
+  mobile,
+  tab,
+  textFont,
+  other,
+  style,
+}: ReadMoreType) => {
   const [isFullTextShown, setIsFullTextShown] = useState(false);
   const toggleShowText = () => {
     setIsFullTextShown(!isFullTextShown);
@@ -34,7 +43,13 @@ const ReadMoreLess = ({ text, maxLength, mobile, textFont, other, style }: ReadM
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const panjangTeks = windowSize.width > 640 ? maxLength : (mobile ?? maxLength);
+  const panjangTeks =
+    windowSize.width <= 640
+      ? mobile
+      : windowSize.width > 640 && windowSize.width < 1024
+        ? tab
+        : maxLength;
+
   return (
     <div>
       {isFullTextShown ? (
@@ -49,7 +64,7 @@ const ReadMoreLess = ({ text, maxLength, mobile, textFont, other, style }: ReadM
       ) : (
         <p className={textFont} style={style}>
           {text && text.slice(0, panjangTeks)}
-          {text && text.length > panjangTeks && (
+          {text && text.length > (panjangTeks ?? 120) && (
             <button onClick={toggleShowText}>
               <span className="cursor-pointer text-gray-400">{other ? " ...See more" : "..."}</span>
             </button>

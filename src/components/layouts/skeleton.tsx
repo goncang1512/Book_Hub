@@ -4,7 +4,7 @@ export const CardBookSkaleton = ({ ukuran }: { ukuran?: string }) => {
   return (
     <div
       className={`flex ${
-        ukuran ? ukuran : "md:w-[49.3%] w-full"
+        ukuran ? ukuran : "w-full"
       } p-3 gap-4 border bg-white dark:bg-primary-black shadow-lg rounded-lg`}
     >
       <div className="skeleton dark:bg-primary-dark w-[92px] rounded-lg h-[144px] relative" />

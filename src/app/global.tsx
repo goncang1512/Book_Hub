@@ -84,7 +84,7 @@ export default function Global({ children }: { children: React.ReactNode }) {
                           )}
                           <main
                             className={`w-full max-[768px]:pb-14  ${
-                              !disableMl60.includes(pathname) && "md:ml-72 ml-0"
+                              !disableMl60.includes(pathname) && "md:ml-[5.5rem] lg:ml-72 ml-0"
                             }`}
                           >
                             {children}

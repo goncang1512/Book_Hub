@@ -40,7 +40,7 @@ export default function Home() {
           Trending
         </h1>
       </div>
-      <div className="md:w-[80vw] w-full pl-4 pr-4">
+      <div className="md:w-[89vw] lg:w-[80vw] w-full pl-4 pr-4">
         <Swiper
           breakpoints={{
             768: {
@@ -80,7 +80,7 @@ export default function Home() {
           Latest Update
         </h1>
       </div>
-      <div className="w-full p-4 flex flex-wrap md:flex-row flex-col gap-4 h-full">
+      <div className="grid md:grid-cols-2 grid-cols-1 gap-4 p-4">
         {pageLoading
           ? Array.from({ length: booksPerPage }).map((_, index) => (
               <CardBookSkaleton key={index + 1} ukuran="" />

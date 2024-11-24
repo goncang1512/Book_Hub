@@ -45,16 +45,17 @@ export default function SideBar({
   return (
     <div ref={sidebarRef} className="flex z-[999]">
       <div
-        className={`bg-white dark:bg-[#171717] fixed md:flex hidden left-0 right-0 w-72 h-screen  border-r shadow-lg  flex-col gap-[30px] py-5`}
+        className={`bg-white dark:bg-[#171717] fixed md:flex hidden left-0 right-0 h-screen  border-r shadow-lg  flex-col gap-[30px] py-5 ${!seeSearch ? "md:w-[5.5rem] lg:w-72" : "w-[5.5rem]"} duration-300 ease-linear`}
       >
         <h1 className="flex items-center font-bold pl-8 gap-2">
           <GiBookmarklet className="text-[#0077B6]" size={40} />
-          BookHub
+          <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>BookHub</span>
         </h1>
         {/* Remake Main */}
         <div className="flex flex-col pt-[10px]">
-          <p className="text-sm text-gray-400 pl-8 flex items-center gap-2">
-            <FaRegBookmark size={15} /> Main
+          <p className="text-sm text-gray-400 pl-[2.1rem] flex items-center gap-2">
+            <FaRegBookmark size={18} />
+            <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>Main</span>
           </p>
           <div className="flex flex-col gap-2">
             <Link
@@ -65,9 +66,9 @@ export default function SideBar({
             >
               <HomeIcon
                 color={`${pathname === "/" ? `#FFFFFF` : `${isDarkMode ? "#FFFFFF" : "#000"}`}`}
-                size={16}
+                size={23}
               />{" "}
-              Home
+              <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>Home</span>
             </Link>
 
             <Link
@@ -76,20 +77,21 @@ export default function SideBar({
               } gap-2 items-center text-lg font-medium px-8 py-1 hidden`}
               href={"/orders"}
             >
-              <MdOutlineBorderColor size={19} /> Orders
+              <MdOutlineBorderColor size={25} />
+              <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>Orders</span>
             </Link>
 
             <Link
               className={`${
-                pathname === "/profil/whislist" && "bg-[#0077B6] text-white"
+                pathname === "/profil/bookmark" && "bg-[#0077B6] text-white"
               } flex gap-2 items-center text-lg font-medium px-8 py-1`}
-              href={"/profil/whislist"}
+              href={"/profil/bookmark"}
             >
               <Whislist
-                color={`${pathname === "/profil/whislist" ? "#FFFFFF" : `${isDarkMode ? "#FFFFFF" : "#000"}`}`}
-                size={19}
+                color={`${pathname === "/profil/bookmark" ? "#FFFFFF" : `${isDarkMode ? "#FFFFFF" : "#000"}`}`}
+                size={23}
               />{" "}
-              Whislist
+              <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>Bookmark</span>
             </Link>
 
             <Link
@@ -102,8 +104,10 @@ export default function SideBar({
                     notifUser?.length > 0 ? "flex" : "hidden"
                   } `}
                 />
-                <IoNotificationsOutline size={19} />
-                Notification
+                <IoNotificationsOutline size={25} />
+                <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>
+                  Notification
+                </span>
               </div>
             </Link>
 
@@ -113,7 +117,8 @@ export default function SideBar({
               className={`flex gap-2 items-center text-lg font-medium px-8 py-1`}
               onClick={() => setSeeSearch(seeSearch ? false : true)}
             >
-              <MdOutlineSearch size={20} /> Search
+              <MdOutlineSearch size={25} />
+              <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>Search</span>
             </button>
           </div>
         </div>
@@ -127,8 +132,8 @@ export default function SideBar({
                 className={`text-sm text-gray-400 pl-8 flex items-center gap-2 cursor-pointer`}
                 onClick={() => setSeeDasboard(!seeDasboard)}
               >
-                <DasboardIcon color="#9ca3af" size={15} />
-                Dasboard{" "}
+                <DasboardIcon color="#9ca3af" size={19} />
+                <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>Dasboard</span>
                 <IoIosArrowDown
                   className={`${seeDasboard ? "" : "rotate-90"} ease-in-out duration-300`}
                   size={13}
@@ -150,8 +155,10 @@ export default function SideBar({
                         } flex gap-2 items-center text-lg font-medium px-8 py-1`}
                         href={"/profil/dasboard/users"}
                       >
-                        <HiUserGroup size={20} />
-                        User
+                        <HiUserGroup size={25} />
+                        <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>
+                          User
+                        </span>
                       </Link>
                       <Link
                         className={`${
@@ -159,8 +166,10 @@ export default function SideBar({
                         } flex gap-2 items-center text-lg font-medium px-8 py-1`}
                         href={"/profil/dasboard/inbox"}
                       >
-                        <HiOutlineInbox size={20} />
-                        Inbox
+                        <HiOutlineInbox size={25} />
+                        <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>
+                          Inbox
+                        </span>
                       </Link>
                       <Link
                         className={`${
@@ -168,8 +177,10 @@ export default function SideBar({
                         } flex gap-2 items-center text-lg font-medium px-8 py-1`}
                         href={"/profil/dasboard/toko"}
                       >
-                        <BiStore size={20} />
-                        My Store
+                        <BiStore size={25} />
+                        <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>
+                          My Store
+                        </span>
                       </Link>
                     </>
                   )}
@@ -181,8 +192,10 @@ export default function SideBar({
                         } flex gap-2 items-center text-lg font-medium px-8 py-1`}
                         href={"/profil/author/mybook"}
                       >
-                        <FaRegAddressBook size={20} />
-                        Add Book
+                        <FaRegAddressBook size={25} />
+                        <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>
+                          Add Book
+                        </span>
                       </Link>
                       <Link
                         className={`${
@@ -190,8 +203,10 @@ export default function SideBar({
                         } flex gap-2 items-center text-lg font-medium px-8 py-1`}
                         href={"/profil/author"}
                       >
-                        <SiBookmyshow size={20} />
-                        My Book
+                        <SiBookmyshow size={25} />
+                        <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>
+                          My Book
+                        </span>
                       </Link>
                     </>
                   )}
@@ -218,8 +233,8 @@ export default function SideBar({
           } duration-200 ease-in-out flex flex-col`}
         >
           <p className="text-sm text-gray-400 pl-8 flex items-center gap-2">
-            <HiMiniBars3BottomRight size={15} />
-            Other
+            <HiMiniBars3BottomRight size={19} />
+            <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>Other</span>
           </p>
           <div className="flex flex-col gap-2">
             <Link
@@ -228,27 +243,39 @@ export default function SideBar({
               } flex gap-2 items-center text-lg font-medium px-8 py-1`}
               href={"/leaderboard"}
             >
-              <MdOutlineLeaderboard size={20} />
-              Leaderboard
+              <MdOutlineLeaderboard size={25} />
+              <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>Leaderboard</span>
             </Link>
 
             <hr className="w-full h-[1px] rounded-full border-0 bg-gray-400 px-5" />
             {session?.user && (
-              <div
-                className={`${
-                  pathname === "/profil" && "bg-[#0077B6] text-white"
-                } flex w-full justify-between px-8 items-center`}
-              >
-                <Link
-                  className={`flex gap-2 items-center text-lg font-medium py-2`}
-                  href={`/profil`}
+              <div className=" flex flex-col items-center h-full justify-center">
+                <div
+                  className={`${
+                    pathname === "/profil" && "bg-[#0077B6] text-white"
+                  } flex w-full justify-between px-8 items-center`}
                 >
-                  <LuUser size={20} />
-                  Profile
-                </Link>
+                  <Link
+                    className={`flex gap-2 items-center text-lg font-medium py-2`}
+                    href={`/profil`}
+                  >
+                    <LuUser size={25} />
+                    <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>Profile</span>
+                  </Link>
+                  <button
+                    aria-label="logoutButton"
+                    className={`h-max w-max ${seeSearch ? "hidden" : "md:hidden lg:flex"}`}
+                    type="button"
+                    onClick={async () => {
+                      await signOut({ callbackUrl: "/login" });
+                    }}
+                  >
+                    <TbLogout size={25} />
+                  </button>
+                </div>
                 <button
                   aria-label="logoutButton"
-                  className="h-max w-max"
+                  className={`h-max w-max absolute bottom-10 ${seeSearch ? "flex" : "flex lg:hidden"}`}
                   type="button"
                   onClick={async () => {
                     await signOut({ callbackUrl: "/login" });
@@ -289,7 +316,7 @@ export default function SideBar({
         <>
           {/* <ButtonMissions seeMission={seeMission} setSeeMission={setSeeMission} /> */}
           <ButtonMission
-            className={`${seeMission ? "opacity-0 visibility-hidden" : "opacity-100 visibility-visible"}    bg-white dark:bg-primary-black border-r border-y rounded-r-md top-[23.5px] md:left-72 left-0 fixed duration-150`}
+            className={`${seeMission ? "opacity-0 visibility-hidden" : "opacity-100 visibility-visible"}    bg-white dark:bg-primary-black border-r border-y rounded-r-md top-[23.5px] md:left-[5.5rem] lg:left-72 left-0 fixed duration-150`}
             seeMission={seeMission}
             setSeeMission={setSeeMission}
           />

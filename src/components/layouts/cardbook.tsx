@@ -116,7 +116,7 @@ function CardBook({
   return (
     <div
       className={`flex flex-col ${
-        ukuran ? ukuran : "md:w-[49.3%] w-full"
+        ukuran ? ukuran : "w-full"
       }  p-3 gap-4 border bg-white dark:bg-primary-black shadow-lg rounded-lg duration-500 ease-in-out`}
     >
       <div className="gap-4 flex">
@@ -270,6 +270,7 @@ function CardBook({
               maxLength={pathname === "/profil" || pathname.startsWith("/user") ? 300 : 210}
               mobile={120}
               style={{ fontSize: "clamp(0.75rem, 2vw, 0.875rem)" }}
+              tab={100}
               text={sinopsis}
               textFont="text-gray-900 dark:text-[#EAEAEA] leading-[1.178rem]"
             />
@@ -284,14 +285,14 @@ function CardBook({
                 </p>
               </div>
               <div className="relative flex gap-2">
-                <p className="md:flex hidden text-xs text-gray-500 items-center">
+                <p className="lg:flex hidden text-xs text-gray-500 items-center">
                   {parseDate(terbit)}
                 </p>
                 <button
                   ref={buttonRef}
                   aria-label={`buttonDetailClick${_id}`}
                   className={`${
-                    pathname === "/profil/whislist" ? "flex" : "md:hidden flex"
+                    pathname === "/profil/bookmark" ? "flex" : "lg:hidden flex"
                   } text-sm ${
                     seeDetail ? "rotate-0" : "rotate-90"
                   } duration-200 p-1 ease-linear hover:bg-gray-300 rounded-full`}
@@ -313,7 +314,7 @@ function CardBook({
       >
         <div ref={ref} className="w-full flex flex-col gap-3 h-full pt-4">
           <form
-            className={`${pathname === `/profil/whislist` ? "flex" : "hidden"} items-center gap-2`}
+            className={`${pathname === `/profil/bookmark` ? "flex" : "hidden"} items-center gap-2`}
             onSubmit={(e) => {
               e.preventDefault();
               updateHalaman(_id, halaman, user_id);
@@ -341,7 +342,7 @@ function CardBook({
               {loadingHalaman ? <span className="loading loading-dots loading-md" /> : "Update"}
             </Button>
           </form>
-          <p className="md:hidden flex text-xs text-gray-500 items-center">
+          <p className="lg:hidden flex text-xs text-gray-500 items-center">
             Terbit : {parseDate(terbit)}
           </p>
         </div>

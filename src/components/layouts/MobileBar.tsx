@@ -19,35 +19,52 @@ export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBa
   return (
     <div
       ref={mobileRef}
-      className="z-50 w-full h-12 bg-white dark:bg-primary-black border-t fixed bottom-0 left-0 md:hidden flex justify-center"
+      className="z-50 w-full h-14 bg-white dark:bg-primary-black border-t fixed bottom-0 left-0 md:hidden flex justify-center"
     >
       <div className="w-full flex items-center justify-around">
-        <Link aria-label="homeLink" href={"/"}>
+        <Link
+          aria-label="homeLink"
+          className="flex flex-col justify-center items-center"
+          href={"/"}
+        >
           <HomeIcon color={`${isDarkMode ? "#FFFFFF" : "#000"}`} size={25} />
+          <span className="text-sm">Home</span>
         </Link>
-        <Link aria-label="whislistLink" href={"/profil/whislist"}>
+        <Link
+          aria-label="Bookmark"
+          className="flex flex-col justify-center items-center"
+          href={"/profil/bookmark"}
+        >
           <Whislist color={`${isDarkMode ? "#FFFFFF" : "#000"}`} size={25} />
+          <span className="text-sm">Bookmark</span>
         </Link>
         <div>
           <button
             aria-label="buttonSearch"
-            className={`flex gap-2 items-center text-lg font-medium px-3 py-1`}
+            className={`flex flex-col justify-center items-center text-lg font-medium px-3 py-1`}
             id="button-search"
             onClick={() => setSeeSearch(seeSearch ? false : true)}
           >
             <MdOutlineSearch size={25} />
+            <span className="text-sm">Search</span>
           </button>
         </div>
         <Link aria-label="NotifLink" className="relative" href={"/profil/notifikasi"}>
           <span
-            className={`size-2 bg-red-500 absolute rounded-full top-[5%] right-[19%] ${
+            className={`flex flex-col justify-center items-center size-2 bg-red-500 absolute rounded-full top-[5%] right-[19%] ${
               notifUser?.length > 0 ? "flex" : "hidden"
             } `}
           />
           <IoNotificationsOutline size={25} />
+          <span className="text-sm">Notif</span>
         </Link>
-        <Link aria-label="profilLink" href={"/profil"}>
+        <Link
+          aria-label="profilLink"
+          className="flex flex-col justify-center items-center"
+          href={"/profil"}
+        >
           <LuUser size={25} />
+          <span className="text-sm">Profile</span>
         </Link>
       </div>
     </div>

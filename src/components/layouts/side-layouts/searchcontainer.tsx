@@ -1,4 +1,4 @@
-import React, { LegacyRef, useContext, useState } from "react";
+import React, { LegacyRef, useContext, useEffect, useRef, useState } from "react";
 import { MdOutlineSearch } from "react-icons/md";
 import Link from "next/link";
 import { FaRegComments } from "react-icons/fa6";
@@ -36,16 +36,25 @@ export default function SearchContainer({
     debounce(() => setKeyWord(value), DELAY)();
   };
 
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (seeSearch) {
+      inputRef.current?.focus();
+    }
+  }, [seeSearch]);
+
   return (
     <div
       ref={containerSearchRef}
       className={`${
-        seeSearch ? "md:translate-x-[18rem] translate-x-0" : "-translate-x-[100%]"
+        seeSearch ? "md:translate-x-[5.5rem] translate-x-0" : "-translate-x-[100%]"
       } bg-white dark:bg-primary-black border-r shadow-xl h-screen duration-700 w-80 z-40 left-0 fixed p-2`}
     >
       <div className="flex flex-col">
         <div className={`${styles.searchBox} relative`}>
           <input
+            ref={inputRef}
             className={`border px-2 py-2 outline-none bg-white dark:bg-primary-dark rounded-md text-black dark:text-white text-[1em] w-full focus:border focus:border-solid focus:border-[#3b82f6] shadow-md`}
             id="search"
             name="search"

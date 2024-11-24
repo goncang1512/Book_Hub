@@ -15,7 +15,7 @@ export default function Whislist() {
   }
 
   return (
-    <div className="w-full p-4 flex flex-wrap md:flex-row flex-col gap-4 h-full">
+    <div className="grid md:grid-cols-2 grid-cols-1 gap-4 p-4">
       {dataUserListLoading
         ? Array.from({ length: 5 }).map((_, index) => <CardBookSkaleton key={index + 1} />)
         : dataUserList &&

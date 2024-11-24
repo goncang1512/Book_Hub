@@ -30,7 +30,7 @@ const ComponentUser: React.FC<TesComponenType> = ({ username }) => {
           : `${seeProfilComponent?.seeProduct && "h-screen"}`
       }`}
     >
-      <div className="relative h-full md:p-10 p-4 flex flex-col md:gap-10 gap-4 md:mr-[30%] mr-0 z-10">
+      <div className="relative h-full md:p-10 p-4 flex flex-col md:gap-10 gap-4 md:mr-[10%] lg:mr-[30%] mr-0 z-10">
         {userDetailLoading || followLoading ? (
           <div className="flex h-screen w-full justify-center items-center">
             <span className="loading loading-bars loading-lg" />

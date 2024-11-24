@@ -53,7 +53,9 @@ export default function Mission({
       <div
         ref={missionRef}
         className={`${
-          seeMission ? "md:translate-x-[18rem] translate-x-0" : "-translate-x-[100%] bg-transparent"
+          seeMission
+            ? "md:translate-x-[5.5rem] lg:translate-x-[18rem] translate-x-0"
+            : "-translate-x-[100%] bg-transparent"
         } bg-white dark:bg-primary-black dark:border-r md:w-[40%] w-[80%] h-screen relative duration-700`}
       >
         <div className="p-5 flex flex-col gap-3">
