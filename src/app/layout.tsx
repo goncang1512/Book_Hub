@@ -15,6 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
 const inter = Inter({ subsets: ["latin"] });
 
 import Global from "./global";
+import AdSense from "@/components/fragments/adsense";
 
 export default function RootLayout({
   children,
@@ -23,6 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html className="bg-white dark:bg-primary-dark" lang="en">
+      <head>
+        <AdSense pId="4121473407235803" />
+      </head>
       <body
         className={`${inter.className} flex overflow-x-hidden bg-white dark:bg-primary-dark min-h-screen`}
       >

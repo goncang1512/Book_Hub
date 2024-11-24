@@ -14,6 +14,7 @@ import styles from "@/lib/style.module.css";
 import { InputStory } from "@/components/layouts/inputstory";
 import InfiniteSwrStory from "@/components/layouts/infiniteSwr";
 import AudioPlayer from "@/components/fragments/playaudio";
+import Adbanner from "@/components/fragments/adbanner";
 
 interface ReadComponentProps {
   book_id: string;
@@ -128,6 +129,12 @@ const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status 
             </Link>
           )}
         </div>
+
+        {/* Adds */}
+        <div>
+          <Adbanner dataAdFormat="auto" dataAdSlot="8419463419" dataFullWidthResponsive={true} />
+        </div>
+
         <div className={`${status === "check" ? "hidden" : "flex"} border-t flex-col`}>
           <InputStory
             idStoryBook={chapter}

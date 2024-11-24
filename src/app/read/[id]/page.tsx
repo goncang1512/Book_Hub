@@ -13,6 +13,7 @@ import { DropDownKlik } from "@/components/layouts/hovercard";
 import { CanvasContext } from "@/lib/context/canvascontext";
 import Picture from "@/components/elements/image";
 import { parseDate } from "@/lib/utils/parseTime";
+import Adbanner from "@/components/fragments/adbanner";
 
 export default function Read({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -74,11 +75,7 @@ export default function Read({ params }: { params: { id: string } }) {
 
   return (
     <section className="flex">
-      <div
-        className={`relative flex flex-col w-full md:mr-[38%] mr-0 border-r ${
-          detailChapter?.canvas.length > 9 ? "h-full" : "h-screen"
-        }`}
-      >
+      <div className={`relative flex flex-col w-full mr-0 border-r flex-1 min-h-screen`}>
         {/* Add Chapter */}
         <div className="fixed bottom-3 md:right-[31.5%] right-[2%] md:mb-0 mb-11 flex flex-col gap-4">
           {/* Cek jika user adalah author dari chapter ini */}
@@ -362,7 +359,11 @@ export default function Read({ params }: { params: { id: string } }) {
           </>
         )}
       </div>
-      <div />
+      <div className="flex-none w-[40%] lg:flex hidden">
+        <div>
+          <Adbanner dataAdFormat="auto" dataAdSlot="8419463419" dataFullWidthResponsive={true} />
+        </div>
+      </div>
     </section>
   );
 }
