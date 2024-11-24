@@ -19,7 +19,7 @@ export async function generateMetadata({ searchParams }: PropsRead): Promise<Met
   const res = await result.json();
   let data = {
     judul: res?.result?.judul ? res?.result?.judul : "Read",
-    chapter: res?.result?.chapter ? `${res?.result?.judul} -` : "BookHub | ",
+    chapter: res?.result?.chapter ? `${res?.result?.judul} -` : "BookArcade | ",
   };
 
   return {

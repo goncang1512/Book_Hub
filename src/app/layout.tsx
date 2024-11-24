@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: `BookHub - Indo`,
+    title: `BookArcade - Indo`,
     description:
       "Aplikasi membaca dan menulis novel atau cerpen serta memberikan ulasan pada buku yang di baca",
     authors: [{ name: "Mogo Studio", url: `${process.env.NEXT_PUBLIC_API_URL}` }],

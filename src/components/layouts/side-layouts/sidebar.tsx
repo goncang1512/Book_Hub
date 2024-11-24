@@ -49,7 +49,7 @@ export default function SideBar({
       >
         <h1 className="flex items-center font-bold pl-8 gap-2">
           <GiBookmarklet className="text-[#0077B6]" size={40} />
-          <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>BookHub</span>
+          <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>BookArcade</span>
         </h1>
         {/* Remake Main */}
         <div className="flex flex-col pt-[10px]">
