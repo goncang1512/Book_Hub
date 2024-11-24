@@ -1,11 +1,7 @@
 import React from "react";
 import Script from "next/script";
 
-type AdSenseType = {
-  pId?: string;
-};
-
-export default function AdSense({ pId }: AdSenseType) {
+export default function AdSense() {
   return (
     <Script
       async

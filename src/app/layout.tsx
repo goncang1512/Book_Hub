@@ -25,7 +25,8 @@ export default function RootLayout({
   return (
     <html className="bg-white dark:bg-primary-dark" lang="en">
       <head>
-        <AdSense pId="4121473407235803" />
+        <AdSense />
+        <meta content="ca-pub-4121473407235803" name="google-adsense-account" />
       </head>
       <body
         className={`${inter.className} flex overflow-x-hidden bg-white dark:bg-primary-dark min-h-screen`}
