@@ -31,8 +31,9 @@ export default function Orders() {
 
     try {
       const audio = await uploadAudioCloud(formData);
-      await instance.post("/api/read/audio", { result: audio });
-
+      const res = await instance.post("/api/read/audio", { result: audio });
+      console.log(res);
+      setPreviewAudio(res.data.result.secure_url);
       if (formRef.current) {
         formRef.current.reset();
       }

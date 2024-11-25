@@ -13,8 +13,8 @@ export async function uploadAudioCloud(formData: FormData) {
   try {
     const base64Image: string = `data:${file.type};base64,${buffer.toString("base64")}`;
     const response = await cloudinary.uploader.upload(base64Image, {
-      resource_type: "video",
-      public_id: "my_video",
+      resource_type: "raw",
+      folder: "audio",
     });
     return response;
   } catch (error: any) {
