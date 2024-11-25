@@ -30,13 +30,12 @@ export default function Global({ children }: { children: React.ReactNode }) {
   const searchButton = useRef<HTMLButtonElement | null>(null);
   const containerSearch = useRef<HTMLDivElement | null>(null);
 
-  useClickOutside([searchButton, containerSearch], () => setSeeSearch(false));
-
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const missionRef = useRef<HTMLDivElement | null>(null);
   const buttonMission = useRef<HTMLButtonElement | null>(null);
   const mobileRef = useRef<HTMLDivElement>(null);
 
+  useClickOutside([searchButton, containerSearch, sidebarRef], () => setSeeSearch(false));
   useClickOutside([sidebarRef, missionRef, buttonMission, mobileRef], () => setSeeMission(false));
 
   const disableSideBar = ["/login", "/register"];

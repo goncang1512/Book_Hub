@@ -23,7 +23,7 @@ export default function Adbanner({
   return (
     <ins
       className="adsbygoogle"
-      data-ad-client={`ca-pub-123456789`}
+      data-ad-client={`ca-pub-4121473407235803`}
       data-ad-format={dataAdFormat}
       data-ad-slot={dataAdSlot}
       data-full-width-responsive={dataFullWidthResponsive.toString()}

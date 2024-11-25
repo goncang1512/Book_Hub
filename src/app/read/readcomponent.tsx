@@ -131,7 +131,7 @@ const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status 
         </div>
 
         {/* Adds */}
-        <div>
+        <div className="border-t">
           <Adbanner dataAdFormat="auto" dataAdSlot="8419463419" dataFullWidthResponsive={true} />
         </div>
 

@@ -13,9 +13,9 @@ import { signIn, useSession, signOut } from "next-auth/react";
 import { LegacyRef, useContext, useState } from "react";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { FaRegBookmark } from "react-icons/fa";
-import { GiBookmarklet } from "react-icons/gi";
 import { IoIosArrowDown } from "react-icons/io";
 import { SiBookmyshow } from "react-icons/si";
+import Picture from "@/components/elements/image";
 
 import { ButtonMission } from "./mission";
 import { GlobalState } from "@/lib/context/globalstate";
@@ -47,8 +47,8 @@ export default function SideBar({
       <div
         className={`bg-white dark:bg-[#171717] fixed md:flex hidden left-0 right-0 h-screen  border-r shadow-lg  flex-col gap-[30px] py-5 ${!seeSearch ? "md:w-[5.5rem] lg:w-72" : "w-[5.5rem]"} duration-300 ease-linear`}
       >
-        <h1 className="flex items-center font-bold pl-8 gap-2">
-          <GiBookmarklet className="text-[#0077B6]" size={40} />
+        <h1 className={`flex items-center font-bold gap-2 ${seeSearch ? "pl-5" : "pl-5 lg:pl-8"}`}>
+          <Picture className={`w-12 h-10`} src="/svg/logoweb.svg" />
           <span className={`${seeSearch ? "hidden" : "md:hidden lg:flex"}`}>BookArcade</span>
         </h1>
         {/* Remake Main */}

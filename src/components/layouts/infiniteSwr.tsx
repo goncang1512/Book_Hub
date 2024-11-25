@@ -2,6 +2,7 @@ import { storySWR } from "@/lib/swr/storySwr";
 import React, { useEffect } from "react";
 import { CardContent } from "./cardstory";
 import { Button } from "../elements/button";
+import Adbanner from "../fragments/adbanner";
 
 export default function InfiniteSwrStory({
   dataFollow,
@@ -26,15 +27,28 @@ export default function InfiniteSwrStory({
       {dataStory &&
         dataStory?.map((result: any) => {
           return result?.data?.map((cerita: any, index: number) => {
+            const isAdPosition = (index + 1) % 5 === 0;
             return (
-              <CardContent
-                key={cerita._id}
-                classStory={`${dataStory.length === 1 && index === 0 ? "border-none" : "border-t"}`}
-                dataFollow={dataFollow}
-                seeBook={seeBook}
-                story={cerita}
-                urlData={`${url}`}
-              />
+              <React.Fragment key={cerita._id}>
+                <CardContent
+                  classStory={`${dataStory.length === 1 && index === 0 ? "border-none" : "border-t"}`}
+                  dataFollow={dataFollow}
+                  seeBook={seeBook}
+                  story={cerita}
+                  urlData={`${url}`}
+                />
+                {isAdPosition && (
+                  <div
+                    className={`${dataStory.length === 1 && index === 0 ? "border-none" : "border-t"}`}
+                  >
+                    <Adbanner
+                      dataAdFormat="auto"
+                      dataAdSlot="7459232390"
+                      dataFullWidthResponsive={true}
+                    />
+                  </div>
+                )}
+              </React.Fragment>
             );
           });
         })}
