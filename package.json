@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@radix-ui/react-hover-card": "^1.1.1",
+    "@supabase/supabase-js": "^2.46.1",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "cheerio": "^1.0.0",

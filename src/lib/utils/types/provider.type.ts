@@ -194,19 +194,19 @@ export interface CanvasProvider {
   >;
   uploadAudio: (
     canvas_id: string,
-    dataAudio: { audio: File | null; size: number; type: string },
+    dataAudio: { audio: File | null; size: number; type: string; name: string },
     setAudioSrc: React.Dispatch<React.SetStateAction<any>>,
     setDataAudio: React.Dispatch<
-      React.SetStateAction<{ type: string; size: number; audio: File | null }>
+      React.SetStateAction<{ type: string; size: number; audio: File | null; name: string }>
     >,
     fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
   ) => void;
   updateAudio: (
     canvas_id: string,
-    dataAudio: { audio: File | null; size: number; type: string },
+    dataAudio: { audio: File | null; size: number; type: string; name: string },
     setAudioSrc: React.Dispatch<React.SetStateAction<any>>,
     setDataAudio: React.Dispatch<
-      React.SetStateAction<{ type: string; size: number; audio: File | null }>
+      React.SetStateAction<{ type: string; size: number; audio: File | null; name: string }>
     >,
     fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
   ) => void;

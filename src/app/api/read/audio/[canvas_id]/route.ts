@@ -1,7 +1,7 @@
-import { deletedAudio } from "@/lib/middleware/uploadImg";
 import { logger } from "@/lib/utils/logger";
 import { NextRequest, NextResponse } from "next/server";
 import { canvasSrv } from "@/lib/services/canvasservices";
+import supabase from "@/lib/config/supabase";
 
 export const POST = async (req: NextRequest, { params }: { params: { canvas_id: string } }) => {
   const { public_id, secure_url } = await req.json();
@@ -56,7 +56,19 @@ export const PATCH = async (req: NextRequest, { params }: { params: { canvas_id:
     });
 
     if (canvas.audio.public_id) {
-      await deletedAudio(canvas.audio.public_id);
+      const { data: fileExists } = await supabase.storage
+        .from("bookarcade-audio")
+        .list("", { search: canvas.audio.public_id });
+
+      if (fileExists && fileExists.length > 0) {
+        const { error } = await supabase.storage
+          .from("bookarcade-audio")
+          .remove([canvas.audio.public_id]);
+
+        if (error) {
+          throw error;
+        }
+      }
     }
 
     logger.info("Success updated audio cerpen");

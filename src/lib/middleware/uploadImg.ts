@@ -1,11 +1,5 @@
 import { logger } from "../utils/logger";
-import { v2 as cloudinary } from "cloudinary";
-
-cloudinary.config({
-  cloud_name: `${process.env.CLOUD_NAME}`,
-  api_key: `${process.env.CLOUD_KEY}`,
-  api_secret: `${process.env.CLOUD_KEY_SECRET}`,
-});
+import cloudinary from "../config/cloudinary";
 
 import { v2 as cloudinarys } from "cloudinary";
 import streamifier from "streamifier";

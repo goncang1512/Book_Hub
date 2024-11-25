@@ -7,6 +7,7 @@ import { useSWRConfig } from "swr";
 import instance from "../utils/fetch";
 import { logger } from "../utils/logger";
 import { CanvasProvider } from "../utils/types/provider.type";
+import supabase from "../config/supabase";
 
 export const CanvasContext = createContext<CanvasProvider>({} as CanvasProvider);
 
@@ -125,76 +126,58 @@ export default function CanvasContextProvider({ children }: { children: React.Re
     }
   };
 
-  const retryFetch = async (fetchFunc: any, retries = 3) => {
-    for (let i = 0; i < retries; i++) {
-      try {
-        return await fetchFunc();
-      } catch (error) {
-        if (i < retries - 1) {
-          await new Promise((res) => setTimeout(res, 1000)); // Tunggu 1 detik sebelum mencoba lagi
-        } else {
-          throw error;
-        }
-      }
-    }
-  };
-
-  const uploadAudioToCloudinary = async (audioFile: File | null) => {
-    if (!audioFile) throw Error("Tidak ada file audio");
-    const formData = new FormData();
-    formData.append("file", audioFile);
-    formData.append("upload_preset", `${process.env.NEXT_PUBLIC_CLOUD_PRESET}`);
-    formData.append("folder", "audio");
-    formData.append("resource_type", "video");
-
-    return retryFetch(async () => {
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUD_NAME}/video/upload`,
-        { method: "POST", body: formData },
-      );
-      if (!response.ok) {
-        throw new Error("Cloudinary upload failed");
-      }
-      return response.json();
-    });
-  };
-
+  const maxSize = 50 * 1024 * 1024;
   const [ldlAudio, setLdlAudio] = useState(false);
   const uploadAudio = async (
     canvas_id: string,
-    dataAudio: { audio: File | null; size: number; type: string },
+    dataAudio: { audio: File | null; size: number; type: string; name: string },
     setAudioSrc: React.Dispatch<React.SetStateAction<any>>,
     setDataAudio: React.Dispatch<
-      React.SetStateAction<{ type: string; size: number; audio: File | null }>
+      React.SetStateAction<{ type: string; size: number; audio: File | null; name: string }>
     >,
     fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
   ) => {
-    if (!dataAudio.audio) {
-      throw new Error("No audio file selected");
-    }
     try {
+      if (dataAudio.size > maxSize) {
+        alert("File terlalu besar! Maksimal ukuran file adalah 50MB.");
+        throw new Error("File terlalu besar! Maksimal ukuran file adalah 50MB.");
+      }
+
+      if (!dataAudio.audio) {
+        throw new Error("No audio file selected");
+      }
       setLdlAudio(true);
 
-      const audio: any = await uploadAudioToCloudinary(dataAudio.audio);
+      const fileExtension = dataAudio.name.split(".").pop()?.toLowerCase();
 
-      const res = await instance.post(
-        `/api/read/audio/${canvas_id}`,
-        {
-          public_id: audio.public_id,
-          secure_url: audio.secure_url,
-        },
-        {
-          timeout: 120000,
-        },
-      );
+      const { data, error } = await supabase.storage
+        .from("bookarcade-audio")
+        .upload(`audio_${Date.now()}.${fileExtension}`, dataAudio.audio);
 
-      if (res.data.status) {
+      if (error) {
+        throw error;
+      }
+
+      let res;
+      if (data) {
+        const filePath = data.path;
+        const { data: publicUrlData } = supabase.storage
+          .from("bookarcade-audio")
+          .getPublicUrl(filePath);
+        res = await instance.post(`/api/read/audio/${canvas_id}`, {
+          public_id: data.path,
+          secure_url: publicUrlData.publicUrl,
+        });
+      }
+
+      if (res?.data.status) {
         setLdlAudio(false);
         setAudioSrc(null);
         setDataAudio({
           type: "",
           size: 0,
           audio: null,
+          name: "",
         });
         if (fileInputRef?.current) {
           fileInputRef.current.value = "";
@@ -208,43 +191,54 @@ export default function CanvasContextProvider({ children }: { children: React.Re
 
   const updateAudio = async (
     canvas_id: string,
-    dataAudio: { audio: File | null; size: number; type: string },
+    dataAudio: { audio: File | null; size: number; type: string; name: string },
     setAudioSrc: React.Dispatch<React.SetStateAction<any>>,
     setDataAudio: React.Dispatch<
-      React.SetStateAction<{ type: string; size: number; audio: File | null }>
+      React.SetStateAction<{ type: string; size: number; audio: File | null; name: string }>
     >,
     fileInputRef: React.MutableRefObject<HTMLInputElement | null>,
   ) => {
-    if (!dataAudio.audio) {
-      throw new Error("No audio file selected");
-    }
-
     try {
-      if (dataAudio.size > 10 * 1024 * 1024) {
-        throw new Error("Ukuran file maksimal 10mb");
+      if (dataAudio.size > maxSize) {
+        alert("File terlalu besar! Maksimal ukuran file adalah 50MB.");
+        throw new Error("File terlalu besar! Maksimal ukuran file adalah 50MB.");
+      }
+
+      if (!dataAudio.audio) {
+        throw new Error("No audio file selected");
       }
       setLdlAudio(true);
 
-      const audio: any = await uploadAudioToCloudinary(dataAudio.audio);
+      const fileExtension = dataAudio.name.split(".").pop()?.toLowerCase();
 
-      const res = await instance.patch(
-        `/api/read/audio/${canvas_id}`,
-        {
-          public_id: audio.public_id,
-          secure_url: audio.secure_url,
-        },
-        {
-          timeout: 120000,
-        },
-      );
+      const { data, error } = await supabase.storage
+        .from("bookarcade-audio")
+        .upload(`audio_${Date.now()}.${fileExtension}`, dataAudio.audio);
 
-      if (res.data.status) {
+      if (error) {
+        throw error;
+      }
+
+      let res;
+      if (data) {
+        const { data: publicUrlData } = supabase.storage
+          .from("bookarcade-audio")
+          .getPublicUrl(data.path);
+
+        res = await instance.patch(`/api/read/audio/${canvas_id}`, {
+          public_id: data.path,
+          secure_url: publicUrlData.publicUrl,
+        });
+      }
+
+      if (res?.data.status) {
         setLdlAudio(false);
         setAudioSrc(null);
         setDataAudio({
           type: "",
           size: 0,
           audio: null,
+          name: "",
         });
         if (fileInputRef?.current) {
           fileInputRef.current.value = "";

@@ -48,10 +48,12 @@ export default function Read({ params }: { params: { id: string } }) {
     size: number;
     type: string;
     audio: File | null;
+    name: string;
   }>({
     size: 0,
     type: "",
     audio: null,
+    name: "",
   });
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -66,6 +68,7 @@ export default function Read({ params }: { params: { id: string } }) {
           size: file.size,
           type: file.type,
           audio: file,
+          name: file.name,
         };
         setDataAudio(dataAudio);
       };
