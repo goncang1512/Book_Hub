@@ -28,7 +28,7 @@ export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBa
           href={"/"}
         >
           <HomeIcon color={`${isDarkMode ? "#FFFFFF" : "#000"}`} size={25} />
-          <span className="text-sm">Home</span>
+          <span className="text-xs font-semibold">Home</span>
         </Link>
         <Link
           aria-label="Bookmark"
@@ -36,7 +36,7 @@ export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBa
           href={"/profil/bookmark"}
         >
           <Whislist color={`${isDarkMode ? "#FFFFFF" : "#000"}`} size={25} />
-          <span className="text-sm">Bookmark</span>
+          <span className="text-xs font-semibold">Bookmark</span>
         </Link>
         <div>
           <button
@@ -46,7 +46,7 @@ export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBa
             onClick={() => setSeeSearch(seeSearch ? false : true)}
           >
             <MdOutlineSearch size={25} />
-            <span className="text-sm">Search</span>
+            <span className="text-xs font-semibold">Search</span>
           </button>
         </div>
         <Link aria-label="NotifLink" className="relative" href={"/profil/notifikasi"}>
@@ -56,7 +56,7 @@ export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBa
             } `}
           />
           <IoNotificationsOutline size={25} />
-          <span className="text-sm">Notif</span>
+          <span className="text-xs font-semibold">Notif</span>
         </Link>
         <Link
           aria-label="profilLink"
@@ -64,7 +64,7 @@ export default function MobileBar({ seeSearch, setSeeSearch, mobileRef }: SideBa
           href={"/profil"}
         >
           <LuUser size={25} />
-          <span className="text-sm">Profile</span>
+          <span className="text-xs font-semibold">Profile</span>
         </Link>
       </div>
     </div>

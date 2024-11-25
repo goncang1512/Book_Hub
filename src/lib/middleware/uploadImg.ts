@@ -67,6 +67,7 @@ export const uploadAudio = async (audio: any) => {
   try {
     const result = await cloudinary.uploader.upload(`${audio}`, {
       resource_type: "video",
+      chunk_size: 6000000,
       folder: "audio",
     });
 
@@ -82,6 +83,7 @@ export const uploadAudioStream = async (audioBuffer: Buffer) => {
     const uploadStream = cloudinarys.uploader.upload_stream(
       {
         resource_type: "video",
+        chunk_size: 6000000,
         folder: "audio",
       },
       (error, result) => {
@@ -127,4 +129,44 @@ export const uploadBG = async (
       secure_url: "",
     };
   }
+};
+
+const streamToBuffer = (stream: ReadableStream): Promise<Buffer> => {
+  const reader = stream.getReader();
+  const chunks: Uint8Array[] = [];
+
+  return new Promise((resolve, reject) => {
+    function read() {
+      reader
+        .read()
+        .then(({ done, value }) => {
+          if (done) {
+            resolve(Buffer.concat(chunks));
+          } else {
+            chunks.push(value);
+            read();
+          }
+        })
+        .catch(reject);
+    }
+    read();
+  });
+};
+
+export const audioStream = async (audio: File) => {
+  const audioBuffer = await streamToBuffer(audio.stream());
+
+  const result = await new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream({ resource_type: "video", folder: "audio" }, (error: any, result: any) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(result);
+        }
+      })
+      .end(audioBuffer);
+  });
+
+  return result;
 };

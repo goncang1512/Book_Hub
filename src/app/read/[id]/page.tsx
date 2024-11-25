@@ -359,7 +359,7 @@ export default function Read({ params }: { params: { id: string } }) {
           </>
         )}
       </div>
-      <div className="flex-none w-[40%] lg:flex hidden">
+      <div className="flex-none w-[38%] lg:flex hidden">
         <div>
           <Adbanner dataAdFormat="auto" dataAdSlot="8419463419" dataFullWidthResponsive={true} />
         </div>
