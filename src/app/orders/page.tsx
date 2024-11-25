@@ -63,17 +63,7 @@ export default function Orders() {
       />
 
       <form ref={formRef} onSubmit={tesAudio}>
-        <input
-          name="audio"
-          type="file"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const file = e?.target?.files?.[0];
-            if (file) {
-              const audioURL = URL.createObjectURL(file);
-              setPreviewAudio(audioURL);
-            }
-          }}
-        />
+        <input name="audio" type="file" />
         <button className="bg-blue-500 px-2 py-1 rounded-lg" type="submit">
           {loadingAudio ? "Loading..." : "Submit"}
         </button>

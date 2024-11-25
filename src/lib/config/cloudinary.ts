@@ -12,7 +12,7 @@ export async function uploadAudioCloud(formData: FormData) {
   const buffer: Buffer = Buffer.from(await file.arrayBuffer());
   try {
     const base64Image: string = `data:${file.type};base64,${buffer.toString("base64")}`;
-    const response = await cloudinary.uploader.upload(base64Image, {
+    const response = await cloudinary.uploader.upload_large(base64Image, {
       resource_type: "raw",
       folder: "audio",
     });
