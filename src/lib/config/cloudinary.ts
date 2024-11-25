@@ -1,3 +1,4 @@
+"use server";
 import { v2 as cloudinary } from "cloudinary";
 
 cloudinary.config({
@@ -6,4 +7,17 @@ cloudinary.config({
   api_secret: `${process.env.CLOUD_KEY_SECRET}`,
 });
 
-export default cloudinary;
+export async function uploadAudioCloud(formData: FormData) {
+  const file = formData.get("audio") as File;
+  const buffer: Buffer = Buffer.from(await file.arrayBuffer());
+  try {
+    const base64Image: string = `data:${file.type};base64,${buffer.toString("base64")}`;
+    const response = await cloudinary.uploader.upload(base64Image, {
+      resource_type: "video",
+      public_id: "my_video",
+    });
+    return response;
+  } catch (error: any) {
+    console.error(error);
+  }
+}

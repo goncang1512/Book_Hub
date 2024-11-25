@@ -5,6 +5,7 @@ import * as React from "react";
 import CardProduct from "@/components/layouts/cardproduct";
 import Picture from "@/components/elements/image";
 import instance from "@/lib/utils/fetch";
+import { uploadAudioCloud } from "@/lib/config/cloudinary";
 
 const product = {
   title: "Teruslah Bodoh Jangan Pintar",
@@ -29,14 +30,14 @@ export default function Orders() {
     setLoadingAudio(true);
 
     try {
-      const res = await instance.post("/api/read/audio", { result: formData.get("audio") });
+      const audio = await uploadAudioCloud(formData);
+      await instance.post("/api/read/audio", { result: audio });
 
-      console.log(res);
       if (formRef.current) {
         formRef.current.reset();
       }
     } catch (error) {
-      console.log({ error });
+      console.error({ error });
     } finally {
       setLoadingAudio(false);
     }
