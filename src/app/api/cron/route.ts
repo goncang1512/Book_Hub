@@ -1,8 +1,10 @@
 import { misiServices } from "@/lib/services/missionservices";
 import { logger } from "@/lib/utils/logger";
 import { NextResponse } from "next/server";
+import connectMongoDB from "@/lib/config/connectMongoDb";
 
 export const GET = async () => {
+  await connectMongoDB();
   try {
     const result = await misiServices.udpateHarian();
 
