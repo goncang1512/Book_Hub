@@ -15,6 +15,7 @@ export async function uploadAudioCloud(formData: FormData) {
     const response = await cloudinary.uploader.upload_large(base64Image, {
       resource_type: "raw",
       folder: "audio",
+      chunk_size: 6000000,
     });
     return response;
   } catch (error: any) {
