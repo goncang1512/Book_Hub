@@ -17,7 +17,7 @@ export const PATCH = async (req: NextRequest) => {
       pesan = `
         <p><strong>Halo ${user?.username},</strong></p>
         <p><br></p>
-        <p>Kami dengan senang hati menginformasikan bahwa peran Anda di BookHub telah berhasil diubah menjadi Author. Dengan peran baru ini, Anda sekarang memiliki kemampuan untuk:</p>
+        <p>Kami dengan senang hati menginformasikan bahwa peran Anda di BookArcade telah berhasil diubah menjadi Author. Dengan peran baru ini, Anda sekarang memiliki kemampuan untuk:</p>
         <p><br></p>
         <p>&bull; Menulis dan mempublikasikan novel atau cerpen.&nbsp;</p>
         <p>&bull; Mengedit dan memperbarui karya-karya yang sudah Anda tulis.&nbsp;</p>
@@ -27,13 +27,13 @@ export const PATCH = async (req: NextRequest) => {
         <p><br></p>
         <p>Selamat menulis dan berkarya!&nbsp;</p>
         <p><br></p>
-        <p>Salam, Tim BookHub</p>
+        <p>Salam, Tim BookArcade</p>
       `;
     } else if (role === "Reguler") {
       pesan = `
         <p><strong>Halo ${user?.username},</strong></p>
         <p><br></p>
-        <p>Kami ingin memberi tahu Anda bahwa peran Anda di BookHub telah diubah dari Author menjadi Reguler. Dengan peran baru ini, Anda sekarang memiliki kemampuan untuk:</p>
+        <p>Kami ingin memberi tahu Anda bahwa peran Anda di BookArcade telah diubah dari Author menjadi Reguler. Dengan peran baru ini, Anda sekarang memiliki kemampuan untuk:</p>
         <p><br></p>
         <p>&bull; Membaca berbagai karya yang dibuat oleh para author di platform kami.&nbsp;</p>
         <p>&bull; Memberikan reaksi, seperti suka, komentar, atau ulasan, pada karya-karya tersebut.&nbsp;</p>
@@ -44,12 +44,12 @@ export const PATCH = async (req: NextRequest) => {
         <p><br></p>
         <p>Terima kasih atas pengertian Anda.</p>
         <p><br></p>
-        <p>Salam, Tim BookHub</p>
+        <p>Salam, Tim BookArcade</p>
       `;
     } else if (role === "Developer") {
       pesan = `
       <p id="isPasted"><strong>Halo ${user?.username},</strong></p>
-      <p>Kami ingin memberi tahu Anda bahwa role Anda di Website BookHub telah diubah menjadi <strong>Developer</strong>. Dengan role baru ini, Anda memiliki beberapa kemampuan baru yang penting, termasuk:</p>
+      <p>Kami ingin memberi tahu Anda bahwa role Anda di Website BookArcade telah diubah menjadi <strong>Developer</strong>. Dengan role baru ini, Anda memiliki beberapa kemampuan baru yang penting, termasuk:</p>
       <p><br></p>
       <ul>
       <li>&bull; Memeriksa dan merilis chapter baru dari buku.</li>
@@ -58,11 +58,11 @@ export const PATCH = async (req: NextRequest) => {
       <li id="isPasted">&bull; Memantau aktivitas dan konten yang diterbitkan di platform.</li>
       <li id="isPasted"><br></li>
       </ul>
-      <p>Terima kasih atas kontribusi Anda yang berharga di BookHub. Kami yakin Anda akan terus membantu komunitas kami berkembang dan memberikan pengalaman terbaik bagi semua pengguna.</p>
+      <p>Terima kasih atas kontribusi Anda yang berharga di BookArcade. Kami yakin Anda akan terus membantu komunitas kami berkembang dan memberikan pengalaman terbaik bagi semua pengguna.</p>
       <p><br></p>
       <p>Jika Anda memiliki pertanyaan atau memerlukan bantuan lebih lanjut, jangan ragu untuk menghubungi tim dukungan kami.</p>
       <p><br></p>
-      <p>Salam, Tim BookHub</p>
+      <p>Salam, Tim BookArcade</p>
       `;
     }
 

@@ -85,6 +85,7 @@ export interface OtpContextType {
   kirimCodeOTP: (body: BodySendOtp) => void;
   updateOtp: (body: UserRegister) => void;
   deletedOtp: (id: string) => void;
+  setContainerInput: React.Dispatch<React.SetStateAction<boolean>>;
   containerInput: boolean;
   seconds: number;
   loadingOTP: boolean;
@@ -93,7 +94,11 @@ export interface OtpContextType {
 
 export interface UserContextType {
   setDataRegister: React.Dispatch<React.SetStateAction<RegisterType>>;
-  registerUser: (body: RegisterType) => void;
+  registerUser: (
+    e: React.FormEvent<HTMLFormElement>,
+    body: RegisterType,
+    setContainerInput: React.Dispatch<React.SetStateAction<boolean>>,
+  ) => void;
   updateUsername: (id: string, body: UpdateType) => void;
   setUpdateData: React.Dispatch<React.SetStateAction<UpdateType>>;
   setUpdateFoto: React.Dispatch<React.SetStateAction<UpdateFoto | null>>;

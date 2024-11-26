@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Link from "next/link";
 import { GoogleIcon } from "@public/svg/assets";
 
@@ -21,6 +21,7 @@ export default function Register() {
     setSeconds,
     deletedOtp,
     setWaktuOTP,
+    setContainerInput,
   } = useContext(OtpContext);
 
   useEffect(() => {
@@ -49,6 +50,44 @@ export default function Register() {
     return () => clearInterval(intervalId);
   }, [waktuOTP, dataRegister.id_register]);
 
+  const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
+
+  const handleInput = (e: any, index: number) => {
+    const value = e.target.value;
+    if (value.length > 1) {
+      e.target.value = value.charAt(0);
+    }
+    if (value && index < inputsRef.current.length - 1) {
+      inputsRef.current[index + 1]?.focus();
+    }
+  };
+
+  const handlePaste = (e: any) => {
+    e.preventDefault();
+    const pasteData = e.clipboardData.getData("text");
+    const pasteArray = pasteData.slice(0, inputsRef.current.length).split("");
+
+    pasteArray.forEach((char: any, index: any) => {
+      if (inputsRef.current[index]) {
+        inputsRef.current[index].value = char;
+      }
+    });
+
+    if (inputsRef.current[pasteArray.length - 1]) {
+      inputsRef.current[pasteArray.length - 1]?.focus();
+    }
+  };
+
+  const nameInput: string[] = ["one", "two", "three", "four", "five", "six"];
+  useEffect(() => {
+    if (containerInput) {
+      const inputToFocus = inputsRef.current.find((input) => input?.name === "one");
+      if (inputToFocus) {
+        inputToFocus.focus();
+      }
+    }
+  }, [containerInput]);
+
   return (
     <main className="md:px-0 px-3 flex flex-col items-center h-screen w-full justify-center">
       <p className="text-red-500 pb-3 text-base italic">{messageRegister}</p>
@@ -69,8 +108,7 @@ export default function Register() {
             <form
               className="flex flex-col gap-4"
               onSubmit={(e) => {
-                e.preventDefault();
-                registerUser(dataRegister);
+                registerUser(e, dataRegister, setContainerInput);
               }}
             >
               <p className="text-red-500 text-center italic">Don&rsquo;t refresh this page</p>
@@ -78,37 +116,39 @@ export default function Register() {
                 <div
                   className={`flex items-center ${waktuOTP ? "justify-start" : "justify-end"}  `}
                 >
-                  {waktuOTP ? (
-                    <p className="text-base">Expired code {seconds}</p>
-                  ) : (
-                    <button
-                      className="w-max h-max text-base text-blue-500"
-                      disabled={loadingOTP}
-                      type="button"
-                      onClick={() => updateOtp(dataRegister)}
-                    >
-                      {loadingOTP ? "Sedang di kirim" : "New code"}
-                    </button>
-                  )}
+                  <div className="flex justify-between items-center w-full">
+                    <h1>Kode OTP</h1>
+                    {waktuOTP ? (
+                      <p className="text-base">Expired code {seconds}</p>
+                    ) : (
+                      <button
+                        className="w-max h-max text-base text-blue-500"
+                        disabled={loadingOTP}
+                        type="button"
+                        onClick={() => updateOtp(dataRegister)}
+                      >
+                        {loadingOTP ? "It's being sent" : "New code"}
+                      </button>
+                    )}
+                  </div>
                 </div>
               )}
-              <Input
-                container="float"
-                name="otp"
-                pattern="[0-9]*"
-                type="text"
-                value={dataRegister?.codeOtp}
-                varLabel="float"
-                variant="float"
-                onChange={(e) =>
-                  setDataRegister({
-                    ...dataRegister,
-                    codeOtp: e.target.value,
-                  })
-                }
-              >
-                Kode OTP
-              </Input>
+              <div className="flex w-full gap-2">
+                {nameInput.map((name: string, index: number) => (
+                  <input
+                    key={index}
+                    ref={(el) => {
+                      inputsRef.current[index] = el;
+                    }}
+                    className="border p-3 w-full text-center focus:outline-blue-500 rounded-sm"
+                    maxLength={1}
+                    name={`${name}`}
+                    type="number"
+                    onInput={(e) => handleInput(e, index)}
+                    onPaste={handlePaste}
+                  />
+                ))}
+              </div>
               <Button
                 disabled={loadingRegister}
                 label="ButtonRegister"

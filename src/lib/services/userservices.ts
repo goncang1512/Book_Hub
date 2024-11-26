@@ -141,7 +141,7 @@ export const veryfiedServices = {
   get: async (id: string) => {
     return await VeryfiedModel.findOne({ _id: id });
   },
-  put: async (id: string, codeOTP: number) => {
+  put: async (id: string, codeOTP: string) => {
     return await VeryfiedModel.findOneAndUpdate(
       { _id: id },
       { $set: { codeOtp: codeOTP } },
@@ -151,7 +151,7 @@ export const veryfiedServices = {
   checkEmail: async (email: string) => {
     return await VeryfiedModel.findOne({ email });
   },
-  checkEmailExit: async (codeOtp: number) => {
+  checkEmailExit: async (codeOtp: string) => {
     return await VeryfiedModel.findOne({ codeOtp });
   },
   deleteVerified: async (email: string) => {

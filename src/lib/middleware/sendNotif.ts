@@ -16,7 +16,7 @@ export const newChapterBook = async (book_id: string, senderId: string, canvas: 
         <p><br></p><p>Selamat membaca!</p>
         <p><br></p>
         <p>Salam,&nbsp;</p>
-        <p>Tim BookHub</p>
+        <p>Tim BookArcade</p>
         `;
     await msgServices.post({
       senderId,

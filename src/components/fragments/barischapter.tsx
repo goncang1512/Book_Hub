@@ -23,7 +23,7 @@ const pesanNotif = {
   <p>Jangan lupa untuk membagikan cerita ini dengan teman-temanmu dan terus berkontribusi dengan menulis lebih banyak bab!</p>
   <p><br></p>
   <p>Salam,&nbsp;</p>
-  <p>Tim BookHub</p>
+  <p>Tim BookArcade</p>
   `,
   pesanDraft: `
   <p>Terima kasih telah mengirimkan ceritamu ke platform kami. Kami menghargai usaha dan kreativitas yang telah kamu curahkan.</p>
@@ -37,7 +37,7 @@ const pesanNotif = {
   <p>Jika ada pertanyaan atau butuh bantuan, jangan ragu untuk menghubungi kami.</p>
   <p><br></p>
   <p>Salam,&nbsp;</p>
-  <p>Tim BookHub</p>
+  <p>Tim BookArcade</p>
   `,
 };
 

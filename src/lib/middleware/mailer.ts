@@ -34,7 +34,7 @@ export const sendEmail = async ({
                   <p style="font-size: 16px; color: #777;">Jika Anda tidak meminta kode ini, abaikan email ini.</p>
                   <div style="margin-top: 30px;">
                       <p style="font-size: 16px; color: #777;">Terima kasih,</p>
-                      <p style="font-size: 16px; color: #777;">Literacy Lumeniracy</p>
+                      <p style="font-size: 16px; color: #777;">Mogo Studio</p>
                   </div>
               </div>
           </div>

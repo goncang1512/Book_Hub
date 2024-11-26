@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import bcrypt from "bcrypt";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -27,7 +28,6 @@ export const POST = async (req: NextRequest) => {
     }
 
     const key = crypto.randomBytes(32);
-
     const existingUser = await checkExistingUser(email, username);
     if (existingUser.status) {
       return NextResponse.json(
@@ -48,8 +48,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const otpCode = Math.floor(100000 + Math.random() * 900000);
-    const send = await sendEmail({ email, otpCode });
-
+    const send = await sendEmail({ email, otpCode: otpCode });
     const data = {
       username,
       email,
@@ -64,10 +63,11 @@ export const POST = async (req: NextRequest) => {
       confpassword: confpassword,
     };
 
+    const otpHash = await bcrypt.hash(`${send.codeOTP}`, 10);
     if (!checkEmail) {
       hasil = await veryfiedServices.post({
         ...data,
-        codeOtp: Number(send.codeOTP),
+        codeOtp: otpHash,
       });
       newpassword = {
         password: decrypt(hasil.password, key),
@@ -81,6 +81,7 @@ export const POST = async (req: NextRequest) => {
       email: hasil.email,
       password: newpassword.password,
       confpassword: newpassword.confpassword,
+      updatedAt: hasil.updatedAt,
     };
 
     logger.info("Code OTP berhasil di kirim");
@@ -108,7 +109,8 @@ export const PUT = async (req: NextRequest) => {
 
     const otpCode = Math.floor(100000 + Math.random() * 900000);
     const send = await sendEmail({ email, otpCode });
-    const hasil = await veryfiedServices.put(id_register, Number(send.codeOTP));
+    const otpHash = await bcrypt.hash(String(send.codeOTP), 10);
+    const hasil = await veryfiedServices.put(id_register, otpHash);
 
     const result = {
       id_register: hasil._id,

@@ -15,7 +15,7 @@ const VeryfiedEmail = new Schema(
       type: String,
     },
     codeOtp: {
-      type: Number,
+      type: String,
     },
   },
   {

@@ -38,10 +38,27 @@ export default function UserContextProvider({ children }: { children: React.Reac
     alamat: "",
   });
 
-  const registerUser = async (body: RegisterType) => {
+  const registerUser = async (
+    e: React.FormEvent<HTMLFormElement>,
+    body: RegisterType,
+    setContainerInput: React.Dispatch<React.SetStateAction<boolean>>,
+  ) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    const combinedOtp = [
+      formData.get("one"),
+      formData.get("two"),
+      formData.get("three"),
+      formData.get("four"),
+      formData.get("five"),
+      formData.get("six"),
+    ].join("");
+
     try {
       setLoadingRegister(true);
-      const res = await instance.post("/api/user", body);
+      const res = await instance.post("/api/user", { ...body, codeOtp: combinedOtp });
       if (res.data.result) {
         setDataRegister((prev: any) => ({
           ...prev,
@@ -55,6 +72,7 @@ export default function UserContextProvider({ children }: { children: React.Reac
 
         await router.push("/login");
         setLoadingRegister(false);
+        setContainerInput(false);
       }
     } catch (error: any) {
       setLoadingRegister(false);

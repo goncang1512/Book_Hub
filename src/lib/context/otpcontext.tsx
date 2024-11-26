@@ -7,6 +7,7 @@ import { logger } from "../utils/logger";
 
 import { UserContext } from "./usercontext";
 import { OtpContextType } from "../utils/types/provider.type";
+import { differenceInMinutes } from "date-fns";
 
 export const OtpContext = createContext<OtpContextType>({} as OtpContextType);
 
@@ -24,10 +25,10 @@ export default function OtpContextProvider({ children }: { children: React.React
   const [loadingOTP, setLoadingOTP] = useState(false);
   const [waktuOTP, setWaktuOTP] = useState(false);
 
-  const kirimCodeOTP = async (body: BodySendOtp) => {
+  const updateOtp = async (body: UserRegister) => {
     try {
       setLoadingOTP(true);
-      const res = await instance.post("/api/user/check", body);
+      const res = await instance.put("/api/user/check", body);
       setDataRegister({
         ...dataRegister,
         username: res.data.result.username,
@@ -36,7 +37,6 @@ export default function OtpContextProvider({ children }: { children: React.React
         confpassword: res.data.result.confpassword,
         id_register: res.data.result.id_register,
       });
-      setContainerInput(true);
       setLoadingOTP(false);
       setWaktuOTP(true);
       setTimeout(() => {
@@ -55,10 +55,10 @@ export default function OtpContextProvider({ children }: { children: React.React
     }
   };
 
-  const updateOtp = async (body: UserRegister) => {
+  const kirimCodeOTP = async (body: BodySendOtp) => {
     try {
       setLoadingOTP(true);
-      const res = await instance.put("/api/user/check", body);
+      const res = await instance.post("/api/user/check", body);
       setDataRegister({
         ...dataRegister,
         username: res.data.result.username,
@@ -67,8 +67,13 @@ export default function OtpContextProvider({ children }: { children: React.React
         confpassword: res.data.result.confpassword,
         id_register: res.data.result.id_register,
       });
+
+      const updatedAt = new Date(res.data.result.updatedAt);
+      const minutesDiff = differenceInMinutes(new Date(), updatedAt);
+
+      setContainerInput(true);
       setLoadingOTP(false);
-      setWaktuOTP(true);
+      setWaktuOTP(minutesDiff > 1 ? false : true);
       setTimeout(() => {
         setWaktuOTP(false);
       }, 60000);
@@ -105,6 +110,7 @@ export default function OtpContextProvider({ children }: { children: React.React
         setSeconds,
         deletedOtp,
         setWaktuOTP,
+        setContainerInput,
       }}
     >
       {children}

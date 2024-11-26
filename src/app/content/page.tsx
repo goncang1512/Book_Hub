@@ -72,7 +72,7 @@ export default function Balasan() {
             url={`/api/story/limit/${id && id}`}
           />
           <div className="py-2 flex items-center justify-center">
-            <p className="text-xs text-[#c7c7c7]">© 2024 BookHub from Mogo Studio</p>
+            <p className="text-xs text-[#c7c7c7]">© 2024 BookArcade from Mogo Studio</p>
           </div>
         </div>
       )}

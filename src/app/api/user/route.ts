@@ -13,13 +13,17 @@ import { getBalasan, getLikeContent, getListBook } from "@/lib/middleware/likech
 import { bookAutServices } from "@/lib/services/bookauthor";
 import { storyServices } from "@/lib/services/storyservices";
 import { followServices } from "@/lib/services/followservices";
+import { differenceInMinutes } from "date-fns";
 
 export const POST = async (req: NextRequest) => {
   try {
     await connectMongoDB();
     const { username, email, password, codeOtp, id_register } = await req.json();
     const veryfied = await veryfiedServices.get(id_register);
-    if (veryfied.codeOtp !== Number(codeOtp) || !veryfied.codeOtp) {
+    const updatedAt = new Date(veryfied.updatedAt);
+    const minutesDiff = differenceInMinutes(new Date(), updatedAt);
+    const compareCodeOtp = await bcrypt.compare(String(codeOtp), veryfied.codeOtp);
+    if (minutesDiff > 1 || !compareCodeOtp || !veryfied.codeOtp) {
       return NextResponse.json(
         { status: false, statusCode: 422, message: "Kode OTP salah" },
         { status: 422 },

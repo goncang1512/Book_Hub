@@ -71,3 +71,14 @@
     @apply dark:text-white;
   }
 }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Untuk browser berbasis Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}

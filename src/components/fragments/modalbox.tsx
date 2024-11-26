@@ -27,13 +27,13 @@ export default function ModalBox({
   return (
     <dialog ref={containerRef} className="modal px-4" onClick={() => setDataModal(null)}>
       <div
-        className="relative bg-white rounded-lg shadow-lg max-w-screen-md mx-auto"
+        className="relative dark:bg-gray-900 bg-white rounded-lg shadow-lg max-w-screen-md mx-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-end pt-1 pr-1">
           <button
             aria-label={`buttonModalReport${story_id}`}
-            className="rounded-full hover:bg-slate-300 text-black hover:text-red-500"
+            className="rounded-full hover:bg-slate-300 dark:text-gray-500 text-black hover:text-red-500"
             onClick={() => setDataModal(null)}
           >
             <RiCloseLine size={25} />

@@ -148,7 +148,7 @@ const ReadComponent: React.FC<ReadComponentProps> = ({ book_id, chapter, status 
           />
         </div>
         <div className="py-2 flex items-center justify-center">
-          <p className="text-xs text-[#c7c7c7]">© 2024 BookHub from Mogo Studio</p>
+          <p className="text-xs text-[#c7c7c7]">© 2024 BookArcade from Mogo Studio</p>
         </div>
       </div>
     </div>

@@ -198,7 +198,7 @@ function CardBook({
                             <button
                               key={index}
                               aria-label={`${index}buttonLaporan`}
-                              className="active:text-slate-300 text-base text-start"
+                              className="active:text-slate-300 dark:text-slate-100 text-base text-start"
                               onClick={() => {
                                 makeReport(
                                   {
@@ -424,10 +424,10 @@ export const ModalDeleteBook: React.FC<{
 
   return (
     <dialog ref={refDialog} className="modal" id="my_modal_2">
-      <div className="modal-box relative">
+      <div className="modal-box relative dark:bg-gray-900">
         <button
           aria-label={`${dataDelete.book_id}buttonDialog`}
-          className="absolute right-1 top-1 p-2 rounded-full max-md:active:bg-slate-300 md:hover:bg-slate-300 hover:bg-none"
+          className="absolute right-1 top-1 p-2 rounded-full max-md:active:bg-slate-300 md:hover:bg-slate-300 hover:bg-none dark:md:hover:bg-slate-800"
           type="button"
           onClick={() => refDialog?.current?.close()}
         >
@@ -449,7 +449,7 @@ export const ModalDeleteBook: React.FC<{
             }}
           >
             <p className={`${!msgDltBook && "hidden"} text-red-500 italic text-md`}>{msgDltBook}</p>
-            <p>
+            <p className="dark:text-slate-100">
               Enter book name <strong>{dataDelete.title}</strong> to continue:
             </p>
             <Input
