@@ -2,6 +2,7 @@ import { sendEmail } from "@/lib/middleware/mailer";
 import { userSevices, veryfiedServices } from "@/lib/services/userservices";
 import { logger } from "@/lib/utils/logger";
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcrypt";
 
 export const POST = async (req: NextRequest, { params }: { params: { user_id: string[] } }) => {
   try {
@@ -23,7 +24,7 @@ export const POST = async (req: NextRequest, { params }: { params: { user_id: st
       email: newEmail,
       password: "",
       confpassword: "",
-      codeOtp: otpCode,
+      codeOtp: await bcrypt.hash(String(otpCode), 10),
     };
 
     await veryfiedServices.post(data);
@@ -44,10 +45,11 @@ export const POST = async (req: NextRequest, { params }: { params: { user_id: st
 
 export const PATCH = async (req: NextRequest, { params }: { params: { user_id: string[] } }) => {
   try {
-    const { codeOtp } = await req.json();
+    const { codeOtp, newEmail } = await req.json();
 
-    const checkotp = await veryfiedServices.checkEmailExit(Number(codeOtp));
-    if (!checkotp) {
+    const checkotp = await veryfiedServices.checkEmailExit(newEmail);
+    const codeCompare = await bcrypt.compare(String(codeOtp), checkotp.codeOtp);
+    if (!checkotp || !codeCompare) {
       return NextResponse.json(
         { status: false, statusCode: 422, message: "Wrong code OTP" },
         { status: 422 },

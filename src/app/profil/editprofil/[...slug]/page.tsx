@@ -139,7 +139,7 @@ const UpdatePassword = () => {
             className="flex flex-col gap-3"
             onSubmit={(e) => {
               e.preventDefault();
-              updateEmail(codeOtp, session?.user?._id);
+              updateEmail(codeOtp, session?.user?._id, newEmail);
             }}
           >
             <h1>Kode OTP</h1>
@@ -157,7 +157,7 @@ const UpdatePassword = () => {
               >
                 Kode OTP
               </Input>
-              <Button label="buttonKodeOtp" type="submit">
+              <Button label="buttonKodeOtp" size="medium" type="submit" variant="primary">
                 {loadingEmail ? "Loading..." : "Kode OTP"}
               </Button>
             </div>
@@ -190,9 +190,11 @@ const UpdatePassword = () => {
               <Button
                 disabled={newEmail === session?.user?.email}
                 label="buttonNewEmail"
+                size="medium"
                 type="submit"
+                variant="primary"
               >
-                {loadingEmail ? "Loading..." : "New Email"}{" "}
+                {loadingEmail ? "Loading..." : "New Email"}
               </Button>
             </div>
           </form>

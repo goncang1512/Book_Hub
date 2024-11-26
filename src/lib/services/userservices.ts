@@ -151,8 +151,8 @@ export const veryfiedServices = {
   checkEmail: async (email: string) => {
     return await VeryfiedModel.findOne({ email });
   },
-  checkEmailExit: async (codeOtp: string) => {
-    return await VeryfiedModel.findOne({ codeOtp });
+  checkEmailExit: async (email: string) => {
+    return await VeryfiedModel.findOne({ email });
   },
   deleteVerified: async (email: string) => {
     return await VeryfiedModel.deleteOne({ email: email });

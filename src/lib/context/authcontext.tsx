@@ -59,7 +59,6 @@ export default function AuthCntextProvider({ children }: { children: React.React
       if (res.data.status) {
         setTrueCode(res.data.status);
         setLoadingEmail(false);
-        setNewEmail("");
         setCodeOtp("");
       }
     } catch (error: any) {
@@ -75,10 +74,10 @@ export default function AuthCntextProvider({ children }: { children: React.React
     }
   };
 
-  const updateEmail = async (codeOtp: string, user_id: string) => {
+  const updateEmail = async (codeOtp: string, user_id: string, newEmail: string) => {
     try {
       setLoadingEmail(true);
-      const res = await instance.patch(`/api/user/email/${user_id}`, { codeOtp });
+      const res = await instance.patch(`/api/user/email/${user_id}`, { codeOtp, newEmail });
       await update({
         status: "newEmail",
         email: res.data.result.email,

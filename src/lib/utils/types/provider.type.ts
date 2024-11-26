@@ -250,7 +250,7 @@ export interface BookProvider {
 export interface AuthContextType {
   login: (body: { email: string; password: string }) => void;
   sendNewEmail: (oldEmail: string, newEmail: string, user_id: string) => void;
-  updateEmail: (codeOtp: string, user_id: string) => void;
+  updateEmail: (codeOtp: string, user_id: string, newEmail: string) => void;
   setDataLogin: React.Dispatch<React.SetStateAction<{ email: string; password: string }>>;
   setNewEmail: React.Dispatch<React.SetStateAction<string>>;
   setCodeOtp: React.Dispatch<React.SetStateAction<string>>;
