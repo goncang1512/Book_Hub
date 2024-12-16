@@ -39,7 +39,7 @@ export default function InfiniteSwrStory({
                 />
                 {isAdPosition && (
                   <div
-                    className={`${dataStory.length === 1 && index === 0 ? "border-none" : "border-t"}`}
+                    className={`${dataStory.length === 1 && index === 0 ? "border-none" : "border-t"} hidden`}
                   >
                     <Adbanner
                       dataAdFormat="auto"
