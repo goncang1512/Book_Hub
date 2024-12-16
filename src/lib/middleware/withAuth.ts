@@ -15,7 +15,7 @@ export default function withAuth(middleware: NextMiddleware, requireAuth: string
     const origin = req.nextUrl.origin;
     const headersList = headers();
 
-    if (pathname.startsWith("/api") && !pathname.startsWith("/api/cron")) {
+    if (pathname.startsWith("/api") && !pathname.startsWith("/api/job")) {
       const apiKey = headersList.get("x-api-key");
 
       if (!originUrl.includes(origin)) {
