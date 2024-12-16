@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/job",
-      "schedule": "0 17 * * *"
+      "schedule": "0 13 * * *"
     }
   ],
   "github": {
